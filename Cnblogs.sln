@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cnblogs.XamarinAndroid", "Cnblogs.XamarinAndroid\Cnblogs.XamarinAndroid.csproj", "{7D30AAB4-004B-485D-A166-895C53E8551D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cnblogs.ApiModel", "Cnblogs.ApiModel\Cnblogs.ApiModel.csproj", "{F8B13117-3453-42CE-90CB-936388C94FDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cnblogs.HttpClient", "ClassLibrary1\Cnblogs.HttpClient.csproj", "{40F9A8F1-7CE6-404D-81D0-1F4D3E09CED5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +21,14 @@ Global
 		{7D30AAB4-004B-485D-A166-895C53E8551D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D30AAB4-004B-485D-A166-895C53E8551D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7D30AAB4-004B-485D-A166-895C53E8551D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F8B13117-3453-42CE-90CB-936388C94FDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8B13117-3453-42CE-90CB-936388C94FDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8B13117-3453-42CE-90CB-936388C94FDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8B13117-3453-42CE-90CB-936388C94FDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40F9A8F1-7CE6-404D-81D0-1F4D3E09CED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40F9A8F1-7CE6-404D-81D0-1F4D3E09CED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40F9A8F1-7CE6-404D-81D0-1F4D3E09CED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40F9A8F1-7CE6-404D-81D0-1F4D3E09CED5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
