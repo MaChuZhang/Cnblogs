@@ -13,11 +13,16 @@ using Cnblogs.XamarinAndroid.Util;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Webkit;
 using Cnblogs.HttpClient;
+using Cnblogs.ApiModel;
+using System.Diagnostics;
+using System.Timers;
+using System.Threading;
+using Cnblogs.XamarinAndroid;
 
 namespace Cnblogs.XamarinAndroid.UI.Activities
 {
-    [Activity(Label = "LoginActivity",MainLauncher =true,Theme = "@style/BaseAppTheme")]
-    public class LoginActivity : BaseActivity,View.IOnClickListener
+    [Activity(Label = "LoginActivity",Theme = "@style/BaseAppTheme")]
+    public class LoginActivity : BaseActivity
     {
         protected override int LayoutResourceId
         {
@@ -29,19 +34,19 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
         private Toolbar toolbar;
         private WebView loginView;
         private ProgressBar progressBar;
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             StatusBarUtil.SetColorStatusBar(this);
             // Create your application here
             toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             toolbar.SetNavigationIcon(Resource.Drawable.back_24dp);
-            toolbar.Title="µÇÂ¼";
+            toolbar.Title = "µÇÂ¼";
             progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar_login);
 
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            toolbar.SetNavigationOnClickListener(this);
+            //toolbar.SetNavigationOnClickListener(this);
             toolbar.NavigationClick += (s, e) =>
             {
                 SetResult(Result.Canceled);
@@ -56,27 +61,30 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
             WebChromeClient webClient = new WebChromeClient();
             loginView.SetWebChromeClient(new LoginWebChromeClient(progressBar));
             loginView.SetWebViewClient(new LoginWebViewClient());
-            UserRequest.Login("123", () =>
-            {
-                System.Diagnostics.Debug.Write(ModelFactory.token);
-                //Toast.MakeText(Activity,ModelFactory.token.access_token,ToastLength.Short).Show();
-            }, error =>
-            {
-                System.Diagnostics.Debug.Write(error);
-            });
-            //loginView.LoadUrl(ConstactUrl.GetAuthrize);
-            System.Diagnostics.Debug.Write(ConstactUrl.GetAuthrize);
-        }
-        public void OnClick(View v)
-        {
-            
+            //await UserRequest.Login("123", (token) =>
+            //{
+            //    SharedDataUtil.SaveToken(token,this);
+            //    //System.Diagnostics.Debug.Write(token.access_token);
+            //    //Toast.MakeText(Activity,ModelFactory.token.access_token,ToastLength.Short).Show();
+            //}, error =>
+            //{
+            //    System.Diagnostics.Debug.Write(error);
+            //});
+            //await ArticleRequest.GetArticleList((list) =>
+            //{
+            //    System.Diagnostics.Debug.Write(list[0].BlogApp);
+            //}, (error) =>
+            //{
+            //    System.Diagnostics.Debug.Write(error);
+            //});
+
         }
     }
 
     public class LoginWebChromeClient : WebChromeClient {
         private ProgressBar progressBar;
         public LoginWebChromeClient(ProgressBar _progress)
-        {
+        {    
             progressBar = _progress;
         }
         public override void OnProgressChanged(WebView view, int newProgress)
@@ -102,7 +110,7 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
         [Obsolete]
         public override bool ShouldOverrideUrlLoading(WebView view, string url)
         {
-            if (url.IndexOf(ConstactUrl.Callback)>-1)
+            if (url.IndexOf(Constact.Callback)>-1)
             {
                 Uri uri = new Uri(url.Replace("#","?"));
                 var query = uri.Query.TrimStart('?').Split('&');
@@ -113,14 +121,14 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
                     {
                         var code = q[1];
                         System.Diagnostics.Debug.Write(code);
-                        UserRequest.Login(code, () =>
-                        {
-                            System.Diagnostics.Debug.Write(ModelFactory.token);
-                            //Toast.MakeText(Activity,ModelFactory.token.access_token,ToastLength.Short).Show();
-                        }, error =>
-                        {
-                            System.Diagnostics.Debug.Write(error);
-                        });
+                        //UserRequest.Login(code, (token) =>
+                        //{
+                        //    System.Diagnostics.Debug.Write(ModelFactory.token);
+                        //    //Toast.MakeText(Activity,ModelFactory.token.access_token,ToastLength.Short).Show();
+                        //}, error =>
+                        //{
+                        //    System.Diagnostics.Debug.Write(error);
+                        //});
                     }
                 }
                // view.StopLoading();
@@ -132,8 +140,8 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
         public void OnLogin(string code)
         {
            // dialog.Show();
-            var cientId = ConstactUrl.client_secret_firend;
-            var clientSercret = ConstactUrl.client_secret;
+            var cientId = Constact.client_secret_firend;
+            var clientSercret = Constact.client_secret;
             var grant_type = "authorization_code";
             var redirect_uri = "https://oauth.cnblogs.com/auth/callback";
 

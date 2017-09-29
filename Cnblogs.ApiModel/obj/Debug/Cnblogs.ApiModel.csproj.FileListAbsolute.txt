@@ -2,14 +2,7 @@ F:\Demo\Cnblogs\Cnblogs.ApiModel\bin\Debug\Cnblogs.ApiModel.dll
 F:\Demo\Cnblogs\Cnblogs.ApiModel\bin\Debug\Cnblogs.ApiModel.pdb
 F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.dll
 F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.pdb
-F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.dll.mdb
-F:\Demo\Cnblogs\Cnblogs.ApiModel\bin\Debug\Cnblogs.ApiModel.dll.mdb
-F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.dll.mdb
-F:\Demo\Cnblogs\Cnblogs.ApiModel\bin\Debug\Cnblogs.ApiModel.dll.mdb
-F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.dll.mdb
-F:\Demo\Cnblogs\Cnblogs.ApiModel\bin\Debug\Cnblogs.ApiModel.dll.mdb
-F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.dll.mdb
-F:\Demo\Cnblogs\Cnblogs.ApiModel\bin\Debug\Cnblogs.ApiModel.dll.mdb
+F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.csprojResolveAssemblyReference.cache
 F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.dll.mdb
 F:\Demo\Cnblogs\Cnblogs.ApiModel\bin\Debug\Cnblogs.ApiModel.dll.mdb
 F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.dll.mdb

@@ -12,19 +12,15 @@ namespace Cnblogs.HttpClient
 {
     public class UserRequest
     {
-        public static async void Login(string code,Action successAction,Action<string>  errorAction)
+        public static async Task Client_Credentials(Action<Token> successAction,Action<string>  errorAction)
         {
             try
             {
-                var client = RestClientInstance.Get("https://oauth.cnblogs.com/connect/token");
-                //client.BaseUrl = (Uri)url;
+                var client = HttpBase.Instance("https://oauth.cnblogs.com/connect/token");
                 RestRequest request = new RestRequest();
-                //request.AddHeader("Content-Type", ConstactUrl.Content_Type);
-                request.AddParameter("client_id", ConstactUrl.client_id);
-                request.AddParameter("client_secret", ConstactUrl.client_secret);
+                request.AddParameter("client_id", Constact.client_id);
+                request.AddParameter("client_secret", Constact.client_secret);
                 request.AddParameter("grant_type", "client_credentials");
-                //request.AddParameter("code", code);
-                //request.AddParameter("redirect_uri", ConstactUrl.redirect_uri);
                 var response = await client.ExecutePostTaskAsync(request);
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 {
@@ -36,9 +32,8 @@ namespace Cnblogs.HttpClient
                     errorAction("返回数据有误");
                     return;
                 }
-                var result = JsonConvert.DeserializeObject<Token>(response.Content);
-                ModelFactory.token = result;
-                successAction(); 
+                var token = JsonConvert.DeserializeObject<Token>(response.Content);
+                successAction(token); 
             }
             catch (Exception ex)
             {

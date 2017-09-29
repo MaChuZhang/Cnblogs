@@ -48,9 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConstactUrl.cs" />
+    <Compile Include="Constact.cs" />
+    <Compile Include="HttpBase.cs" />
+    <Compile Include="IArticleCallBack.cs" />
     <Compile Include="ModelFactory.cs" />
-    <Compile Include="RestClientInstance.cs" />
+    <Compile Include="ArticleRequest.cs" />
     <Compile Include="UserRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

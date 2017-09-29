@@ -10,7 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-namespace Cnblogs.XamarinAndroid.Util
+namespace Cnblogs.XamarinAndroid
 {
     class StatusBarUtil
     {

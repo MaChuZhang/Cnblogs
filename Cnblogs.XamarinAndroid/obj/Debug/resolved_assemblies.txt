@@ -24,8 +24,8 @@ F:\Demo\Cnblogs\Cnblogs.XamarinAndroid\obj\Debug\android\assets\System.Runtime.d
 F:\Demo\Cnblogs\Cnblogs.XamarinAndroid\obj\Debug\android\assets\System.ComponentModel.Composition.dll
 F:\Demo\Cnblogs\Cnblogs.XamarinAndroid\obj\Debug\android\assets\System.Resources.ResourceManager.dll
 F:\Demo\Cnblogs\Cnblogs.XamarinAndroid\obj\Debug\android\assets\System.Diagnostics.Debug.dll
-F:\Demo\Cnblogs\Cnblogs.XamarinAndroid\obj\Debug\android\assets\System.Threading.dll
 F:\Demo\Cnblogs\Cnblogs.XamarinAndroid\obj\Debug\android\assets\System.Collections.dll
+F:\Demo\Cnblogs\Cnblogs.XamarinAndroid\obj\Debug\android\assets\System.Threading.dll
 F:\Demo\Cnblogs\Cnblogs.XamarinAndroid\obj\Debug\android\assets\System.Collections.Concurrent.dll
 F:\Demo\Cnblogs\Cnblogs.XamarinAndroid\obj\Debug\android\assets\System.Reflection.dll
 F:\Demo\Cnblogs\Cnblogs.XamarinAndroid\obj\Debug\android\assets\System.Linq.dll

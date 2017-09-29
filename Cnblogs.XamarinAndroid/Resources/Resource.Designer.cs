@@ -83,6 +83,22 @@ namespace Cnblogs.XamarinAndroid
 			}
 		}
 		
+		public partial class Array
+		{
+			
+			// aapt resource value: 0x7f0c0000
+			public const int HomeTabs = 2131492864;
+			
+			static Array()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Array()
+			{
+			}
+		}
+		
 		public partial class Attribute
 		{
 			
@@ -952,32 +968,32 @@ namespace Cnblogs.XamarinAndroid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f0b0048
-			public const int abc_background_cache_hint_selector_material_dark = 2131427400;
-			
-			// aapt resource value: 0x7f0b0049
-			public const int abc_background_cache_hint_selector_material_light = 2131427401;
-			
 			// aapt resource value: 0x7f0b004a
-			public const int abc_color_highlight_material = 2131427402;
+			public const int abc_background_cache_hint_selector_material_dark = 2131427402;
+			
+			// aapt resource value: 0x7f0b004b
+			public const int abc_background_cache_hint_selector_material_light = 2131427403;
+			
+			// aapt resource value: 0x7f0b004c
+			public const int abc_color_highlight_material = 2131427404;
 			
 			// aapt resource value: 0x7f0b0000
 			public const int abc_input_method_navigation_guard = 2131427328;
 			
-			// aapt resource value: 0x7f0b004b
-			public const int abc_primary_text_disable_only_material_dark = 2131427403;
-			
-			// aapt resource value: 0x7f0b004c
-			public const int abc_primary_text_disable_only_material_light = 2131427404;
-			
 			// aapt resource value: 0x7f0b004d
-			public const int abc_primary_text_material_dark = 2131427405;
+			public const int abc_primary_text_disable_only_material_dark = 2131427405;
 			
 			// aapt resource value: 0x7f0b004e
-			public const int abc_primary_text_material_light = 2131427406;
+			public const int abc_primary_text_disable_only_material_light = 2131427406;
 			
 			// aapt resource value: 0x7f0b004f
-			public const int abc_search_url_text = 2131427407;
+			public const int abc_primary_text_material_dark = 2131427407;
+			
+			// aapt resource value: 0x7f0b0050
+			public const int abc_primary_text_material_light = 2131427408;
+			
+			// aapt resource value: 0x7f0b0051
+			public const int abc_search_url_text = 2131427409;
 			
 			// aapt resource value: 0x7f0b0001
 			public const int abc_search_url_text_normal = 2131427329;
@@ -988,11 +1004,11 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f0b0003
 			public const int abc_search_url_text_selected = 2131427331;
 			
-			// aapt resource value: 0x7f0b0050
-			public const int abc_secondary_text_material_dark = 2131427408;
+			// aapt resource value: 0x7f0b0052
+			public const int abc_secondary_text_material_dark = 2131427410;
 			
-			// aapt resource value: 0x7f0b0051
-			public const int abc_secondary_text_material_light = 2131427409;
+			// aapt resource value: 0x7f0b0053
+			public const int abc_secondary_text_material_light = 2131427411;
 			
 			// aapt resource value: 0x7f0b0004
 			public const int accent_material_dark = 2131427332;
@@ -1011,6 +1027,9 @@ namespace Cnblogs.XamarinAndroid
 			
 			// aapt resource value: 0x7f0b0009
 			public const int background_material_light = 2131427337;
+			
+			// aapt resource value: 0x7f0b0047
+			public const int bg = 2131427399;
 			
 			// aapt resource value: 0x7f0b000a
 			public const int bright_foreground_disabled_material_dark = 2131427338;
@@ -1035,6 +1054,9 @@ namespace Cnblogs.XamarinAndroid
 			
 			// aapt resource value: 0x7f0b0011
 			public const int button_material_light = 2131427345;
+			
+			// aapt resource value: 0x7f0b0048
+			public const int dedede = 2131427400;
 			
 			// aapt resource value: 0x7f0b003a
 			public const int design_fab_shadow_end_color = 2131427386;
@@ -1159,8 +1181,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f0b002f
 			public const int primary_text_disabled_material_light = 2131427375;
 			
-			// aapt resource value: 0x7f0b0047
-			public const int progressBackground = 2131427399;
+			// aapt resource value: 0x7f0b0049
+			public const int progressBackground = 2131427401;
 			
 			// aapt resource value: 0x7f0b0045
 			public const int red = 2131427397;
@@ -1189,11 +1211,11 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f0b0037
 			public const int switch_thumb_disabled_material_light = 2131427383;
 			
-			// aapt resource value: 0x7f0b0052
-			public const int switch_thumb_material_dark = 2131427410;
+			// aapt resource value: 0x7f0b0054
+			public const int switch_thumb_material_dark = 2131427412;
 			
-			// aapt resource value: 0x7f0b0053
-			public const int switch_thumb_material_light = 2131427411;
+			// aapt resource value: 0x7f0b0055
+			public const int switch_thumb_material_light = 2131427413;
 			
 			// aapt resource value: 0x7f0b0038
 			public const int switch_thumb_normal_material_dark = 2131427384;
@@ -1216,6 +1238,30 @@ namespace Cnblogs.XamarinAndroid
 		
 		public partial class Dimension
 		{
+			
+			// aapt resource value: 0x7f05006a
+			public const int ImgLarge = 2131034218;
+			
+			// aapt resource value: 0x7f05006b
+			public const int ImgMiddle = 2131034219;
+			
+			// aapt resource value: 0x7f05006c
+			public const int ImgSmall = 2131034220;
+			
+			// aapt resource value: 0x7f050069
+			public const int SubTitleSplashScreen = 2131034217;
+			
+			// aapt resource value: 0x7f05006f
+			public const int TextLarge = 2131034223;
+			
+			// aapt resource value: 0x7f05006e
+			public const int TextMiddle = 2131034222;
+			
+			// aapt resource value: 0x7f05006d
+			public const int TextSmall = 2131034221;
+			
+			// aapt resource value: 0x7f050068
+			public const int TitleSplashScreen = 2131034216;
 			
 			// aapt resource value: 0x7f05000e
 			public const int abc_action_bar_content_inset_material = 2131034126;
@@ -1508,6 +1554,15 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f050045
 			public const int disabled_alpha_material_light = 2131034181;
 			
+			// aapt resource value: 0x7f050072
+			public const int dp10 = 2131034226;
+			
+			// aapt resource value: 0x7f050071
+			public const int dp15 = 2131034225;
+			
+			// aapt resource value: 0x7f050070
+			public const int dp20 = 2131034224;
+			
 			// aapt resource value: 0x7f050046
 			public const int highlight_alpha_material_colored = 2131034182;
 			
@@ -1762,10 +1817,31 @@ namespace Cnblogs.XamarinAndroid
 			public const int Icon = 2130837576;
 			
 			// aapt resource value: 0x7f020049
-			public const int layerList_progressBar = 2130837577;
+			public const int icon_home = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int notification_template_icon_bg = 2130837578;
+			public const int icon_kbArticle = 2130837578;
+			
+			// aapt resource value: 0x7f02004b
+			public const int icon_news = 2130837579;
+			
+			// aapt resource value: 0x7f02004c
+			public const int icon_setting = 2130837580;
+			
+			// aapt resource value: 0x7f02004d
+			public const int icon_share = 2130837581;
+			
+			// aapt resource value: 0x7f02004e
+			public const int icon_user = 2130837582;
+			
+			// aapt resource value: 0x7f02004f
+			public const int icon_user1 = 2130837583;
+			
+			// aapt resource value: 0x7f020050
+			public const int layerList_progressBar = 2130837584;
+			
+			// aapt resource value: 0x7f020051
+			public const int notification_template_icon_bg = 2130837585;
 			
 			static Drawable()
 			{
@@ -1780,8 +1856,14 @@ namespace Cnblogs.XamarinAndroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060073
-			public const int action0 = 2131099763;
+			// aapt resource value: 0x7f06008a
+			public const int Setting = 2131099786;
+			
+			// aapt resource value: 0x7f06008b
+			public const int Share = 2131099787;
+			
+			// aapt resource value: 0x7f06007b
+			public const int action0 = 2131099771;
 			
 			// aapt resource value: 0x7f06005a
 			public const int action_bar = 2131099738;
@@ -1807,8 +1889,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f06005b
 			public const int action_context_bar = 2131099739;
 			
-			// aapt resource value: 0x7f060077
-			public const int action_divider = 2131099767;
+			// aapt resource value: 0x7f06007f
+			public const int action_divider = 2131099775;
 			
 			// aapt resource value: 0x7f060003
 			public const int action_menu_divider = 2131099651;
@@ -1843,8 +1925,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060044
 			public const int buttonPanel = 2131099716;
 			
-			// aapt resource value: 0x7f060074
-			public const int cancel_action = 2131099764;
+			// aapt resource value: 0x7f06007c
+			public const int cancel_action = 2131099772;
 			
 			// aapt resource value: 0x7f06002b
 			public const int center = 2131099691;
@@ -1858,8 +1940,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060052
 			public const int checkbox = 2131099730;
 			
-			// aapt resource value: 0x7f06007a
-			public const int chronometer = 2131099770;
+			// aapt resource value: 0x7f060082
+			public const int chronometer = 2131099778;
 			
 			// aapt resource value: 0x7f060033
 			public const int clip_horizontal = 2131099699;
@@ -1900,14 +1982,17 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f06000e
 			public const int disableHome = 2131099662;
 			
+			// aapt resource value: 0x7f060071
+			public const int drawerLayout = 2131099761;
+			
 			// aapt resource value: 0x7f06005c
 			public const int edit_query = 2131099740;
 			
 			// aapt resource value: 0x7f06001b
 			public const int end = 2131099675;
 			
-			// aapt resource value: 0x7f06007f
-			public const int end_padder = 2131099775;
+			// aapt resource value: 0x7f060087
+			public const int end_padder = 2131099783;
 			
 			// aapt resource value: 0x7f060023
 			public const int enterAlways = 2131099683;
@@ -1936,6 +2021,9 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060038
 			public const int @fixed = 2131099704;
 			
+			// aapt resource value: 0x7f060072
+			public const int frameContent = 2131099762;
+			
 			// aapt resource value: 0x7f060005
 			public const int home = 2131099653;
 			
@@ -1951,20 +2039,23 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f06003f
 			public const int image = 2131099711;
 			
-			// aapt resource value: 0x7f06007e
-			public const int info = 2131099774;
+			// aapt resource value: 0x7f060086
+			public const int info = 2131099782;
 			
 			// aapt resource value: 0x7f060000
 			public const int item_touch_helper_previous_elevation = 2131099648;
 			
+			// aapt resource value: 0x7f060089
+			public const int kbArticles = 2131099785;
+			
 			// aapt resource value: 0x7f06002f
 			public const int left = 2131099695;
 			
-			// aapt resource value: 0x7f060078
-			public const int line1 = 2131099768;
+			// aapt resource value: 0x7f060080
+			public const int line1 = 2131099776;
 			
-			// aapt resource value: 0x7f06007c
-			public const int line3 = 2131099772;
+			// aapt resource value: 0x7f060084
+			public const int line3 = 2131099780;
 			
 			// aapt resource value: 0x7f06000b
 			public const int listMode = 2131099659;
@@ -1972,8 +2063,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060041
 			public const int list_item = 2131099713;
 			
-			// aapt resource value: 0x7f060076
-			public const int media_actions = 2131099766;
+			// aapt resource value: 0x7f06007e
+			public const int media_actions = 2131099774;
 			
 			// aapt resource value: 0x7f06001c
 			public const int middle = 2131099676;
@@ -1984,11 +2075,17 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060015
 			public const int multiply = 2131099669;
 			
+			// aapt resource value: 0x7f060073
+			public const int navigationView = 2131099763;
+			
 			// aapt resource value: 0x7f06006c
 			public const int navigation_header_container = 2131099756;
 			
 			// aapt resource value: 0x7f060020
 			public const int never = 2131099680;
+			
+			// aapt resource value: 0x7f060088
+			public const int news = 2131099784;
 			
 			// aapt resource value: 0x7f060010
 			public const int none = 2131099664;
@@ -2005,8 +2102,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060029
 			public const int pin = 2131099689;
 			
-			// aapt resource value: 0x7f060071
-			public const int progressBar_login = 2131099761;
+			// aapt resource value: 0x7f060079
+			public const int progressBar_login = 2131099769;
 			
 			// aapt resource value: 0x7f060006
 			public const int progress_circular = 2131099654;
@@ -2016,6 +2113,9 @@ namespace Cnblogs.XamarinAndroid
 			
 			// aapt resource value: 0x7f060054
 			public const int radio = 2131099732;
+			
+			// aapt resource value: 0x7f060077
+			public const int recyclerView = 2131099767;
 			
 			// aapt resource value: 0x7f060030
 			public const int right = 2131099696;
@@ -2110,26 +2210,32 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060031
 			public const int start = 2131099697;
 			
-			// aapt resource value: 0x7f060075
-			public const int status_bar_latest_event_content = 2131099765;
+			// aapt resource value: 0x7f06007d
+			public const int status_bar_latest_event_content = 2131099773;
 			
 			// aapt resource value: 0x7f060065
 			public const int submit_area = 2131099749;
 			
+			// aapt resource value: 0x7f060076
+			public const int swipeRefreshLayout = 2131099766;
+			
 			// aapt resource value: 0x7f06000d
 			public const int tabMode = 2131099661;
 			
-			// aapt resource value: 0x7f06007d
-			public const int text = 2131099773;
+			// aapt resource value: 0x7f060074
+			public const int tab_home = 2131099764;
 			
-			// aapt resource value: 0x7f06007b
-			public const int text2 = 2131099771;
+			// aapt resource value: 0x7f060085
+			public const int text = 2131099781;
+			
+			// aapt resource value: 0x7f060083
+			public const int text2 = 2131099779;
 			
 			// aapt resource value: 0x7f06004d
 			public const int textSpacerNoButtons = 2131099725;
 			
-			// aapt resource value: 0x7f060079
-			public const int time = 2131099769;
+			// aapt resource value: 0x7f060081
+			public const int time = 2131099777;
 			
 			// aapt resource value: 0x7f060043
 			public const int title = 2131099715;
@@ -2146,17 +2252,23 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060047
 			public const int topPanel = 2131099719;
 			
+			// aapt resource value: 0x7f060078
+			public const int tv_num = 2131099768;
+			
 			// aapt resource value: 0x7f060009
 			public const int up = 2131099657;
 			
 			// aapt resource value: 0x7f060014
 			public const int useLogo = 2131099668;
 			
+			// aapt resource value: 0x7f060075
+			public const int viewPager_home = 2131099765;
+			
 			// aapt resource value: 0x7f06000a
 			public const int view_offset_helper = 2131099658;
 			
-			// aapt resource value: 0x7f060072
-			public const int webview_login = 2131099762;
+			// aapt resource value: 0x7f06007a
+			public const int webview_login = 2131099770;
 			
 			// aapt resource value: 0x7f060021
 			public const int withText = 2131099681;
@@ -2320,46 +2432,70 @@ namespace Cnblogs.XamarinAndroid
 			public const int design_navigation_menu_item = 2130903076;
 			
 			// aapt resource value: 0x7f030025
-			public const int Login = 2130903077;
+			public const int drawerLayout = 2130903077;
 			
 			// aapt resource value: 0x7f030026
-			public const int Main = 2130903078;
+			public const int fragment_home = 2130903078;
 			
 			// aapt resource value: 0x7f030027
-			public const int notification_media_action = 2130903079;
+			public const int fragment_kbArticles = 2130903079;
 			
 			// aapt resource value: 0x7f030028
-			public const int notification_media_cancel_action = 2130903080;
+			public const int fragment_news = 2130903080;
 			
 			// aapt resource value: 0x7f030029
-			public const int notification_template_big_media = 2130903081;
+			public const int fragment_recyclerview = 2130903081;
 			
 			// aapt resource value: 0x7f03002a
-			public const int notification_template_big_media_narrow = 2130903082;
+			public const int item_recyclerView = 2130903082;
 			
 			// aapt resource value: 0x7f03002b
-			public const int notification_template_lines = 2130903083;
+			public const int Login = 2130903083;
 			
 			// aapt resource value: 0x7f03002c
-			public const int notification_template_media = 2130903084;
+			public const int Main = 2130903084;
 			
 			// aapt resource value: 0x7f03002d
-			public const int notification_template_part_chronometer = 2130903085;
+			public const int navheader = 2130903085;
 			
 			// aapt resource value: 0x7f03002e
-			public const int notification_template_part_time = 2130903086;
+			public const int notification_media_action = 2130903086;
 			
 			// aapt resource value: 0x7f03002f
-			public const int select_dialog_item_material = 2130903087;
+			public const int notification_media_cancel_action = 2130903087;
 			
 			// aapt resource value: 0x7f030030
-			public const int select_dialog_multichoice_material = 2130903088;
+			public const int notification_template_big_media = 2130903088;
 			
 			// aapt resource value: 0x7f030031
-			public const int select_dialog_singlechoice_material = 2130903089;
+			public const int notification_template_big_media_narrow = 2130903089;
 			
 			// aapt resource value: 0x7f030032
-			public const int support_simple_spinner_dropdown_item = 2130903090;
+			public const int notification_template_lines = 2130903090;
+			
+			// aapt resource value: 0x7f030033
+			public const int notification_template_media = 2130903091;
+			
+			// aapt resource value: 0x7f030034
+			public const int notification_template_part_chronometer = 2130903092;
+			
+			// aapt resource value: 0x7f030035
+			public const int notification_template_part_time = 2130903093;
+			
+			// aapt resource value: 0x7f030036
+			public const int select_dialog_item_material = 2130903094;
+			
+			// aapt resource value: 0x7f030037
+			public const int select_dialog_multichoice_material = 2130903095;
+			
+			// aapt resource value: 0x7f030038
+			public const int select_dialog_singlechoice_material = 2130903096;
+			
+			// aapt resource value: 0x7f030039
+			public const int SplashScreen = 2130903097;
+			
+			// aapt resource value: 0x7f03003a
+			public const int support_simple_spinner_dropdown_item = 2130903098;
 			
 			static Layout()
 			{
@@ -2371,14 +2507,54 @@ namespace Cnblogs.XamarinAndroid
 			}
 		}
 		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f0d0000
+			public const int main = 2131558400;
+			
+			static Menu()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Menu()
+			{
+			}
+		}
+		
 		public partial class String
 		{
+			
+			// aapt resource value: 0x7f070018
+			public const int AppTitle = 2131165208;
 			
 			// aapt resource value: 0x7f070017
 			public const int ApplicationName = 2131165207;
 			
+			// aapt resource value: 0x7f07001d
+			public const int ClickLogin = 2131165213;
+			
+			// aapt resource value: 0x7f07001a
+			public const int CnblogsSubTitle = 2131165210;
+			
+			// aapt resource value: 0x7f070019
+			public const int CnblogsTitle = 2131165209;
+			
+			// aapt resource value: 0x7f07001c
+			public const int CsdnSubTitle = 2131165212;
+			
+			// aapt resource value: 0x7f07001b
+			public const int CsdnTitle = 2131165211;
+			
 			// aapt resource value: 0x7f070016
 			public const int Hello = 2131165206;
+			
+			// aapt resource value: 0x7f070024
+			public const int HomeTabsBlog = 2131165220;
+			
+			// aapt resource value: 0x7f070025
+			public const int HomeTabsHot = 2131165221;
 			
 			// aapt resource value: 0x7f070000
 			public const int abc_action_bar_home_description = 2131165184;
@@ -2437,11 +2613,29 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f070012
 			public const int abc_toolbar_collapse_description = 2131165202;
 			
+			// aapt resource value: 0x7f070020
+			public const int about = 2131165216;
+			
 			// aapt resource value: 0x7f070014
 			public const int appbar_scrolling_view_behavior = 2131165204;
 			
+			// aapt resource value: 0x7f07001e
+			public const int bolgs = 2131165214;
+			
 			// aapt resource value: 0x7f070015
 			public const int character_counter_pattern = 2131165205;
+			
+			// aapt resource value: 0x7f070023
+			public const int kbArticles = 2131165219;
+			
+			// aapt resource value: 0x7f07001f
+			public const int news = 2131165215;
+			
+			// aapt resource value: 0x7f070021
+			public const int setting = 2131165217;
+			
+			// aapt resource value: 0x7f070022
+			public const int share = 2131165218;
 			
 			// aapt resource value: 0x7f070013
 			public const int status_bar_notification_info_overflow = 2131165203;
@@ -2971,6 +3165,9 @@ namespace Cnblogs.XamarinAndroid
 			
 			// aapt resource value: 0x7f09002e
 			public const int RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = 2131296302;
+			
+			// aapt resource value: 0x7f090146
+			public const int SplashScreen = 2131296582;
 			
 			// aapt resource value: 0x7f0900ad
 			public const int TextAppearance_AppCompat = 2131296429;
