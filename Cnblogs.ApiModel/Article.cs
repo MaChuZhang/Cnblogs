@@ -18,5 +18,6 @@ namespace Cnblogs.ApiModel
         public int ViewCount { get; set; }
         public int CommentCount { get; set; }
         public int Diggcount { get; set; }
+        public DateTime PostDate { get; set; }
     }
 }

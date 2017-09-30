@@ -12,8 +12,9 @@
   <dimen name="TextSmall">12sp</dimen>
   <dimen name="TextMiddle">14sp</dimen>
   <dimen name="TextLarge">16sp</dimen>
-  <!--margin 大小-->
+  <!--margin padding大小-->
   <dimen name="dp20">20dp</dimen>
   <dimen name="dp15">15dp</dimen>
   <dimen name="dp10">10dp</dimen>
+  <dimen name="dp5">5dp</dimen>
 </resources>

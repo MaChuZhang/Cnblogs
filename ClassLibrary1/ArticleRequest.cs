@@ -12,13 +12,12 @@ namespace Cnblogs.HttpClient
 {
     public class ArticleRequest
     {
-        public static async Task GetArticleList(Action<List<Article>> successAction,Action<string>  errorAction)
+        public static async Task GetArticleList(Token token,Action<List<Article>> successAction,Action<string>  errorAction)
         {
             try
             {
-                string url = "";
-                url = string.Format(Constact.SiteHomeArticleList, 1,10);
-                var result=await HttpBase.GetAsync(url,null);
+                string url = string.Format(Constact.SiteHomeArticleList, 1,10);
+                var result=await HttpBase.GetAsync(url,null,token);
                 if (result.IsSuccess)
                 {
                     var list = JsonConvert.DeserializeObject<List<Article>>(result.Message);
@@ -34,5 +33,6 @@ namespace Cnblogs.HttpClient
                 errorAction(ex.StackTrace.ToString());
             }
         }
+
     }
 }

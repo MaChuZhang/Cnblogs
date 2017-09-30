@@ -19,7 +19,7 @@ namespace Cnblogs.XamarinAndroid
             /// …Ë÷√—’…´◊¥Ã¨¿∏
             /// </summary>
             /// <param name="activity"></param>
-            public static void SetColorStatusBar(Activity activity)
+            public static void SetColorStatusBars(Activity activity)
             {
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
                 {

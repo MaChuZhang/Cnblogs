@@ -37,7 +37,7 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
         protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            StatusBarUtil.SetColorStatusBar(this);
+            StatusBarUtil.SetColorStatusBars(this);
             // Create your application here
             toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             toolbar.SetNavigationIcon(Resource.Drawable.back_24dp);

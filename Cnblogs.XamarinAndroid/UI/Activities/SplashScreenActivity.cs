@@ -28,7 +28,7 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
         protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            StatusBarUtil.SetColorStatusBar(this);
+            StatusBarUtil.SetColorStatusBars(this);
             //await UserRequest.Client_Credentials();
             var tokenTemp = SharedDataUtil.GetToken(this);
             if (string.IsNullOrEmpty(tokenTemp.access_token)||tokenTemp.IsExpire)
@@ -41,7 +41,9 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
                 {
                     System.Diagnostics.Debug.Write(error);
                 });
+
             }
+             
             Handler handler = new Handler();
             handler.PostDelayed((() =>
             {

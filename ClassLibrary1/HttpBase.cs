@@ -22,14 +22,14 @@ namespace Cnblogs.ApiModel
             };
             return restClient;
         }
-        internal static  RestRequest RequestAddHeader()
+        internal static  RestRequest RequestAddHeader(Token token)
         {
             var request = new RestRequest();
-            request.AddHeader("Authorization",ModelFactory.token.token_type+" "+ ModelFactory.token.access_token);
+            request.AddHeader("Authorization",token.token_type+" "+ ModelFactory.token.access_token);
             return request;
         }
 
-        public static async Task<ResponseMessage> GetAsync(string url,Dictionary<string,string> _params)
+        public static async Task<ResponseMessage> GetAsync(string url,Dictionary<string,string> _params,Token token)
         {
             RestClient restClient = Instance(url);
             RestRequest request = new  RestRequest();
@@ -41,7 +41,7 @@ namespace Cnblogs.ApiModel
                 }
             }
 
-            request.AddHeader("Authorization", ModelFactory.token.token_type + " " + ModelFactory.token.access_token);
+            request.AddHeader("Authorization", token.token_type + " " + token.access_token);
             var response = await restClient.ExecuteGetTaskAsync(request);
             var statusCode = response.StatusCode;
             switch (statusCode)

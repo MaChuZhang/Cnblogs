@@ -15,6 +15,8 @@ using Cnblogs.XamarinAndroid;
 using Fragment = Android.Support.V4.App.Fragment;
 using FragmentManager = Android.Support.V4.App.FragmentManager;
 using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
+using Cnblogs.HttpClient;
+
 namespace Cnblogs.XamarinAndroid
 {
     [Activity(Label = "Cnblogs.XamarinAndroid", MainLauncher = false, Icon = "@drawable/icon", Theme = "@style/BaseAppTheme")]
@@ -38,30 +40,30 @@ namespace Cnblogs.XamarinAndroid
             }
         }
 
-        protected override void OnCreate(Bundle bundle)
+        protected override async void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            StatusBarUtil.SetColorStatusBar(this);
+            StatusBarUtil.SetColorStatusBars(this);
             _toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             _drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerLayout);
             _navigationView = FindViewById<NavigationView>(Resource.Id.navigationView);
             _fm = SupportFragmentManager;
 
-            _toolbar.Title =Resources.GetString(Resource.String.CnblogsTitle);
+            _toolbar.Title = Resources.GetString(Resource.String.CnblogsTitle);
             SetSupportActionBar(_toolbar);
             SupportActionBar.SetDisplayShowHomeEnabled(true);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
 
-            _drawerToggle = new ActionBarDrawerToggle(this,_drawerLayout,_toolbar,0,0);
+            _drawerToggle = new ActionBarDrawerToggle(this, _drawerLayout, _toolbar, 0, 0);
             _drawerLayout.SetDrawerListener(_drawerToggle);
             _drawerToggle.SyncState();
 
             _navigationView.InflateMenu(Resource.Menu.main);
             _navigationView.InflateHeaderView(Resource.Layout.navheader);
-            _navigationView.NavigationItemSelected +=(s,e)=>
-            {
-                NavItemSwitch(e.MenuItem.ItemId);
-            };
+            _navigationView.NavigationItemSelected += (s, e) =>
+             {
+                 NavItemSwitch(e.MenuItem.ItemId);
+             };
         }
         void NavItemSwitch(int ItemId)
         {

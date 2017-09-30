@@ -14,6 +14,9 @@ using Android.Support.V7.Widget;
 using Android.Support.V4.Widget;
 using Fragment = Android.Support.V4.App.Fragment;
 using Cnblogs.XamarinAndroid;
+using Cnblogs.HttpClient;
+using Cnblogs.ApiModel;
+using Cnblogs.XamarinAndroid.UI;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -21,7 +24,7 @@ namespace Cnblogs.XamarinAndroid
     {
         private RecyclerView _recyclerView;
         private SwipeRefreshLayout _swipeRefreshLayout;
-        private BaseRecyclerViewAdapter<string> adapter;
+        private BaseRecyclerViewAdapter<Article> adapter;
         public int position;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -46,26 +49,65 @@ namespace Cnblogs.XamarinAndroid
              return inflater.Inflate(Resource.Layout.fragment_recyclerview,container,false);
         }
 
-        public override void OnViewCreated(View view ,Bundle savedInstanceState)
+        public override async void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
             _swipeRefreshLayout = view.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             _swipeRefreshLayout.SetColorSchemeResources(Resource.Color.primary);
 
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
-            _recyclerView.SetLayoutManager(new  LinearLayoutManager(this.Activity));
-            List<string> list = new List<string>() { "896", "168", "149", "126", "147", "789", "456", "456", "123" };
-
-            adapter = new BaseRecyclerViewAdapter<string>(this.Activity, list, Resource.Layout.item_recyclerView);
-            adapter.ItemClick += (position) =>
+            _recyclerView.SetLayoutManager(new LinearLayoutManager(this.Activity));
+            //List<string> list = new List<string>() { "896", "168", "149", "126", "147", "789", "456", "456", "123" };
+           
+            // adapter = new BaseRecyclerViewAdapter<string>(this.Activity, list, Resource.Layout.item_recyclerView);
+            await ArticleRequest.GetArticleList(SharedDataUtil.GetToken(this.Activity), articleList =>
             {
-                AlertUtil.ToastShort(this.Activity,list[position].ToString());
-            };
-            adapter.OnConvertView += (holder, postion) =>
+                
+                adapter = new BaseRecyclerViewAdapter<Article>(this.Activity, articleList, Resource.Layout.item_fragment_article);
+                _recyclerView.SetAdapter(adapter);
+                adapter.ItemClick += (position) =>
+                {
+                    AlertUtil.ToastShort(this.Activity, articleList[position].ToString());
+                };
+                string read = Resources.GetString(Resource.String.read);
+                string comment = Resources.GetString(Resource.String.comment);
+                string digg = Resources.GetString(Resource.String.digg);
+                adapter.OnConvertView += (holder, position) =>
+                {
+                    holder.SetText(Resource.Id.tv_author, articleList[position].Author);
+                    holder.SetText(Resource.Id.tv_postDate, articleList[position].PostDate.ToString("HH:mm"));
+                    holder.SetText(Resource.Id.tv_viewCount,articleList[position].ViewCount.ToString()+" "+read);
+                    holder.SetText(Resource.Id.tv_commentCount,articleList[position].CommentCount.ToString()+" "+comment);
+                    holder.SetText(Resource.Id.tv_description,articleList[position].Description);
+                    holder.SetText(Resource.Id.tv_diggCount,articleList[position].Diggcount.ToString()+" "+digg);
+                    holder.SetText(Resource.Id.tv_title,articleList[position].Title.ToString());
+                    //holder.SetText(Resource.Id.tv_);
+                    //holder.SetText(Resource.Id.tv);
+                    //holder.SetText(Resource.Id.tv_dscription, articleList[position].Author);
+                };
+                _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
+            }, error =>
             {
-                holder.SetText(Resource.Id.tv_num,list[position]);
-            };
-            _recyclerView.SetAdapter(adapter);
+                AlertUtil.ToastShort(this.Activity, error);
+            });
+       
+            //_recyclerView.Post(async() =>
+            //{
+            //    await ArticleRequest.GetArticleList(SharedDataUtil.GetToken(this.Activity),articleList=> {
+            //        adapter = new BaseRecyclerViewAdapter<string>(this.Activity, articleList.Select(p=>p.BlogApp).ToList(), Resource.Layout.item_recyclerView);
+            //        _recyclerView.SetAdapter(adapter);
+            //        adapter.ItemClick += (position) =>
+            //    {
+            //       AlertUtil.ToastShort(this.Activity,list[position].ToString());
+            //           };
+            //adapter.OnConvertView += (holder, postion) =>
+            //{
+            //    holder.SetText(Resource.Id.tv_num,list[position]);
+            //};
+            //    },error=> {
+            //        AlertUtil.ToastShort(this.Activity,error);
+            //    });
+            //});
         }
         //void ConvertView(BaseHolder holder,int position)
         //{

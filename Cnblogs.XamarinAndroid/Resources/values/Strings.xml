@@ -17,6 +17,11 @@
   <string name="setting">设置</string>
   <string name="share">分享</string>
   <string name="kbArticles">知识库</string>
+
+
+  <string name="digg"> 推荐</string>
+  <string name="comment"> 评论</string>
+  <string name="read"> 阅读</string>
   
   <!--Tab-->
   <string name="HomeTabsBlog">博客</string>
