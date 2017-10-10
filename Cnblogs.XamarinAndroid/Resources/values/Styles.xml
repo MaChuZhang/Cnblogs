@@ -6,7 +6,7 @@
     <item name="colorPrimary">@color/primary</item>
     <item name="colorPrimaryDark">@color/primaryDark</item>
     <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
-    <!--<item name="android:listDivider">@color/dedede</item>-->
+    <item name="android:listDivider">@drawable/shape_divider</item>
   </style>
 
   <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
@@ -38,6 +38,17 @@
     <item name="android:maxLines">3</item>
     <item name="android:ellipsize">end</item>
     <item name="android:lineSpacingExtra">@dimen/dp5</item>
+  </style>
+  <!--菜单文本样式-->
+  <style name="tabText">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:gravity">center</item>
+    <item name="android:textSize">@dimen/TextSmall</item>
+    <item name="android:textColor">@drawable/selector_menu_textColor</item>
+    <item name="android:paddingTop">@dimen/dp10</item>
+    <item name="android:clickable">true</item>
   </style>
   
   <color name="progressBackground">#dedede</color>

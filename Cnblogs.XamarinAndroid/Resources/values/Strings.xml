@@ -12,6 +12,7 @@
   <!--菜单-->
   <string name="bolgs">博客</string>
   <string name="news">新闻</string>
+  <string name="bolgsnews">博文</string>
 
   <string name="about">关于</string>
   <string name="setting">设置</string>

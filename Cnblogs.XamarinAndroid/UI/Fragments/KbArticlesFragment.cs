@@ -17,6 +17,7 @@ namespace Cnblogs.XamarinAndroid
 {
     public class KbArticlesFragment : Fragment
     {
+        private FloatingActionButton fab;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -29,7 +30,13 @@ namespace Cnblogs.XamarinAndroid
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             base.OnCreateView(inflater, container, savedInstanceState);
-           return   inflater.Inflate(Resource.Layout.fragment_kbArticles, container, false);
+            var  view = inflater.Inflate(Resource.Layout.fragment_kbArticles, container, false);
+            fab = view.FindViewById<FloatingActionButton>(Resource.Id.fab_add);
+            fab.Click += (s, e) =>
+            {
+                Snackbar.Make(fab,"123",Snackbar.LengthShort).Show();
+            };
+            return view;
         }
     }
 }

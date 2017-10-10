@@ -75,7 +75,7 @@ namespace Cnblogs.XamarinAndroid
                 adapter.OnConvertView += (holder, position) =>
                 {
                     holder.SetText(Resource.Id.tv_author, articleList[position].Author);
-                    holder.SetText(Resource.Id.tv_postDate, articleList[position].PostDate.ToString("HH:mm"));
+                    holder.SetText(Resource.Id.tv_postDate, articleList[position].PostDate.ToCommonString());
                     holder.SetText(Resource.Id.tv_viewCount,articleList[position].ViewCount.ToString()+" "+read);
                     holder.SetText(Resource.Id.tv_commentCount,articleList[position].CommentCount.ToString()+" "+comment);
                     holder.SetText(Resource.Id.tv_description,articleList[position].Description);
