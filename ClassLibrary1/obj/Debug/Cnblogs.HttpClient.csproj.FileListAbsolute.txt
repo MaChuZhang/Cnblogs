@@ -17,3 +17,5 @@ F:\Demo\Cnblogs\ClassLibrary1\obj\Debug\ClassLibrary1.dll.mdb
 F:\Demo\Cnblogs\ClassLibrary1\bin\Debug\ClassLibrary1.dll.mdb
 F:\Demo\Cnblogs\ClassLibrary1\obj\Debug\ClassLibrary1.dll.mdb
 F:\Demo\Cnblogs\ClassLibrary1\bin\Debug\ClassLibrary1.dll.mdb
+F:\Demo\Cnblogs\ClassLibrary1\obj\Debug\ClassLibrary1.dll.mdb
+F:\Demo\Cnblogs\ClassLibrary1\bin\Debug\ClassLibrary1.dll.mdb

@@ -10,3 +10,5 @@ F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.dll.mdb
 F:\Demo\Cnblogs\Cnblogs.ApiModel\bin\Debug\Cnblogs.ApiModel.dll.mdb
 F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.dll.mdb
 F:\Demo\Cnblogs\Cnblogs.ApiModel\bin\Debug\Cnblogs.ApiModel.dll.mdb
+F:\Demo\Cnblogs\Cnblogs.ApiModel\obj\Debug\Cnblogs.ApiModel.dll.mdb
+F:\Demo\Cnblogs\Cnblogs.ApiModel\bin\Debug\Cnblogs.ApiModel.dll.mdb
