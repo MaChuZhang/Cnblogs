@@ -29,16 +29,20 @@
         android:background="@color/bg"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 <!--底部布局-->
-    <View
+  <LinearLayout
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_gravity="bottom">
+     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp1"
         android:id="@+id/view_divider"
         android:background="@color/dedede" />
-    <LinearLayout
+   <LinearLayout
         android:id="@+id/ly_tab"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_gravity="bottom"
         android:background="@color/white"
         android:orientation="horizontal">
         <TextView
@@ -62,4 +66,5 @@
             android:drawableTop="@drawable/selector_menu_qa"
             android:text="问答" />
     </LinearLayout>
+  </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
