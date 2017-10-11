@@ -1,1 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android"><item android:drawable="@color/white" android:state_pressed="false" /><item android:drawable="@color/f1f1f1" android:state_pressed="true" /></selector>
