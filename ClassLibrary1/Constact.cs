@@ -32,6 +32,7 @@ namespace Cnblogs.HttpClient
         public const string test = "https://oauth.cnblogs.com/connect/authorize?client_id=c36f3da8-81fa-4466-9bd7-554da9562a4c&scope=openid profile CnBlogsApi offline_access&response_type=code id_token&redirect_uri=https://oauth.cnblogs.com/auth/callback&state=cnblogs.com&nonce=zhanglin";
 
         public const string SiteHomeArticleList = Host+Api+"/blogposts/@sitehome?pageIndex={0}&pageSize={1}";
-       
+        public const string ArticleBody = Host + Api + "/blogposts/{0}/body";
+
     }
 }

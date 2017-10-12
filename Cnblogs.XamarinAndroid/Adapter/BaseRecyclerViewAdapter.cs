@@ -18,13 +18,13 @@ namespace Cnblogs.XamarinAndroid
     {
         private SparseArray<View> views;
         private Context context;
-        private BaseHolder(Context context, View itemView, Action<int> listener) : base(itemView)
+        private BaseHolder(Context context, View itemView, Action<int,string> listener) : base(itemView)
         {
             this.context = context;
             views = new SparseArray<View>(8);
-            ItemView.Click += (s, e) => listener(base.Position);
+            ItemView.Click += (s, e) => listener(base.Position,ItemView.Tag.ToString());
         }
-        public static BaseHolder GetRecyclerHolder(Context context, View itemView, Action<int> listener)
+        public static BaseHolder GetRecyclerHolder(Context context, View itemView, Action<int,string> listener)
         {
             return new BaseHolder(context, itemView, listener);
         }
@@ -54,6 +54,12 @@ namespace Cnblogs.XamarinAndroid
             iv.SetImageResource(drawabledId);
             return this;
         }
+        public BaseHolder SetTag(int viewId, string id)
+        {
+            LinearLayout tv = GetView<LinearLayout>(viewId);
+            tv.Tag = id;
+            return this;
+        }
     }
 
     public class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter
@@ -62,11 +68,10 @@ namespace Cnblogs.XamarinAndroid
             private List<T> list;//数据源
             private LayoutInflater inflater;//布局器
             private int itemLayoutId; // 布局ID
-            private bool isScrolling;//是否在滚动
             private RecyclerView _recyclerView;
             public delegate void Convert(BaseHolder holder, int position);
             public event Convert OnConvertView;
-            public Action<int> ItemClick; //单击事件
+            public Action<int,string> ItemClick; //单击事件
 
             public override int ItemCount
             {
@@ -103,7 +108,7 @@ namespace Cnblogs.XamarinAndroid
             }
             public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
             {
-            BaseHolder myHolder = holder as BaseHolder;
+                 BaseHolder myHolder = holder as BaseHolder;
                 //myHolder.ItemView.Tag = position;
                 OnConvertView(myHolder, position);
             }

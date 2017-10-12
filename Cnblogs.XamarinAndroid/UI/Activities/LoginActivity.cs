@@ -39,7 +39,7 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
             base.OnCreate(savedInstanceState);
             StatusBarUtil.SetColorStatusBars(this);
             // Create your application here
-            toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+           // toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             toolbar.SetNavigationIcon(Resource.Drawable.back_24dp);
             toolbar.Title = "µÇÂ¼";
             progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar_login);

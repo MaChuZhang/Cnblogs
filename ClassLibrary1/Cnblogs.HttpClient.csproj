@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiResult.cs" />
     <Compile Include="Constact.cs" />
     <Compile Include="HttpBase.cs" />
     <Compile Include="IArticleCallBack.cs" />

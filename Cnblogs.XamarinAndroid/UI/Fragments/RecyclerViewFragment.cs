@@ -25,6 +25,7 @@ namespace Cnblogs.XamarinAndroid
         private RecyclerView _recyclerView;
         private SwipeRefreshLayout _swipeRefreshLayout;
         private BaseRecyclerViewAdapter<Article> adapter;
+        private LinearLayout ly_menu;
         public int position;
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -41,12 +42,14 @@ namespace Cnblogs.XamarinAndroid
             rf.Arguments = b;
             return rf;
         }
+        
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
              base.OnCreateView(inflater, container, savedInstanceState);
-             return inflater.Inflate(Resource.Layout.fragment_recyclerview,container,false);
+            ly_menu = Activity.FindViewById<LinearLayout>(Resource.Id.ly_menu);
+            return inflater.Inflate(Resource.Layout.fragment_recyclerview,container,false);
         }
 
         public override async void OnViewCreated(View view, Bundle savedInstanceState)
@@ -57,17 +60,36 @@ namespace Cnblogs.XamarinAndroid
 
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new LinearLayoutManager(this.Activity));
-            //List<string> list = new List<string>() { "896", "168", "149", "126", "147", "789", "456", "456", "123" };
-           
-            // adapter = new BaseRecyclerViewAdapter<string>(this.Activity, list, Resource.Layout.item_recyclerView);
-            await ArticleRequest.GetArticleList(SharedDataUtil.GetToken(this.Activity), articleList =>
+            var recyclerviewScroll = new RecyclerviewScroll();
+            recyclerviewScroll.OnHide += delegate
             {
                 
+                DisplayMetrics dm = Activity.Resources.DisplayMetrics;
+                int height = dm.HeightPixels;
+                int width = dm.WidthPixels;
+                ly_menu.Animate().TranslationY(height - ly_menu.Height).SetDuration(500).Start();
+            };
+            recyclerviewScroll.OnShow += delegate
+            {
+                ly_menu = Activity.FindViewById<LinearLayout>(Resource.Id.ly_menu);
+                ly_menu.Animate().TranslationY(0).SetDuration(500).Start();
+            };
+            _recyclerView.AddOnScrollListener(recyclerviewScroll);
+            var result = await ArticleRequest.GetArticleList(SharedDataUtil.GetToken(this.Activity));
+            if (result.Success)
+            {
+                var articleList = result.Data;
+                await SQLiteUtil.UpdateArticleList(articleList);
+                var model = SQLiteUtil.SelectArticle(1);
                 adapter = new BaseRecyclerViewAdapter<Article>(this.Activity, articleList, Resource.Layout.item_fragment_article);
                 _recyclerView.SetAdapter(adapter);
-                adapter.ItemClick += (position) =>
+                adapter.ItemClick += (position,tag) =>
                 {
-                    AlertUtil.ToastShort(this.Activity, articleList[position].ToString());
+                    System.Diagnostics.Debug.Write(position,tag);
+                    AlertUtil.ToastShort(this.Activity, tag);
+                    var intent = new Intent(Activity, typeof(DetailArticleActivity));
+                    intent.PutExtra("id",int.Parse(tag));
+                    StartActivity(intent);
                 };
                 string read = Resources.GetString(Resource.String.read);
                 string comment = Resources.GetString(Resource.String.comment);
@@ -76,21 +98,23 @@ namespace Cnblogs.XamarinAndroid
                 {
                     holder.SetText(Resource.Id.tv_author, articleList[position].Author);
                     holder.SetText(Resource.Id.tv_postDate, articleList[position].PostDate.ToCommonString());
-                    holder.SetText(Resource.Id.tv_viewCount,articleList[position].ViewCount.ToString()+" "+read);
-                    holder.SetText(Resource.Id.tv_commentCount,articleList[position].CommentCount.ToString()+" "+comment);
-                    holder.SetText(Resource.Id.tv_description,articleList[position].Description);
-                    holder.SetText(Resource.Id.tv_diggCount,articleList[position].Diggcount.ToString()+" "+digg);
-                    holder.SetText(Resource.Id.tv_title,articleList[position].Title.ToString());
+                    holder.SetText(Resource.Id.tv_viewCount, articleList[position].ViewCount.ToString() + " " + read);
+                    holder.SetText(Resource.Id.tv_commentCount, articleList[position].CommentCount.ToString() + " " + comment);
+                    holder.SetText(Resource.Id.tv_description, articleList[position].Description);
+                    holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount.ToString() + " " + digg);
+                    holder.SetText(Resource.Id.tv_title, articleList[position].Title.ToString());
                     //holder.SetText(Resource.Id.tv_);
                     //holder.SetText(Resource.Id.tv);
                     //holder.SetText(Resource.Id.tv_dscription, articleList[position].Author);
+                    holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
+                    //holder.GetView<LinearLayout>(Resource.Id.ly_item).Tag = model.Id.ToString();
                 };
-                _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
-            }, error =>
-            {
-                AlertUtil.ToastShort(this.Activity, error);
-            });
-       
+            }
+            else {
+                AlertUtil.ToastShort(this.Activity,result.Message);
+            }
+            _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
+             
             //_recyclerView.Post(async() =>
             //{
             //    await ArticleRequest.GetArticleList(SharedDataUtil.GetToken(this.Activity),articleList=> {

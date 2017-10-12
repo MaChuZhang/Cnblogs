@@ -40,7 +40,6 @@ namespace Cnblogs.ApiModel
                     request.AddParameter(kv.Key, kv.Value);
                 }
             }
-
             request.AddHeader("Authorization", token.token_type + " " + token.access_token);
             var response = await restClient.ExecuteGetTaskAsync(request);
             var statusCode = response.StatusCode;

@@ -48,7 +48,7 @@ namespace Cnblogs.XamarinAndroid
                     activity.Window.AddFlags(WindowManagerFlags.TranslucentNavigation);
                 }
             }
-            public static void SetKKStatusBar(Activity activity, int statusBarColor)
+            private static void SetKKStatusBar(Activity activity, int statusBarColor)
             {
                 SetTransparentStausBar(activity);//先透明化("去掉"状态栏)
                 ViewGroup contentView = activity.FindViewById<ViewGroup>(Android.Resource.Id.Content);

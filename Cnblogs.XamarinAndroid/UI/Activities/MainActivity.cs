@@ -24,15 +24,13 @@ namespace Cnblogs.XamarinAndroid
     {
         private DateTime ? firstBackTime; //第一次单击返回
         private Toolbar _toolbar;
-        private DrawerLayout _drawerLayout;
-        private ActionBarDrawerToggle _drawerToggle;
-        private NavigationView _navigationView;
 
         private NewsFragment _newsFragment;
         private HomeFragment _homeFragment;
         private KbArticlesFragment _kbArticlesFragment;
         private FragmentManager _fm;
         private TextView tv_news,tv_kbArticles,tv_qa,tv_shancun;
+        private RecyclerView _recyclerView;
         protected override int LayoutResourceId
         {
             get
@@ -46,31 +44,16 @@ namespace Cnblogs.XamarinAndroid
             base.OnCreate(bundle);
             StatusBarUtil.SetColorStatusBars(this);
             _toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-           // _drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawerLayout);
-          //  _navigationView = FindViewById<NavigationView>(Resource.Id.navigationView);
-            _fm = SupportFragmentManager;
+              
+                _fm = SupportFragmentManager;
 
-            _toolbar.Title = Resources.GetString(Resource.String.CnblogsTitle);
-            tv_news = FindViewById<TextView>(Resource.Id.tv_news);
-            tv_qa = FindViewById<TextView>(Resource.Id.tv_qa);
-            tv_shancun = FindViewById<TextView>(Resource.Id.tv_shancun);
-            tv_kbArticles = FindViewById<TextView>(Resource.Id.tv_kbArticles);
-            tv_news.Selected = true;
-            BindViewsClick();
-            //  SetSupportActionBar(_toolbar);
-            // SupportActionBar.SetDisplayShowHomeEnabled(true);
-            // SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-
-            //_drawerToggle = new ActionBarDrawerToggle(this, _drawerLayout, _toolbar, 0, 0);
-            //_drawerLayout.SetDrawerListener(_drawerToggle);
-            // _drawerToggle.SyncState();
-
-            //_navigationView.InflateMenu(Resource.Menu.main);
-            // _navigationView.InflateHeaderView(Resource.Layout.navheader);
-            // _navigationView.NavigationItemSelected += (s, e) =>
-            // {
-            //      NavItemSwitch(e.MenuItem.ItemId);
-            // };
+                _toolbar.Title = Resources.GetString(Resource.String.CnblogsTitle);
+                tv_news = FindViewById<TextView>(Resource.Id.tv_news);
+                tv_qa = FindViewById<TextView>(Resource.Id.tv_qa);
+                tv_shancun = FindViewById<TextView>(Resource.Id.tv_shancun);
+                tv_kbArticles = FindViewById<TextView>(Resource.Id.tv_kbArticles);
+                tv_news.Selected = true;
+                BindViewsClick();
         }
         void SetUnSelected()
         {
