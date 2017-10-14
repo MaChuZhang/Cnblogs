@@ -9,6 +9,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Support.V4.View;
+using Android.Graphics;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -50,19 +52,24 @@ namespace Cnblogs.XamarinAndroid
             }
             private static void SetKKStatusBar(Activity activity, int statusBarColor)
             {
-                SetTransparentStausBar(activity);//先透明化("去掉"状态栏)
-                ViewGroup contentView = activity.FindViewById<ViewGroup>(Android.Resource.Id.Content);
+               SetTransparentStausBar(activity);//先透明化("去掉"状态栏)
+               ViewGroup contentView = activity.FindViewById<ViewGroup>(Android.Resource.Id.Content);
                 _statusBarView = contentView.GetChildAt(0);
+                 Color primaryColor = activity.Resources.GetColor(statusBarColor);
                 //防止重复添加statusBarView
-                if (_statusBarView != null && _statusBarView.MeasuredHeight == GetStatusBarHeight(activity))
+                if (_statusBarView != null && _statusBarView.LayoutParameters.Height == GetStatusBarHeight(activity))
                 {
-                    _statusBarView.SetBackgroundColor(activity.Resources.GetColor(statusBarColor));
+                    _statusBarView.SetBackgroundColor(primaryColor);
                     return;
+                }
+               if (_statusBarView != null)
+                {
+                   ViewCompat.SetFitsSystemWindows(_statusBarView,false);
                 }
                 _statusBarView = new View(activity);
                 ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, GetStatusBarHeight(activity));
-                _statusBarView.SetBackgroundColor(activity.Resources.GetColor(statusBarColor));//填充的到状态栏的view设置颜色
-                contentView.AddView(_statusBarView, lp);
+                _statusBarView.SetBackgroundColor(primaryColor);//填充的到状态栏的view设置颜色
+               // contentView.AddView(_statusBarView,0, lp);
             }
             private static int GetStatusBarHeight(Context context)
             {

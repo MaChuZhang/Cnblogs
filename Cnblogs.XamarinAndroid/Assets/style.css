@@ -1,0 +1,10 @@
+body{font-family:"Microsoft Yahei",Verdana,Helvetica,sans-serief;font-size: 14px!important; color:#333;margin:0;padding:10px;background-color:#ffffff;color:#333;word-wrap:break-word;}
+p{margin-top:0;margin-bottom:5pt;line-height: 1.8em;}
+img{max-width:90%;height:auto;}
+div.bimg{text-align:center;padding:0;}
+audio{width:100%}
+*{-webkit-touch-callout: none; /* prevent callout to copy image, etc when tap to hold */
+    /*-webkit-text-size-adjust: none;*/ /* prevent webkit from resizing text to fit */
+    -webkit-tap-highlight-color: rgba(0,0,0,0.15); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    /*-webkit-user-select: none; /* prevent copy paste, to allow, change 'none' to 'text' */
+}

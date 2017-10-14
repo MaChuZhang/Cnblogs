@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Support.V7.Widget;
 using Android.Util;
+using Com.Nostra13.Universalimageloader.Core;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -48,10 +49,13 @@ namespace Cnblogs.XamarinAndroid
             tv.Text = text;
             return this;
         }
-        public BaseHolder SetImageResource(int viewId, int drawabledId)
+        public BaseHolder SetImageLoader(int viewId,string  ivUrl, DisplayImageOptions options)
         {
             ImageView iv = GetView<ImageView>(viewId);
-            iv.SetImageResource(drawabledId);
+            if (!ivUrl.Substring(ivUrl.Length - 4, 4).Contains(".png"))
+                iv.SetImageResource(Resource.Drawable.noavatar);
+            else
+                ImageLoader.Instance.DisplayImage(ivUrl, iv, options);
             return this;
         }
         public BaseHolder SetTag(int viewId, string id)

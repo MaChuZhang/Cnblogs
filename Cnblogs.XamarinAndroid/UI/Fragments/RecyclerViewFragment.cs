@@ -17,6 +17,8 @@ using Cnblogs.XamarinAndroid;
 using Cnblogs.HttpClient;
 using Cnblogs.ApiModel;
 using Cnblogs.XamarinAndroid.UI;
+using Com.Nostra13.Universalimageloader.Core;
+using Android.Graphics;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -27,11 +29,21 @@ namespace Cnblogs.XamarinAndroid
         private BaseRecyclerViewAdapter<Article> adapter;
         private LinearLayout ly_menu;
         public int position;
+        private DisplayImageOptions options;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             position = Arguments.GetInt("position");
-
+            //œ‘ æÕº∆¨≈‰÷√
+            options = new DisplayImageOptions.Builder()
+                  .ShowImageOnFail(Resource.Drawable.Icon)
+                  .CacheInMemory(true)
+                  .BitmapConfig(Bitmap.Config.Rgb565)
+                  .ShowImageOnFail(Resource.Drawable.icon_user)
+                  .ShowImageOnLoading(Resource.Drawable.icon_user)
+                  .CacheOnDisk(true)
+                  .Displayer(new DisplayerImageCircle(20))
+                  .Build();
             // Create your fragment here
         }
         public static RecyclerViewFragment Instance(int position)
@@ -103,11 +115,9 @@ namespace Cnblogs.XamarinAndroid
                     holder.SetText(Resource.Id.tv_description, articleList[position].Description);
                     holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount.ToString() + " " + digg);
                     holder.SetText(Resource.Id.tv_title, articleList[position].Title.ToString());
-                    //holder.SetText(Resource.Id.tv_);
-                    //holder.SetText(Resource.Id.tv);
-                    //holder.SetText(Resource.Id.tv_dscription, articleList[position].Author);
                     holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
-                    //holder.GetView<LinearLayout>(Resource.Id.ly_item).Tag = model.Id.ToString();
+                    //ImageLoader.Instance.DisplayImage(articleList[position].Avatar, Resource.Id.iv_avatar);
+                    holder.SetImageLoader(Resource.Id.iv_avatar,articleList[position].Avatar,options);
                 };
             }
             else {

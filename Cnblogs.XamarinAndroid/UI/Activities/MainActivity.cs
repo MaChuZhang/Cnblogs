@@ -16,6 +16,7 @@ using Fragment = Android.Support.V4.App.Fragment;
 using FragmentManager = Android.Support.V4.App.FragmentManager;
 using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
 using Cnblogs.HttpClient;
+using Com.Nostra13.Universalimageloader.Core;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -42,6 +43,8 @@ namespace Cnblogs.XamarinAndroid
         protected override async void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();//初始化图片加载框架
+            ImageLoader.Instance.Init(configuration);
             StatusBarUtil.SetColorStatusBars(this);
             _toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
               

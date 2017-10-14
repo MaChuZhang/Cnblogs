@@ -121,6 +121,7 @@
     <Compile Include="UI\Fragments\RecyclerViewDecoration.cs" />
     <Compile Include="UI\Fragments\RecyclerViewFragment.cs" />
     <Compile Include="UI\Fragments\RecyclerviewScroll.cs" />
+    <Compile Include="UI\Widgets\ImageCircle.cs" />
     <Compile Include="Util\AlertUtil.cs" />
     <Compile Include="Util\DateTimeUtil.cs" />
     <Compile Include="Util\HtmlUtil.cs" />
@@ -204,6 +205,10 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Xamarin-Bindings-Android-Universal-Image-Loader\src\Universalimageloader.Binding\UniversalImageLoader\UniversalImageLoader.csproj">
+      <Project>{b3a4fc42-23fd-4ad3-89ef-1265a2032adc}</Project>
+      <Name>UniversalImageLoader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ClassLibrary1\Cnblogs.HttpClient.csproj">
       <Project>{40f9a8f1-7ce6-404d-81d0-1f4d3e09ced5}</Project>
       <Name>Cnblogs.HttpClient</Name>
@@ -232,9 +237,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_setting.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\icon_share.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_user1.png" />
@@ -297,7 +299,25 @@
     <AndroidResource Include="Resources\drawable\layer_articleHeader.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="UI\Widgets\" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\noavatar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\content.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\style.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\font.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\share.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_share.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_back.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
