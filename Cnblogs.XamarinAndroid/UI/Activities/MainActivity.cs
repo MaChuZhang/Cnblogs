@@ -20,8 +20,8 @@ using Com.Nostra13.Universalimageloader.Core;
 
 namespace Cnblogs.XamarinAndroid
 {
-    [Activity(Label = "Cnblogs.XamarinAndroid", MainLauncher = false, Icon = "@drawable/icon", Theme = "@style/BaseAppTheme")]
-    public class MainActivity : BaseActivity
+    [Activity(Label = "Cnblogs.XamarinAndroid", MainLauncher = false, Icon = "@drawable/icon", Theme = "@style/AppTheme")]
+    public class MainActivity : BaseActivity,Toolbar.IOnMenuItemClickListener
     {
         private DateTime ? firstBackTime; //第一次单击返回
         private Toolbar _toolbar;
@@ -46,12 +46,12 @@ namespace Cnblogs.XamarinAndroid
             ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();//初始化图片加载框架
             ImageLoader.Instance.Init(configuration);
             StatusBarUtil.SetColorStatusBars(this);
-            _toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-              
-                _fm = SupportFragmentManager;
 
-                _toolbar.Title = Resources.GetString(Resource.String.CnblogsTitle);
-                tv_news = FindViewById<TextView>(Resource.Id.tv_news);
+            _toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            _toolbar.Title = Resources.GetString(Resource.String.CnblogsTitle);
+            _fm = SupportFragmentManager;
+               SetSupportActionBar(_toolbar);
+            tv_news = FindViewById<TextView>(Resource.Id.tv_news);
                 tv_qa = FindViewById<TextView>(Resource.Id.tv_qa);
                 tv_shancun = FindViewById<TextView>(Resource.Id.tv_shancun);
                 tv_kbArticles = FindViewById<TextView>(Resource.Id.tv_kbArticles);
@@ -120,6 +120,7 @@ namespace Cnblogs.XamarinAndroid
             }
             ft.Commit();
         }
+        #region override method
         public override bool OnKeyDown(Keycode keycode , KeyEvent e)
         {
             if (keycode == Keycode.Back && e.Action == KeyEventActions.Down)
@@ -137,6 +138,18 @@ namespace Cnblogs.XamarinAndroid
             }
             return base.OnKeyDown(keycode,e);
         }
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.search, menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+        public bool OnMenuItemClick(IMenuItem item)
+        {
+            //throw new NotImplementedException();
+            return true;
+        }
+        #endregion
     }
 }
 

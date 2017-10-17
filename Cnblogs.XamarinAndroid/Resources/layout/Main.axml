@@ -14,13 +14,14 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+              android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:contentInsetStartWithNavigation="0dp"
-            app:layout_scrollFlags="scroll|enterAlways" />
-    </android.support.design.widget.AppBarLayout>
+           android:contentInsetStartWithNavigation="0dp"
+          app:layout_scrollFlags="scroll|enterAlways|snap"
+        />
+      </android.support.design.widget.AppBarLayout>
 <!--主布局-->
     <FrameLayout
         android:id="@+id/frameContent"

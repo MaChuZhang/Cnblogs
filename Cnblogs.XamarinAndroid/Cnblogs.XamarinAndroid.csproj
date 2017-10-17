@@ -52,7 +52,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android.Export" />
     <Reference Include="mscorlib" />
+    <Reference Include="PhotoViewBinding, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.PhotoView.Android.1.2.4\lib\PhotoViewBinding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SQLite-net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\sqlite-net-pcl.1.4.118\lib\netstandard1.1\SQLite-net.dll</HintPath>
       <Private>True</Private>
@@ -107,6 +112,7 @@
     <Compile Include="Adapter\BaseRecyclerViewAdapter.cs" />
     <Compile Include="Adapter\HomeArticleAdapter.cs" />
     <Compile Include="Adapter\HomeFragmentAdapter.cs" />
+    <Compile Include="Adapter\PhotoAdapter.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Activities\await.cs" />
@@ -114,6 +120,7 @@
     <Compile Include="UI\Activities\DetailArticleActivity.cs" />
     <Compile Include="UI\Activities\LoginActivity.cs" />
     <Compile Include="UI\Activities\MainActivity.cs" />
+    <Compile Include="UI\Activities\PhotoActivity.cs" />
     <Compile Include="UI\Activities\SplashScreenActivity.cs" />
     <Compile Include="UI\Fragments\KbArticlesFragment.cs" />
     <Compile Include="UI\Fragments\NewsFragment.cs" />
@@ -121,7 +128,9 @@
     <Compile Include="UI\Fragments\RecyclerViewDecoration.cs" />
     <Compile Include="UI\Fragments\RecyclerViewFragment.cs" />
     <Compile Include="UI\Fragments\RecyclerviewScroll.cs" />
+    <Compile Include="UI\Widgets\BodyWebViewClient.cs" />
     <Compile Include="UI\Widgets\ImageCircle.cs" />
+    <Compile Include="UI\Widgets\WebViewJSInterface.cs" />
     <Compile Include="Util\AlertUtil.cs" />
     <Compile Include="Util\DateTimeUtil.cs" />
     <Compile Include="Util\HtmlUtil.cs" />
@@ -169,6 +178,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\DetailArticle.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Photo.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_photo.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -318,6 +333,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\search.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_loading.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

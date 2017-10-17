@@ -15,16 +15,17 @@ using Android.Webkit;
 using Android.Support.V4.App;
 using Com.Nostra13.Universalimageloader.Core;
 using Android.Graphics;
+using Cnblogs.XamarinAndroid;
 
 namespace Cnblogs.XamarinAndroid
 {
-    [Activity(Label = "DetailArticleActivity",Theme = "@style/BaseAppTheme")]
+    [Activity(Label = "DetailArticleActivity",Theme = "@style/AppTheme")]
     public class DetailArticleActivity : AppCompatActivity,Toolbar.IOnMenuItemClickListener,View.IOnClickListener
     {
         private Toolbar toolbar;
         private TextView tv_author, tv_postDate, tv_articleTitle;
         private ImageView iv_avatar;
-        private WebView wb_detail;
+        private WebView wb_content;
         private int articleId;
         DisplayImageOptions options;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -41,7 +42,7 @@ namespace Cnblogs.XamarinAndroid
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
                   .ShowImageOnFail(Resource.Drawable.icon_user)
-                  .ShowImageOnLoading(Resource.Drawable.icon_user)
+                  .ShowImageOnLoading(Resource.Drawable.icon_loading)
                   .CacheOnDisk(true)
                   .Displayer(new DisplayerImageCircle(20))
                   .Build();
@@ -50,26 +51,33 @@ namespace Cnblogs.XamarinAndroid
             toolbar.Title = "博客";
             toolbar.SetNavigationIcon(Resource.Drawable.icon_back);
             SetSupportActionBar(toolbar);
+            toolbar.SetNavigationOnClickListener(this);
             tv_author = FindViewById<TextView>(Resource.Id.tv_author);
             tv_postDate = FindViewById<TextView>(Resource.Id.tv_postDate);
-            wb_detail = FindViewById<WebView>(Resource.Id.wb_detail);
+            wb_content = FindViewById<WebView>(Resource.Id.wb_content);
             iv_avatar = FindViewById<ImageView>(Resource.Id.iv_avatar);
             tv_articleTitle = FindViewById<TextView>(Resource.Id.tv_articleTitle);
             
-            wb_detail.Settings.DomStorageEnabled = true;
-            wb_detail.Settings.JavaScriptEnabled = true;//支持js
-            wb_detail.Settings.DefaultTextEncodingName = "utf-8";//设置编码方式utf-8
-            wb_detail.Settings.SetSupportZoom(false);//不可缩放
-            wb_detail.Settings.DisplayZoomControls = false;//隐藏原生的缩放控件
-            wb_detail.Settings.BuiltInZoomControls = false;//设置内置的缩放控件
-            wb_detail.Settings.CacheMode = CacheModes.CacheElseNetwork;
-            wb_detail.ScrollBarStyle = ScrollbarStyles.InsideOverlay;
-            wb_detail.Settings.LoadsImagesAutomatically = true;//支持自动加载图片
-            wb_detail.Settings.UseWideViewPort = true; //将图片调整到合适webview的大小
-            wb_detail.Settings.SetLayoutAlgorithm(WebSettings.LayoutAlgorithm.SingleColumn);
+            wb_content.Settings.DomStorageEnabled = true;
+            wb_content.Settings.JavaScriptEnabled = true;//支持js
+            wb_content.Settings.DefaultTextEncodingName = "utf-8";//设置编码方式utf-8
+            wb_content.Settings.SetSupportZoom(false);//不可缩放
+            wb_content.Settings.DisplayZoomControls = false;//隐藏原生的缩放控件
+            wb_content.Settings.BuiltInZoomControls = false;//设置内置的缩放控件
+            wb_content.Settings.CacheMode = CacheModes.CacheElseNetwork;
+            wb_content.ScrollBarStyle = ScrollbarStyles.InsideOverlay;
+            wb_content.Settings.LoadsImagesAutomatically = true;//支持自动加载图片
+            wb_content.Settings.UseWideViewPort = true; //将图片调整到合适webview的大小
+            wb_content.Settings.SetLayoutAlgorithm(WebSettings.LayoutAlgorithm.SingleColumn);
+            var jsInterface = new  WebViewJSInterface(this);
+            wb_content.SetWebViewClient(ContentWebViewClient.Instance(this));
+            wb_content.AddJavascriptInterface(jsInterface,"openlistner");
+            jsInterface.CallFromPageReceived += delegate (object sender,WebViewJSInterface.CallFromPageReceivedEventArgs e)
+              {
+                  PhotoActivity.Enter(this,e.Result.Split(','),e.Index);
+              };
             articleId = Intent.GetIntExtra("id",0);
             GetClientArticle(articleId);
-            toolbar.SetNavigationOnClickListener(this);
         }
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
@@ -95,7 +103,7 @@ namespace Cnblogs.XamarinAndroid
                 {
                     article.Content = article.Content.ReplaceHtml().Trim('"');
                     string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", article.Content).Replace("#title#", article.Title);
-                    wb_detail.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
+                    wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
                 }
             }
         }
@@ -120,7 +128,7 @@ namespace Cnblogs.XamarinAndroid
                         await SQLiteUtil.UpdateArticle(article);
                         article.Content = article.Content.ReplaceHtml().Trim('"');
                         string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", article.Content).Replace("#title#",article.Title);
-                        wb_detail.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
+                        wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
                     });
                 }
             }

@@ -91,8 +91,15 @@ namespace Cnblogs.XamarinAndroid
             if (result.Success)
             {
                 var articleList = result.Data;
-                await SQLiteUtil.UpdateArticleList(articleList);
-                var model = SQLiteUtil.SelectArticle(1);
+                try
+                {
+                    await SQLiteUtil.UpdateArticleList(articleList);
+                    var model = SQLiteUtil.SelectArticle(1);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Write(ex.ToString());
+                }
                 adapter = new BaseRecyclerViewAdapter<Article>(this.Activity, articleList, Resource.Layout.item_fragment_article);
                 _recyclerView.SetAdapter(adapter);
                 adapter.ItemClick += (position,tag) =>

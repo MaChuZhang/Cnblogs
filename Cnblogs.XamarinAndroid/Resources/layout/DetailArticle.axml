@@ -13,9 +13,8 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
             android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:contentInsetStartWithNavigation="0dp"
@@ -89,7 +88,7 @@
             <android.webkit.WebView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/wb_detail"
+                android:id="@+id/wb_content"
                 android:padding="@dimen/dp10"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

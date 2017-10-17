@@ -62,14 +62,14 @@ namespace Cnblogs.XamarinAndroid
                     _statusBarView.SetBackgroundColor(primaryColor);
                     return;
                 }
-               if (_statusBarView != null)
-                {
-                   ViewCompat.SetFitsSystemWindows(_statusBarView,false);
-                }
+               //if (_statusBarView != null)
+               // {
+               //    ViewCompat.SetFitsSystemWindows(_statusBarView,false);
+               // }
                 _statusBarView = new View(activity);
                 ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, GetStatusBarHeight(activity));
                 _statusBarView.SetBackgroundColor(primaryColor);//填充的到状态栏的view设置颜色
-               // contentView.AddView(_statusBarView,0, lp);
+                contentView.AddView(_statusBarView,0, lp);
             }
             private static int GetStatusBarHeight(Context context)
             {

@@ -21,7 +21,7 @@ using Cnblogs.XamarinAndroid;
 
 namespace Cnblogs.XamarinAndroid.UI.Activities
 {
-    [Activity(Label = "LoginActivity",Theme = "@style/BaseAppTheme")]
+    [Activity(Label = "LoginActivity",Theme = "@style/AppTheme")]
     public class LoginActivity : BaseActivity
     {
         protected override int LayoutResourceId
