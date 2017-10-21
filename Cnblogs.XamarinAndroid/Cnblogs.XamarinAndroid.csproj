@@ -27,9 +27,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
     <BundleAssemblies>False</BundleAssemblies>
     <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
     <Debugger>Xamarin</Debugger>
@@ -220,10 +220,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Xamarin-Bindings-Android-Universal-Image-Loader\src\Universalimageloader.Binding\UniversalImageLoader\UniversalImageLoader.csproj">
-      <Project>{b3a4fc42-23fd-4ad3-89ef-1265a2032adc}</Project>
-      <Name>UniversalImageLoader</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ClassLibrary1\Cnblogs.HttpClient.csproj">
       <Project>{40f9a8f1-7ce6-404d-81d0-1f4d3e09ced5}</Project>
       <Name>Cnblogs.HttpClient</Name>
@@ -231,6 +227,10 @@
     <ProjectReference Include="..\Cnblogs.ApiModel\Cnblogs.ApiModel.csproj">
       <Project>{f8b13117-3453-42ce-90cb-936388c94fdd}</Project>
       <Name>Cnblogs.ApiModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UniversalImageLoader\UniversalImageLoader.csproj">
+      <Project>{b3a4fc42-23fd-4ad3-89ef-1265a2032adc}</Project>
+      <Name>UniversalImageLoader</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

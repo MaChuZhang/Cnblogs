@@ -24,7 +24,7 @@ namespace Cnblogs.XamarinAndroid
     public class MainActivity : BaseActivity,Toolbar.IOnMenuItemClickListener
     {
         private DateTime ? firstBackTime; //第一次单击返回
-        private Toolbar _toolbar;
+        //private Toolbar _toolbar;
 
         private NewsFragment _newsFragment;
         private HomeFragment _homeFragment;
@@ -32,13 +32,8 @@ namespace Cnblogs.XamarinAndroid
         private FragmentManager _fm;
         private TextView tv_news,tv_kbArticles,tv_qa,tv_shancun;
         private RecyclerView _recyclerView;
-        protected override int LayoutResourceId
-        {
-            get
-            {
-                return Resource.Layout.Main;
-            }
-        }
+        protected override int LayoutResourceId => Resource.Layout.Main;
+        protected override string ToolBarTitle =>Resources.GetString(Resource.String.ToolBar_Title_Cnblogs);
 
         protected override async void OnCreate(Bundle bundle)
         {
@@ -46,17 +41,16 @@ namespace Cnblogs.XamarinAndroid
             ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();//初始化图片加载框架
             ImageLoader.Instance.Init(configuration);
             StatusBarUtil.SetColorStatusBars(this);
-
-            _toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            _toolbar.Title = Resources.GetString(Resource.String.CnblogsTitle);
+            //  _toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            // _toolbar.Title = Resources.GetString(Resource.String.CnblogsTitle);
             _fm = SupportFragmentManager;
-               SetSupportActionBar(_toolbar);
+            // SetSupportActionBar(_toolbar);
             tv_news = FindViewById<TextView>(Resource.Id.tv_news);
                 tv_qa = FindViewById<TextView>(Resource.Id.tv_qa);
                 tv_shancun = FindViewById<TextView>(Resource.Id.tv_shancun);
                 tv_kbArticles = FindViewById<TextView>(Resource.Id.tv_kbArticles);
-                tv_news.Selected = true;
                 BindViewsClick();
+               tv_news.PerformClick();
         }
         void SetUnSelected()
         {

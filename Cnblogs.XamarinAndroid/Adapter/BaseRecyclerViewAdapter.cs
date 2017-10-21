@@ -23,7 +23,7 @@ namespace Cnblogs.XamarinAndroid
         {
             this.context = context;
             views = new SparseArray<View>(8);
-            ItemView.Click += (s, e) => listener(base.Position,ItemView.Tag.ToString());
+            ItemView.Click += (s, e) => listener(base.Position,itemView.Tag.ToString());
         }
         public static BaseHolder GetRecyclerHolder(Context context, View itemView, Action<int,string> listener)
         {
@@ -49,19 +49,27 @@ namespace Cnblogs.XamarinAndroid
             tv.Text = text;
             return this;
         }
-        public BaseHolder SetImageLoader(int viewId,string  ivUrl, DisplayImageOptions options)
+        public BaseHolder SetImageLoader(int viewId, DisplayImageOptions options)
         {
             ImageView iv = GetView<ImageView>(viewId);
-            if (!ivUrl.Substring(ivUrl.Length - 4, 4).Contains(".png"))
+            string url = iv.Tag.ToString();
+            System.Diagnostics.Debug.Write("imgaeUrl",url);
+            if (!url.Substring(url.Length - 4, 4).Contains(".png"))
                 iv.SetImageResource(Resource.Drawable.noavatar);
             else
-                ImageLoader.Instance.DisplayImage(ivUrl, iv, options);
+                ImageLoader.Instance.DisplayImage(url, iv, options);
             return this;
         }
         public BaseHolder SetTag(int viewId, string id)
         {
             LinearLayout tv = GetView<LinearLayout>(viewId);
             tv.Tag = id;
+            return this;
+        }
+        public BaseHolder SetTagUrl(int viewId,string  url)
+        {
+            ImageView iv = GetView<ImageView>(viewId);
+            iv.Tag = url;
             return this;
         }
     }
@@ -114,6 +122,7 @@ namespace Cnblogs.XamarinAndroid
             {
                  BaseHolder myHolder = holder as BaseHolder;
                 //myHolder.ItemView.Tag = position;
+                //myHolder.
                 OnConvertView(myHolder, position);
             }
         }

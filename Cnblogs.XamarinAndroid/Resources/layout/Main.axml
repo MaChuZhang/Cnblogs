@@ -19,8 +19,7 @@
             android:minHeight="?attr/actionBarSize"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
            android:contentInsetStartWithNavigation="0dp"
-          app:layout_scrollFlags="scroll|enterAlways|snap"
-        />
+          app:layout_scrollFlags="scroll|enterAlways|snap"/>
       </android.support.design.widget.AppBarLayout>
 <!--主布局-->
     <FrameLayout

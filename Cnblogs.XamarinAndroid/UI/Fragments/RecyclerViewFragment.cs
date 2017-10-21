@@ -117,14 +117,15 @@ namespace Cnblogs.XamarinAndroid
                 {
                     holder.SetText(Resource.Id.tv_author, articleList[position].Author);
                     holder.SetText(Resource.Id.tv_postDate, articleList[position].PostDate.ToCommonString());
-                    holder.SetText(Resource.Id.tv_viewCount, articleList[position].ViewCount.ToString() + " " + read);
-                    holder.SetText(Resource.Id.tv_commentCount, articleList[position].CommentCount.ToString() + " " + comment);
+                    holder.SetText(Resource.Id.tv_viewCount, articleList[position].ViewCount + " " + read);
+                    holder.SetText(Resource.Id.tv_commentCount, articleList[position].CommentCount + " " + comment);
                     holder.SetText(Resource.Id.tv_description, articleList[position].Description);
-                    holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount.ToString() + " " + digg);
-                    holder.SetText(Resource.Id.tv_title, articleList[position].Title.ToString());
+                    holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount + " " + digg);
+                    holder.SetText(Resource.Id.tv_title, articleList[position].Title);
                     holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
+                    holder.SetTagUrl(Resource.Id.iv_avatar,articleList[position].Avatar);
                     //ImageLoader.Instance.DisplayImage(articleList[position].Avatar, Resource.Id.iv_avatar);
-                    holder.SetImageLoader(Resource.Id.iv_avatar,articleList[position].Avatar,options);
+                    holder.SetImageLoader(Resource.Id.iv_avatar,options);
                 };
             }
             else {

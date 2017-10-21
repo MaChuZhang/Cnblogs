@@ -8,6 +8,10 @@
     <string name="CsdnTitle">CSDN</string>
     <string name="CsdnSubTitle">不止于代码</string>
 
+  <!--toolbar-->
+  <string name="ToolBar_Title_Cnblogs">博客园</string>
+  <string name="ToolBar_Title_Blog">博客</string>
+  
   <string name="ClickLogin">点击头像登录</string>
   <!--菜单-->
   <string name="bolgs">博客</string>

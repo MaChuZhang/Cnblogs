@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cnblogs.ApiModel", "Cnblogs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cnblogs.HttpClient", "ClassLibrary1\Cnblogs.HttpClient.csproj", "{40F9A8F1-7CE6-404D-81D0-1F4D3E09CED5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalImageLoader", "..\Xamarin-Bindings-Android-Universal-Image-Loader\src\Universalimageloader.Binding\UniversalImageLoader\UniversalImageLoader.csproj", "{B3A4FC42-23FD-4AD3-89EF-1265A2032ADC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalImageLoader", "UniversalImageLoader\UniversalImageLoader.csproj", "{B3A4FC42-23FD-4AD3-89EF-1265A2032ADC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

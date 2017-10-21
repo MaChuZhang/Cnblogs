@@ -20,7 +20,7 @@ using Cnblogs.XamarinAndroid;
 namespace Cnblogs.XamarinAndroid
 {
     [Activity(Label = "DetailArticleActivity",Theme = "@style/AppTheme")]
-    public class DetailArticleActivity : AppCompatActivity,Toolbar.IOnMenuItemClickListener,View.IOnClickListener
+    public class DetailArticleActivity : BaseActivity,Toolbar.IOnMenuItemClickListener
     {
         private Toolbar toolbar;
         private TextView tv_author, tv_postDate, tv_articleTitle;
@@ -28,10 +28,14 @@ namespace Cnblogs.XamarinAndroid
         private WebView wb_content;
         private int articleId;
         DisplayImageOptions options;
+
+        protected override int LayoutResourceId => Resource.Layout.DetailArticle;
+
+        protected override string ToolBarTitle => Resources.GetString(Resource.String.ToolBar_Title_Blog);
+        
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.DetailArticle);
             // Create your application here
             StatusBarUtil.SetColorStatusBars(this);
             ImageLoaderConfiguration configuration =new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();//³õÊ¼»¯Í¼Æ¬¼ÓÔØ¿ò¼Ü
@@ -46,12 +50,11 @@ namespace Cnblogs.XamarinAndroid
                   .CacheOnDisk(true)
                   .Displayer(new DisplayerImageCircle(20))
                   .Build();
-            
-            toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            toolbar.Title = "²©¿Í";
-            toolbar.SetNavigationIcon(Resource.Drawable.icon_back);
-            SetSupportActionBar(toolbar);
-            toolbar.SetNavigationOnClickListener(this);
+            SetNavIcon(Resource.Drawable.icon_back);
+            //toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            //toolbar.Title = "²©¿Í";
+         //  toolbar.(Resource.Drawable.icon_back);
+           // SetSupportActionBar(toolbar);
             tv_author = FindViewById<TextView>(Resource.Id.tv_author);
             tv_postDate = FindViewById<TextView>(Resource.Id.tv_postDate);
             wb_content = FindViewById<WebView>(Resource.Id.wb_content);
@@ -143,9 +146,9 @@ namespace Cnblogs.XamarinAndroid
             throw new NotImplementedException();
         }
 
-        public void OnClick(View v)
-        {
-            ActivityCompat.FinishAfterTransition(this);
-        }
+        //public void OnClick(View v)
+        //{
+        //    ActivityCompat.FinishAfterTransition(this);
+        //}
     }
 }

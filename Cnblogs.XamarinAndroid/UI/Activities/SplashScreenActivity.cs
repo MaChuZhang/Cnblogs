@@ -11,19 +11,14 @@ using Android.Views;
 using Android.Widget;
 using Cnblogs.XamarinAndroid.Util;
 using Cnblogs.HttpClient;
+using Android.Support.V7.App;
 
 namespace Cnblogs.XamarinAndroid.UI.Activities
 {
     [Activity(Label = "SplashScreenActivity", Theme = "@style/SplashScreen", MainLauncher = true)]
-    public class SplashScreenActivity : BaseActivity
+    public class SplashScreenActivity : AppCompatActivity
     {
-        protected override int LayoutResourceId
-        {
-            get
-            {
-                return Resource.Layout.SplashScreen;
-            }
-        }
+  
 
         protected override async void OnCreate(Bundle savedInstanceState)
         {

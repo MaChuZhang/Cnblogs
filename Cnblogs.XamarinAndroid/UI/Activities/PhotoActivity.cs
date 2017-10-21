@@ -38,11 +38,11 @@ namespace Cnblogs.XamarinAndroid
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
                   .ShowImageOnFail(Resource.Drawable.Icon)
-                  .CacheInMemory(false)
+                  .CacheInMemory(true)
                   .BitmapConfig(Android.Graphics.Bitmap.Config.Rgb565)
                   .ShowImageOnFail(Resource.Drawable.noavatar)
                   .ShowImageOnLoading(Resource.Drawable.icon_loading)
-                  .CacheOnDisk(false)
+                  .CacheOnDisk(true)
                   .Build();
 
             List<string> urls = Intent.GetStringArrayExtra("urls").ToList();
