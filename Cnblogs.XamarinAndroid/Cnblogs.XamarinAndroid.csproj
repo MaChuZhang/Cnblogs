@@ -129,6 +129,7 @@
     <Compile Include="UI\Fragments\RecyclerViewFragment.cs" />
     <Compile Include="UI\Fragments\RecyclerviewScroll.cs" />
     <Compile Include="UI\Widgets\BodyWebViewClient.cs" />
+    <Compile Include="UI\Widgets\BottomBehavior.cs" />
     <Compile Include="UI\Widgets\ImageCircle.cs" />
     <Compile Include="UI\Widgets\WebViewJSInterface.cs" />
     <Compile Include="Util\AlertUtil.cs" />
@@ -184,6 +185,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\item_photo.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_article_bottom.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -342,6 +346,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_loading.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\selectable_item_background_general.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

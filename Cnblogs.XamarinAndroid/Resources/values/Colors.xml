@@ -13,4 +13,8 @@
 
 <color name="subTitleGray">#8a8a8a</color>
 <color name="titleDrak">#000000</color>
+
+  <color name="selectable_item_background_general_normal">@android:color/white</color>
+  <color name="selectable_item_background_general_pressed">#ffeeeeee</color>
+  <color name="selectable_item_background_general_ripple">#ffcccccc</color>
 </resources>
