@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/f1f1f1">
-  <item android:drawable="@color/white"/>
+  <item android:drawable="@color/selectable_item_background_pressed" />
 </ripple>

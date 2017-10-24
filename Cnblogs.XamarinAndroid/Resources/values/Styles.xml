@@ -7,7 +7,7 @@
     <item name="colorPrimaryDark">@color/primaryDark</item>
     <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
     <item name="android:listDivider">@drawable/shape_divider</item>
-    <item name="selectableItemBackgroundGeneral">@drawable/selectable_item_background_general</item>
+    <item name="selectableItemBackgroundRipple">@drawable/selector_item_background</item>
   </style>
 
   <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
@@ -50,6 +50,15 @@
     <item name="android:textColor">@drawable/selector_menu_textColor</item>
     <item name="android:paddingTop">@dimen/dp10</item>
     <item name="android:clickable">true</item>
+  </style>
+
+  <style name="BottomText">
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:layout_width">@dimen/dp80</item>
+    <item name="android:gravity">center</item>
+    <item name="android:textSize">@dimen/TextSmall</item>
+    <item name="android:textColor">@drawable/selector_menu_textColor</item>
+    <item name="android:paddingTop">@dimen/dp10</item>
   </style>
   
   <color name="progressBackground">#dedede</color>

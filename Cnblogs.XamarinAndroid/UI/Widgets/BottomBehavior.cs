@@ -14,50 +14,43 @@ using Android.Support.V4.View.Animation;
 using Android.Views.Animations;
 using Android.Support.Design.Widget;
 using Android.Util;
+using Java.Lang;
 
 namespace Cnblogs.XamarinAndroid.UI.Widgets
 {
-    public enum ScrollDirection
-    {
-        Up=1,Down=-1,None=0
+    public enum ScrollDirection {
+        Down=0,
+        Up=1,
+        None=2
     }
-    [Register("Cnblogs.XamarinAndroid.Cnblogs.XamarinAndroid6/UI/Widgets/BottomBehavior")]
     public class BottomBehavior: CoordinatorLayout.Behavior
     {
-        private int totalDy = 0;
-        private ScrollDirection scrollDirection = ScrollDirection.None;
-        private static readonly IInterpolator InInterpolator = new LinearOutSlowInInterpolator();
         private ViewPropertyAnimatorCompat translationAnimator;
-        private readonly int defaultOffset = 0;
-        private bool scrollingEnabled = true;
+        private static readonly IInterpolator InInterpolator = new LinearOutSlowInInterpolator();
+        private ScrollDirection _scrollDirection = ScrollDirection.None;
+        private float targetY = -1;
         public BottomBehavior() : base(){
 
         }
         public BottomBehavior(Context context, IAttributeSet attrs) : base(context, attrs)
         {
-        }
 
-        private void HandleDirection(View child, ScrollDirection scrollDirection)
-        {
-            if (!scrollingEnabled)
-                return;
-            if (scrollDirection == ScrollDirection.Down)
-            {
-                AnimateOffset(child, defaultOffset);
-            }
-            else if (scrollDirection == ScrollDirection.Up)
-            {
-                AnimateOffset(child, child.Height + defaultOffset);
-            }
         }
-
-        private void AnimateOffset(View child, int offset)
-        {
-            EnsureOrCancelAnimator(child);
-            translationAnimator.TranslationY(offset).Start();
-        }
-
-        private void EnsureOrCancelAnimator(View child)
+        //public override bool LayoutDependsOn(CoordinatorLayout parent, Java.Lang.Object child, View dependency)
+        //{
+        //    var s = dependency is AppBarLayout;
+        //    return base.LayoutDependsOn(parent, child, dependency);
+        //}
+        //public override bool OnDependentViewChanged(CoordinatorLayout parent, Java.Lang.Object child, View dependency)
+        //{
+        //    //float scaleY = System.Math.Abs(dependency.GetY());
+        //    //View _child = child as View;
+        //    ////child.TranslationY
+        //    //AnimateOffset(_child);
+        //    return true;
+        //    // return base.OnDependentViewChanged(parent, child, dependency);
+        //}
+        void AnimateOffset(View child , ScrollDirection scrollDirection)
         {
             if (translationAnimator == null)
             {
@@ -69,63 +62,45 @@ namespace Cnblogs.XamarinAndroid.UI.Widgets
             {
                 translationAnimator.Cancel();
             }
+            if (scrollDirection == ScrollDirection.Up)
+            {
+                translationAnimator.TranslationY(child.Height).Start();
+            }
+            else if (scrollDirection == ScrollDirection.Down)
+            {
+                translationAnimator.TranslationY(0).Start();
+            }
         }
-
-        #region
         public override bool OnStartNestedScroll(CoordinatorLayout coordinatorLayout, Java.Lang.Object child, View directTargetChild, View target, int nestedScrollAxes)
         {
-            return (nestedScrollAxes & (int)ScrollAxis.Vertical) != 0;
+            //return base.OnStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
+            if (targetY == -1)
+            {
+                targetY = target.GetY();
+            }
+            return nestedScrollAxes != 0;
         }
-
-        public override void OnNestedScrollAccepted(CoordinatorLayout coordinatorLayout, Java.Lang.Object child, View directTargetChild, View target, int nestedScrollAxes)
-        {
-            base.OnNestedScrollAccepted(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
-        }
-
-        public override void OnStopNestedScroll(CoordinatorLayout coordinatorLayout, Java.Lang.Object child, View target)
-        {
-            base.OnStopNestedScroll(coordinatorLayout, child, target);
-        }
-
-        public override void OnNestedScroll(CoordinatorLayout coordinatorLayout, Java.Lang.Object child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed)
-        {
-            base.OnNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-        }
-
         public override void OnNestedPreScroll(CoordinatorLayout coordinatorLayout, Java.Lang.Object child, View target, int dx, int dy, int[] consumed)
         {
+            System.Diagnostics.Debug.Write("dy",dy>0?dy+"方向是上滑":dy+"方向是下滑");
             base.OnNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
-            if (dy > 0 && totalDy < 0)
+            if (dy > 0)
             {
-                totalDy = 0;
-                scrollDirection = ScrollDirection.Up;
+                _scrollDirection = ScrollDirection.Up;
             }
-            else if (dy < 0 && totalDy >= 0)
+            else if (dy < 0)
             {
-                totalDy = 0;
-               scrollDirection = ScrollDirection.Down;
+                _scrollDirection = ScrollDirection.Down;
             }
-            totalDy += dy;
-            HandleDirection(child as View, scrollDirection);
+            AnimateOffset(child as View, _scrollDirection);
         }
-
         public override bool OnNestedFling(CoordinatorLayout coordinatorLayout, Java.Lang.Object child, View target, float velocityX, float velocityY, bool consumed)
         {
-            base.OnNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
-            scrollDirection = velocityY > 0 ? ScrollDirection.Up : ScrollDirection.Down;
-            HandleDirection(child as View, scrollDirection);
+            //return base.OnNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
+            _scrollDirection = velocityY > 0 ? ScrollDirection.Up : ScrollDirection.Down;
+            AnimateOffset(child as View,_scrollDirection);
             return true;
         }
 
-        public override bool OnNestedPreFling(CoordinatorLayout coordinatorLayout, Java.Lang.Object child, View target, float velocityX, float velocityY)
-        {
-            return base.OnNestedPreFling(coordinatorLayout, child, target, velocityX, velocityY);
-        }
-
-        public override WindowInsetsCompat OnApplyWindowInsets(CoordinatorLayout coordinatorLayout, Java.Lang.Object child, WindowInsetsCompat insets)
-        {
-            return base.OnApplyWindowInsets(coordinatorLayout, child, insets);
-        }
-        #endregion
     }
 }

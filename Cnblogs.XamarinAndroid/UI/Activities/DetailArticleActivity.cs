@@ -23,12 +23,15 @@ namespace Cnblogs.XamarinAndroid
     public class DetailArticleActivity : BaseActivity,Toolbar.IOnMenuItemClickListener
     {
         private Toolbar toolbar;
-        private TextView tv_author, tv_postDate, tv_articleTitle;
+        private TextView tv_author, tv_postDate, tv_articleTitle,tv_view;
         private ImageView iv_avatar;
         private WebView wb_content;
         private int articleId;
         DisplayImageOptions options;
-
+        private Button btn_comment;
+        private Button btn_digg;
+        private Button btn_mark;
+        
         protected override int LayoutResourceId => Resource.Layout.DetailArticle;
 
         protected override string ToolBarTitle => Resources.GetString(Resource.String.ToolBar_Title_Blog);
@@ -60,7 +63,11 @@ namespace Cnblogs.XamarinAndroid
             wb_content = FindViewById<WebView>(Resource.Id.wb_content);
             iv_avatar = FindViewById<ImageView>(Resource.Id.iv_avatar);
             tv_articleTitle = FindViewById<TextView>(Resource.Id.tv_articleTitle);
-            
+            btn_comment = FindViewById<Button>(Resource.Id.btn_comment);
+            btn_digg = FindViewById<Button>(Resource.Id.btn_digg);
+            btn_mark = FindViewById<Button>(Resource.Id.btn_mark);
+            tv_view = FindViewById<TextView>(Resource.Id.tv_view);
+
             wb_content.Settings.DomStorageEnabled = true;
             wb_content.Settings.JavaScriptEnabled = true;//支持js
             wb_content.Settings.DefaultTextEncodingName = "utf-8";//设置编码方式utf-8
@@ -76,9 +83,9 @@ namespace Cnblogs.XamarinAndroid
             wb_content.SetWebViewClient(ContentWebViewClient.Instance(this));
             wb_content.AddJavascriptInterface(jsInterface,"openlistner");
             jsInterface.CallFromPageReceived += delegate (object sender,WebViewJSInterface.CallFromPageReceivedEventArgs e)
-              {
+            {
                   PhotoActivity.Enter(this,e.Result.Split(','),e.Index);
-              };
+            };
             articleId = Intent.GetIntExtra("id",0);
             GetClientArticle(articleId);
         }
@@ -96,6 +103,9 @@ namespace Cnblogs.XamarinAndroid
                 tv_author.Text = article.Author;
                 tv_postDate.Text = article.PostDate.ToCommonString();
                 tv_articleTitle.Text = article.Title;
+                tv_view.Text = article.ViewCount.ToString();
+                btn_digg.Text = article.Diggcount.ToString();
+                btn_comment.Text = article.CommentCount.ToString();
                 if (!article.Avatar.Substring(article.Avatar.Length - 4, 4).Contains(".png"))
                     iv_avatar.SetImageResource(Resource.Drawable.noavatar);
                 else

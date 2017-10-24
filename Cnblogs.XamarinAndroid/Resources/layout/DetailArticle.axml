@@ -92,4 +92,5 @@
                 android:padding="@dimen/dp10"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+    <include layout="@layout/item_article_bottom"/>
 </android.support.design.widget.CoordinatorLayout>
