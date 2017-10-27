@@ -6,7 +6,7 @@
     <item name="colorPrimary">@color/primary</item>
     <item name="colorPrimaryDark">@color/primaryDark</item>
     <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
-    <item name="android:listDivider">@drawable/shape_divider</item>
+    <!--<item name="android:listDivider">@drawable/shape_divider</item>-->
     <item name="selectableItemBackgroundRipple">@drawable/selector_item_background</item>
   </style>
 

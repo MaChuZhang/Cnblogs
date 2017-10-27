@@ -27,9 +27,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
     <BundleAssemblies>False</BundleAssemblies>
     <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
     <Debugger>Xamarin</Debugger>
@@ -131,6 +131,8 @@
     <Compile Include="UI\Widgets\BodyWebViewClient.cs" />
     <Compile Include="UI\Widgets\BottomBehavior.cs" />
     <Compile Include="UI\Widgets\ImageCircle.cs" />
+    <Compile Include="UI\Widgets\RecyclerViewOnScrollListtener.cs" />
+    <Compile Include="UI\Widgets\UMengShareWidget.cs" />
     <Compile Include="UI\Widgets\WebViewJSInterface.cs" />
     <Compile Include="Util\AlertUtil.cs" />
     <Compile Include="Util\DateTimeUtil.cs" />
@@ -190,6 +192,9 @@
     <AndroidResource Include="Resources\layout\item_article_bottom.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_recyclerView_foot.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">
@@ -224,6 +229,10 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\git\Cnblogs\UMeng.Shares\UMeng.Shares.csproj">
+      <Project>{beacbc23-e993-487a-b676-c17d1c900c89}</Project>
+      <Name>UMeng.Shares</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ClassLibrary1\Cnblogs.HttpClient.csproj">
       <Project>{40f9a8f1-7ce6-404d-81d0-1f4d3e09ced5}</Project>
       <Name>Cnblogs.HttpClient</Name>
@@ -231,6 +240,10 @@
     <ProjectReference Include="..\Cnblogs.ApiModel\Cnblogs.ApiModel.csproj">
       <Project>{f8b13117-3453-42ce-90cb-936388c94fdd}</Project>
       <Name>Cnblogs.ApiModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UMeng\UMeng.csproj">
+      <Project>{5dab46db-1265-4c24-9a3d-30e2d7a6738d}</Project>
+      <Name>UMeng</Name>
     </ProjectReference>
     <ProjectReference Include="..\UniversalImageLoader\UniversalImageLoader.csproj">
       <Project>{b3a4fc42-23fd-4ad3-89ef-1265a2032adc}</Project>
@@ -367,6 +380,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\selector_item_background.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_app.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

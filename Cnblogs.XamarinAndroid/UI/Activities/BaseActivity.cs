@@ -16,7 +16,7 @@ using Android.Support.V4.App;
 namespace Cnblogs.XamarinAndroid
 {
     [Activity]
-    public abstract class BaseActivity : AppCompatActivity,View.IOnClickListener
+    public abstract class BaseActivity : AppCompatActivity,View.IOnClickListener, Toolbar.IOnMenuItemClickListener
     {
         private Toolbar toolbar;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -26,7 +26,9 @@ namespace Cnblogs.XamarinAndroid
             SetContentView(LayoutResourceId);
             toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             toolbar.Title = ToolBarTitle;
+        
             SetSupportActionBar(toolbar);
+            toolbar.SetOnMenuItemClickListener(this);
             // Create your application here
         }
         protected abstract int LayoutResourceId
@@ -45,6 +47,12 @@ namespace Cnblogs.XamarinAndroid
         public void OnClick(View v)
         {
             ActivityCompat.FinishAfterTransition(this);
+        }
+
+        public virtual bool OnMenuItemClick(IMenuItem item)
+        {
+            // throw new NotImplementedException();
+            return true;
         }
     }
 }

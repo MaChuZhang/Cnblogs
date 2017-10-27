@@ -12,11 +12,11 @@ namespace Cnblogs.HttpClient
 {
     public class ArticleRequest
     {
-        public static async Task<ApiResult<List<Article>>> GetArticleList(Token token)
+        public static async Task<ApiResult<List<Article>>> GetArticleList(Token token,int pageIndex)
         {
             try
             {
-                string url = string.Format(Constact.SiteHomeArticleList, 1,10);
+                string url = string.Format(Constact.SiteHomeArticleList, pageIndex,10);
                 var result=await HttpBase.GetAsync(url,null,token);
                 if (result.IsSuccess)
                 {

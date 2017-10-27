@@ -16,13 +16,16 @@ using Android.Support.V4.App;
 using Com.Nostra13.Universalimageloader.Core;
 using Android.Graphics;
 using Cnblogs.XamarinAndroid;
+using Cnblogs.ApiModel;
+using Com.Umeng.Socialize;
+using Cnblogs.XamarinAndroid.UI.Widgets;
 
 namespace Cnblogs.XamarinAndroid
 {
     [Activity(Label = "DetailArticleActivity",Theme = "@style/AppTheme")]
-    public class DetailArticleActivity : BaseActivity,Toolbar.IOnMenuItemClickListener
+    public class DetailArticleActivity : BaseActivity
     {
-        private Toolbar toolbar;
+        //private Toolbar toolbar;
         private TextView tv_author, tv_postDate, tv_articleTitle,tv_view;
         private ImageView iv_avatar;
         private WebView wb_content;
@@ -31,6 +34,8 @@ namespace Cnblogs.XamarinAndroid
         private Button btn_comment;
         private Button btn_digg;
         private Button btn_mark;
+        private Article article;
+        private UMengShareWidget shareWidget;
         
         protected override int LayoutResourceId => Resource.Layout.DetailArticle;
 
@@ -88,16 +93,17 @@ namespace Cnblogs.XamarinAndroid
             };
             articleId = Intent.GetIntExtra("id",0);
             GetClientArticle(articleId);
+            shareWidget = new UMengShareWidget(this);
         }
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.share,menu);
-            return base.OnCreateOptionsMenu(menu);
+            return  true;
         }
 
         async void GetClientArticle(int id)
         {
-            var article = await SQLiteUtil.SelectArticle(id);
+             article = await SQLiteUtil.SelectArticle(id);
             if (article != null)
             {
                 tv_author.Text = article.Author;
@@ -136,7 +142,7 @@ namespace Cnblogs.XamarinAndroid
                 {
                     await SQLiteUtil.SelectArticle(id).ContinueWith(async (r) =>
                     {
-                        var article = r.Result;
+                        article = r.Result;
                         article.Content = result.Data;
                         await SQLiteUtil.UpdateArticle(article);
                         article.Content = article.Content.ReplaceHtml().Trim('"');
@@ -151,9 +157,19 @@ namespace Cnblogs.XamarinAndroid
             }
         }
 
-        public bool OnMenuItemClick(IMenuItem item)
+        public override bool OnMenuItemClick(IMenuItem item)
         {
-            throw new NotImplementedException();
+            if (article != null)
+            {
+                // sharesWidget
+                shareWidget.Open(article.Url,article.Title);
+            }
+            return true;
+        }
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode,resultCode,data);
+            UMShareAPI.Get(this).OnActivityResult(requestCode,(int)resultCode,data);
         }
 
         //public void OnClick(View v)

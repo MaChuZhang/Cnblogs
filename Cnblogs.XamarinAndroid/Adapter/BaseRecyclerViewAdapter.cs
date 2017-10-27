@@ -74,6 +74,14 @@ namespace Cnblogs.XamarinAndroid
         }
     }
 
+    public class FootViewHolder : RecyclerView.ViewHolder
+    {
+        public FootViewHolder(View view) : base(view)
+        {
+        }
+    }
+
+
     public class BaseRecyclerViewAdapter<T> : RecyclerView.Adapter
     {
             private Context context; //上下文
@@ -84,17 +92,22 @@ namespace Cnblogs.XamarinAndroid
             public delegate void Convert(BaseHolder holder, int position);
             public event Convert OnConvertView;
             public Action<int,string> ItemClick; //单击事件
-
-            public override int ItemCount
+            private const int VIEW_ITEM = 0;
+            private const int VIEW_FOOTER = 1;
+        public override int ItemCount
             {
                 get
                 {
-                    return list.Count;
-                }
+                   return list.Count;
+               }
             }
+        public override int GetItemViewType(int position)
+        {
+            return VIEW_ITEM;
+        }
 
-            //在RecyclerView提供数据的时候调用
-            public override void OnAttachedToRecyclerView(RecyclerView recyclerView)
+        //在RecyclerView提供数据的时候调用
+        public override void OnAttachedToRecyclerView(RecyclerView recyclerView)
             {
                 base.OnAttachedToRecyclerView(recyclerView);
                 this._recyclerView = recyclerView;
@@ -104,20 +117,21 @@ namespace Cnblogs.XamarinAndroid
                 base.OnDetachedFromRecyclerView(recyclerView);
                 this._recyclerView = null;
             }
-
             public BaseRecyclerViewAdapter(Context context, List<T> list, int itemLayoutId)
             {
                 this.context = context;
                 this.list = list;
-                this.itemLayoutId = itemLayoutId;
+               this.itemLayoutId = itemLayoutId;
                 inflater = LayoutInflater.From(context);
             }
-            public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
-            {
+        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            
                 View view = inflater.Inflate(itemLayoutId, parent, false);
                 //view.Click += AdapterItemClick;
                 return BaseHolder.GetRecyclerHolder(context, view, ItemClick);
-            }
+            //return null; 
+        }
             public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
             {
                  BaseHolder myHolder = holder as BaseHolder;
