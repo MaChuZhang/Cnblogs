@@ -30,12 +30,12 @@ namespace Cnblogs.XamarinAndroid
         private RecyclerView _recyclerView;
         private SwipeRefreshLayout _swipeRefreshLayout;
         private BaseRecyclerViewAdapter<Article> adapter;
-        private LinearLayout ly_menu;
         public int position;
         private DisplayImageOptions options;
         private int pageIndex = 1;
         private List<Article> articleList = new List<Article>();
         private bool isLoadingMore;
+        private LinearLayout recyclerView_foot;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -66,7 +66,7 @@ namespace Cnblogs.XamarinAndroid
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
              base.OnCreateView(inflater, container, savedInstanceState);
-            ly_menu = Activity.FindViewById<LinearLayout>(Resource.Id.ly_menu);
+         //   recyclerView_foot = Activity.FindViewById<LinearLayout>(Resource.Id.recyclerView_foot);
             return inflater.Inflate(Resource.Layout.fragment_recyclerview,container,false);
         }
 
@@ -82,30 +82,36 @@ namespace Cnblogs.XamarinAndroid
                
             });
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
-            _recyclerView.SetLayoutManager(new LinearLayoutManager(this.Activity));
+            _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
             _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
-            await listArticleServer();
+
+            articleList = await listArticleServer(1);
             
-            articleList = await listArticleLocal();
+            //articleList = await listArticleLocal();
             if (articleList != null)
             {
                 initRecycler();
             }
-            RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(_swipeRefreshLayout, new LinearLayoutManager(Activity), adapter, LoadMore, isLoadingMore);
+            RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(_swipeRefreshLayout,(Android.Support.V7.Widget.LinearLayoutManager)_recyclerView.GetLayoutManager(), adapter, LoadMore, isLoadingMore);
             _recyclerView.AddOnScrollListener(scroll);
         }
         private async void LoadMore()
         {
-            pageIndex += 1;
-            articleList = await listArticleServer();
+            pageIndex  =pageIndex+1;
+            var tempList = await listArticleServer(pageIndex);
+            articleList.AddRange(tempList);
             if (articleList != null)
             {
+                 //recyclerView_foot.Visibility = ViewStates.Visible;
                 adapter.NotifyDataSetChanged();
+                adapter.NotifyItemRemoved(articleList.Count+1);
             }
         }
         async void initRecycler()
         {
             adapter = new BaseRecyclerViewAdapter<Article>(this.Activity, articleList, Resource.Layout.item_fragment_article);
+            View  footerView = LayoutInflater.From(Activity).Inflate(Resource.Layout.item_recyclerView_foot, null);
+            //adapter.SetFooterView(footerView);
             _recyclerView.SetAdapter(adapter);
 
             adapter.ItemClick += (position, tag) =>
@@ -119,32 +125,35 @@ namespace Cnblogs.XamarinAndroid
             string read = Resources.GetString(Resource.String.read);
             string comment = Resources.GetString(Resource.String.comment);
             string digg = Resources.GetString(Resource.String.digg);
-            adapter.OnConvertView += (holder, position) =>
-            {
-                holder.SetText(Resource.Id.tv_author, articleList[position].Author);
-                holder.SetText(Resource.Id.tv_postDate, articleList[position].PostDate.ToCommonString());
-                holder.SetText(Resource.Id.tv_viewCount, articleList[position].ViewCount + " " + read);
-                holder.SetText(Resource.Id.tv_commentCount, articleList[position].CommentCount + " " + comment);
-                holder.SetText(Resource.Id.tv_description, articleList[position].Description);
-                holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount + " " + digg);
-                holder.SetText(Resource.Id.tv_title, articleList[position].Title);
-                holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
-                holder.SetTagUrl(Resource.Id.iv_avatar, articleList[position].Avatar);
+         
+                adapter.OnConvertView += (holder, position) =>
+                {
+                    if (position >= articleList.Count) return;
+                    holder.SetText(Resource.Id.tv_author, articleList[position].Author);
+                    holder.SetText(Resource.Id.tv_postDate, articleList[position].PostDate.ToCommonString());
+                    holder.SetText(Resource.Id.tv_viewCount, articleList[position].ViewCount + " " + read);
+                    holder.SetText(Resource.Id.tv_commentCount, articleList[position].CommentCount + " " + comment);
+                    holder.SetText(Resource.Id.tv_description, articleList[position].Description);
+                    holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount + " " + digg);
+                    holder.SetText(Resource.Id.tv_title, articleList[position].Title);
+                    holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
+                    holder.SetTagUrl(Resource.Id.iv_avatar, articleList[position].Avatar);
                 //ImageLoader.Instance.DisplayImage(articleList[position].Avatar, Resource.Id.iv_avatar);
                 holder.SetImageLoader(Resource.Id.iv_avatar, options);
-            };
+                };
         }
-        private async Task<List<Article>> listArticleServer()
+        private async Task<List<Article>> listArticleServer(int _pageIndex)
         {
+            pageIndex = _pageIndex;
             var result = await ArticleRequest.GetArticleList(SharedDataUtil.GetToken(this.Activity),pageIndex);
             if (result.Success)
             {
                 _swipeRefreshLayout.Refreshing = false;
-                articleList = result.Data;
+                //articleList = result.Data;
                 try
                 {
-                    await SQLiteUtil.UpdateArticleList(articleList);
-                    return articleList;
+                    await SQLiteUtil.UpdateArticleList(result.Data);
+                    return result.Data;
                 }
                 catch (Exception ex)
                 {
@@ -162,11 +171,15 @@ namespace Cnblogs.XamarinAndroid
 
         public async void OnRefresh()
         {
-            articleList = await listArticleServer();
+            var tempList  = await listArticleServer(1);
+            articleList = tempList;
+            //articleList.InsertRange(0, tempList);
             if (articleList != null)
             {
                 //initRecycler();
+                pageIndex = 1;
                 adapter.NotifyDataSetChanged();
+                adapter.NotifyItemRemoved(articleList.Count+1);
                 _swipeRefreshLayout.Refreshing = false;
             }
         }

@@ -50,7 +50,7 @@ namespace Cnblogs.XamarinAndroid.UI.Widgets
             System.Diagnostics.Debug.Write("正在滑动");
             int lastVisibleItemPosition = _linearLayoutManager.FindLastVisibleItemPosition();
 
-            if (lastVisibleItemPosition == _adapter.ItemCount)
+            if (lastVisibleItemPosition+1 == _adapter.ItemCount)
             {
                 System.Diagnostics.Debug.Write("test", "loadding已经完成");
                 bool isRefreshing = _swipeRefreshLayout.Refreshing;
@@ -61,12 +61,10 @@ namespace Cnblogs.XamarinAndroid.UI.Widgets
                 }
                 if (!_IsLoadingMore)
                 {
-                   // _IsLoadingMore = true;
-                    
+                        _IsLoadingMore = true;
                         _InsertDataEvent();
                         System.Diagnostics.Debug.Write("test", "加载more已经完成");
                         _IsLoadingMore = false;
-                  
                 }
             }
         }

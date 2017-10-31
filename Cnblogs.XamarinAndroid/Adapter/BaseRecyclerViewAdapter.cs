@@ -94,16 +94,25 @@ namespace Cnblogs.XamarinAndroid
             public Action<int,string> ItemClick; //单击事件
             private const int VIEW_ITEM = 0;
             private const int VIEW_FOOTER = 1;
-        public override int ItemCount
+            private View footerView;
+            public override int ItemCount
             {
                 get
                 {
-                   return list.Count;
-               }
+                   return list.Count==0?0:list.Count+1;
+                }
             }
         public override int GetItemViewType(int position)
         {
+            if (position+1 == ItemCount)
+                return VIEW_FOOTER;
             return VIEW_ITEM;
+        }
+
+        public void SetFooterView(View footerView)
+        {
+            this.footerView = footerView;
+            NotifyDataSetChanged();
         }
 
         //在RecyclerView提供数据的时候调用
@@ -121,23 +130,28 @@ namespace Cnblogs.XamarinAndroid
             {
                 this.context = context;
                 this.list = list;
-               this.itemLayoutId = itemLayoutId;
+                this.itemLayoutId = itemLayoutId;
                 inflater = LayoutInflater.From(context);
             }
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            
-                View view = inflater.Inflate(itemLayoutId, parent, false);
-                //view.Click += AdapterItemClick;
-                return BaseHolder.GetRecyclerHolder(context, view, ItemClick);
-            //return null; 
-        }
-            public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+            if (viewType == VIEW_FOOTER)
             {
-                 BaseHolder myHolder = holder as BaseHolder;
+                footerView = inflater.Inflate(Resource.Layout.item_recyclerView_foot,parent,false);
+                return new FootViewHolder(footerView);
+            }
+            View view = inflater.Inflate(itemLayoutId, parent, false);
+            return BaseHolder.GetRecyclerHolder(context, view, ItemClick);
+        }
+         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+         {
+              if(holder is BaseHolder)
+              {
+                BaseHolder myHolder = holder as BaseHolder;
                 //myHolder.ItemView.Tag = position;
                 //myHolder.
                 OnConvertView(myHolder, position);
-            }
-        }
+              }
+          }
+     }
 }
