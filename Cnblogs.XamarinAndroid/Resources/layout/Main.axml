@@ -57,7 +57,7 @@
                 android:drawableTop="@drawable/selector_menu_kbArticle"
                 android:text="@string/kbArticles" />
             <TextView
-                android:id="@+id/tv_shancun"
+                android:id="@+id/tv_status"
                 style="@style/tabText"
                 android:drawableTop="@drawable/selector_menu_shancun"
                 android:text="闪存" />

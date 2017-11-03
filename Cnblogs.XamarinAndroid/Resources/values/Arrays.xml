@@ -4,4 +4,14 @@
     <item>@string/HomeTabsBlog</item>
     <item>@string/HomeTabsHot</item>
   </string-array>
+
+  <string-array name="StatusTabs">
+    <item>@string/statuses_all</item>
+    <item>@string/statuses_recentcomment</item>
+    <item>@string/statuses_following</item>
+    <item>@string/statuses_my</item>
+    <item>@string/statuses_mycomment</item>
+    <item>@string/statuses_mention</item>
+    <item>@string/statuses_comment</item>
+  </string-array>
 </resources>

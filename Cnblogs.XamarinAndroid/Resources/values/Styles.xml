@@ -29,7 +29,7 @@
   <style name="TitleText">
     <item name="android:textSize">@dimen/TextLarge</item>
     <item name="android:textColor">@color/titleDrak</item>
-    <item name="android:singleLine">true</item>
+    <item name="android:maxLines">2</item>
     <item name="android:ellipsize">end</item>
   </style>
   <!--简介-->

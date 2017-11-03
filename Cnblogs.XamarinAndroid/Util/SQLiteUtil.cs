@@ -35,6 +35,10 @@ namespace Cnblogs.XamarinAndroid
             {
                 System.Diagnostics.Debug.Write("CreateTable_Article","success");
             });
+            await Instance().CreateTableAsync<ApiModel.KbArticles>().ContinueWith(r =>
+            {
+                System.Diagnostics.Debug.Write("CreateTable_KbArticles", "success");
+            });
         }
         #region  文章相关
         public static async Task<ApiModel.Article> SelectArticle(int id)
@@ -60,6 +64,31 @@ namespace Cnblogs.XamarinAndroid
                 else
                 {
                     await UpdateArticle(item);
+                }
+            }
+        }
+        #endregion
+
+        #region 知识库相关
+        public static async Task<ApiModel.KbArticles> SelectKbArticles(int id)
+        {
+            return await Instance().Table<ApiModel.KbArticles>().Where(s => s.Id == id).FirstOrDefaultAsync();
+        }
+        public static async Task UpdateKbArticles(Cnblogs.ApiModel.KbArticles model)
+        {
+            await Instance().UpdateAsync(model);
+        }
+        public static async Task UpdateKbArticlesList(List<ApiModel.KbArticles> list)
+        {
+            foreach (var item in list)
+            {
+                if (await SelectKbArticles(item.Id) == null)
+                {
+                    await Instance().InsertAsync(item);
+                }
+                else
+                {
+                    await UpdateKbArticles(item);
                 }
             }
         }

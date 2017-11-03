@@ -109,10 +109,29 @@ namespace Cnblogs.XamarinAndroid
             return VIEW_ITEM;
         }
 
-        public void SetFooterView(View footerView)
+        public void SetNewData(List<T> list)
         {
-            this.footerView = footerView;
+            this.list = list == null ? new List<T>() : list;
             NotifyDataSetChanged();
+        }
+        //public int GetHeaderViewCount()
+        //{
+        //    if()
+        //}
+        public void SetItemCount(List<T> list)
+        {
+           //this.list
+        }
+
+        public void SetFooterView(int resId)
+        {
+            this.footerView = inflater.Inflate(resId,null);
+            NotifyDataSetChanged();
+        }
+
+        public void SetEmptyView(View emptyView)
+        {
+           // if(emp)
         }
 
         //在RecyclerView提供数据的时候调用
@@ -137,7 +156,7 @@ namespace Cnblogs.XamarinAndroid
         {
             if (viewType == VIEW_FOOTER)
             {
-                footerView = inflater.Inflate(Resource.Layout.item_recyclerView_foot,parent,false);
+                footerView = inflater.Inflate(Resource.Layout.item_recyclerView_footer_loading,parent,false);
                 return new FootViewHolder(footerView);
             }
             View view = inflater.Inflate(itemLayoutId, parent, false);

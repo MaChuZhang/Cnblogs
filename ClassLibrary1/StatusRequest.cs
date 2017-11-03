@@ -10,38 +10,58 @@ using Cnblogs.HttpClient;
 
 namespace Cnblogs.HttpClient
 {
-    public class ArticleRequest
+    public class StatusRequest
     {
-        public static async Task<ApiResult<List<Article>>> GetArticleList(Token token,int pageIndex,int position)
+        public static async Task<ApiResult<List<StatusModel>>> ListStatuses(Token token,int statusType,int pageIndex,int  pageSize)
         {
             try
             {
-                string url = string.Empty;
-                if (position == 0)
+                string _statusType = "all";
+                switch (statusType)
                 {
-                    url = string.Format(Constact.SiteHomeArticleList, pageIndex, 10);
+                    case (int)StatusType.all:
+                        _statusType = "all";
+                        break;
+                    case (int)StatusType.following:
+                        _statusType = "following";
+                        break;
+                    case (int)StatusType.my:
+                        _statusType = "following";
+                        break;
+
+                    case (int)StatusType.recentcomment:
+                        _statusType = "recentcomment";
+                        break;
+                    case (int)StatusType.mention:
+                        _statusType = "mention";
+                        break;
+
+                    case (int)StatusType.comment:
+                        _statusType = "comment";
+                        break;
+
+                    default:
+                        _statusType = "all";
+                        break;
                 }
-                else
-                {
-                    url = string.Format(Constact.ArticleHot, pageIndex, 10);
-                }
+                string url = string.Format(Constact.Statuses,_statusType,pageIndex,pageSize);
                 var result=await HttpBase.GetAsync(url,null,token);
                 if (result.IsSuccess)
                 {
-                    var list = JsonConvert.DeserializeObject<List<Article>>(result.Message);
+                    var list = JsonConvert.DeserializeObject<List<StatusModel>>(result.Message);
                     //successAction(list);
                     return  ApiResult.Ok(list);
                 }
                 else
                 {
-                    return ApiResult<List<Article>>.Error(result.Message);
+                    return ApiResult<List<StatusModel>>.Error(result.Message);
                    //errorAction(result.Message);
                 }
             }
             catch (Exception ex)
             {
                 //errorAction(ex.StackTrace.ToString());
-                return ApiResult<List<Article>>.Error(ex.Message);
+                return ApiResult<List<StatusModel>>.Error(ex.Message);
             }
         }
 

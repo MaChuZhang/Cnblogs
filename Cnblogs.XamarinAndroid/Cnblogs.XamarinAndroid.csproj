@@ -117,11 +117,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Activities\await.cs" />
     <Compile Include="UI\Activities\BaseActivity.cs" />
+    <Compile Include="UI\Activities\DetailKbArticlesActivity.cs" />
     <Compile Include="UI\Activities\DetailArticleActivity.cs" />
     <Compile Include="UI\Activities\LoginActivity.cs" />
     <Compile Include="UI\Activities\MainActivity.cs" />
     <Compile Include="UI\Activities\PhotoActivity.cs" />
     <Compile Include="UI\Activities\SplashScreenActivity.cs" />
+    <Compile Include="UI\Fragments\StatusFragment.cs" />
     <Compile Include="UI\Fragments\KbArticlesFragment.cs" />
     <Compile Include="UI\Fragments\NewsFragment.cs" />
     <Compile Include="UI\Fragments\HomeFragment.cs" />
@@ -177,10 +179,10 @@
     <AndroidResource Include="Resources\layout\item_recyclerView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\item_fragment_article.axml">
+    <AndroidResource Include="Resources\layout\item_recyclerview_kbarticles.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\DetailArticle.axml">
+    <AndroidResource Include="Resources\layout\detailArticle.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Photo.axml">
@@ -192,7 +194,19 @@
     <AndroidResource Include="Resources\layout\item_article_bottom.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\item_recyclerView_foot.axml">
+    <AndroidResource Include="Resources\layout\item_recyclerView_footer_loading.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_recyclerView_footer_empty.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_recyclerview_article.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\detailKbArticles.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_kbarticles_bottom.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

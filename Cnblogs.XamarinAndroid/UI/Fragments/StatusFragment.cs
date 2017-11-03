@@ -16,7 +16,7 @@ using Android.Support.Design.Widget;
 
 namespace Cnblogs.XamarinAndroid
 {
-    public class HomeFragment : Fragment, TabLayout.IOnTabSelectedListener
+    public class StatusFragment : Fragment, TabLayout.IOnTabSelectedListener
     {
         private ViewPager _viewPagerHome;
         private TabLayout _tabHome;
@@ -49,7 +49,7 @@ namespace Cnblogs.XamarinAndroid
 
             //List<string> list = new List<string>() { "最新","精华"};
 
-            adapter=new HomeFragmentTabsAdapter(this.ChildFragmentManager,Resources.GetStringArray(Resource.Array.HomeTabs));
+            adapter=new HomeFragmentTabsAdapter(this.ChildFragmentManager,Resources.GetStringArray(Resource.Array.StatusTabs));
 
             _viewPagerHome.Adapter = adapter;
             _tabHome.TabMode = TabLayout.GravityCenter;

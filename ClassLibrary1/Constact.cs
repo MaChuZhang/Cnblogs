@@ -32,7 +32,26 @@ namespace Cnblogs.HttpClient
         public const string test = "https://oauth.cnblogs.com/connect/authorize?client_id=c36f3da8-81fa-4466-9bd7-554da9562a4c&scope=openid profile CnBlogsApi offline_access&response_type=code id_token&redirect_uri=https://oauth.cnblogs.com/auth/callback&state=cnblogs.com&nonce=zhanglin";
 
         public const string SiteHomeArticleList = Host+Api+"/blogposts/@sitehome?pageIndex={0}&pageSize={1}";
+        public const string ArticleHot = Host + Api + "/blogposts/@picked?pageIndex={0}&pageSize={1}";
+        /// <summary>
+        /// 获取博客文章内容
+        /// </summary>
         public const string ArticleBody = Host + Api + "/blogposts/{0}/body";
-
+       /// <summary>
+       /// 获取知识库列表
+       /// </summary>
+        public const string KbArticles = Host + Api + "/KbArticles?pageIndex={0}&pageSize={1}";
+        /// <summary>
+        ///知识库内容
+        /// </summary>
+        public const string KbArticlesBody = Host + Api + "/kbarticles/{0}/body";
+        /// <summary>
+        /// 闪存列表
+        /// </summary>
+        public const string Statuses = Host + Api + "/statuses/@{0}?pageIndex={1}&pageSize={2}&tag=";
+        /// <summary>
+        /// 根据id获取闪存内容
+        /// </summary>
+        public const string StatusBody = Host + Api + "/statuses/{0}";
     }
 }

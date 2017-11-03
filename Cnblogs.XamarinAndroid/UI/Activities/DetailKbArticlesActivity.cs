@@ -23,52 +23,35 @@ using Cnblogs.XamarinAndroid.UI.Widgets;
 namespace Cnblogs.XamarinAndroid
 {
     [Activity(Label = "DetailArticleActivity",Theme = "@style/AppTheme")]
-    public class DetailArticleActivity : BaseActivity
+    public class DetailKbArticlesActivity : BaseActivity
     {
         //private Toolbar toolbar;
-        private TextView tv_author, tv_postDate, tv_articleTitle,tv_view;
-        private ImageView iv_avatar;
+        private TextView tv_view;
         private WebView wb_content;
-        private int articleId;
-        DisplayImageOptions options;
-        private Button btn_comment;
+        private int _id;
         private Button btn_digg;
         private Button btn_mark;
-        private Article article;
+        private KbArticles kbArticles;
         private UMengShareWidget shareWidget;
         
-        protected override int LayoutResourceId => Resource.Layout.detailArticle;
+        protected override int LayoutResourceId => Resource.Layout.detailKbArticles;
 
-        protected override string ToolBarTitle => Resources.GetString(Resource.String.ToolBar_Title_Blog);
-        
+        protected override string ToolBarTitle => string.Empty;
+        internal static void Enter(Context context, int id)
+        {
+            Intent intent = new Intent(context, typeof(DetailKbArticlesActivity));
+            intent.PutExtra("id",id);
+            context.StartActivity(intent);
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             // Create your application here
             StatusBarUtil.SetColorStatusBars(this);
-            ImageLoaderConfiguration configuration =new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();//初始化图片加载框架
-            ImageLoader.Instance.Init(configuration);
-            //显示图片配置
-            options = new DisplayImageOptions.Builder()
-                  .ShowImageOnFail(Resource.Drawable.Icon)
-                  .CacheInMemory(true)
-                  .BitmapConfig(Bitmap.Config.Rgb565)
-                  .ShowImageOnFail(Resource.Drawable.icon_user)
-                  .ShowImageOnLoading(Resource.Drawable.icon_loading)
-                  .CacheOnDisk(true)
-                  .Displayer(new DisplayerImageCircle(20))
-                  .Build();
+
             SetNavIcon(Resource.Drawable.icon_back);
-            //toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            //toolbar.Title = "博客";
-         //  toolbar.(Resource.Drawable.icon_back);
-           // SetSupportActionBar(toolbar);
-            tv_author = FindViewById<TextView>(Resource.Id.tv_author);
-            tv_postDate = FindViewById<TextView>(Resource.Id.tv_postDate);
             wb_content = FindViewById<WebView>(Resource.Id.wb_content);
-            iv_avatar = FindViewById<ImageView>(Resource.Id.iv_avatar);
-            tv_articleTitle = FindViewById<TextView>(Resource.Id.tv_articleTitle);
-            btn_comment = FindViewById<Button>(Resource.Id.btn_comment);
             btn_digg = FindViewById<Button>(Resource.Id.btn_digg);
             btn_mark = FindViewById<Button>(Resource.Id.btn_mark);
             tv_view = FindViewById<TextView>(Resource.Id.tv_view);
@@ -91,9 +74,9 @@ namespace Cnblogs.XamarinAndroid
             {
                   PhotoActivity.Enter(this,e.Result.Split(','),e.Index);
             };
-            articleId = Intent.GetIntExtra("id",0);
-            GetClientArticle(articleId);
-            shareWidget = new UMengShareWidget(this);
+            _id = Intent.GetIntExtra("id",0);
+            GetClientArticle(_id);
+            //shareWidget = new UMengShareWidget(this);
         }
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
@@ -103,25 +86,18 @@ namespace Cnblogs.XamarinAndroid
 
         async void GetClientArticle(int id)
         {
-             article = await SQLiteUtil.SelectArticle(id);
-            if (article != null)
+             kbArticles = await SQLiteUtil.SelectKbArticles(id);
+            if (kbArticles != null)
             {
-                tv_author.Text = article.Author;
-                tv_postDate.Text = article.PostDate.ToCommonString();
-                tv_articleTitle.Text = article.Title;
-                tv_view.Text = article.ViewCount.ToString();
-                btn_digg.Text = article.Diggcount.ToString();
-                btn_comment.Text = article.CommentCount.ToString();
-                if (!article.Avatar.Substring(article.Avatar.Length - 4, 4).Contains(".png"))
-                    iv_avatar.SetImageResource(Resource.Drawable.noavatar);
-                else
-                    ImageLoader.Instance.DisplayImage(article.Avatar, iv_avatar, options);
-                if (string.IsNullOrEmpty(article.Content))
+                 tv_view.Text = kbArticles.ViewCount.ToString();
+                 btn_digg.Text = kbArticles.Diggcount.ToString();
+                SetToolBarTitle(kbArticles.Title);
+                 if (string.IsNullOrEmpty(kbArticles.Content))
                     GetRequestArticle(id);
-                else
-                {
-                    article.Content = article.Content.ReplaceHtml().Trim('"');
-                    string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", article.Content).Replace("#title#", article.Title).Replace("#author#", "").Replace("#date#","");
+                 else
+                 {
+                    kbArticles.Content = kbArticles.Content.ReplaceHtml().Trim('"');
+                    string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", kbArticles.Content).Replace("#title#", kbArticles.Title).Replace("#author#","作者："+kbArticles.Author).Replace("#date#","发布日期："+kbArticles.DateAdded.ToString("yyyy年MM月dd日 HH:mm"));
                     wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
                 }
             }
@@ -137,16 +113,16 @@ namespace Cnblogs.XamarinAndroid
         {
             try
             {
-                var result = await HttpClient.ArticleRequest.GetArticleDetail(SharedDataUtil.GetToken(this),id);
+                var result = await HttpClient.KbArticlesRequest.GetKbArticlesDetail(SharedDataUtil.GetToken(this),id);
                 if (result.Success)
                 {
-                    await SQLiteUtil.SelectArticle(id).ContinueWith(async (r) =>
+                    await SQLiteUtil.SelectKbArticles(id).ContinueWith(async (r) =>
                     {
-                        article = r.Result;
-                        article.Content = result.Data;
-                        await SQLiteUtil.UpdateArticle(article);
-                        article.Content = article.Content.ReplaceHtml().Trim('"');
-                        string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", article.Content).Replace("#title#",article.Title).Replace("#author#", "").Replace("#date#", "");
+                        kbArticles = r.Result;
+                        kbArticles.Content = result.Data;
+                        await SQLiteUtil.UpdateKbArticles(kbArticles);
+                        kbArticles.Content = kbArticles.Content.ReplaceHtml().Trim('"');
+                        string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", kbArticles.Content).Replace("#title#",kbArticles.Title).Replace("#author#","作者："+kbArticles.Author).Replace("#date#","发布日期："+kbArticles.DateAdded.ToString("yyyy年MM月dd日 HH:mm"));
                         wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
                     });
                 }
@@ -159,10 +135,10 @@ namespace Cnblogs.XamarinAndroid
 
         public override bool OnMenuItemClick(IMenuItem item)
         {
-            if (article != null)
+            if (kbArticles != null)
             {
                 // sharesWidget
-                shareWidget.Open(article.Url,article.Title);
+                //shareWidget.Open(kbArticles.Url,kbArticles.Title);
             }
             return true;
         }

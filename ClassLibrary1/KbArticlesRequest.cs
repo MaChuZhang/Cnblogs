@@ -10,46 +10,38 @@ using Cnblogs.HttpClient;
 
 namespace Cnblogs.HttpClient
 {
-    public class ArticleRequest
+    public class KbArticlesRequest
     {
-        public static async Task<ApiResult<List<Article>>> GetArticleList(Token token,int pageIndex,int position)
+        public static async Task<ApiResult<List<KbArticles>>> GetKbArticlesList(Token token,int pageIndex)
         {
             try
             {
-                string url = string.Empty;
-                if (position == 0)
-                {
-                    url = string.Format(Constact.SiteHomeArticleList, pageIndex, 10);
-                }
-                else
-                {
-                    url = string.Format(Constact.ArticleHot, pageIndex, 10);
-                }
+                string url =string.Format(Constact.KbArticles, pageIndex, 10);
                 var result=await HttpBase.GetAsync(url,null,token);
                 if (result.IsSuccess)
                 {
-                    var list = JsonConvert.DeserializeObject<List<Article>>(result.Message);
+                    var list = JsonConvert.DeserializeObject<List<KbArticles>>(result.Message);
                     //successAction(list);
                     return  ApiResult.Ok(list);
                 }
                 else
                 {
-                    return ApiResult<List<Article>>.Error(result.Message);
+                    return ApiResult<List<KbArticles>>.Error(result.Message);
                    //errorAction(result.Message);
                 }
             }
             catch (Exception ex)
             {
                 //errorAction(ex.StackTrace.ToString());
-                return ApiResult<List<Article>>.Error(ex.Message);
+                return ApiResult<List<KbArticles>>.Error(ex.Message);
             }
         }
 
-        public static async Task<ApiResult<string>> GetArticleDetail(Token token,int id)
+        public static async Task<ApiResult<string>> GetKbArticlesDetail(Token token, int id)
         {
             try
             {
-                string url = string.Format(Constact.ArticleBody,id);
+                string url = string.Format(Constact.KbArticlesBody, id);
                 var result = await HttpBase.GetAsync(url, null, token);
                 if (result.IsSuccess)
                 {

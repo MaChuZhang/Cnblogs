@@ -34,8 +34,6 @@ namespace Cnblogs.XamarinAndroid
         private DisplayImageOptions options;
         private int pageIndex = 1;
         private List<Article> articleList = new List<Article>();
-        private bool isLoadingMore;
-        private LinearLayout recyclerView_foot;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -92,28 +90,33 @@ namespace Cnblogs.XamarinAndroid
             {
                 initRecycler();
             }
-            RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(_swipeRefreshLayout,(Android.Support.V7.Widget.LinearLayoutManager)_recyclerView.GetLayoutManager(), adapter, LoadMore, isLoadingMore);
+            RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(_swipeRefreshLayout,(Android.Support.V7.Widget.LinearLayoutManager)_recyclerView.GetLayoutManager(), adapter, LoadMore);
             _recyclerView.AddOnScrollListener(scroll);
         }
         private async void LoadMore()
         {
-            pageIndex  =pageIndex+1;
+            pageIndex++;
             var tempList = await listArticleServer(pageIndex);
             articleList.AddRange(tempList);
-            if (articleList != null)
+            if (tempList.Count==0)
+             {
+                //adapter.SetFooterView(Resource.Layout.item_recyclerView_footer_empty);
+                return;
+            }
+            else if (articleList != null)
             {
-                 //recyclerView_foot.Visibility = ViewStates.Visible;
-                adapter.NotifyDataSetChanged();
-                adapter.NotifyItemRemoved(articleList.Count+1);
+                //adapter.NotifyDataSetChanged();
+               // adapter.NotifyItemChanged(articleList.Count + 1);
+                //var ds= adapter.ItemCount;
+               adapter.SetNewData(articleList);
+                System.Diagnostics.Debug.Write("页数:"+pageIndex+"数据总条数："+articleList.Count);
             }
         }
         async void initRecycler()
         {
-            adapter = new BaseRecyclerViewAdapter<Article>(this.Activity, articleList, Resource.Layout.item_fragment_article);
-            View  footerView = LayoutInflater.From(Activity).Inflate(Resource.Layout.item_recyclerView_foot, null);
-            //adapter.SetFooterView(footerView);
+            adapter = new BaseRecyclerViewAdapter<Article>(this.Activity, articleList, Resource.Layout.item_recyclerview_article);
+          //  View  footerView = LayoutInflater.From(Activity).Inflate(Resource.Layout.item_recyclerView_footer_loading, null);
             _recyclerView.SetAdapter(adapter);
-
             adapter.ItemClick += (position, tag) =>
             {
                 System.Diagnostics.Debug.Write(position, tag);
@@ -128,7 +131,8 @@ namespace Cnblogs.XamarinAndroid
          
                 adapter.OnConvertView += (holder, position) =>
                 {
-                    if (position >= articleList.Count) return;
+                    //if (position >= articleList.Count)
+                    //    return;
                     holder.SetText(Resource.Id.tv_author, articleList[position].Author);
                     holder.SetText(Resource.Id.tv_postDate, articleList[position].PostDate.ToCommonString());
                     holder.SetText(Resource.Id.tv_viewCount, articleList[position].ViewCount + " " + read);
@@ -138,14 +142,14 @@ namespace Cnblogs.XamarinAndroid
                     holder.SetText(Resource.Id.tv_title, articleList[position].Title);
                     holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
                     holder.SetTagUrl(Resource.Id.iv_avatar, articleList[position].Avatar);
-                //ImageLoader.Instance.DisplayImage(articleList[position].Avatar, Resource.Id.iv_avatar);
+                     //ImageLoader.Instance.DisplayImage(articleList[position].Avatar, Resource.Id.iv_avatar);
                 holder.SetImageLoader(Resource.Id.iv_avatar, options);
                 };
         }
         private async Task<List<Article>> listArticleServer(int _pageIndex)
         {
             pageIndex = _pageIndex;
-            var result = await ArticleRequest.GetArticleList(SharedDataUtil.GetToken(this.Activity),pageIndex);
+            var result = await ArticleRequest.GetArticleList(SharedDataUtil.GetToken(this.Activity),pageIndex,position);
             if (result.Success)
             {
                 _swipeRefreshLayout.Refreshing = false;
@@ -171,16 +175,14 @@ namespace Cnblogs.XamarinAndroid
 
         public async void OnRefresh()
         {
-            var tempList  = await listArticleServer(1);
-            articleList = tempList;
-            //articleList.InsertRange(0, tempList);
-            if (articleList != null)
+            if(pageIndex>1)
+                pageIndex = 1; 
+            var tempList  = await listArticleServer(pageIndex);
+            if (tempList != null)
             {
-                //initRecycler();
-                pageIndex = 1;
-                adapter.NotifyDataSetChanged();
-                adapter.NotifyItemRemoved(articleList.Count+1);
+                articleList = tempList;
                 _swipeRefreshLayout.Refreshing = false;
+                adapter.SetNewData(tempList);
             }
         }
         //void ConvertView(BaseHolder holder,int position)

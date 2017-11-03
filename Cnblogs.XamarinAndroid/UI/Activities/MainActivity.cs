@@ -28,9 +28,10 @@ namespace Cnblogs.XamarinAndroid
 
         private NewsFragment _newsFragment;
         private HomeFragment _homeFragment;
+        private StatusFragment _statusFragment;
         private KbArticlesFragment _kbArticlesFragment;
         private FragmentManager _fm;
-        private TextView tv_news,tv_kbArticles,tv_qa,tv_shancun;
+        private TextView tv_news,tv_kbArticles,tv_qa,tv_status;
         private RecyclerView _recyclerView;
         protected override int LayoutResourceId => Resource.Layout.Main;
         protected override string ToolBarTitle =>Resources.GetString(Resource.String.ToolBar_Title_Cnblogs);
@@ -41,13 +42,11 @@ namespace Cnblogs.XamarinAndroid
             ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();//初始化图片加载框架
             ImageLoader.Instance.Init(configuration);
             StatusBarUtil.SetColorStatusBars(this);
-            //  _toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            // _toolbar.Title = Resources.GetString(Resource.String.CnblogsTitle);
             _fm = SupportFragmentManager;
             // SetSupportActionBar(_toolbar);
             tv_news = FindViewById<TextView>(Resource.Id.tv_news);
                 tv_qa = FindViewById<TextView>(Resource.Id.tv_qa);
-                tv_shancun = FindViewById<TextView>(Resource.Id.tv_shancun);
+                tv_status = FindViewById<TextView>(Resource.Id.tv_status);
                 tv_kbArticles = FindViewById<TextView>(Resource.Id.tv_kbArticles);
                 BindViewsClick();
                tv_news.PerformClick();
@@ -57,7 +56,7 @@ namespace Cnblogs.XamarinAndroid
             tv_news.Selected = false;
             tv_kbArticles.Selected = false;
             tv_qa.Selected = false;
-            tv_shancun.Selected = false;
+            tv_status.Selected = false;
         }
         //隐藏所有Fragment
         void hideAllFragment(FragmentTransaction fragmentTransaction)
@@ -65,11 +64,12 @@ namespace Cnblogs.XamarinAndroid
             if (_homeFragment != null) fragmentTransaction.Hide(_homeFragment);
             if (_kbArticlesFragment != null) fragmentTransaction.Hide(_kbArticlesFragment);
             if (_newsFragment != null) fragmentTransaction.Hide(_newsFragment);
+            if (_statusFragment == null) fragmentTransaction.Hide(_statusFragment);
         }
         void BindViewsClick()
         {
             tv_qa.Click += (s, e) => { MenuSwitch(tv_qa); };
-            tv_shancun.Click += (s, e) => { MenuSwitch(tv_shancun); };
+            tv_status.Click += (s, e) => { MenuSwitch(tv_status); };
             tv_kbArticles.Click += (s, e) => { MenuSwitch(tv_kbArticles); };
             tv_news.Click += (s, e) => { MenuSwitch(tv_news); };
         }
@@ -88,6 +88,7 @@ namespace Cnblogs.XamarinAndroid
                         ft.Add(Resource.Id.frameContent, _homeFragment);
                     }
                     else ft.Show(_homeFragment);
+                    base.SetToolBarTitle(Resources.GetString(Resource.String.CnblogsTitle));
                     break;
 
                 case Resource.Id.tv_kbArticles:
@@ -99,7 +100,19 @@ namespace Cnblogs.XamarinAndroid
                         ft.Add(Resource.Id.frameContent, _kbArticlesFragment);
                     }
                     else ft.Show(_kbArticlesFragment);
-                        break;
+                    base.SetToolBarTitle(Resources.GetString(Resource.String.kbArticles));
+                    break;
+                case Resource.Id.tv_status:
+                    SetUnSelected();
+                    tv_status.Selected = true;
+                    if (_statusFragment == null)
+                    {
+                        _statusFragment = new StatusFragment();
+                        ft.Add(Resource.Id.frameContent, _statusFragment);
+                    }
+                    else ft.Show(_statusFragment);
+                    base.SetToolBarTitle(Resources.GetString(Resource.String.statuses));
+                    break;
                 case Resource.Id.tv_qa:
                     SetUnSelected();
                     tv_qa.Selected = true;
@@ -110,7 +123,8 @@ namespace Cnblogs.XamarinAndroid
                     }
                     else
                         ft.Show(_newsFragment);
-                        break;
+                    base.SetToolBarTitle(Resources.GetString(Resource.String.question));
+                    break;
             }
             ft.Commit();
         }
@@ -132,13 +146,13 @@ namespace Cnblogs.XamarinAndroid
             }
             return base.OnKeyDown(keycode,e);
         }
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            MenuInflater.Inflate(Resource.Menu.search, menu);
-            return base.OnCreateOptionsMenu(menu);
-        }
+        //public override bool OnCreateOptionsMenu(IMenu menu)
+        //{
+        //    MenuInflater.Inflate(Resource.Menu.search, menu);
+        //    return base.OnCreateOptionsMenu(menu);
+        //}
 
-        public bool OnMenuItemClick(IMenuItem item)
+        public override bool OnMenuItemClick(IMenuItem item)
         {
             //throw new NotImplementedException();
             return true;

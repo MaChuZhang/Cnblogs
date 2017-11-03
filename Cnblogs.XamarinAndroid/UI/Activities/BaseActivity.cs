@@ -35,8 +35,11 @@ namespace Cnblogs.XamarinAndroid
         {
             get;
         }
-        protected abstract string ToolBarTitle {
+        protected virtual string ToolBarTitle {
             get;
+        }
+        protected void SetToolBarTitle(string title) {
+            this.toolbar.Title = title;
         }
         protected virtual void SetNavIcon(int resId)
         {
