@@ -111,21 +111,29 @@
     <Compile Include="Adapter\BaseRecyclerHolder.cs" />
     <Compile Include="Adapter\BaseRecyclerViewAdapter.cs" />
     <Compile Include="Adapter\HomeArticleAdapter.cs" />
+    <Compile Include="Adapter\QuestionTabsFragmentAdapter.cs" />
+    <Compile Include="Adapter\StatusTabsFragmentAdapter.cs" />
     <Compile Include="Adapter\HomeFragmentAdapter.cs" />
     <Compile Include="Adapter\PhotoAdapter.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\Activities\await.cs" />
     <Compile Include="UI\Activities\BaseActivity.cs" />
+    <Compile Include="UI\Activities\StatusesCommentActivity - 复制.cs" />
+    <Compile Include="UI\Activities\QuestionActivity.cs" />
     <Compile Include="UI\Activities\DetailKbArticlesActivity.cs" />
     <Compile Include="UI\Activities\DetailArticleActivity.cs" />
     <Compile Include="UI\Activities\LoginActivity.cs" />
     <Compile Include="UI\Activities\MainActivity.cs" />
     <Compile Include="UI\Activities\PhotoActivity.cs" />
     <Compile Include="UI\Activities\SplashScreenActivity.cs" />
+    <Compile Include="UI\Activities\TestActivity.cs" />
+    <Compile Include="UI\Fragments\QuestionFragment.cs" />
+    <Compile Include="UI\Fragments\StatusQuestionFragment.cs" />
+    <Compile Include="UI\Fragments\QuestionTabFragment.cs" />
+    <Compile Include="UI\Fragments\StatusTabFragment .cs" />
     <Compile Include="UI\Fragments\StatusFragment.cs" />
     <Compile Include="UI\Fragments\KbArticlesFragment.cs" />
-    <Compile Include="UI\Fragments\NewsFragment.cs" />
+    <Compile Include="UI\Fragments\UserCenterFragment.cs" />
     <Compile Include="UI\Fragments\HomeFragment.cs" />
     <Compile Include="UI\Fragments\RecyclerViewDecoration.cs" />
     <Compile Include="UI\Fragments\RecyclerViewFragment.cs" />
@@ -137,12 +145,12 @@
     <Compile Include="UI\Widgets\UMengShareWidget.cs" />
     <Compile Include="UI\Widgets\WebViewJSInterface.cs" />
     <Compile Include="Util\AlertUtil.cs" />
+    <Compile Include="Util\BaseShared.cs" />
     <Compile Include="Util\DateTimeUtil.cs" />
     <Compile Include="Util\HtmlUtil.cs" />
     <Compile Include="Util\SharedDataUtil.cs" />
     <Compile Include="Util\SQLiteUtil.cs" />
     <Compile Include="Util\StatusBarUtil.cs" />
-    <Compile Include="Util\TokenUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GettingStarted.Xamarin" />
@@ -207,6 +215,33 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\item_kbarticles_bottom.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_recyclerview_status.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\statusesComment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_recyclerview_statusComment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\testBtn.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\layout1.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\fragment_statusQuestion.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_recyclerview_question.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\questionDetail.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\UserCenter.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -397,6 +432,39 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_app.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\add.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\shape_corner_left.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\shape_corner_right.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\shape_corner_left_selected.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\shape_corner_right_selected.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\yuandou.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_tag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\shape_corner_round.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\setting.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_userDefault.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

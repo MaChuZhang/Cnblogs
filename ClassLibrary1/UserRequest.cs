@@ -40,5 +40,31 @@ namespace Cnblogs.HttpClient
                 errorAction(ex.StackTrace.ToString());
             }
         }
+
+        public static async Task<ApiResult<UserInfo>> UserInfo(Token token, string url)
+        {
+            //var result=null;
+            try
+            {
+               var  result = await HttpBase.PostAsync(url, null, token);
+                if (result.IsSuccess)
+                {
+                    //errorAction("网络请求失败:" + response.StatusCode);
+                    var userinfo = JsonConvert.DeserializeObject<UserInfo>(result.Message);
+                    return ApiResult.Ok(userinfo);
+                }
+                return ApiResult<UserInfo>.Error(result.Message);
+
+            }
+            catch (Exception ex)
+            {
+                return ApiResult<UserInfo>.Error(ex.Message);
+            }
+        }
+
+        public static object UserInfo(string users)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

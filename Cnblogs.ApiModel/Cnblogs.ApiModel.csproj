@@ -37,11 +37,13 @@
     <Compile Include="KbArticles.cs" />
     <Compile Include="Article.cs" />
     <Compile Include="Interface\IActicalCallBack.cs" />
+    <Compile Include="QuestionModel.cs" />
     <Compile Include="ResponseMessage.cs" />
     <Compile Include="StatusCommentModel.cs" />
     <Compile Include="StatusModel.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SQLite-net, Version=1.4.118.0, Culture=neutral, processorArchitecture=MSIL">

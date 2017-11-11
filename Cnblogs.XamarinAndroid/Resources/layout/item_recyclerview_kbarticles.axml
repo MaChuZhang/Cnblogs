@@ -8,9 +8,8 @@
     android:background="?attr/selectableItemBackgroundRipple">
   <TextView
       android:id="@+id/tv_title"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
       style="@style/TitleText"
+      android:maxLines="2"
       android:layout_marginTop="@dimen/dp5"
       android:layout_marginBottom="@dimen/dp5"
       android:text="测试标题测试标题测试标题测试标题测试标题测试标题" />

@@ -137,7 +137,7 @@ namespace Cnblogs.XamarinAndroid
         {
             try
             {
-                var result = await HttpClient.ArticleRequest.GetArticleDetail(SharedDataUtil.GetToken(this),id);
+                var result = await HttpClient.ArticleRequest.GetArticleDetail(AccessTokenUtil.GetToken(this),id);
                 if (result.Success)
                 {
                     await SQLiteUtil.SelectArticle(id).ContinueWith(async (r) =>

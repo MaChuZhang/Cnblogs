@@ -9,17 +9,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Cnblogs.XamarinAndroid.Util;
 using Cnblogs.HttpClient;
 using Android.Support.V7.App;
 
 namespace Cnblogs.XamarinAndroid.UI.Activities
 {
-    [Activity(Label = "SplashScreenActivity", Theme = "@style/SplashScreen", MainLauncher = true)]
+    [Activity(Label = "SplashScreenActivity", Theme = "@style/SplashScreen", MainLauncher = false)]
     public class SplashScreenActivity : AppCompatActivity
     {
-  
-
         protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -28,19 +25,19 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
             await UserRequest.Client_Credentials((token) =>
             {
                 token.RefreshTime = DateTime.Now;
-                SharedDataUtil.SaveToken(token, this);
+                AccessTokenUtil.SaveToken(token, this);
             }, error =>
             {
                 System.Diagnostics.Debug.Write(error);
             });
 
-            var tokenTemp = SharedDataUtil.GetToken(this);
+            var tokenTemp = AccessTokenUtil.GetToken(this);
             if (string.IsNullOrEmpty(tokenTemp.access_token)||tokenTemp.IsExpire)
             {
                 await UserRequest.Client_Credentials((token) =>
                 {
                     token.RefreshTime = DateTime.Now;
-                    SharedDataUtil.SaveToken(token, this);
+                    AccessTokenUtil.SaveToken(token, this);
                 }, error =>
                 {
                     System.Diagnostics.Debug.Write(error);

@@ -15,12 +15,12 @@ using Fragment = Android.Support.V4.App.Fragment;
 using Android.Support.Design.Widget;
 namespace Cnblogs.XamarinAndroid
 {
-    public class NewsFragment : Fragment
+    public class UserCenterFragment : Fragment
     {
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            HasOptionsMenu=true;
             // Create your fragment here
         }
 
@@ -29,7 +29,13 @@ namespace Cnblogs.XamarinAndroid
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             base.OnCreateView(inflater, container, savedInstanceState);
-           return   inflater.Inflate(Resource.Layout.fragment_news, container, false);
+           return   inflater.Inflate(Resource.Layout.UserCenter, container, false);
+        }
+        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+        {
+            //MenuInflater.Inflate.inflater(Resource.Menu.setting, menu);
+            Activity.MenuInflater.Inflate(Resource.Menu.setting,menu);
+            //return base.OnCreateOptionsMenu(menu);
         }
     }
 }

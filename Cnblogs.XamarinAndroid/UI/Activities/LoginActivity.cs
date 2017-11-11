@@ -9,7 +9,6 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Cnblogs.XamarinAndroid.Util;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Webkit;
 using Cnblogs.HttpClient;
@@ -21,121 +20,133 @@ using Cnblogs.XamarinAndroid;
 
 namespace Cnblogs.XamarinAndroid.UI.Activities
 {
-   // [Activity(Label = "LoginActivity",Theme = "@style/AppTheme")]
-    //public class LoginActivity 
-    //{
-    //    protected override int LayoutResourceId
-    //    {
-    //        get
-    //        {
-    //            return Resource.Layout.Login;
-    //        }
-    //    }
-    //    private Toolbar toolbar;
-    //    private WebView loginView;
-    //    private ProgressBar progressBar;
-    //    protected override async void OnCreate(Bundle savedInstanceState)
-    //    {
-    //        base.OnCreate(savedInstanceState);
-    //        StatusBarUtil.SetColorStatusBars(this);
-    //        // Create your application here
-    //       // toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-    //        toolbar.SetNavigationIcon(Resource.Drawable.back_24dp);
-    //        toolbar.Title = "µÇÂ¼";
-    //        progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar_login);
+    [Activity(Label = "loginactivity", Theme = "@style/AppTheme",MainLauncher  =true)]
+    public class loginactivity:BaseActivity
+    {
+        protected override int LayoutResourceId
+        {
+            get
+            {
+                return Resource.Layout.Login;
+            }
+        }
+        private Toolbar toolbar;
+        private WebView loginview;
+        private ProgressBar progressBar;
+        //private static Context context => this;
+        protected override async void OnCreate(Bundle savedinstancestate)
+        {
+            base.OnCreate(savedinstancestate);
+            StatusBarUtil.SetColorStatusBars(this);
+            // create your application here
+            // toolbar = findviewbyid<toolbar>(resource.id.toolbar);
+           // toolbar.SetNavigationIcon(Resource.Drawable.back_24dp);
+           //toolbar.Title = "µÇÂ¼";
+            progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar_login);
 
-    //        SetSupportActionBar(toolbar);
-    //        SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-    //        //toolbar.SetNavigationOnClickListener(this);
-    //        toolbar.NavigationClick += (s, e) =>
-    //        {
-    //            SetResult(Result.Canceled);
-    //            this.Finish();
-    //        };
-    //        progressBar.Max = 100;
-    //        //loginView = FindViewById<WebView>(Resource.Id.webview_login);
-    //        loginView.Settings.SetSupportZoom(true);
-    //        loginView.Settings.JavaScriptEnabled = true;
-    //        loginView.Settings.BuiltInZoomControls = true;
-    //        loginView.Settings.CacheMode = CacheModes.NoCache;
-    //        WebChromeClient webClient = new WebChromeClient();
-    //        loginView.SetWebChromeClient(new LoginWebChromeClient(progressBar));
-    //        loginView.SetWebViewClient(new LoginWebViewClient());
-    //        //await UserRequest.Login("123", (token) =>
-    //        //{
-    //        //    SharedDataUtil.SaveToken(token,this);
-    //        //    //System.Diagnostics.Debug.Write(token.access_token);
-    //        //    //Toast.MakeText(Activity,ModelFactory.token.access_token,ToastLength.Short).Show();
-    //        //}, error =>
-    //        //{
-    //        //    System.Diagnostics.Debug.Write(error);
-    //        //});
-    //        //await ArticleRequest.GetArticleList((list) =>
-    //        //{
-    //        //    System.Diagnostics.Debug.Write(list[0].BlogApp);
-    //        //}, (error) =>
-    //        //{
-    //        //    System.Diagnostics.Debug.Write(error);
-    //        //});
+         //   SetSupportActionBar(toolbar);
+           // SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            //toolbar.setnavigationonclicklistener(this);
+            //toolbar.NavigationClick += (s, e) =>
+            //{
+            //    SetResult(Result.Canceled);
+            //    this.Finish();
+            //};
+            progressBar.Max = 100;
+            loginview = FindViewById<WebView>(Resource.Id.webview_login);
+            loginview.Settings.SetSupportZoom(true);
+            loginview.Settings.JavaScriptEnabled = true;
+            loginview.Settings.BuiltInZoomControls = true;
+            loginview.Settings.CacheMode = CacheModes.NoCache;
+            WebViewClient webClient = new WebViewClient();
+            loginview.SetWebChromeClient(new loginwebchromeclient(progressBar));
+            loginview.SetWebViewClient(new loginwebviewclient(this));
+            loginview.LoadUrl(string.Format(Constact.GetAuthrize,Constact.client_id));
+            //await UserRequest.Client_Credentials((token) =>
+            //{
+            //     AccessTokenUtil.SaveToken(token, this);
+            //    //system.diagnostics.debug.write(token.access_token);
+            //    //toast.maketext(activity,modelfactory.token.access_token,toastlength.short).show();
+            //}, error =>
+            //{
+            //    //system.diagnostics.debug.write(error);
+            //    System.Diagnostics.Debug.Write(error);
+            //});
+            //await articlerequest.getarticlelist((list) =>
+            //{
+            //    system.diagnostics.debug.write(list[0].blogapp);
+            //}, (error) =>
+            //{
+            //    system.diagnostics.debug.write(error);
+            //});
 
-    //    }
-    //}
+        }
+    }
 
-    //public class LoginWebChromeClient : WebChromeClient {
-    //    private ProgressBar progressBar;
-    //    public LoginWebChromeClient(ProgressBar _progress)
-    //    {    
-    //        progressBar = _progress;
-    //    }
-    //    public override void OnProgressChanged(WebView view, int newProgress)
-    //    {
-    //        progressBar.Progress = newProgress;
-    //        if (newProgress < 100)
-    //        {
-    //            if (progressBar.Visibility == ViewStates.Gone) progressBar.Visibility = ViewStates.Visible;
-    //        }
-    //        else progressBar.Visibility = ViewStates.Gone;
-    //        base.OnProgressChanged(view, newProgress);
-    //    }
-    //};
+    public class loginwebchromeclient : WebChromeClient
+    {
+        private ProgressBar progressbar;
+        public loginwebchromeclient(ProgressBar _progress)
+        {
+            progressbar = _progress;
+        }
+        public override void OnProgressChanged(WebView view, int newprogress)
+        {
+            progressbar.Progress = newprogress;
+            if (newprogress < 100)
+            {
+                if (progressbar.Visibility == ViewStates.Gone) progressbar.Visibility = ViewStates.Visible;
+            }
+            else progressbar.Visibility = ViewStates.Gone;
+            base.OnProgressChanged(view, newprogress);
+        }
+    };
 
-    //public class LoginWebViewClient : WebViewClient
-    //{
-    //    public override WebResourceResponse ShouldInterceptRequest(WebView view, IWebResourceRequest request)
-    //    {
-    //        return base.ShouldInterceptRequest(view, request);
+    public class loginwebviewclient : WebViewClient
+    {
+        public override WebResourceResponse ShouldInterceptRequest(WebView view, IWebResourceRequest request)
+        {
+            return base.ShouldInterceptRequest(view, request);
 
-    //    }
-
-    //    [Obsolete]
-    //    public override bool ShouldOverrideUrlLoading(WebView view, string url)
-    //    {
-    //        if (url.IndexOf(Constact.Callback)>-1)
-    //        {
-    //            Uri uri = new Uri(url.Replace("#","?"));
-    //            var query = uri.Query.TrimStart('?').Split('&');
-    //            foreach (var  item  in query)
-    //            {
-    //                var q = item.Split('=');
-    //                if (q[0] == "code")
-    //                {
-    //                    var code = q[1];
-    //                    System.Diagnostics.Debug.Write(code);
-    //                    //UserRequest.Login(code, (token) =>
-    //                    //{
-    //                    //    System.Diagnostics.Debug.Write(ModelFactory.token);
-    //                    //    //Toast.MakeText(Activity,ModelFactory.token.access_token,ToastLength.Short).Show();
-    //                    //}, error =>
-    //                    //{
-    //                    //    System.Diagnostics.Debug.Write(error);
-    //                    //});
-    //                }
-    //            }
-    //           // view.StopLoading();
-    //        }
-    //        return base.ShouldOverrideUrlLoading(view, url);
-    //    }
-    //}
+        }
+        private Context context;
+        public loginwebviewclient(Context _context)
+        {
+            context = _context;
+        }
+        [Obsolete]
+        public override  bool ShouldOverrideUrlLoading(WebView view, string url)
+        {
+            if (url.IndexOf(Constact.Callback) > -1)
+            {
+                Uri uri = new Uri(url.Replace("#", "?"));
+                var query = uri.Query.TrimStart('?').Split('&');
+                foreach (var item in query)
+                {
+                    var q = item.Split('=');
+                    if (q[0] == "code")
+                    {
+                        var code = q[1];
+                        System.Diagnostics.Debug.Write(code);
+                         UserRequest.Client_Credentials((token) =>
+                        {
+                            //  AccessTokenUtil.SaveToken(token, context);
+                            UserTokenUtil.SaveToken(token, context);
+                            System.Diagnostics.Debug.Write(token.access_token);
+                            //toast.maketext(activity,modelfactory.token.access_token,toastlength.short).show();
+                            var model =  UserRequest.UserInfo(token,Constact.Users);
+                        }, error =>
+                        {
+                            //system.diagnostics.debug.write(error);
+                            System.Diagnostics.Debug.Write(error);
+                        });
+                    }
+                }
+                // view.stoploading();
+            }
+            return base.ShouldOverrideUrlLoading(view, url);
+        }
+    }
     //public class LoginToken {
     //    public void OnLogin(string code)
     //    {

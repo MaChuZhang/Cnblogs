@@ -14,4 +14,12 @@
     <item>@string/statuses_mention</item>
     <item>@string/statuses_comment</item>
   </string-array>
+
+  <string-array name="QuestionTabs">
+    <item>@string/question_unsolved</item>
+    <item>@string/question_highscore</item>
+    <item>@string/question_noanswer</item>
+    <item>@string/question_solved</item>
+  </string-array>
+  
 </resources>

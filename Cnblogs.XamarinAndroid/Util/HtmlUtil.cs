@@ -10,11 +10,23 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using System.IO;
+using Android.Text;
 
 namespace Cnblogs.XamarinAndroid
 {
     public static class HtmlUtil
     {
+        public static ISpanned GetHtml(string html, FromHtmlOptions flags = FromHtmlOptions.ModeLegacy)
+        {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
+            {
+                return Html.FromHtml(html, flags);
+            }
+            else
+            {
+                return Html.FromHtml(html);
+            }
+        }
         public static string ReplaceHtml(this string  body)
         {
             if (!string.IsNullOrEmpty(body))

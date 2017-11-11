@@ -19,17 +19,26 @@ namespace Cnblogs.XamarinAndroid
     public abstract class BaseActivity : AppCompatActivity,View.IOnClickListener, Toolbar.IOnMenuItemClickListener
     {
         private Toolbar toolbar;
+        private LinearLayout ly_tabs;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             StatusBarUtil.SetColorStatusBars(this);
             SetContentView(LayoutResourceId);
             toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            ly_tabs = FindViewById<LinearLayout>(Resource.Id.ly_tabs);
             toolbar.Title = ToolBarTitle;
         
             SetSupportActionBar(toolbar);
             toolbar.SetOnMenuItemClickListener(this);
             // Create your application here
+        }
+        protected void SetTabVisible(bool isVisible)
+        {
+            if (isVisible)
+                ly_tabs.Visibility = ViewStates.Visible;
+            else
+                ly_tabs.Visibility = ViewStates.Gone;
         }
         protected abstract int LayoutResourceId
         {

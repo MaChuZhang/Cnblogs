@@ -12,39 +12,39 @@ namespace Cnblogs.HttpClient
 {
     public class StatusRequest
     {
-        public static async Task<ApiResult<List<StatusModel>>> ListStatuses(Token token,int statusType,int pageIndex,int  pageSize)
+        public static async Task<ApiResult<List<StatusModel>>> ListStatus(Token token,int statusType,int pageIndex)
         {
             try
             {
-                string _statusType = "all";
+                string _statusType =string.Empty;
                 switch (statusType)
                 {
                     case (int)StatusType.all:
                         _statusType = "all";
                         break;
+                    case (int)StatusType.recentcomment:
+                        _statusType = "recentcomment";
+                        break;
                     case (int)StatusType.following:
                         _statusType = "following";
                         break;
                     case (int)StatusType.my:
-                        _statusType = "following";
-                        break;
-
-                    case (int)StatusType.recentcomment:
-                        _statusType = "recentcomment";
+                        _statusType = "my";
                         break;
                     case (int)StatusType.mention:
                         _statusType = "mention";
                         break;
-
                     case (int)StatusType.comment:
                         _statusType = "comment";
                         break;
-
+                    case (int)StatusType.mycomment:
+                        _statusType = "mycomment";
+                        break;
                     default:
                         _statusType = "all";
                         break;
                 }
-                string url = string.Format(Constact.Statuses,_statusType,pageIndex,pageSize);
+                string url = string.Format(Constact.Statuses,_statusType,pageIndex,Constact.PageSize);
                 var result=await HttpBase.GetAsync(url,null,token);
                 if (result.IsSuccess)
                 {
@@ -65,6 +65,29 @@ namespace Cnblogs.HttpClient
             }
         }
 
+        public static async Task<ApiResult<List<StatusCommentsModel>>> ListStatusComment(Token token,int id)
+        {
+            try {
+                string url = string.Format(Constact.StatusesComment, id);
+                var result = await HttpBase.GetAsync(url, null, token);
+                if (result.IsSuccess)
+                {
+                    var list = JsonConvert.DeserializeObject<List<StatusCommentsModel>>(result.Message);
+                    //successAction(list);
+                    return ApiResult.Ok(list);
+                }
+                else
+                {
+                    return ApiResult<List<StatusCommentsModel>>.Error(result.Message);
+                    //errorAction(result.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Write(ex.ToString());
+                return ApiResult<List<StatusCommentsModel>>.Error(ex.ToString());
+            }
+        }
         public static async Task<ApiResult<string>> GetArticleDetail(Token token,int id)
         {
             try

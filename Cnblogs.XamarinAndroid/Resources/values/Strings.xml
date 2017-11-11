@@ -21,6 +21,7 @@
   <string name="about">关于</string>
   <string name="setting">设置</string>
   <string name="share">分享</string>
+  <string name="add">添加</string>
   <string name="search">搜索</string>
   <string name="kbArticles">知识库</string>
   <string name="question">问答</string>
@@ -31,9 +32,10 @@
   <string name="view">阅读</string>
   <string name="read">阅读</string>
   <string name="mark">收藏</string>
-
+  <string name="answer">回答</string>
 
   <string name="statuses">闪存</string>
+  <string name="statusesQuestion">闪存问答</string>
   <string name="statuses_all">全站</string>
   <string name="statuses_recentcomment">新回应</string>
   <string name="statuses_following">关注</string>
@@ -42,7 +44,18 @@
   <string name="statuses_mention">提到我</string>
   <string name="statuses_comment">回复我</string>
   <string name="status_add">发布闪存</string>
-  
+
+  <string name="question">问答</string>
+  <string name="question_unsolved">首页</string>
+  <string name="question_highscore">高分</string>
+  <string name="question_noanswer">待解决</string>
+  <string name="question_solved">已解决</string>
+  <string name="question_dealflag_0">待解决</string>
+  <string name="question_dealflag_1">已解决</string>
+  <string name="question_dealflag_2">已关闭</string>
+
+  <string name="userCenter">我的</string>
+
   <!--Tab-->
   <string name="HomeTabsBlog">博客</string>
   <string name="HomeTabsHot">精华</string>

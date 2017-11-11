@@ -74,7 +74,7 @@ namespace Cnblogs.XamarinAndroid
         private async Task<List<KbArticles>> listKbArticlesServer(int _pageIndex)
         {
             pageIndex = _pageIndex;
-            var result = await KbArticlesRequest.GetKbArticlesList(SharedDataUtil.GetToken(this.Activity), pageIndex);
+            var result = await KbArticlesRequest.GetKbArticlesList(AccessTokenUtil.GetToken(this.Activity), pageIndex);
             if (result.Success)
             {
                 _swipeRefreshLayout.Refreshing = false;
@@ -147,11 +147,10 @@ namespace Cnblogs.XamarinAndroid
                 adapter.SetNewData(tempList);
             }
         }
-        public override void OnCreateOptionsMenu(IMenu menu,MenuInflater inflater)
+
+        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
-            //MenuInflater.Inflate(Resource.Menu.search, menu);
-           // Activity.MenuInflater.Inflate(Resource.Menu.share,menu);
-            //return base.OnCreateOptionsMenu(menu);
+            Activity.MenuInflater.Inflate(Resource.Menu.setting, menu);
         }
         public override bool OnOptionsItemSelected(IMenuItem item)
         {

@@ -211,6 +211,9 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f0c0000
 			public const int HomeTabs = 2131492864;
 			
+			// aapt resource value: 0x7f0c0002
+			public const int QuestionTabs = 2131492866;
+			
 			// aapt resource value: 0x7f0c0001
 			public const int StatusTabs = 2131492865;
 			
@@ -1484,26 +1487,29 @@ namespace Cnblogs.XamarinAndroid
 		public partial class Dimension
 		{
 			
+			// aapt resource value: 0x7f050071
+			public const int Img80 = 2131034225;
+			
 			// aapt resource value: 0x7f050070
 			public const int ImgLarge = 2131034224;
 			
-			// aapt resource value: 0x7f050071
-			public const int ImgMiddle = 2131034225;
-			
 			// aapt resource value: 0x7f050072
-			public const int ImgSmall = 2131034226;
+			public const int ImgMiddle = 2131034226;
+			
+			// aapt resource value: 0x7f050073
+			public const int ImgSmall = 2131034227;
 			
 			// aapt resource value: 0x7f05006f
 			public const int SubTitleSplashScreen = 2131034223;
 			
+			// aapt resource value: 0x7f050076
+			public const int TextLarge = 2131034230;
+			
 			// aapt resource value: 0x7f050075
-			public const int TextLarge = 2131034229;
+			public const int TextMiddle = 2131034229;
 			
 			// aapt resource value: 0x7f050074
-			public const int TextMiddle = 2131034228;
-			
-			// aapt resource value: 0x7f050073
-			public const int TextSmall = 2131034227;
+			public const int TextSmall = 2131034228;
 			
 			// aapt resource value: 0x7f05006e
 			public const int TitleSplashScreen = 2131034222;
@@ -1811,32 +1817,38 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f050048
 			public const int disabled_alpha_material_light = 2131034184;
 			
-			// aapt resource value: 0x7f05007e
-			public const int dp1 = 2131034238;
-			
-			// aapt resource value: 0x7f05007b
-			public const int dp10 = 2131034235;
-			
-			// aapt resource value: 0x7f05007a
-			public const int dp15 = 2131034234;
-			
-			// aapt resource value: 0x7f050079
-			public const int dp20 = 2131034233;
+			// aapt resource value: 0x7f050081
+			public const int dp1 = 2131034241;
 			
 			// aapt resource value: 0x7f05007d
-			public const int dp3 = 2131034237;
-			
-			// aapt resource value: 0x7f050078
-			public const int dp30 = 2131034232;
+			public const int dp10 = 2131034237;
 			
 			// aapt resource value: 0x7f05007c
-			public const int dp5 = 2131034236;
+			public const int dp13 = 2131034236;
+			
+			// aapt resource value: 0x7f05007b
+			public const int dp15 = 2131034235;
+			
+			// aapt resource value: 0x7f05007a
+			public const int dp20 = 2131034234;
+			
+			// aapt resource value: 0x7f050080
+			public const int dp3 = 2131034240;
+			
+			// aapt resource value: 0x7f050079
+			public const int dp30 = 2131034233;
+			
+			// aapt resource value: 0x7f05007f
+			public const int dp5 = 2131034239;
+			
+			// aapt resource value: 0x7f050078
+			public const int dp50 = 2131034232;
+			
+			// aapt resource value: 0x7f05007e
+			public const int dp8 = 2131034238;
 			
 			// aapt resource value: 0x7f050077
-			public const int dp50 = 2131034231;
-			
-			// aapt resource value: 0x7f050076
-			public const int dp80 = 2131034230;
+			public const int dp80 = 2131034231;
 			
 			// aapt resource value: 0x7f050049
 			public const int highlight_alpha_material_colored = 2131034185;
@@ -2098,163 +2110,190 @@ namespace Cnblogs.XamarinAndroid
 			public const int Icon = 2130837576;
 			
 			// aapt resource value: 0x7f020049
-			public const int icon_app = 2130837577;
+			public const int icon_add = 2130837577;
 			
 			// aapt resource value: 0x7f02004a
-			public const int icon_back = 2130837578;
+			public const int icon_app = 2130837578;
 			
 			// aapt resource value: 0x7f02004b
-			public const int icon_comment = 2130837579;
+			public const int icon_back = 2130837579;
 			
 			// aapt resource value: 0x7f02004c
-			public const int icon_digg = 2130837580;
+			public const int icon_comment = 2130837580;
 			
 			// aapt resource value: 0x7f02004d
-			public const int icon_home = 2130837581;
+			public const int icon_digg = 2130837581;
 			
 			// aapt resource value: 0x7f02004e
-			public const int icon_kbArticle = 2130837582;
+			public const int icon_home = 2130837582;
 			
 			// aapt resource value: 0x7f02004f
-			public const int icon_loading = 2130837583;
+			public const int icon_kbArticle = 2130837583;
 			
 			// aapt resource value: 0x7f020050
-			public const int icon_mark = 2130837584;
+			public const int icon_loading = 2130837584;
 			
 			// aapt resource value: 0x7f020051
-			public const int icon_news = 2130837585;
+			public const int icon_mark = 2130837585;
 			
 			// aapt resource value: 0x7f020052
-			public const int icon_news_pressed = 2130837586;
+			public const int icon_news = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int icon_qa = 2130837587;
+			public const int icon_news_pressed = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int icon_qa_pressed = 2130837588;
+			public const int icon_qa = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public const int icon_search = 2130837589;
+			public const int icon_qa_pressed = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int icon_setting = 2130837590;
+			public const int icon_search = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int icon_shancun = 2130837591;
+			public const int icon_setting = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int icon_shancun_pressed = 2130837592;
+			public const int icon_shancun = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int icon_share = 2130837593;
+			public const int icon_shancun_pressed = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public const int icon_user = 2130837594;
+			public const int icon_share = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public const int icon_user1 = 2130837595;
+			public const int icon_tag = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int icon_view = 2130837596;
+			public const int icon_user = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public const int icon_zhishiku = 2130837597;
+			public const int icon_user1 = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public const int icon_zhishiku_pressed = 2130837598;
+			public const int icon_userDefault = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int layer_articleHeader = 2130837599;
+			public const int icon_view = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int layerList_progressBar = 2130837600;
+			public const int icon_zhishiku = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int noavatar = 2130837601;
-			
-			// aapt resource value: 0x7f02007d
-			public const int notification_template_icon_bg = 2130837629;
+			public const int icon_zhishiku_pressed = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int ripple_recyclerview = 2130837602;
+			public const int layer_articleHeader = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int selector_item_background = 2130837603;
+			public const int layerList_progressBar = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int selector_menu_kbArticle = 2130837604;
+			public const int noavatar = 2130837604;
+			
+			// aapt resource value: 0x7f020086
+			public const int notification_template_icon_bg = 2130837638;
 			
 			// aapt resource value: 0x7f020065
-			public const int selector_menu_news = 2130837605;
+			public const int ripple_recyclerview = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public const int selector_menu_qa = 2130837606;
+			public const int selector_item_background = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int selector_menu_shancun = 2130837607;
+			public const int selector_menu_kbArticle = 2130837607;
 			
 			// aapt resource value: 0x7f020068
-			public const int selector_menu_textColor = 2130837608;
+			public const int selector_menu_news = 2130837608;
 			
 			// aapt resource value: 0x7f020069
-			public const int selector_menu_textSize = 2130837609;
+			public const int selector_menu_qa = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int shape_divider = 2130837610;
+			public const int selector_menu_shancun = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public const int umeng_socialize_back_icon = 2130837611;
+			public const int selector_menu_textColor = 2130837611;
 			
 			// aapt resource value: 0x7f02006c
-			public const int umeng_socialize_btn_bg = 2130837612;
+			public const int selector_menu_textSize = 2130837612;
 			
 			// aapt resource value: 0x7f02006d
-			public const int umeng_socialize_copy = 2130837613;
+			public const int shape_corner_left = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public const int umeng_socialize_copyurl = 2130837614;
+			public const int shape_corner_left_selected = 2130837614;
 			
 			// aapt resource value: 0x7f02006f
-			public const int umeng_socialize_delete = 2130837615;
+			public const int shape_corner_right = 2130837615;
 			
 			// aapt resource value: 0x7f020070
-			public const int umeng_socialize_edit_bg = 2130837616;
+			public const int shape_corner_right_selected = 2130837616;
 			
 			// aapt resource value: 0x7f020071
-			public const int umeng_socialize_fav = 2130837617;
+			public const int shape_corner_round = 2130837617;
 			
 			// aapt resource value: 0x7f020072
-			public const int umeng_socialize_menu_default = 2130837618;
+			public const int shape_divider = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public const int umeng_socialize_more = 2130837619;
+			public const int umeng_socialize_back_icon = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int umeng_socialize_qq = 2130837620;
+			public const int umeng_socialize_btn_bg = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int umeng_socialize_qzone = 2130837621;
+			public const int umeng_socialize_copy = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int umeng_socialize_share = 2130837622;
+			public const int umeng_socialize_copyurl = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int umeng_socialize_share_music = 2130837623;
+			public const int umeng_socialize_delete = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int umeng_socialize_share_video = 2130837624;
+			public const int umeng_socialize_edit_bg = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int umeng_socialize_share_web = 2130837625;
+			public const int umeng_socialize_fav = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int umeng_socialize_sina = 2130837626;
+			public const int umeng_socialize_menu_default = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int umeng_socialize_wechat = 2130837627;
+			public const int umeng_socialize_more = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int umeng_socialize_wxcircle = 2130837628;
+			public const int umeng_socialize_qq = 2130837628;
+			
+			// aapt resource value: 0x7f02007d
+			public const int umeng_socialize_qzone = 2130837629;
+			
+			// aapt resource value: 0x7f02007e
+			public const int umeng_socialize_share = 2130837630;
+			
+			// aapt resource value: 0x7f02007f
+			public const int umeng_socialize_share_music = 2130837631;
+			
+			// aapt resource value: 0x7f020080
+			public const int umeng_socialize_share_video = 2130837632;
+			
+			// aapt resource value: 0x7f020081
+			public const int umeng_socialize_share_web = 2130837633;
+			
+			// aapt resource value: 0x7f020082
+			public const int umeng_socialize_sina = 2130837634;
+			
+			// aapt resource value: 0x7f020083
+			public const int umeng_socialize_wechat = 2130837635;
+			
+			// aapt resource value: 0x7f020084
+			public const int umeng_socialize_wxcircle = 2130837636;
+			
+			// aapt resource value: 0x7f020085
+			public const int yuandou = 2130837637;
 			
 			static Drawable()
 			{
@@ -2269,14 +2308,14 @@ namespace Cnblogs.XamarinAndroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0600bd
-			public const int Setting = 2131099837;
+			// aapt resource value: 0x7f0600d9
+			public const int Setting = 2131099865;
 			
-			// aapt resource value: 0x7f0600be
-			public const int Share = 2131099838;
+			// aapt resource value: 0x7f0600da
+			public const int Share = 2131099866;
 			
-			// aapt resource value: 0x7f060099
-			public const int action0 = 2131099801;
+			// aapt resource value: 0x7f0600a7
+			public const int action0 = 2131099815;
 			
 			// aapt resource value: 0x7f06005a
 			public const int action_bar = 2131099738;
@@ -2302,8 +2341,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f06005b
 			public const int action_context_bar = 2131099739;
 			
-			// aapt resource value: 0x7f06009d
-			public const int action_divider = 2131099805;
+			// aapt resource value: 0x7f0600ab
+			public const int action_divider = 2131099819;
 			
 			// aapt resource value: 0x7f060003
 			public const int action_menu_divider = 2131099651;
@@ -2323,6 +2362,9 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f06003d
 			public const int activity_chooser_view_content = 2131099709;
 			
+			// aapt resource value: 0x7f0600d6
+			public const int add = 2131099862;
+			
 			// aapt resource value: 0x7f060049
 			public const int alertTitle = 2131099721;
 			
@@ -2338,23 +2380,29 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f06002a
 			public const int bottom = 2131099690;
 			
-			// aapt resource value: 0x7f060080
-			public const int bottom_sheet = 2131099776;
-			
-			// aapt resource value: 0x7f060085
-			public const int btn_comment = 2131099781;
+			// aapt resource value: 0x7f06007f
+			public const int bottom_sheet = 2131099775;
 			
 			// aapt resource value: 0x7f060084
-			public const int btn_digg = 2131099780;
+			public const int btn_comment = 2131099780;
 			
 			// aapt resource value: 0x7f060083
-			public const int btn_mark = 2131099779;
+			public const int btn_digg = 2131099779;
+			
+			// aapt resource value: 0x7f060082
+			public const int btn_mark = 2131099778;
+			
+			// aapt resource value: 0x7f06009f
+			public const int btn_tabQuestion = 2131099807;
+			
+			// aapt resource value: 0x7f06009e
+			public const int btn_tabStatus = 2131099806;
 			
 			// aapt resource value: 0x7f060044
 			public const int buttonPanel = 2131099716;
 			
-			// aapt resource value: 0x7f06009a
-			public const int cancel_action = 2131099802;
+			// aapt resource value: 0x7f0600a8
+			public const int cancel_action = 2131099816;
 			
 			// aapt resource value: 0x7f06002b
 			public const int center = 2131099691;
@@ -2368,8 +2416,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060052
 			public const int checkbox = 2131099730;
 			
-			// aapt resource value: 0x7f0600a0
-			public const int chronometer = 2131099808;
+			// aapt resource value: 0x7f0600ae
+			public const int chronometer = 2131099822;
 			
 			// aapt resource value: 0x7f060033
 			public const int clip_horizontal = 2131099699;
@@ -2410,8 +2458,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f06000e
 			public const int disableHome = 2131099662;
 			
-			// aapt resource value: 0x7f060079
-			public const int drawerLayout = 2131099769;
+			// aapt resource value: 0x7f060078
+			public const int drawerLayout = 2131099768;
 			
 			// aapt resource value: 0x7f06005c
 			public const int edit_query = 2131099740;
@@ -2419,8 +2467,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f06001b
 			public const int end = 2131099675;
 			
-			// aapt resource value: 0x7f0600a5
-			public const int end_padder = 2131099813;
+			// aapt resource value: 0x7f0600b3
+			public const int end_padder = 2131099827;
 			
 			// aapt resource value: 0x7f060023
 			public const int enterAlways = 2131099683;
@@ -2449,8 +2497,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060038
 			public const int @fixed = 2131099704;
 			
-			// aapt resource value: 0x7f06007a
-			public const int frameContent = 2131099770;
+			// aapt resource value: 0x7f060079
+			public const int frameContent = 2131099769;
 			
 			// aapt resource value: 0x7f060005
 			public const int home = 2131099653;
@@ -2467,26 +2515,32 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f06003f
 			public const int image = 2131099711;
 			
-			// aapt resource value: 0x7f0600a4
-			public const int info = 2131099812;
+			// aapt resource value: 0x7f0600b2
+			public const int info = 2131099826;
 			
 			// aapt resource value: 0x7f060000
 			public const int item_touch_helper_previous_elevation = 2131099648;
 			
-			// aapt resource value: 0x7f060075
-			public const int iv_avatar = 2131099765;
+			// aapt resource value: 0x7f060074
+			public const int iv_avatar = 2131099764;
 			
-			// aapt resource value: 0x7f0600bc
-			public const int kbArticles = 2131099836;
+			// aapt resource value: 0x7f060098
+			public const int iv_commentUserIcon = 2131099800;
+			
+			// aapt resource value: 0x7f060095
+			public const int iv_userIcon = 2131099797;
+			
+			// aapt resource value: 0x7f0600d8
+			public const int kbArticles = 2131099864;
 			
 			// aapt resource value: 0x7f06002f
 			public const int left = 2131099695;
 			
-			// aapt resource value: 0x7f06009e
-			public const int line1 = 2131099806;
+			// aapt resource value: 0x7f0600ac
+			public const int line1 = 2131099820;
 			
-			// aapt resource value: 0x7f0600a2
-			public const int line3 = 2131099810;
+			// aapt resource value: 0x7f0600b0
+			public const int line3 = 2131099824;
 			
 			// aapt resource value: 0x7f06000b
 			public const int listMode = 2131099659;
@@ -2494,17 +2548,26 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060041
 			public const int list_item = 2131099713;
 			
-			// aapt resource value: 0x7f060074
-			public const int ly_articleHeader = 2131099764;
+			// aapt resource value: 0x7f060073
+			public const int ly_articleHeader = 2131099763;
 			
-			// aapt resource value: 0x7f060088
-			public const int ly_item = 2131099784;
+			// aapt resource value: 0x7f0600b6
+			public const int ly_headerView = 2131099830;
 			
-			// aapt resource value: 0x7f060094
-			public const int ly_menu = 2131099796;
+			// aapt resource value: 0x7f060087
+			public const int ly_item = 2131099783;
 			
-			// aapt resource value: 0x7f06009c
-			public const int media_actions = 2131099804;
+			// aapt resource value: 0x7f0600a2
+			public const int ly_menu = 2131099810;
+			
+			// aapt resource value: 0x7f06009d
+			public const int ly_tabs = 2131099805;
+			
+			// aapt resource value: 0x7f0600c4
+			public const int ly_user = 2131099844;
+			
+			// aapt resource value: 0x7f0600aa
+			public const int media_actions = 2131099818;
 			
 			// aapt resource value: 0x7f06001c
 			public const int middle = 2131099676;
@@ -2515,8 +2578,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060015
 			public const int multiply = 2131099669;
 			
-			// aapt resource value: 0x7f06007b
-			public const int navigationView = 2131099771;
+			// aapt resource value: 0x7f06007a
+			public const int navigationView = 2131099770;
 			
 			// aapt resource value: 0x7f06006c
 			public const int navigation_header_container = 2131099756;
@@ -2524,8 +2587,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060020
 			public const int never = 2131099680;
 			
-			// aapt resource value: 0x7f0600bb
-			public const int news = 2131099835;
+			// aapt resource value: 0x7f0600d7
+			public const int news = 2131099863;
 			
 			// aapt resource value: 0x7f060010
 			public const int none = 2131099664;
@@ -2539,20 +2602,20 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060046
 			public const int parentPanel = 2131099718;
 			
-			// aapt resource value: 0x7f060086
-			public const int photoview = 2131099782;
+			// aapt resource value: 0x7f060085
+			public const int photoview = 2131099781;
 			
 			// aapt resource value: 0x7f060029
 			public const int pin = 2131099689;
 			
-			// aapt resource value: 0x7f06008f
-			public const int progressBar_loadmMore = 2131099791;
+			// aapt resource value: 0x7f06008e
+			public const int progressBar_loadmMore = 2131099790;
 			
-			// aapt resource value: 0x7f060092
-			public const int progressBar_login = 2131099794;
+			// aapt resource value: 0x7f0600a0
+			public const int progressBar_login = 2131099808;
 			
-			// aapt resource value: 0x7f0600b1
-			public const int progress_bar_parent = 2131099825;
+			// aapt resource value: 0x7f0600c3
+			public const int progress_bar_parent = 2131099843;
 			
 			// aapt resource value: 0x7f060006
 			public const int progress_circular = 2131099654;
@@ -2563,17 +2626,17 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060054
 			public const int radio = 2131099732;
 			
-			// aapt resource value: 0x7f06007f
-			public const int recyclerView = 2131099775;
+			// aapt resource value: 0x7f06007e
+			public const int recyclerView = 2131099774;
 			
-			// aapt resource value: 0x7f06008e
-			public const int recyclerView_foot = 2131099790;
+			// aapt resource value: 0x7f06008d
+			public const int recyclerView_foot = 2131099789;
 			
 			// aapt resource value: 0x7f060030
 			public const int right = 2131099696;
 			
-			// aapt resource value: 0x7f0600b2
-			public const int root = 2131099826;
+			// aapt resource value: 0x7f0600cd
+			public const int root = 2131099853;
 			
 			// aapt resource value: 0x7f060016
 			public const int screen = 2131099670;
@@ -2593,8 +2656,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060039
 			public const int scrollable = 2131099705;
 			
-			// aapt resource value: 0x7f0600bf
-			public const int search = 2131099839;
+			// aapt resource value: 0x7f0600db
+			public const int search = 2131099867;
 			
 			// aapt resource value: 0x7f06005e
 			public const int search_badge = 2131099742;
@@ -2629,8 +2692,11 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060068
 			public const int select_dialog_listview = 2131099752;
 			
-			// aapt resource value: 0x7f0600c0
-			public const int share = 2131099840;
+			// aapt resource value: 0x7f0600dc
+			public const int setting = 2131099868;
+			
+			// aapt resource value: 0x7f0600dd
+			public const int share = 2131099869;
 			
 			// aapt resource value: 0x7f060053
 			public const int shortcut = 2131099731;
@@ -2653,11 +2719,11 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060027
 			public const int snap = 2131099687;
 			
-			// aapt resource value: 0x7f0600a8
-			public const int socialize_image_view = 2131099816;
+			// aapt resource value: 0x7f0600ba
+			public const int socialize_image_view = 2131099834;
 			
-			// aapt resource value: 0x7f0600a9
-			public const int socialize_text_view = 2131099817;
+			// aapt resource value: 0x7f0600bb
+			public const int socialize_text_view = 2131099835;
 			
 			// aapt resource value: 0x7f060045
 			public const int spacer = 2131099717;
@@ -2677,32 +2743,32 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060031
 			public const int start = 2131099697;
 			
-			// aapt resource value: 0x7f06009b
-			public const int status_bar_latest_event_content = 2131099803;
+			// aapt resource value: 0x7f0600a9
+			public const int status_bar_latest_event_content = 2131099817;
 			
 			// aapt resource value: 0x7f060065
 			public const int submit_area = 2131099749;
 			
-			// aapt resource value: 0x7f06007e
-			public const int swipeRefreshLayout = 2131099774;
+			// aapt resource value: 0x7f06007d
+			public const int swipeRefreshLayout = 2131099773;
 			
 			// aapt resource value: 0x7f06000d
 			public const int tabMode = 2131099661;
 			
-			// aapt resource value: 0x7f06007c
-			public const int tab_home = 2131099772;
+			// aapt resource value: 0x7f06007b
+			public const int tab_home = 2131099771;
 			
-			// aapt resource value: 0x7f0600a3
-			public const int text = 2131099811;
+			// aapt resource value: 0x7f0600b1
+			public const int text = 2131099825;
 			
-			// aapt resource value: 0x7f0600a1
-			public const int text2 = 2131099809;
+			// aapt resource value: 0x7f0600af
+			public const int text2 = 2131099823;
 			
 			// aapt resource value: 0x7f06004d
 			public const int textSpacerNoButtons = 2131099725;
 			
-			// aapt resource value: 0x7f06009f
-			public const int time = 2131099807;
+			// aapt resource value: 0x7f0600ad
+			public const int time = 2131099821;
 			
 			// aapt resource value: 0x7f060043
 			public const int title = 2131099715;
@@ -2710,11 +2776,8 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060048
 			public const int title_template = 2131099720;
 			
-			// aapt resource value: 0x7f060072
-			public const int toolbar = 2131099762;
-			
 			// aapt resource value: 0x7f060069
-			public const int toolbar1 = 2131099753;
+			public const int toolbar = 2131099753;
 			
 			// aapt resource value: 0x7f060032
 			public const int top = 2131099698;
@@ -2722,98 +2785,161 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060047
 			public const int topPanel = 2131099719;
 			
-			// aapt resource value: 0x7f060073
-			public const int tv_articleTitle = 2131099763;
+			// aapt resource value: 0x7f0600cc
+			public const int tv_about = 2131099852;
 			
-			// aapt resource value: 0x7f060076
-			public const int tv_author = 2131099766;
+			// aapt resource value: 0x7f060093
+			public const int tv_answerCount = 2131099795;
 			
-			// aapt resource value: 0x7f06008c
-			public const int tv_commentCount = 2131099788;
+			// aapt resource value: 0x7f060072
+			public const int tv_articleTitle = 2131099762;
 			
-			// aapt resource value: 0x7f060091
-			public const int tv_dateAdded = 2131099793;
-			
-			// aapt resource value: 0x7f06008a
-			public const int tv_description = 2131099786;
-			
-			// aapt resource value: 0x7f06008b
-			public const int tv_diggCount = 2131099787;
-			
-			// aapt resource value: 0x7f0600a6
-			public const int tv_index = 2131099814;
-			
-			// aapt resource value: 0x7f060096
-			public const int tv_kbArticles = 2131099798;
-			
-			// aapt resource value: 0x7f060095
-			public const int tv_news = 2131099797;
-			
-			// aapt resource value: 0x7f060087
-			public const int tv_num = 2131099783;
-			
-			// aapt resource value: 0x7f060077
-			public const int tv_postDate = 2131099767;
-			
-			// aapt resource value: 0x7f060098
-			public const int tv_qa = 2131099800;
-			
-			// aapt resource value: 0x7f060097
-			public const int tv_status = 2131099799;
-			
-			// aapt resource value: 0x7f060090
-			public const int tv_summary = 2131099792;
-			
-			// aapt resource value: 0x7f060089
-			public const int tv_title = 2131099785;
-			
-			// aapt resource value: 0x7f060082
-			public const int tv_view = 2131099778;
-			
-			// aapt resource value: 0x7f06008d
-			public const int tv_viewCount = 2131099789;
-			
-			// aapt resource value: 0x7f0600ac
-			public const int umeng_back = 2131099820;
-			
-			// aapt resource value: 0x7f0600ba
-			public const int umeng_del = 2131099834;
+			// aapt resource value: 0x7f060075
+			public const int tv_author = 2131099765;
 			
 			// aapt resource value: 0x7f0600b7
-			public const int umeng_image_edge = 2131099831;
+			public const int tv_award = 2131099831;
 			
-			// aapt resource value: 0x7f0600ad
-			public const int umeng_share_btn = 2131099821;
+			// aapt resource value: 0x7f060094
+			public const int tv_awardCount = 2131099796;
 			
-			// aapt resource value: 0x7f0600b8
-			public const int umeng_share_icon = 2131099832;
+			// aapt resource value: 0x7f06009c
+			public const int tv_commentContent = 2131099804;
 			
-			// aapt resource value: 0x7f0600ae
-			public const int umeng_socialize_follow = 2131099822;
+			// aapt resource value: 0x7f06008b
+			public const int tv_commentCount = 2131099787;
 			
-			// aapt resource value: 0x7f0600af
-			public const int umeng_socialize_follow_check = 2131099823;
+			// aapt resource value: 0x7f06009b
+			public const int tv_commentDateAdded = 2131099803;
 			
-			// aapt resource value: 0x7f0600b6
-			public const int umeng_socialize_share_bottom_area = 2131099830;
+			// aapt resource value: 0x7f06009a
+			public const int tv_commentUserName = 2131099802;
 			
-			// aapt resource value: 0x7f0600b4
-			public const int umeng_socialize_share_edittext = 2131099828;
+			// aapt resource value: 0x7f060097
+			public const int tv_content = 2131099799;
 			
-			// aapt resource value: 0x7f0600b3
-			public const int umeng_socialize_share_titlebar = 2131099827;
-			
-			// aapt resource value: 0x7f0600b5
-			public const int umeng_socialize_share_word_num = 2131099829;
-			
-			// aapt resource value: 0x7f0600aa
-			public const int umeng_socialize_titlebar = 2131099818;
-			
-			// aapt resource value: 0x7f0600ab
-			public const int umeng_title = 2131099819;
+			// aapt resource value: 0x7f060090
+			public const int tv_dateAdded = 2131099792;
 			
 			// aapt resource value: 0x7f0600b9
-			public const int umeng_web_title = 2131099833;
+			public const int tv_dealFlag = 2131099833;
+			
+			// aapt resource value: 0x7f060089
+			public const int tv_description = 2131099785;
+			
+			// aapt resource value: 0x7f06008a
+			public const int tv_diggCount = 2131099786;
+			
+			// aapt resource value: 0x7f0600cb
+			public const int tv_dnowload = 2131099851;
+			
+			// aapt resource value: 0x7f060099
+			public const int tv_floor = 2131099801;
+			
+			// aapt resource value: 0x7f0600b4
+			public const int tv_index = 2131099828;
+			
+			// aapt resource value: 0x7f0600a4
+			public const int tv_kbArticles = 2131099812;
+			
+			// aapt resource value: 0x7f0600c7
+			public const int tv_myBlog = 2131099847;
+			
+			// aapt resource value: 0x7f0600ca
+			public const int tv_myCollect = 2131099850;
+			
+			// aapt resource value: 0x7f0600c9
+			public const int tv_myQuestion = 2131099849;
+			
+			// aapt resource value: 0x7f0600c8
+			public const int tv_myStatus = 2131099848;
+			
+			// aapt resource value: 0x7f0600a3
+			public const int tv_news = 2131099811;
+			
+			// aapt resource value: 0x7f060086
+			public const int tv_num = 2131099782;
+			
+			// aapt resource value: 0x7f060076
+			public const int tv_postDate = 2131099766;
+			
+			// aapt resource value: 0x7f0600b8
+			public const int tv_qScore = 2131099832;
+			
+			// aapt resource value: 0x7f0600c5
+			public const int tv_score = 2131099845;
+			
+			// aapt resource value: 0x7f0600a5
+			public const int tv_status = 2131099813;
+			
+			// aapt resource value: 0x7f0600c6
+			public const int tv_subTitle = 2131099846;
+			
+			// aapt resource value: 0x7f06008f
+			public const int tv_summary = 2131099791;
+			
+			// aapt resource value: 0x7f060092
+			public const int tv_tags = 2131099794;
+			
+			// aapt resource value: 0x7f060088
+			public const int tv_title = 2131099784;
+			
+			// aapt resource value: 0x7f0600a6
+			public const int tv_userCenter = 2131099814;
+			
+			// aapt resource value: 0x7f060096
+			public const int tv_userDisplayName = 2131099798;
+			
+			// aapt resource value: 0x7f060091
+			public const int tv_userName = 2131099793;
+			
+			// aapt resource value: 0x7f060081
+			public const int tv_view = 2131099777;
+			
+			// aapt resource value: 0x7f06008c
+			public const int tv_viewCount = 2131099788;
+			
+			// aapt resource value: 0x7f0600be
+			public const int umeng_back = 2131099838;
+			
+			// aapt resource value: 0x7f0600d5
+			public const int umeng_del = 2131099861;
+			
+			// aapt resource value: 0x7f0600d2
+			public const int umeng_image_edge = 2131099858;
+			
+			// aapt resource value: 0x7f0600bf
+			public const int umeng_share_btn = 2131099839;
+			
+			// aapt resource value: 0x7f0600d3
+			public const int umeng_share_icon = 2131099859;
+			
+			// aapt resource value: 0x7f0600c0
+			public const int umeng_socialize_follow = 2131099840;
+			
+			// aapt resource value: 0x7f0600c1
+			public const int umeng_socialize_follow_check = 2131099841;
+			
+			// aapt resource value: 0x7f0600d1
+			public const int umeng_socialize_share_bottom_area = 2131099857;
+			
+			// aapt resource value: 0x7f0600cf
+			public const int umeng_socialize_share_edittext = 2131099855;
+			
+			// aapt resource value: 0x7f0600ce
+			public const int umeng_socialize_share_titlebar = 2131099854;
+			
+			// aapt resource value: 0x7f0600d0
+			public const int umeng_socialize_share_word_num = 2131099856;
+			
+			// aapt resource value: 0x7f0600bc
+			public const int umeng_socialize_titlebar = 2131099836;
+			
+			// aapt resource value: 0x7f0600bd
+			public const int umeng_title = 2131099837;
+			
+			// aapt resource value: 0x7f0600d4
+			public const int umeng_web_title = 2131099860;
 			
 			// aapt resource value: 0x7f060009
 			public const int up = 2131099657;
@@ -2821,26 +2947,26 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f060014
 			public const int useLogo = 2131099668;
 			
-			// aapt resource value: 0x7f06007d
-			public const int viewPager_home = 2131099773;
+			// aapt resource value: 0x7f06007c
+			public const int viewPager_home = 2131099772;
 			
-			// aapt resource value: 0x7f060081
-			public const int view_divider = 2131099777;
+			// aapt resource value: 0x7f060080
+			public const int view_divider = 2131099776;
 			
 			// aapt resource value: 0x7f06000a
 			public const int view_offset_helper = 2131099658;
 			
-			// aapt resource value: 0x7f0600a7
-			public const int viewpager_img = 2131099815;
+			// aapt resource value: 0x7f0600b5
+			public const int viewpager_img = 2131099829;
 			
-			// aapt resource value: 0x7f060078
-			public const int wb_content = 2131099768;
+			// aapt resource value: 0x7f060077
+			public const int wb_content = 2131099767;
 			
-			// aapt resource value: 0x7f0600b0
-			public const int webView = 2131099824;
+			// aapt resource value: 0x7f0600c2
+			public const int webView = 2131099842;
 			
-			// aapt resource value: 0x7f060093
-			public const int webview_login = 2131099795;
+			// aapt resource value: 0x7f0600a1
+			public const int webview_login = 2131099809;
 			
 			// aapt resource value: 0x7f060021
 			public const int withText = 2131099681;
@@ -3025,85 +3151,112 @@ namespace Cnblogs.XamarinAndroid
 			public const int fragment_recyclerview = 2130903083;
 			
 			// aapt resource value: 0x7f03002c
-			public const int item_article_bottom = 2130903084;
+			public const int fragment_statusQuestion = 2130903084;
 			
 			// aapt resource value: 0x7f03002d
-			public const int item_kbarticles_bottom = 2130903085;
+			public const int item_article_bottom = 2130903085;
 			
 			// aapt resource value: 0x7f03002e
-			public const int item_photo = 2130903086;
+			public const int item_kbarticles_bottom = 2130903086;
 			
 			// aapt resource value: 0x7f03002f
-			public const int item_recyclerView = 2130903087;
+			public const int item_photo = 2130903087;
 			
 			// aapt resource value: 0x7f030030
-			public const int item_recyclerview_article = 2130903088;
+			public const int item_recyclerView = 2130903088;
 			
 			// aapt resource value: 0x7f030031
-			public const int item_recyclerView_footer_empty = 2130903089;
+			public const int item_recyclerview_article = 2130903089;
 			
 			// aapt resource value: 0x7f030032
-			public const int item_recyclerView_footer_loading = 2130903090;
+			public const int item_recyclerView_footer_empty = 2130903090;
 			
 			// aapt resource value: 0x7f030033
-			public const int item_recyclerview_kbarticles = 2130903091;
+			public const int item_recyclerView_footer_loading = 2130903091;
 			
 			// aapt resource value: 0x7f030034
-			public const int Login = 2130903092;
+			public const int item_recyclerview_kbarticles = 2130903092;
 			
 			// aapt resource value: 0x7f030035
-			public const int Main = 2130903093;
+			public const int item_recyclerview_question = 2130903093;
 			
 			// aapt resource value: 0x7f030036
-			public const int navheader = 2130903094;
+			public const int item_recyclerview_status = 2130903094;
 			
 			// aapt resource value: 0x7f030037
-			public const int notification_media_action = 2130903095;
+			public const int item_recyclerview_statusComment = 2130903095;
 			
 			// aapt resource value: 0x7f030038
-			public const int notification_media_cancel_action = 2130903096;
+			public const int layout1 = 2130903096;
 			
 			// aapt resource value: 0x7f030039
-			public const int notification_template_big_media = 2130903097;
+			public const int Login = 2130903097;
 			
 			// aapt resource value: 0x7f03003a
-			public const int notification_template_big_media_narrow = 2130903098;
+			public const int Main = 2130903098;
 			
 			// aapt resource value: 0x7f03003b
-			public const int notification_template_lines = 2130903099;
+			public const int navheader = 2130903099;
 			
 			// aapt resource value: 0x7f03003c
-			public const int notification_template_media = 2130903100;
+			public const int notification_media_action = 2130903100;
 			
 			// aapt resource value: 0x7f03003d
-			public const int notification_template_part_chronometer = 2130903101;
+			public const int notification_media_cancel_action = 2130903101;
 			
 			// aapt resource value: 0x7f03003e
-			public const int notification_template_part_time = 2130903102;
+			public const int notification_template_big_media = 2130903102;
 			
 			// aapt resource value: 0x7f03003f
-			public const int Photo = 2130903103;
+			public const int notification_template_big_media_narrow = 2130903103;
 			
 			// aapt resource value: 0x7f030040
-			public const int select_dialog_item_material = 2130903104;
+			public const int notification_template_lines = 2130903104;
 			
 			// aapt resource value: 0x7f030041
-			public const int select_dialog_multichoice_material = 2130903105;
+			public const int notification_template_media = 2130903105;
 			
 			// aapt resource value: 0x7f030042
-			public const int select_dialog_singlechoice_material = 2130903106;
+			public const int notification_template_part_chronometer = 2130903106;
 			
 			// aapt resource value: 0x7f030043
-			public const int socialize_share_menu_item = 2130903107;
+			public const int notification_template_part_time = 2130903107;
 			
 			// aapt resource value: 0x7f030044
-			public const int SplashScreen = 2130903108;
+			public const int Photo = 2130903108;
 			
 			// aapt resource value: 0x7f030045
-			public const int support_simple_spinner_dropdown_item = 2130903109;
+			public const int questionDetail = 2130903109;
 			
 			// aapt resource value: 0x7f030046
-			public const int umeng_socialize_oauth_dialog = 2130903110;
+			public const int select_dialog_item_material = 2130903110;
+			
+			// aapt resource value: 0x7f030047
+			public const int select_dialog_multichoice_material = 2130903111;
+			
+			// aapt resource value: 0x7f030048
+			public const int select_dialog_singlechoice_material = 2130903112;
+			
+			// aapt resource value: 0x7f030049
+			public const int socialize_share_menu_item = 2130903113;
+			
+			// aapt resource value: 0x7f03004a
+			public const int SplashScreen = 2130903114;
+			
+			// aapt resource value: 0x7f03004b
+			public const int statusesComment = 2130903115;
+			
+			// aapt resource value: 0x7f03004c
+			public const int support_simple_spinner_dropdown_item = 2130903116;
+			
+			// aapt resource value: 0x7f03004d
+			public const int testBtn = 2130903117;
+			
+			// aapt resource value: 0x7f03004e
+			public const int umeng_socialize_oauth_dialog = 2130903118;
+			
+			// aapt resource value: 0x7f03004f
+			public const int UserCenter = 2130903119;
 			
 			static Layout()
 			{
@@ -3119,13 +3272,19 @@ namespace Cnblogs.XamarinAndroid
 		{
 			
 			// aapt resource value: 0x7f0d0000
-			public const int main = 2131558400;
+			public const int add = 2131558400;
 			
 			// aapt resource value: 0x7f0d0001
-			public const int search = 2131558401;
+			public const int main = 2131558401;
 			
 			// aapt resource value: 0x7f0d0002
-			public const int share = 2131558402;
+			public const int search = 2131558402;
+			
+			// aapt resource value: 0x7f0d0003
+			public const int setting = 2131558403;
+			
+			// aapt resource value: 0x7f0d0004
+			public const int share = 2131558404;
 			
 			static Menu()
 			{
@@ -3164,11 +3323,11 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f090016
 			public const int Hello = 2131296278;
 			
-			// aapt resource value: 0x7f09006b
-			public const int HomeTabsBlog = 2131296363;
+			// aapt resource value: 0x7f090076
+			public const int HomeTabsBlog = 2131296374;
 			
-			// aapt resource value: 0x7f09006c
-			public const int HomeTabsHot = 2131296364;
+			// aapt resource value: 0x7f090077
+			public const int HomeTabsHot = 2131296375;
 			
 			// aapt resource value: 0x7f090052
 			public const int ToolBar_Title_Blog = 2131296338;
@@ -3236,6 +3395,12 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f090057
 			public const int about = 2131296343;
 			
+			// aapt resource value: 0x7f09005a
+			public const int add = 2131296346;
+			
+			// aapt resource value: 0x7f090063
+			public const int answer = 2131296355;
+			
 			// aapt resource value: 0x7f090014
 			public const int appbar_scrolling_view_behavior = 2131296276;
 			
@@ -3248,29 +3413,50 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f090015
 			public const int character_counter_pattern = 2131296277;
 			
+			// aapt resource value: 0x7f09005f
+			public const int comment = 2131296351;
+			
 			// aapt resource value: 0x7f09005e
-			public const int comment = 2131296350;
+			public const int digg = 2131296350;
 			
-			// aapt resource value: 0x7f09005d
-			public const int digg = 2131296349;
+			// aapt resource value: 0x7f09005c
+			public const int kbArticles = 2131296348;
 			
-			// aapt resource value: 0x7f09005b
-			public const int kbArticles = 2131296347;
-			
-			// aapt resource value: 0x7f090061
-			public const int mark = 2131296353;
+			// aapt resource value: 0x7f090062
+			public const int mark = 2131296354;
 			
 			// aapt resource value: 0x7f090055
 			public const int news = 2131296341;
 			
-			// aapt resource value: 0x7f09005c
-			public const int question = 2131296348;
+			// aapt resource value: 0x7f09005d
+			public const int question = 2131296349;
 			
-			// aapt resource value: 0x7f090060
-			public const int read = 2131296352;
+			// aapt resource value: 0x7f090072
+			public const int question_dealflag_0 = 2131296370;
 			
-			// aapt resource value: 0x7f09005a
-			public const int search = 2131296346;
+			// aapt resource value: 0x7f090073
+			public const int question_dealflag_1 = 2131296371;
+			
+			// aapt resource value: 0x7f090074
+			public const int question_dealflag_2 = 2131296372;
+			
+			// aapt resource value: 0x7f09006f
+			public const int question_highscore = 2131296367;
+			
+			// aapt resource value: 0x7f090070
+			public const int question_noanswer = 2131296368;
+			
+			// aapt resource value: 0x7f090071
+			public const int question_solved = 2131296369;
+			
+			// aapt resource value: 0x7f09006e
+			public const int question_unsolved = 2131296366;
+			
+			// aapt resource value: 0x7f090061
+			public const int read = 2131296353;
+			
+			// aapt resource value: 0x7f09005b
+			public const int search = 2131296347;
 			
 			// aapt resource value: 0x7f090058
 			public const int setting = 2131296344;
@@ -3278,35 +3464,38 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f090059
 			public const int share = 2131296345;
 			
-			// aapt resource value: 0x7f09006a
-			public const int status_add = 2131296362;
+			// aapt resource value: 0x7f09006d
+			public const int status_add = 2131296365;
 			
 			// aapt resource value: 0x7f090013
 			public const int status_bar_notification_info_overflow = 2131296275;
 			
-			// aapt resource value: 0x7f090062
-			public const int statuses = 2131296354;
-			
-			// aapt resource value: 0x7f090063
-			public const int statuses_all = 2131296355;
-			
-			// aapt resource value: 0x7f090069
-			public const int statuses_comment = 2131296361;
+			// aapt resource value: 0x7f090064
+			public const int statuses = 2131296356;
 			
 			// aapt resource value: 0x7f090065
-			public const int statuses_following = 2131296357;
-			
-			// aapt resource value: 0x7f090068
-			public const int statuses_mention = 2131296360;
+			public const int statusesQuestion = 2131296357;
 			
 			// aapt resource value: 0x7f090066
-			public const int statuses_my = 2131296358;
+			public const int statuses_all = 2131296358;
+			
+			// aapt resource value: 0x7f09006c
+			public const int statuses_comment = 2131296364;
+			
+			// aapt resource value: 0x7f090068
+			public const int statuses_following = 2131296360;
+			
+			// aapt resource value: 0x7f09006b
+			public const int statuses_mention = 2131296363;
+			
+			// aapt resource value: 0x7f090069
+			public const int statuses_my = 2131296361;
+			
+			// aapt resource value: 0x7f09006a
+			public const int statuses_mycomment = 2131296362;
 			
 			// aapt resource value: 0x7f090067
-			public const int statuses_mycomment = 2131296359;
-			
-			// aapt resource value: 0x7f090064
-			public const int statuses_recentcomment = 2131296356;
+			public const int statuses_recentcomment = 2131296359;
 			
 			// aapt resource value: 0x7f090029
 			public const int umeng_example_home_btn_plus = 2131296297;
@@ -3464,8 +3653,11 @@ namespace Cnblogs.XamarinAndroid
 			// aapt resource value: 0x7f090035
 			public const int umeng_socialize_text_yixincircle_key = 2131296309;
 			
-			// aapt resource value: 0x7f09005f
-			public const int view = 2131296351;
+			// aapt resource value: 0x7f090075
+			public const int userCenter = 2131296373;
+			
+			// aapt resource value: 0x7f090060
+			public const int view = 2131296352;
 			
 			static String()
 			{

@@ -32,7 +32,6 @@ namespace Cnblogs.XamarinAndroid.UI.Widgets
             _adapter = recyclerViewAdapter;
             _InsertDataEvent = InsertDataEvent;
         }
-
         //当RecyclerView的滑动状态改变时触发
         //滑动状态有3种，0：ScrollStateIdle手指离开屏幕1ScrollStateDragging：手指触碰屏幕2ScrollStateSetting
         public override void OnScrollStateChanged(RecyclerView recyclerView, int newState)
@@ -46,7 +45,8 @@ namespace Cnblogs.XamarinAndroid.UI.Widgets
                 if (lastVisibleItemPosition + 1 == _adapter.ItemCount)
                 {
                     System.Diagnostics.Debug.Write("test", "loadding已经完成"+state);
-                    _InsertDataEvent();
+                   
+                      _InsertDataEvent();
                 }
             }
         }

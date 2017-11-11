@@ -8,7 +8,35 @@ using System.Threading.Tasks;
 namespace Cnblogs.ApiModel
 {
     public enum StatusType {
-        all, mention, following, my, mycomment, comment, recentcomment
+        /// <summary>
+        /// 全站
+        /// </summary>
+        all,
+        /// <summary>
+        /// 新回应
+        /// </summary>
+        recentcomment,
+        /// <summary>
+        /// 我关注的用户
+        /// </summary>
+        following,
+        /// <summary>
+        /// 我的
+        /// </summary>
+        my,
+
+       /// <summary>
+       /// 我回复的
+       /// </summary>
+        mycomment,
+        /// <summary>
+        /// 提到我的
+        /// </summary>
+        mention,
+        /// <summary>
+        /// 回复我的
+        /// </summary>
+        comment
     }
     public class StatusModel
     {

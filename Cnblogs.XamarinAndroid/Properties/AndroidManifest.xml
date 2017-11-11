@@ -1,42 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="Cnblogs.XamarinAndroid.Cnblogs.XamarinAndroid6" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="Cnblogs.XamarinAndroid.Cnblogs.XamarinAndroid" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="16" />
-  <!--检查网络状态-->
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <!--获取mac地址作为用户的备用唯一标识-->
-  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-  <!--获取用户手机的IMEI，用来唯一标识用户-->
-  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-  <!--缓存资源优先存入SDCard-->
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-  <!--允许应用联网-->
-  <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-  <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-  <!--QQ QQ空间所需权限-->
-  <uses-permission android:name="android.permission.GET_TASKS"/>
+	<!--检查网络状态-->
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<!--获取mac地址作为用户的备用唯一标识-->
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<!--获取用户手机的IMEI，用来唯一标识用户-->
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<!--缓存资源优先存入SDCard-->
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<!--允许应用联网-->
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+	<!--QQ QQ空间所需权限-->
+	<uses-permission android:name="android.permission.GET_TASKS" />
 	<application android:label="@string/ApplicationName" android:theme="@style/AppTheme" android:largeHeap="true" android:icon="@drawable/icon_app">
-    <meta-data android:name="UMENG_APPKEY" android:value="59f001d5a40fa36423000018"/>
-  </application>
-  
-		<activity android:name="com.umeng.qq.tencent.AuthActivity" android:launchMode="singleTask" android:noHistory="true">
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="tencent100424468" />
-			</intent-filter>
-		</activity>
-
-  <activity android:name="com.umeng.qq.tencent.AssistActivity" android:configChanges="orientation|keyboardHidden|screenSize" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-  
-		<activity android:name=".WBShareActivity" android:configChanges="keyboardHidden|orientation" android:screenOrientation="portrait">
-			<intent-filter>
-				<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-  
+		<meta-data android:name="UMENG_APPKEY" android:value="59f001d5a40fa36423000018" />
+	</application>
+	<activity android:name="com.umeng.qq.tencent.AuthActivity" android:launchMode="singleTask" android:noHistory="true">
+		<intent-filter>
+			<action android:name="android.intent.action.VIEW" />
+			<category android:name="android.intent.category.DEFAULT" />
+			<category android:name="android.intent.category.BROWSABLE" />
+			<data android:scheme="tencent100424468" />
+		</intent-filter>
+	</activity>
+	<activity android:name="com.umeng.qq.tencent.AssistActivity" android:configChanges="orientation|keyboardHidden|screenSize" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+	<activity android:name=".WBShareActivity" android:configChanges="keyboardHidden|orientation" android:screenOrientation="portrait">
+		<intent-filter>
+			<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+			<category android:name="android.intent.category.DEFAULT" />
+		</intent-filter>
+	</activity>
 </manifest>

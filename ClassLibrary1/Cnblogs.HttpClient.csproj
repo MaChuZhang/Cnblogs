@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiResult.cs" />
+    <Compile Include="QuestionRequest.cs" />
     <Compile Include="StatusRequest.cs" />
     <Compile Include="KbArticlesRequest.cs" />
     <Compile Include="Constact.cs" />

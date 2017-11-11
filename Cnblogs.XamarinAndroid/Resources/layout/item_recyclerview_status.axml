@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ly_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackgroundRipple"
+        android:padding="@dimen/dp10">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+      <ImageView
+          android:layout_height="@dimen/ImgSmall"
+          android:layout_width="@dimen/ImgSmall"
+          android:id="@+id/iv_userIcon"/>
+      <TextView
+          style="@style/InlineText"
+          android:id="@+id/tv_userDisplayName"
+          android:layout_marginLeft="@dimen/dp5" />
+      <TextView
+          style="@style/InlineText"
+          android:layout_width="match_parent"
+          android:gravity="right"
+          android:id="@+id/tv_dateAdded"/>
+    </LinearLayout>
+    <TextView
+      style="@style/TitleText"
+      android:layout_marginTop="@dimen/dp5"
+      android:layout_marginBottom="@dimen/dp5"
+      android:text="测试标题测试标题测试标题测试标题测试标题测试标题"
+      android:id="@+id/tv_content"/>
+    <TextView
+        android:id="@+id/tv_commentCount"
+        style="@style/InlineText"
+        android:drawableLeft="@drawable/icon_comment"
+        android:layout_gravity="right"
+   />
+    
+</LinearLayout>

@@ -13,28 +13,62 @@ using Android.Widget;
 using Android.Support.V4.View;
 using Fragment = Android.Support.V4.App.Fragment;
 using Android.Support.Design.Widget;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
+using static Android.App.ActionBar;
 
 namespace Cnblogs.XamarinAndroid
 {
     public class StatusFragment : Fragment, TabLayout.IOnTabSelectedListener
     {
-        private ViewPager _viewPagerHome;
-        private TabLayout _tabHome;
-        private HomeFragmentTabsAdapter adapter;
+        private ViewPager _viewPager;
+        private TabLayout _tab;
+        private StatusTabsFragmentAdapter adapter;
+        private Button btn_status,btn_question;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            HasOptionsMenu = true;
-            //Android.Support.V7.Widget.Toolbar toolbar = Activity.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            //toolbar.Title = Resources.GetString(Resource.String.CnblogsTitle);
-            // Create your fragment here
+            btn_status = Activity.FindViewById<Button>(Resource.Id.btn_tabStatus);
+            btn_question = Activity.FindViewById<Button>(Resource.Id.btn_tabQuestion);
+        
+            btn_status.Click += (s, e) =>
+            {
+                if (btn_status.Tag!=null &&!(bool)btn_status.Tag)
+                    return;
+               // btn_status.SetBackgroundColor(Resources.GetColor(Resource.Color.primaryDark));
+                btn_status.Background=Resources.GetDrawable(Resource.Drawable.shape_corner_left_selected);
+                btn_status.SetTextColor(Resources.GetColor(Resource.Color.white));
+                btn_status.SetTypeface(Android.Graphics.Typeface.SansSerif,Android.Graphics.TypefaceStyle.Bold);
+
+                btn_question.Background = Resources.GetDrawable(Resource.Drawable.shape_corner_right);
+                btn_question.SetTextColor(Resources.GetColor(Resource.Color.black));
+                btn_question.SetTypeface(Android.Graphics.Typeface.Default, Android.Graphics.TypefaceStyle.Normal);
+
+                btn_status.Tag = false;
+                btn_question.Tag = true;
+            };
+            btn_question.Click += (s, e) =>
+            {
+                if (btn_question.Tag!=null&&!(bool)btn_question.Tag)
+                    return;
+
+                btn_question.Background = Resources.GetDrawable(Resource.Drawable.shape_corner_right_selected);
+                btn_question.SetTextColor(Resources.GetColor(Resource.Color.white));
+                btn_question.SetTypeface(Android.Graphics.Typeface.SansSerif, Android.Graphics.TypefaceStyle.Bold);
+
+                btn_status.Background = Resources.GetDrawable(Resource.Drawable.shape_corner_left);
+                btn_status.SetTextColor(Resources.GetColor(Resource.Color.black));
+                btn_status.SetTypeface(Android.Graphics.Typeface.Default, Android.Graphics.TypefaceStyle.Normal);
+
+                btn_status.Tag = true;
+                btn_question.Tag = false;
+            };
         }
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
-            Activity.MenuInflater.Inflate(Resource.Menu.search, menu);
+            Activity.MenuInflater.Inflate(Resource.Menu.add, menu);
         }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        {
+        {  
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -44,17 +78,17 @@ namespace Cnblogs.XamarinAndroid
         {
             base.OnViewCreated(view,savedInstanceState);
             HasOptionsMenu=true;
-            _viewPagerHome = view.FindViewById<ViewPager>(Resource.Id.viewPager_home);
-            _tabHome = view.FindViewById<TabLayout>(Resource.Id.tab_home);
+            btn_status.PerformClick();
+            _viewPager = view.FindViewById<ViewPager>(Resource.Id.viewPager_home);
+            _tab = view.FindViewById<TabLayout>(Resource.Id.tab_home);
+            string[] statusTabs = Resources.GetStringArray(Resource.Array.StatusTabs);
+            adapter =new StatusTabsFragmentAdapter(this.ChildFragmentManager, statusTabs);
 
-            //List<string> list = new List<string>() { "最新","精华"};
-
-            adapter=new HomeFragmentTabsAdapter(this.ChildFragmentManager,Resources.GetStringArray(Resource.Array.StatusTabs));
-
-            _viewPagerHome.Adapter = adapter;
-            _tabHome.TabMode = TabLayout.GravityCenter;
-            _tabHome.SetupWithViewPager(_viewPagerHome);
-            _tabHome.SetOnTabSelectedListener(this);
+            _viewPager.Adapter = adapter;
+            _viewPager.OffscreenPageLimit = statusTabs.Length ;
+            _tab.TabMode = TabLayout.ModeScrollable;
+            _tab.SetupWithViewPager(_viewPager);
+            _tab.SetOnTabSelectedListener(this);
 
         }
 
@@ -65,7 +99,7 @@ namespace Cnblogs.XamarinAndroid
 
         public void OnTabSelected(TabLayout.Tab tab)
         {
-            _viewPagerHome.CurrentItem = tab.Position;
+            _viewPager.CurrentItem = tab.Position;
             
         }
 

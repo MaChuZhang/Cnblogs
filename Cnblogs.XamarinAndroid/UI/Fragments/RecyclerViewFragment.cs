@@ -49,6 +49,8 @@ namespace Cnblogs.XamarinAndroid
                   .Displayer(new DisplayerImageCircle(20))
                   .Build();
             // Create your fragment here
+            //IWindowManager wm = (IWindowManager)Activity.GetSystemService(Context.WindowService);
+            //int wmHeight = wm.DefaultDisplay.Height;
         }
         public static RecyclerViewFragment Instance(int position)
         {
@@ -83,7 +85,7 @@ namespace Cnblogs.XamarinAndroid
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
             _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
 
-            articleList = await listArticleServer(1);
+            articleList = await listArticleServer(pageIndex);
             
             //articleList = await listArticleLocal();
             if (articleList != null)
@@ -143,13 +145,13 @@ namespace Cnblogs.XamarinAndroid
                     holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
                     holder.SetTagUrl(Resource.Id.iv_avatar, articleList[position].Avatar);
                      //ImageLoader.Instance.DisplayImage(articleList[position].Avatar, Resource.Id.iv_avatar);
-                holder.SetImageLoader(Resource.Id.iv_avatar, options);
+                holder.SetImageLoader(Resource.Id.iv_avatar, options, articleList[position].Avatar);
                 };
         }
         private async Task<List<Article>> listArticleServer(int _pageIndex)
         {
             pageIndex = _pageIndex;
-            var result = await ArticleRequest.GetArticleList(SharedDataUtil.GetToken(this.Activity),pageIndex,position);
+            var result = await ArticleRequest.GetArticleList(AccessTokenUtil.GetToken(this.Activity),pageIndex,position);
             if (result.Success)
             {
                 _swipeRefreshLayout.Refreshing = false;

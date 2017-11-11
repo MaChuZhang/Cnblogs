@@ -113,7 +113,7 @@ namespace Cnblogs.XamarinAndroid
         {
             try
             {
-                var result = await HttpClient.KbArticlesRequest.GetKbArticlesDetail(SharedDataUtil.GetToken(this),id);
+                var result = await HttpClient.KbArticlesRequest.GetKbArticlesDetail(AccessTokenUtil.GetToken(this),id);
                 if (result.Success)
                 {
                     await SQLiteUtil.SelectKbArticles(id).ContinueWith(async (r) =>
