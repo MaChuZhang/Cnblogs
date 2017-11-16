@@ -36,10 +36,12 @@ namespace Cnblogs.XamarinAndroid
         private List<StatusModel> statusList = new List<StatusModel>();
         private Button btn_status;
         private Button btn_question;
+        private bool isMy; 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             position = Arguments.GetInt("position");
+            isMy = Arguments.GetBoolean("isMy");
             //显示图片配置
             options = new DisplayImageOptions.Builder()
                   .ShowImageOnFail(Resource.Drawable.Icon)
@@ -50,7 +52,6 @@ namespace Cnblogs.XamarinAndroid
                   .CacheOnDisk(true)
                   .Displayer(new DisplayerImageCircle(20))
                   .Build();
-            // Create your fragment here
         }
         public static StatusTabFragment Instance(int position)
         {
@@ -60,11 +61,19 @@ namespace Cnblogs.XamarinAndroid
             rf.Arguments = b;
             return rf;
         }
-        
+
+        public static StatusTabFragment Instance(int position,bool isMy)
+        {
+            StatusTabFragment rf = new StatusTabFragment();
+            Bundle b = new Bundle();
+            b.PutInt("position", position);
+            b.PutBoolean("isMy", isMy);
+            rf.Arguments = b;
+            return rf;
+        }
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
              base.OnCreateView(inflater, container, savedInstanceState);
             return inflater.Inflate(Resource.Layout.fragment_recyclerview,container,false);
         }
@@ -79,15 +88,30 @@ namespace Cnblogs.XamarinAndroid
             _swipeRefreshLayout.Post(() =>
             {
                 _swipeRefreshLayout.Refreshing = true;
-               
             });
+            _swipeRefreshLayout.PostDelayed(() =>
+            {
+                System.Diagnostics.Debug.Write("PostDelayed刷新已经完成");
+                _swipeRefreshLayout.Refreshing = false;
+            }, 4000);
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
             _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
 
-            statusList = await listStatusServer(pageIndex);
-            
-            //statusList = await listStatusLocal();
+            statusList = await listStatusLocal();
+            if (statusList != null)
+            {
+                initRecycler();
+            }
+            else
+            {
+                statusList = await listStatusServer();
+                if (statusList != null)
+                {
+                    initRecycler();
+                }
+            }
+            statusList = await listStatusServer();
             if (statusList != null)
             {
                 initRecycler();
@@ -98,18 +122,14 @@ namespace Cnblogs.XamarinAndroid
         private async void LoadMore()
         {
             pageIndex++;
-            var tempList = await listStatusServer(pageIndex);
+            var tempList = await listStatusServer();
             statusList.AddRange(tempList);
             if (tempList.Count==0)
              {
-                //adapter.SetFooterView(Resource.Layout.item_recyclerView_footer_empty);
                 return;
             }
             else if (statusList != null)
             {
-                //adapter.NotifyDataSetChanged();
-               // adapter.NotifyItemChanged(statusList.Count + 1);
-                //var ds= adapter.ItemCount;
                adapter.SetNewData(statusList);
                 System.Diagnostics.Debug.Write("页数:"+pageIndex+"数据总条数："+statusList.Count);
             }
@@ -134,18 +154,26 @@ namespace Cnblogs.XamarinAndroid
                     holder.SetText(Resource.Id.tv_content, statusList[position].Content);
                     holder.SetText(Resource.Id.tv_userDisplayName, statusList[position].UserDisplayName);
                     holder.SetTag(Resource.Id.ly_item, statusList[position].Id.ToString());
-                     //ImageLoader.Instance.DisplayImage(statusList[position].Avatar, Resource.Id.iv_avatar);
                     holder.SetImageLoader(Resource.Id.iv_userIcon, options,statusList[position].UserIconUrl);
                 };
         }
-        private async Task<List<StatusModel>> listStatusServer(int _pageIndex)
+        private async Task<List<StatusModel>> listStatusServer()
         {
-            pageIndex = _pageIndex;
-            var result = await StatusRequest.ListStatus(AccessTokenUtil.GetToken(this.Activity),position,pageIndex);
+            var result = new ApiResult<List<StatusModel>>();
+            if (isMy)
+                result = await StatusRequest.ListStatus(UserTokenUtil.GetToken(this.Activity), position, pageIndex, true);
+            else
+            {
+                if (position == 0)
+                {
+                    result = await StatusRequest.ListStatus(AccessTokenUtil.GetToken(this.Activity), position, pageIndex, false);
+                }
+                else
+                    result = await StatusRequest.ListStatus(UserTokenUtil.GetToken(this.Activity), position, pageIndex, false);
+            }
             if (result.Success)
             {
                 _swipeRefreshLayout.Refreshing = false;
-                //statusList = result.Data;
                 try
                 {
                     await SQLiteUtil.UpdateStatusList(result.Data);
@@ -169,7 +197,7 @@ namespace Cnblogs.XamarinAndroid
         {
             if(pageIndex>1)
                 pageIndex = 1; 
-            var tempList  = await listStatusServer(pageIndex);
+            var tempList  = await listStatusServer();
             if (tempList != null)
             {
                 statusList = tempList;
@@ -177,9 +205,5 @@ namespace Cnblogs.XamarinAndroid
                 adapter.SetNewData(tempList);
             }
         }
-        //void ConvertView(BaseHolder holder,int position)
-        //{
-        //    holder.SetText();
-        //}
     }
 }

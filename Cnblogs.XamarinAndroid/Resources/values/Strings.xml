@@ -53,9 +53,17 @@
   <string name="question_dealflag_0">待解决</string>
   <string name="question_dealflag_1">已解决</string>
   <string name="question_dealflag_2">已关闭</string>
+  <string name="question_myquestion">我的提问</string>
+  <string name="question_myunsolved">未解决</string>
+  <string name="question_myanswer">我的回答</string>
+  <string name="question_mybestanswer">被采纳</string>
+  
 
   <string name="userCenter">我的</string>
-
+  <string name="myBlog">我的博客</string>
+  <string name="myStatus">我的闪存</string>
+  <string name="myQuestion">我的博问</string>
+  <string name="login">登录</string>
   <!--Tab-->
   <string name="HomeTabsBlog">博客</string>
   <string name="HomeTabsHot">精华</string>

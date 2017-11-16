@@ -14,30 +14,58 @@ namespace Cnblogs.HttpClient
     {
          unsolved,highscore,noanswer,solved
     }
+    public enum MyQuestionType
+    {
+        myquestion, myunsolved, myanswer, mybestanswer
+    }
     public class  QuestionRequest
     {
-        public static async Task<ApiResult<List<QuestionModel>>> ListQuestion(Token token,int questionType,int pageIndex)
+        public static async Task<ApiResult<List<QuestionModel>>> ListQuestion(Token token,int questionType,int pageIndex,bool  isMy)
         {
             try
             {
                 string _questionType =string.Empty;
-                switch (questionType)
+                if (isMy)
                 {
-                    case (int)QuestionType.unsolved:
-                        _questionType = "unsolved";
-                        break;
-                    case (int)QuestionType.highscore:
-                        _questionType = "highscore";
-                        break;
-                    case (int)QuestionType.noanswer:
-                        _questionType = "noanswer";
-                        break;
-                    case (int)QuestionType.solved:
-                        _questionType = "solved";
-                        break;
-                    default:
-                        _questionType = "unsolved";
-                        break;
+                    switch (questionType)
+                    {
+                        case (int)MyQuestionType.myquestion:
+                            _questionType = "myquestion";
+                            break;
+                        case (int)MyQuestionType.myunsolved:
+                            _questionType = "myunsolved";
+                            break;
+                        case (int)MyQuestionType.myanswer:
+                            _questionType = "myanswer";
+                            break;
+                        case (int)MyQuestionType.mybestanswer:
+                            _questionType = "mybestanswer";
+                            break;
+                        default:
+                            _questionType = "myquestion";
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (questionType)
+                    {
+                        case (int)QuestionType.unsolved:
+                            _questionType = "unsolved";
+                            break;
+                        case (int)QuestionType.highscore:
+                            _questionType = "highscore";
+                            break;
+                        case (int)QuestionType.noanswer:
+                            _questionType = "noanswer";
+                            break;
+                        case (int)QuestionType.solved:
+                            _questionType = "solved";
+                            break;
+                        default:
+                            _questionType = "unsolved";
+                            break;
+                    }
                 }
                 string url = string.Format(Constact.QuestionsType, _questionType, pageIndex,Constact.PageSize);
                 var result=await HttpBase.GetAsync(url,null,token);

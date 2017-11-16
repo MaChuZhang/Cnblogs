@@ -79,37 +79,42 @@ namespace Cnblogs.XamarinAndroid
             _swipeRefreshLayout.Post(() =>
             {
                 _swipeRefreshLayout.Refreshing = true;
-               
             });
+            _swipeRefreshLayout.PostDelayed(() =>
+            {
+                System.Diagnostics.Debug.Write("PostDelayed刷新已经完成");
+                _swipeRefreshLayout.Refreshing = false;
+            },3000);
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
             _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
-
-            articleList = await listArticleServer(pageIndex);
-            
-            //articleList = await listArticleLocal();
-            if (articleList != null)
+            articleList = await listArticleLocal();
+            if (articleList != null && articleList.Count > 0)
             {
                 initRecycler();
             }
+            else
+            {
+                articleList = await  listArticleServer();
+                initRecycler();
+            }
+            articleList = await listArticleServer();
+            System.Diagnostics.Debug.Write("刷新已经完成");
+            initRecycler();
             RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(_swipeRefreshLayout,(Android.Support.V7.Widget.LinearLayoutManager)_recyclerView.GetLayoutManager(), adapter, LoadMore);
             _recyclerView.AddOnScrollListener(scroll);
         }
         private async void LoadMore()
         {
             pageIndex++;
-            var tempList = await listArticleServer(pageIndex);
+            var tempList = await listArticleServer();
             articleList.AddRange(tempList);
             if (tempList.Count==0)
              {
-                //adapter.SetFooterView(Resource.Layout.item_recyclerView_footer_empty);
                 return;
             }
             else if (articleList != null)
             {
-                //adapter.NotifyDataSetChanged();
-               // adapter.NotifyItemChanged(articleList.Count + 1);
-                //var ds= adapter.ItemCount;
                adapter.SetNewData(articleList);
                 System.Diagnostics.Debug.Write("页数:"+pageIndex+"数据总条数："+articleList.Count);
             }
@@ -117,7 +122,6 @@ namespace Cnblogs.XamarinAndroid
         async void initRecycler()
         {
             adapter = new BaseRecyclerViewAdapter<Article>(this.Activity, articleList, Resource.Layout.item_recyclerview_article);
-          //  View  footerView = LayoutInflater.From(Activity).Inflate(Resource.Layout.item_recyclerView_footer_loading, null);
             _recyclerView.SetAdapter(adapter);
             adapter.ItemClick += (position, tag) =>
             {
@@ -133,8 +137,6 @@ namespace Cnblogs.XamarinAndroid
          
                 adapter.OnConvertView += (holder, position) =>
                 {
-                    //if (position >= articleList.Count)
-                    //    return;
                     holder.SetText(Resource.Id.tv_author, articleList[position].Author);
                     holder.SetText(Resource.Id.tv_postDate, articleList[position].PostDate.ToCommonString());
                     holder.SetText(Resource.Id.tv_viewCount, articleList[position].ViewCount + " " + read);
@@ -144,18 +146,14 @@ namespace Cnblogs.XamarinAndroid
                     holder.SetText(Resource.Id.tv_title, articleList[position].Title);
                     holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
                     holder.SetTagUrl(Resource.Id.iv_avatar, articleList[position].Avatar);
-                     //ImageLoader.Instance.DisplayImage(articleList[position].Avatar, Resource.Id.iv_avatar);
-                holder.SetImageLoader(Resource.Id.iv_avatar, options, articleList[position].Avatar);
+                    holder.SetImageLoader(Resource.Id.iv_avatar, options, articleList[position].Avatar);
                 };
         }
-        private async Task<List<Article>> listArticleServer(int _pageIndex)
+        private async Task<List<Article>> listArticleServer()
         {
-            pageIndex = _pageIndex;
             var result = await ArticleRequest.GetArticleList(AccessTokenUtil.GetToken(this.Activity),pageIndex,position);
             if (result.Success)
             {
-                _swipeRefreshLayout.Refreshing = false;
-                //articleList = result.Data;
                 try
                 {
                     await SQLiteUtil.UpdateArticleList(result.Data);
@@ -167,11 +165,12 @@ namespace Cnblogs.XamarinAndroid
                     return null;
                 }
             }
+            _swipeRefreshLayout.Refreshing = false;
             return null;
         }
         private async Task<List<Article>> listArticleLocal()
         {
-            articleList = await SQLiteUtil.SelectArticleList(10);
+            articleList = await SQLiteUtil.SelectArticleList(Constact.PageSize);
             return articleList;
         }
 
@@ -179,7 +178,7 @@ namespace Cnblogs.XamarinAndroid
         {
             if(pageIndex>1)
                 pageIndex = 1; 
-            var tempList  = await listArticleServer(pageIndex);
+            var tempList  = await listArticleServer();
             if (tempList != null)
             {
                 articleList = tempList;
@@ -187,9 +186,5 @@ namespace Cnblogs.XamarinAndroid
                 adapter.SetNewData(tempList);
             }
         }
-        //void ConvertView(BaseHolder holder,int position)
-        //{
-        //    holder.SetText();
-        //}
     }
 }

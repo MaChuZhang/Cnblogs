@@ -19,10 +19,17 @@ namespace Cnblogs.XamarinAndroid.Adapter
         private Android.Support.V4.App.FragmentManager _fragmentManager;
         private List<QuestionTabFragment> fragments = new List<QuestionTabFragment>();
         private string[] tabsTitle;
+        private bool isMy;
         public QuestionTabFragmentAdapter(Android.Support.V4.App.FragmentManager fm, string[] tabsTitle) : base(fm)
         {
             _fragmentManager = fm;
             this.tabsTitle = tabsTitle;
+        }
+        public QuestionTabFragmentAdapter(Android.Support.V4.App.FragmentManager fm, string[] tabsTitle,bool isMy) : base(fm)
+        {
+            _fragmentManager = fm;
+            this.tabsTitle = tabsTitle;
+            this.isMy = isMy;
         }
         public override int Count
         {
@@ -41,7 +48,7 @@ namespace Cnblogs.XamarinAndroid.Adapter
         }
         public override Android.Support.V4.App.Fragment GetItem(int position)
         {
-            var fragment = QuestionTabFragment.Instance(position);
+            var fragment = QuestionTabFragment.Instance(position,isMy);
             fragments.Add(fragment);
             return fragment;
         }

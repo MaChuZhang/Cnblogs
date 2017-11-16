@@ -19,10 +19,19 @@ namespace Cnblogs.XamarinAndroid
         private Android.Support.V4.App.FragmentManager _fragmentManager;
         private List<StatusTabFragment> fragments = new List<StatusTabFragment>();
         private string[] tabsTitle;
+        private bool isMy = false;
+        private StatusTabFragment fragment;
         public StatusTabsFragmentAdapter(Android.Support.V4.App.FragmentManager fm, string[] tabsTitle) : base(fm)
         {
             _fragmentManager = fm;
             this.tabsTitle = tabsTitle;
+        }
+
+        public StatusTabsFragmentAdapter(Android.Support.V4.App.FragmentManager fm, string[] tabsTitle,bool  isMy) : base(fm)
+        {
+            _fragmentManager = fm;
+            this.tabsTitle = tabsTitle;
+            this.isMy = isMy;
         }
         public override int Count
         {
@@ -41,7 +50,10 @@ namespace Cnblogs.XamarinAndroid
         }
         public override Android.Support.V4.App.Fragment GetItem(int position)
         {
-            var fragment = StatusTabFragment.Instance(position);
+            if (isMy)
+                 fragment = StatusTabFragment.Instance(position,isMy);
+            else
+                  fragment = StatusTabFragment.Instance(position);
             fragments.Add(fragment);
             return fragment;
         }

@@ -16,6 +16,26 @@ namespace Cnblogs.XamarinAndroid
 {
     public static class HtmlUtil
     {
+        /// <summary>
+        /// °ë½Ç×ªÈ«½Ç
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string ToDBC(this string input)
+        {
+            char[] c = input.ToArray();
+            for (int i = 0; i < c.Length; i++)
+            {
+                if (c[i] == 12288)
+                {
+                    c[i] = (char)32;
+                    continue;
+                }
+                if (c[i] > 65280 && c[i] < 65375)
+                    c[i] = (char)(c[i] - 65248);
+            }
+            return new string(c);
+        }
         public static ISpanned GetHtml(string html, FromHtmlOptions flags = FromHtmlOptions.ModeLegacy)
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.N)

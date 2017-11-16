@@ -14,6 +14,8 @@ namespace Cnblogs.HttpClient
         public const string KeyExpiresIn = "expires_in";
         public const string KeyIsIdentityUser = "IsIdentityUser";
         public const string KeyRefreshTime = "RefreshTime";
+        public const string KeyRefreshToken = "refresh_token";
+         
 
         public const string client_id_firend = "c36f3da8-81fa-4466-9bd7-554da9562a4c";
         public const string client_secret_firend = "kFLGBuwFNdPLLU8jw3DdCVFOmGz6nN5ZvI1yd-inFK8qRQze2EzsW63Vh7B1fzXCKsZgQx-q3eM7zU6b";
@@ -40,6 +42,16 @@ namespace Cnblogs.HttpClient
         /// 获取用户信息
         /// </summary>
         public const string Users = Host + Api + "/users";
+        /// <summary>
+        /// 根据博客名blogapp，获取个人博客信息
+        /// </summary>
+
+        public const string Blogs = Host + Api + "/blogs/{0}";
+
+        /// <summary>
+        /// 根据blogapp，pageIndex获取个人博客随笔列表
+        /// </summary>
+        public const string BlogPosts = Host + Api + "/blogs/{0}/posts?pageIndex={1}";
         /// <summary>
         /// 获取博客文章内容
         /// </summary>

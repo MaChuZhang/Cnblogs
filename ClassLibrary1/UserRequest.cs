@@ -1,52 +1,21 @@
-﻿using System;
+﻿using Cnblogs.ApiModel;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RestSharp;
-using Newtonsoft.Json;
-using Cnblogs.ApiModel;
-using Cnblogs.HttpClient;
 
 namespace Cnblogs.HttpClient
 {
     public class UserRequest
     {
-        public static async Task Client_Credentials(Action<Token> successAction,Action<string>  errorAction)
-        {
-            try
-            {
-                var client = HttpBase.Instance("https://oauth.cnblogs.com/connect/token");
-                RestRequest request = new RestRequest();
-                request.AddParameter("client_id", Constact.client_id);
-                request.AddParameter("client_secret", Constact.client_secret);
-                request.AddParameter("grant_type", "client_credentials");
-                var response = await client.ExecutePostTaskAsync(request);
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    errorAction("网络请求失败:" + response.StatusCode);
-                    return;
-                }
-                if (string.IsNullOrEmpty(response.Content))
-                {
-                    errorAction("返回数据有误");
-                    return;
-                }
-                var token = JsonConvert.DeserializeObject<Token>(response.Content);
-                successAction(token); 
-            }
-            catch (Exception ex)
-            {
-                errorAction(ex.StackTrace.ToString());
-            }
-        }
-
-        public static async Task<ApiResult<UserInfo>> UserInfo(Token token, string url)
+        public static async Task<ApiResult<UserInfo>> UserInfo(Token token)
         {
             //var result=null;
             try
             {
-               var  result = await HttpBase.PostAsync(url, null, token);
+                var result = await HttpBase.GetAsync(Constact.Users, null, token);
                 if (result.IsSuccess)
                 {
                     //errorAction("网络请求失败:" + response.StatusCode);
@@ -62,9 +31,48 @@ namespace Cnblogs.HttpClient
             }
         }
 
-        public static object UserInfo(string users)
+        public static async Task<ApiResult<UserBlog>> UserBlog(Token token,string blogApp)
         {
-            throw new NotImplementedException();
+            //var result=null;
+            try
+            {
+                string url = string.Format(Constact.Blogs, blogApp);
+                var result = await HttpBase.GetAsync(url, null, token);
+                if (result.IsSuccess)
+                {
+                    //errorAction("网络请求失败:" + response.StatusCode);
+                    var userinfo = JsonConvert.DeserializeObject<UserBlog>(result.Message);
+                    return ApiResult.Ok(userinfo);
+                }
+                return ApiResult<UserBlog>.Error(result.Message);
+
+            }
+            catch (Exception ex)
+            {
+                return ApiResult<UserBlog>.Error(ex.Message);
+            }
         }
+
+        public static async Task<ApiResult<List<Article>>> BlogPosts(Token token, string blogApp,int pageIndex)
+        {
+            //var result=null;
+            try
+            {
+                string url = string.Format(Constact.BlogPosts, blogApp,pageIndex);
+                var result = await HttpBase.GetAsync(url, null, token);
+                if (result.IsSuccess)
+                {
+                    var list = JsonConvert.DeserializeObject<List<Article>>(result.Message);
+                    return   ApiResult.Ok(list);
+                }
+                return ApiResult<List<Article>>.Error(result.Message);
+
+            }
+            catch (Exception ex)
+            {
+                return ApiResult<List<Article>>.Error(ex.Message);
+            }
+        }
+
     }
 }

@@ -9,17 +9,27 @@
     <item>@string/statuses_all</item>
     <item>@string/statuses_recentcomment</item>
     <item>@string/statuses_following</item>
+  </string-array>
+
+  <string-array name="MyStatusTabs">
     <item>@string/statuses_my</item>
     <item>@string/statuses_mycomment</item>
     <item>@string/statuses_mention</item>
     <item>@string/statuses_comment</item>
   </string-array>
-
+  
   <string-array name="QuestionTabs">
     <item>@string/question_unsolved</item>
     <item>@string/question_highscore</item>
     <item>@string/question_noanswer</item>
     <item>@string/question_solved</item>
+  </string-array>
+
+  <string-array name="MyQuestionTabs">
+    <item>@string/question_myquestion</item>
+    <item>@string/question_myunsolved</item>
+    <item>@string/question_myanswer</item>
+    <item>@string/question_mybestanswer</item>
   </string-array>
   
 </resources>

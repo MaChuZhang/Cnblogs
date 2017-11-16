@@ -26,7 +26,10 @@ namespace Cnblogs.XamarinAndroid
             StatusBarUtil.SetColorStatusBars(this);
             SetContentView(LayoutResourceId);
             toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            ly_tabs = FindViewById<LinearLayout>(Resource.Id.ly_tabs);
+            if(toolbar.ChildCount>0)
+            { 
+                ly_tabs = FindViewById<LinearLayout>(Resource.Id.ly_tabs);
+            }
             toolbar.Title = ToolBarTitle;
         
             SetSupportActionBar(toolbar);
@@ -35,10 +38,13 @@ namespace Cnblogs.XamarinAndroid
         }
         protected void SetTabVisible(bool isVisible)
         {
-            if (isVisible)
-                ly_tabs.Visibility = ViewStates.Visible;
-            else
-                ly_tabs.Visibility = ViewStates.Gone;
+            if (ly_tabs != null)
+            {
+                if (isVisible)
+                    ly_tabs.Visibility = ViewStates.Visible;
+                else
+                    ly_tabs.Visibility = ViewStates.Gone;
+            }
         }
         protected abstract int LayoutResourceId
         {

@@ -14,7 +14,7 @@ using Android.Support.V7.App;
 
 namespace Cnblogs.XamarinAndroid.UI.Activities
 {
-    [Activity(Label = "SplashScreenActivity", Theme = "@style/SplashScreen", MainLauncher = false)]
+    [Activity(Label = "SplashScreenActivity", Theme = "@style/SplashScreen", MainLauncher = true)]
     public class SplashScreenActivity : AppCompatActivity
     {
         protected override async void OnCreate(Bundle savedInstanceState)
@@ -22,19 +22,19 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
             base.OnCreate(savedInstanceState);
             StatusBarUtil.SetColorStatusBars(this);
             //await UserRequest.Client_Credentials();
-            await UserRequest.Client_Credentials((token) =>
-            {
-                token.RefreshTime = DateTime.Now;
-                AccessTokenUtil.SaveToken(token, this);
-            }, error =>
-            {
-                System.Diagnostics.Debug.Write(error);
-            });
+            //await UserRequest.Client_Credentials((token) =>
+            //{
+            //    token.RefreshTime = DateTime.Now;
+            //    AccessTokenUtil.SaveToken(token, this);
+            //}, error =>
+            //{
+            //    System.Diagnostics.Debug.Write(error);
+            //});
 
             var tokenTemp = AccessTokenUtil.GetToken(this);
             if (string.IsNullOrEmpty(tokenTemp.access_token)||tokenTemp.IsExpire)
             {
-                await UserRequest.Client_Credentials((token) =>
+                await AuthorizationRequest.Client_Credentials((token) =>
                 {
                     token.RefreshTime = DateTime.Now;
                     AccessTokenUtil.SaveToken(token, this);

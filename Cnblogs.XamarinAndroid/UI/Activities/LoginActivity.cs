@@ -17,10 +17,11 @@ using System.Diagnostics;
 using System.Timers;
 using System.Threading;
 using Cnblogs.XamarinAndroid;
+using Android.Support.V4.App;
 
-namespace Cnblogs.XamarinAndroid.UI.Activities
+namespace Cnblogs.XamarinAndroid
 {
-    [Activity(Label = "loginactivity", Theme = "@style/AppTheme",MainLauncher  =true)]
+    [Activity(Label = "loginactivity", Theme = "@style/AppTheme",MainLauncher  =false)]
     public class loginactivity:BaseActivity
     {
         protected override int LayoutResourceId
@@ -61,25 +62,8 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
             WebViewClient webClient = new WebViewClient();
             loginview.SetWebChromeClient(new loginwebchromeclient(progressBar));
             loginview.SetWebViewClient(new loginwebviewclient(this));
-            loginview.LoadUrl(string.Format(Constact.GetAuthrize,Constact.client_id));
-            //await UserRequest.Client_Credentials((token) =>
-            //{
-            //     AccessTokenUtil.SaveToken(token, this);
-            //    //system.diagnostics.debug.write(token.access_token);
-            //    //toast.maketext(activity,modelfactory.token.access_token,toastlength.short).show();
-            //}, error =>
-            //{
-            //    //system.diagnostics.debug.write(error);
-            //    System.Diagnostics.Debug.Write(error);
-            //});
-            //await articlerequest.getarticlelist((list) =>
-            //{
-            //    system.diagnostics.debug.write(list[0].blogapp);
-            //}, (error) =>
-            //{
-            //    system.diagnostics.debug.write(error);
-            //});
-
+            string url = string.Format(Constact.GetAuthrize, Constact.client_id);
+            loginview.LoadUrl(url);
         }
     }
 
@@ -110,6 +94,7 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
 
         }
         private Context context;
+       // private static Token token = AccessTokenUtil.GetToken(context);
         public loginwebviewclient(Context _context)
         {
             context = _context;
@@ -128,16 +113,16 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
                     {
                         var code = q[1];
                         System.Diagnostics.Debug.Write(code);
-                         UserRequest.Client_Credentials((token) =>
+                        Token token = AccessTokenUtil.GetToken(context);
+                        AuthorizationRequest.Authorization_Code(token, code, (userToken) =>
+                         {
+                             System.Diagnostics.Debug.Write(userToken.access_token);
+                             UserTokenUtil.SaveToken(userToken, context);
+                             // ActivityCompat.FinishAfterTransition(context);
+                             context.StartActivity(new Intent(context, typeof(MainActivity)));
+                         },
+                        error =>
                         {
-                            //  AccessTokenUtil.SaveToken(token, context);
-                            UserTokenUtil.SaveToken(token, context);
-                            System.Diagnostics.Debug.Write(token.access_token);
-                            //toast.maketext(activity,modelfactory.token.access_token,toastlength.short).show();
-                            var model =  UserRequest.UserInfo(token,Constact.Users);
-                        }, error =>
-                        {
-                            //system.diagnostics.debug.write(error);
                             System.Diagnostics.Debug.Write(error);
                         });
                     }

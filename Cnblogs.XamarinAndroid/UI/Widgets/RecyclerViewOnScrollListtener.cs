@@ -56,6 +56,17 @@ namespace Cnblogs.XamarinAndroid.UI.Widgets
         {
             base.OnScrolled(recyclerView, dx, dy);
             System.Diagnostics.Debug.Write("正在滑动");
+            int lastVisibleItemPosition = _linearLayoutManager.FindLastVisibleItemPosition();
+            if (lastVisibleItemPosition + 1 == _adapter.ItemCount)
+            {
+                int childCount = recyclerView.GetLayoutManager().ChildCount - 1;
+                 
+                View lastChildView = recyclerView.GetLayoutManager().GetChildAt(childCount - 1);
+                int recyclerViewPb = recyclerView.PaddingBottom;
+                int lastChildBottom = lastChildView.Bottom;
+                int recyclerViewBottom = recyclerView.Bottom - recyclerView.PaddingBottom;
+                System.Diagnostics.Debug.Write("test", "最后一项");
+            }
         }
     }
 }

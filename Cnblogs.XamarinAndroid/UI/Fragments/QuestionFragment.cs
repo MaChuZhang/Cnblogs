@@ -44,13 +44,13 @@ namespace Cnblogs.XamarinAndroid
                 HasOptionsMenu = true;
                 _viewPager = view.FindViewById<ViewPager>(Resource.Id.viewPager_home);
                 _tab = view.FindViewById<TabLayout>(Resource.Id.tab_home);
-                string[] statusTabs = Resources.GetStringArray(Resource.Array.QuestionTabs);
-                adapter = new QuestionTabFragmentAdapter(this.ChildFragmentManager, statusTabs);
+                string[] questionTabs = Resources.GetStringArray(Resource.Array.QuestionTabs);
+                adapter = new QuestionTabFragmentAdapter(this.ChildFragmentManager, questionTabs);
 
-                _viewPager.Adapter = adapter;
-                _viewPager.OffscreenPageLimit = statusTabs.Length;
-                _tab.TabMode = TabLayout.ModeScrollable;
-                _tab.SetupWithViewPager(_viewPager);
+            _viewPager.Adapter = adapter;
+            _viewPager.OffscreenPageLimit = questionTabs.Length;
+            _tab.TabMode = TabLayout.ModeFixed;
+            _tab.SetupWithViewPager(_viewPager);
                 _tab.SetOnTabSelectedListener(this);
 
             }

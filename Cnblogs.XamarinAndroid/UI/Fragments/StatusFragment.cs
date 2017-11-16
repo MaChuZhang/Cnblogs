@@ -86,7 +86,7 @@ namespace Cnblogs.XamarinAndroid
 
             _viewPager.Adapter = adapter;
             _viewPager.OffscreenPageLimit = statusTabs.Length ;
-            _tab.TabMode = TabLayout.ModeScrollable;
+            _tab.TabMode = TabLayout.ModeFixed;
             _tab.SetupWithViewPager(_viewPager);
             _tab.SetOnTabSelectedListener(this);
 

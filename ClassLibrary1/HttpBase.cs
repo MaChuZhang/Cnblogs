@@ -58,7 +58,7 @@ namespace Cnblogs.ApiModel
             }
         }
 
-        public static async Task<ResponseMessage> PostAsync(string url, Dictionary<string, string> _params, Token token)
+        public static async Task<ResponseMessage> PostAsync(Token token,string url, Dictionary<string, string> _params)
         {
             RestClient restClient = Instance(url);
             RestRequest request = new RestRequest();
@@ -69,7 +69,11 @@ namespace Cnblogs.ApiModel
                     request.AddParameter(kv.Key, kv.Value);
                 }
             }
-            request.AddHeader("Authorization", token.token_type + " " + token.access_token);
+            if (token != null)
+            {
+                request.AddHeader("Authorization", token.token_type + " " + token.access_token);
+            }
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             //request.Method = Method.POST;
             var response = await restClient.ExecutePostTaskAsync(request);
             var statusCode = response.StatusCode;

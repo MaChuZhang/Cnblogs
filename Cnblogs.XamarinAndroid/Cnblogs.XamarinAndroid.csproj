@@ -28,7 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
-    <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
     <BundleAssemblies>False</BundleAssemblies>
     <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
@@ -111,13 +111,16 @@
     <Compile Include="Adapter\BaseRecyclerHolder.cs" />
     <Compile Include="Adapter\BaseRecyclerViewAdapter.cs" />
     <Compile Include="Adapter\HomeArticleAdapter.cs" />
-    <Compile Include="Adapter\QuestionTabsFragmentAdapter.cs" />
+    <Compile Include="Adapter\QuestionTabFragmentAdapter.cs" />
     <Compile Include="Adapter\StatusTabsFragmentAdapter.cs" />
     <Compile Include="Adapter\HomeFragmentAdapter.cs" />
     <Compile Include="Adapter\PhotoAdapter.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Activities\BaseActivity.cs" />
+    <Compile Include="UI\Activities\MyBlogActivity.cs" />
+    <Compile Include="UI\Activities\MyQuestionActivity.cs" />
+    <Compile Include="UI\Activities\MyStatus.cs" />
     <Compile Include="UI\Activities\StatusesCommentActivity - 复制.cs" />
     <Compile Include="UI\Activities\QuestionActivity.cs" />
     <Compile Include="UI\Activities\DetailKbArticlesActivity.cs" />
@@ -242,6 +245,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\UserCenter.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\myBlog.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\myStatus.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

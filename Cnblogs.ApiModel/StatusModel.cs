@@ -7,6 +7,26 @@ using System.Threading.Tasks;
 
 namespace Cnblogs.ApiModel
 {
+    public enum MyStatusType
+    {
+        /// <summary>
+        /// 我的
+        /// </summary>
+        my,
+
+        /// <summary>
+        /// 我回复的
+        /// </summary>
+        mycomment,
+        /// <summary>
+        /// 提到我的
+        /// </summary>
+        mention,
+        /// <summary>
+        /// 回复我的
+        /// </summary>
+        comment
+    }
     public enum StatusType {
         /// <summary>
         /// 全站
@@ -20,23 +40,6 @@ namespace Cnblogs.ApiModel
         /// 我关注的用户
         /// </summary>
         following,
-        /// <summary>
-        /// 我的
-        /// </summary>
-        my,
-
-       /// <summary>
-       /// 我回复的
-       /// </summary>
-        mycomment,
-        /// <summary>
-        /// 提到我的
-        /// </summary>
-        mention,
-        /// <summary>
-        /// 回复我的
-        /// </summary>
-        comment
     }
     public class StatusModel
     {

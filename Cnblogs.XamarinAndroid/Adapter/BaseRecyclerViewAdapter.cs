@@ -144,6 +144,14 @@ namespace Cnblogs.XamarinAndroid
             if (position  == ItemCount-1)
             {
                 Activity activity = (Activity)context;
+                int childCount = _recyclerView.GetLayoutManager().ChildCount - 1;
+                if (childCount == 0)
+                    childCount = 1;
+                View lastChildView = _recyclerView.GetLayoutManager().GetChildAt(childCount - 1);
+                int recyclerViewPb = _recyclerView.PaddingBottom;
+                int lastChildBottom = lastChildView.Bottom;
+                int recyclerViewBottom = _recyclerView.Bottom - _recyclerView.PaddingBottom;
+
                 if (activity is StatusesCommentActivity)
                 {
                     LinearLayout headerView = activity.FindViewById<LinearLayout>(Resource.Id.ly_headerView);

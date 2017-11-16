@@ -43,6 +43,7 @@
     <Compile Include="StatusModel.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserBlog.cs" />
     <Compile Include="UserInfo.cs" />
   </ItemGroup>
   <ItemGroup>

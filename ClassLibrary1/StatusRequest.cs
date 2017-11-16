@@ -12,37 +12,46 @@ namespace Cnblogs.HttpClient
 {
     public class StatusRequest
     {
-        public static async Task<ApiResult<List<StatusModel>>> ListStatus(Token token,int statusType,int pageIndex)
+        public static async Task<ApiResult<List<StatusModel>>> ListStatus(Token token,int statusType,int pageIndex,bool isMy)
         {
             try
             {
                 string _statusType =string.Empty;
-                switch (statusType)
+                if (isMy)
                 {
-                    case (int)StatusType.all:
-                        _statusType = "all";
-                        break;
-                    case (int)StatusType.recentcomment:
-                        _statusType = "recentcomment";
-                        break;
-                    case (int)StatusType.following:
-                        _statusType = "following";
-                        break;
-                    case (int)StatusType.my:
-                        _statusType = "my";
-                        break;
-                    case (int)StatusType.mention:
-                        _statusType = "mention";
-                        break;
-                    case (int)StatusType.comment:
-                        _statusType = "comment";
-                        break;
-                    case (int)StatusType.mycomment:
-                        _statusType = "mycomment";
-                        break;
-                    default:
-                        _statusType = "all";
-                        break;
+                    switch (statusType)
+                    {
+                        case (int)MyStatusType.my:
+                            _statusType = "my";
+                            break;
+                        case (int)MyStatusType.mention:
+                            _statusType = "mention";
+                            break;
+                        case (int)MyStatusType.comment:
+                            _statusType = "comment";
+                            break;
+                        case (int)MyStatusType.mycomment:
+                            _statusType = "mycomment";
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (statusType)
+                    {
+                        case (int)StatusType.all:
+                            _statusType = "all";
+                            break;
+                        case (int)StatusType.recentcomment:
+                            _statusType = "recentcomment";
+                            break;
+                        case (int)StatusType.following:
+                            _statusType = "following";
+                            break;
+                        default:
+                            _statusType = "all";
+                            break;
+                    }
                 }
                 string url = string.Format(Constact.Statuses,_statusType,pageIndex,Constact.PageSize);
                 var result=await HttpBase.GetAsync(url,null,token);

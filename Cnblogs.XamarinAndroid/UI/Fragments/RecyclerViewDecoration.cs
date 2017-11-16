@@ -14,7 +14,7 @@ using Android.Graphics;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
 
-namespace Cnblogs.XamarinAndroid.UI
+namespace Cnblogs.XamarinAndroid
 {
         public class RecyclerViewDecoration : RecyclerView.ItemDecoration
         {

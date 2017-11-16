@@ -34,18 +34,12 @@ namespace Cnblogs.XamarinAndroid
         {
             base.OnCreate(savedInstanceState);
             HasOptionsMenu=true;
-            //Android.Support.V7.Widget.Toolbar toolbar = Activity.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            //toolbar.Title = Resources.GetString(Resource.String.kbArticles);
-            // Create your fragment here
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
                 base.OnCreateView(inflater, container, savedInstanceState);
                return inflater.Inflate(Resource.Layout.fragment_kbArticles, container, false);
-       
         }
 
         public override async void OnViewCreated(View view,Bundle  savedInstanceState)
@@ -57,23 +51,32 @@ namespace Cnblogs.XamarinAndroid
             _swipeRefreshLayout.Post(() =>
             {
                 _swipeRefreshLayout.Refreshing = true;
-
             });
+            _swipeRefreshLayout.PostDelayed(() =>
+            {
+                System.Diagnostics.Debug.Write("PostDelayed方法已经完成");
+                _swipeRefreshLayout.Refreshing = false;
+            },3000);
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
             _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
-            kbArticlesList = await listKbArticlesServer(pageIndex);
-            if (kbArticlesList != null)
+            kbArticlesList =await listKbArticleLocal();
+            if (kbArticlesList.Count > 0)
             {
                 initRecycler();
             }
-           // RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(_swipeRefreshLayout, (Android.Support.V7.Widget.LinearLayoutManager)_recyclerView.GetLayoutManager(), adapter, LoadMore);
-            //_recyclerView.AddOnScrollListener(scroll);
+            else
+            {
+                kbArticlesList = await listKbArticlesServer();
+                if (kbArticlesList.Count>0)
+                {
+                    initRecycler();
+                }
+            }
         }
 
-        private async Task<List<KbArticles>> listKbArticlesServer(int _pageIndex)
+        private async Task<List<KbArticles>> listKbArticlesServer()
         {
-            pageIndex = _pageIndex;
             var result = await KbArticlesRequest.GetKbArticlesList(AccessTokenUtil.GetToken(this.Activity), pageIndex);
             if (result.Success)
             {
@@ -92,6 +95,12 @@ namespace Cnblogs.XamarinAndroid
             }
             return null;
         }
+        private async Task<List<KbArticles>> listKbArticleLocal()
+        {
+            kbArticlesList = await SQLiteUtil.SelectKbArticleList(Constact.PageSize);
+            return kbArticlesList;
+        }
+
         async void initRecycler()
         {
             adapter = new BaseRecyclerViewAdapter<KbArticles>(this.Activity, kbArticlesList, Resource.Layout.item_recyclerview_kbarticles);
@@ -122,7 +131,7 @@ namespace Cnblogs.XamarinAndroid
         private async void LoadMore()
         {
             pageIndex++;
-            var tempList = await listKbArticlesServer(pageIndex);
+            var tempList = await listKbArticlesServer();
             kbArticlesList.AddRange(tempList);
             if (tempList.Count == 0)
             {
@@ -139,7 +148,7 @@ namespace Cnblogs.XamarinAndroid
         {
             if (pageIndex > 1)
                 pageIndex = 1;
-            var tempList = await listKbArticlesServer(pageIndex);
+            var tempList = await listKbArticlesServer();
             if (tempList != null)
             {
                 kbArticlesList = tempList;

@@ -51,7 +51,17 @@ namespace Cnblogs.XamarinAndroid
             {
                 System.Diagnostics.Debug.Write("CreateTable_QuestionModel", "success");
             });
+            await Instance().CreateTableAsync<ApiModel.UserInfo>().ContinueWith(r =>
+            {
+                System.Diagnostics.Debug.Write("CreateTable_UserInfo", "success");
+            });
         }
+        #region  用户相关
+        //public static async Task<ApiModel.UserInfo> UserInfo()
+        //{
+        //    return  await  Instance
+        //}
+        #endregion
         #region  文章相关
         public static async Task<ApiModel.Article> SelectArticle(int id)
         {
@@ -103,6 +113,10 @@ namespace Cnblogs.XamarinAndroid
                     await UpdateKbArticles(item);
                 }
             }
+        }
+        public static async Task<List<ApiModel.KbArticles>> SelectKbArticleList(int pageSize)
+        {
+            return await Instance().Table<ApiModel.KbArticles>().OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
         }
         #endregion
 
