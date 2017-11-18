@@ -35,6 +35,7 @@ namespace Cnblogs.ApiModel
         public QuestionUserInfoModel QuestionUserInfo { get; set; }
         [Ignore]
         public AdditionModel Addition { get; set; }
+        public bool isMy { get; set; }
     }
     public class AdditionModel
     {

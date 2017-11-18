@@ -85,7 +85,6 @@ namespace Cnblogs.XamarinAndroid
             }, 4000);
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
-            _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
 
             listQuestion = await listStatusLocal();
             if (listQuestion.Count > 0)
@@ -105,9 +104,6 @@ namespace Cnblogs.XamarinAndroid
             {
                 initRecycler();
             }
-
-            RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(_swipeRefreshLayout,(Android.Support.V7.Widget.LinearLayoutManager)_recyclerView.GetLayoutManager(), adapter, LoadMore);
-            _recyclerView.AddOnScrollListener(scroll);
         }
         private async void LoadMore()
         {
@@ -120,13 +116,14 @@ namespace Cnblogs.XamarinAndroid
             }
             else if (listQuestion != null)
             {
+                //Thread.Sleep(2000);
                adapter.SetNewData(listQuestion);
                 System.Diagnostics.Debug.Write("页数:"+pageIndex+"数据总条数："+listQuestion.Count);
             }
         }
         async void initRecycler()
         {
-            adapter = new BaseRecyclerViewAdapter<QuestionModel>(this.Activity, listQuestion, Resource.Layout.item_recyclerview_question);
+            adapter = new BaseRecyclerViewAdapter<QuestionModel>(this.Activity, listQuestion, Resource.Layout.item_recyclerview_question, LoadMore);
             _recyclerView.SetAdapter(adapter);
             adapter.ItemClick += (position, tag) =>
             {
@@ -136,17 +133,19 @@ namespace Cnblogs.XamarinAndroid
             };
                 string read = Resources.GetString(Resource.String.read);
                 string answer = Resources.GetString(Resource.String.answer);
+            try
+            {
                 adapter.OnConvertView += (holder, position) =>
                 {
                     var model = listQuestion[position];
-                    holder.SetText(Resource.Id.tv_dateAdded,model.DateAdded.ToCommonString());
+                    holder.SetText(Resource.Id.tv_dateAdded, model.DateAdded.ToCommonString());
                     holder.SetText(Resource.Id.tv_summary, model.Summary);
                     holder.SetText(Resource.Id.tv_title, model.Title);
                     holder.SetText(Resource.Id.tv_summary, model.Summary);
-                    holder.SetText(Resource.Id.tv_viewCount, read+" "+model.ViewCount.ToString());
-                    holder.SetText(Resource.Id.tv_answerCount, answer +" "+ model.AnswerCount.ToString());
+                    holder.SetText(Resource.Id.tv_viewCount, read + " " + model.ViewCount.ToString());
+                    holder.SetText(Resource.Id.tv_answerCount, answer + " " + model.AnswerCount.ToString());
                     holder.SetText(Resource.Id.tv_awardCount, model.Award.ToString());
-                    TextView tv_tags= (holder.GetView<TextView>(Resource.Id.tv_tags));
+                    TextView tv_tags = (holder.GetView<TextView>(Resource.Id.tv_tags));
                     if (!string.IsNullOrEmpty(model.Tags))
                     {
                         tv_tags.Visibility = ViewStates.Visible;
@@ -159,11 +158,16 @@ namespace Cnblogs.XamarinAndroid
                     if (model.QuestionUserInfo != null && model.QuestionUserInfo.UserID > 0)
                     {
                         holder.SetText(Resource.Id.tv_userName, model.QuestionUserInfo.UserName);
-                        holder.SetImageLoader(Resource.Id.iv_avatar, options, Constact.CnblogsPic+model.QuestionUserInfo.IconName );
+                        holder.SetImageLoader(Resource.Id.iv_avatar, options, Constact.CnblogsPic + model.QuestionUserInfo.IconName);
                     }
-                    
-                    holder.SetTag(Resource.Id.ly_item, model.Qid.ToString());
+                    holder.GetView<CardView>(Resource.Id.ly_item).Tag = model.Qid.ToString();
+                    //holder.SetTag(Resource.Id.ly_item, model.Qid.ToString());
                 };
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Write(ex.ToString());
+            }
         }
         private async Task<List<QuestionModel>> listQuestionServer(int _pageIndex)
         {
@@ -182,7 +186,7 @@ namespace Cnblogs.XamarinAndroid
                 _swipeRefreshLayout.Refreshing = false;
                 try
                 {
-                    await SQLiteUtil.UpdateListQuestion(result.Data);
+                    await SQLiteUtil.UpdateListQuestion(result.Data,isMy);
                     return result.Data;
                 }
                 catch (Exception ex)
@@ -195,7 +199,7 @@ namespace Cnblogs.XamarinAndroid
         }
         private async Task<List<QuestionModel>> listStatusLocal()
         {
-            listQuestion = await SQLiteUtil.SelectListQuestion(Constact.PageSize);
+            listQuestion = await SQLiteUtil.SelectListQuestion(Constact.PageSize,isMy);
             return listQuestion;
         }
 

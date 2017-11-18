@@ -182,18 +182,19 @@ namespace Cnblogs.XamarinAndroid
         {
             return await Instance().Table<ApiModel.QuestionModel>().Where(s => s.Qid == id).FirstOrDefaultAsync();
         }
-        public static async Task<List<ApiModel.QuestionModel>> SelectListQuestion(int pageSize)
+        public static async Task<List<ApiModel.QuestionModel>> SelectListQuestion(int pageSize,bool isMy)
         {
-            return await Instance().Table<ApiModel.QuestionModel>().OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
+            return await Instance().Table<ApiModel.QuestionModel>().OrderByDescending(a => a.DateAdded).Where(p=>p.isMy==isMy).Skip(0).Take(pageSize).ToListAsync();
         }
         public static async Task UpdateQuestion(Cnblogs.ApiModel.QuestionModel model)
         {
             await Instance().UpdateAsync(model);
         }
-        public static async Task UpdateListQuestion(List<ApiModel.QuestionModel> list)
+        public static async Task UpdateListQuestion(List<ApiModel.QuestionModel> list,bool isMy)
         {
             foreach (var item in list)
             {
+                item.isMy = isMy;
                 if (await SelectQuestion(item.Qid) == null)
                 {
                     await Instance().InsertAsync(item);

@@ -59,7 +59,6 @@ namespace Cnblogs.XamarinAndroid
             },3000);
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
-            _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
             kbArticlesList =await listKbArticleLocal();
             if (kbArticlesList.Count > 0)
             {
@@ -103,7 +102,7 @@ namespace Cnblogs.XamarinAndroid
 
         async void initRecycler()
         {
-            adapter = new BaseRecyclerViewAdapter<KbArticles>(this.Activity, kbArticlesList, Resource.Layout.item_recyclerview_kbarticles);
+            adapter = new BaseRecyclerViewAdapter<KbArticles>(this.Activity, kbArticlesList, Resource.Layout.item_recyclerview_kbarticles, LoadMore);
             _recyclerView.SetAdapter(adapter);
             adapter.ItemClick += (position, tag) =>
             {
@@ -122,10 +121,8 @@ namespace Cnblogs.XamarinAndroid
                 holder.SetText(Resource.Id.tv_diggCount, kbArticlesList[position].Diggcount + " " + digg);
                 holder.SetText(Resource.Id.tv_title, kbArticlesList[position].Title);
                 holder.SetText(Resource.Id.tv_author,kbArticlesList[position].Author);
-                holder.SetTag(Resource.Id.ly_item, kbArticlesList[position].Id.ToString());
+                holder.GetView<CardView>(Resource.Id.ly_item).Tag = kbArticlesList[position].Id.ToString();
             };
-            RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(_swipeRefreshLayout, (Android.Support.V7.Widget.LinearLayoutManager)_recyclerView.GetLayoutManager(), adapter, LoadMore);
-            _recyclerView.AddOnScrollListener(scroll);
         }
 
         private async void LoadMore()

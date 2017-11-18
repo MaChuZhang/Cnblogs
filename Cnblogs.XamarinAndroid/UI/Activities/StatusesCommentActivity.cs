@@ -75,15 +75,6 @@ namespace Cnblogs.XamarinAndroid
             statusId = Intent.GetIntExtra("id", 0);
             GetClientStatus(statusId);
             shareWidget = new UMengShareWidget(this);
-
-            //_swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
-            //_swipeRefreshLayout.SetColorSchemeResources(Resource.Color.primary);
-            //_swipeRefreshLayout.SetOnRefreshListener(this);
-            //_swipeRefreshLayout.Post(() =>
-            //{
-            //    _swipeRefreshLayout.Refreshing = true;
-
-            //});
             _recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new LinearLayoutManager(this));
 
@@ -149,11 +140,25 @@ namespace Cnblogs.XamarinAndroid
             }
             return null;
         }
-
+        private async void LoadMore()
+        {
+            pageIndex++;
+            var tempList = await listStatusCommentServer();
+            listStatusComment.AddRange(tempList);
+            if (tempList.Count == 0)
+            {
+                return;
+            }
+            else if (listStatusComment != null)
+            {
+                adapter.SetNewData(listStatusComment);
+                System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + listStatusComment.Count);
+            }
+        }
         async void initRecycler()
         {
             listStatusComment = listStatusComment.OrderByDescending(s => s.DateAdded).ToList();
-            adapter = new BaseRecyclerViewAdapter<StatusCommentsModel>(this,listStatusComment, Resource.Layout.item_recyclerview_statusComment);
+            adapter = new BaseRecyclerViewAdapter<StatusCommentsModel>(this,listStatusComment, Resource.Layout.item_recyclerview_statusComment, LoadMore);
             _recyclerView.SetAdapter(adapter);
             //adapter.ItemClick += (position, tag) =>
             //{
@@ -182,7 +187,7 @@ namespace Cnblogs.XamarinAndroid
         {
             if (pageIndex > 1)
                 pageIndex = 1;
-            var tempList = await listStatusCommentServer(pageIndex);
+            var tempList = await listStatusCommentServer();
             if (tempList != null)
             {
                 listStatusComment = tempList;
@@ -191,9 +196,8 @@ namespace Cnblogs.XamarinAndroid
             }
         }
 
-        private async Task<List<StatusCommentsModel>> listStatusCommentServer(int _pageIndex)
+        private async Task<List<StatusCommentsModel>> listStatusCommentServer()
         {
-            pageIndex = _pageIndex;
             var result = await StatusRequest.ListStatusComment(AccessTokenUtil.GetToken(this), pageIndex);
             if (result.Success)
             {

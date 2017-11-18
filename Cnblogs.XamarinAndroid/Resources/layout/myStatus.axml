@@ -22,25 +22,6 @@
             app:layout_scrollFlags="scroll|enterAlways|snap"
             android:orientation="horizontal" />
     </android.support.design.widget.AppBarLayout>
-<!--主布局-->
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            app:tabIndicatorColor="@color/white"
-            app:tabSelectedTextColor="@color/white"
-            app:tabIndicatorHeight="3dp"
-            app:tabTextColor="@color/dedede" />
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager_home"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>-->
   <FrameLayout
     android:id="@+id/frameContent"
     android:layout_width="match_parent"

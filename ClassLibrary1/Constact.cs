@@ -49,6 +49,34 @@ namespace Cnblogs.HttpClient
         public const string Blogs = Host + Api + "/blogs/{0}";
 
         /// <summary>
+        ///根据url检查收藏是否存在，head请求方式
+        /// </summary>
+        public const string BookMarks_exists = Host + Api + "/Bookmarks?url={0}";
+
+        /// <summary>
+        /// 根据url删除收藏，url需要编码delete方式
+        /// </summary>
+        public const string BookMarks_delete = Host + Api + "/Bookmarks?url={0}";
+        /// <summary>
+        /// 根据id修改收藏 patch方式
+        /// </summary>
+        public const string BookMarks_patch = Host + Api + "/Bookmarks/{0}";
+
+        /// <summary>
+        /// 添加收藏,post请求方式
+        /// </summary>
+        public const string BookMarks_add = Host + Api + "/Bookmarks";
+
+
+        /// <summary>
+        /// 分页获取收藏列表
+        /// </summary>
+        public const string BookMarks_list = Host + Api + "/Bookmarks?pageIndex={0}&pageSize={0}";
+
+
+
+
+        /// <summary>
         /// 根据blogapp，pageIndex获取个人博客随笔列表
         /// </summary>
         public const string BlogPosts = Host + Api + "/blogs/{0}/posts?pageIndex={1}";

@@ -6,16 +6,10 @@
     android:fitsSystemWindows="true">
     <include
         layout="@layout/child_toolbar" />
-  <ProgressBar
-    android:id="@+id/progressBar_login"
-    style="?android:attr/progressBarStyleHorizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="3dp"
-    android:indeterminate="false"
-    android:progressDrawable="@drawable/layerlist_progressbar"/>
-  <WebView
-    android:id="@+id/webview_login"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+  <TextView android:id="@+id/tv_url"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+  <TextView android:id="@+id/tv_title"
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"/>
 </LinearLayout>

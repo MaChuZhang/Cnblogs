@@ -57,8 +57,11 @@
   <string name="question_myunsolved">未解决</string>
   <string name="question_myanswer">我的回答</string>
   <string name="question_mybestanswer">被采纳</string>
-  
 
+  <string name="bookmark_add">添加收藏</string>
+  <string name="bookmark_my">我的收藏</string>
+  <string name="bookmark_edit">编辑收藏</string>
+  
   <string name="userCenter">我的</string>
   <string name="myBlog">我的博客</string>
   <string name="myStatus">我的闪存</string>

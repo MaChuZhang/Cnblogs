@@ -96,7 +96,7 @@ namespace Cnblogs.XamarinAndroid
             }, 4000);
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
-            _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
+            //_recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
 
             statusList = await listStatusLocal();
             if (statusList != null)
@@ -116,8 +116,6 @@ namespace Cnblogs.XamarinAndroid
             {
                 initRecycler();
             }
-            RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(_swipeRefreshLayout,(Android.Support.V7.Widget.LinearLayoutManager)_recyclerView.GetLayoutManager(), adapter, LoadMore);
-            _recyclerView.AddOnScrollListener(scroll);
         }
         private async void LoadMore()
         {
@@ -126,7 +124,7 @@ namespace Cnblogs.XamarinAndroid
             statusList.AddRange(tempList);
             if (tempList.Count==0)
              {
-                return;
+                  return;
             }
             else if (statusList != null)
             {
@@ -136,7 +134,7 @@ namespace Cnblogs.XamarinAndroid
         }
         async void initRecycler()
         {
-            adapter = new BaseRecyclerViewAdapter<StatusModel>(this.Activity, statusList, Resource.Layout.item_recyclerview_status);
+            adapter = new BaseRecyclerViewAdapter<StatusModel>(this.Activity, statusList, Resource.Layout.item_recyclerview_status, LoadMore);
             _recyclerView.SetAdapter(adapter);
             adapter.ItemClick += (position, tag) =>
             {
@@ -151,9 +149,9 @@ namespace Cnblogs.XamarinAndroid
                     //    return;
                     holder.SetText(Resource.Id.tv_commentCount, statusList[position].CommentCount.ToString());
                     holder.SetText(Resource.Id.tv_dateAdded, statusList[position].DateAdded.ToCommonString());
-                    holder.SetText(Resource.Id.tv_content, statusList[position].Content);
+                    (holder.GetView<TextView>(Resource.Id.tv_content)).SetText(HtmlUtil.GetHtml(statusList[position].Content), TextView.BufferType.Spannable);
                     holder.SetText(Resource.Id.tv_userDisplayName, statusList[position].UserDisplayName);
-                    holder.SetTag(Resource.Id.ly_item, statusList[position].Id.ToString());
+                    holder.GetView<CardView>(Resource.Id.ly_item).Tag = statusList[position].Id.ToString();
                     holder.SetImageLoader(Resource.Id.iv_userIcon, options,statusList[position].UserIconUrl);
                 };
         }

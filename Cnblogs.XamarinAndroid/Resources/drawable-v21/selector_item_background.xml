@@ -4,7 +4,7 @@
   <item>
     <selector>
         <item android:state_pressed="true" android:drawable="@color/selectable_item_background_pressed" />
-        <item android:drawable="@android:color/white" />
+        <item android:drawable="@color/white" />
     </selector>
   </item>
 

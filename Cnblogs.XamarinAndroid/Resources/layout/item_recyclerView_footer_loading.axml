@@ -23,5 +23,6 @@
       android:layout_gravity="center"
       android:text="加载更多..."
       android:textSize="@dimen/TextSmall"
-      android:textColor="#808080" />
+      android:textColor="#808080"
+      android:id="@+id/tv_loadInfo"/>
 </LinearLayout>

@@ -80,8 +80,6 @@ namespace Cnblogs.XamarinAndroid
             {
                 initRecycler();
             }
-            RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(_swipeRefreshLayout, (Android.Support.V7.Widget.LinearLayoutManager)_recyclerView.GetLayoutManager(), adapter, LoadMore);
-            _recyclerView.AddOnScrollListener(scroll);
         }
 
         private async void LoadMore()
@@ -105,7 +103,7 @@ namespace Cnblogs.XamarinAndroid
         }
         async void initRecycler()
         {
-            adapter = new BaseRecyclerViewAdapter<Article>(this, articleList, Resource.Layout.item_recyclerview_article);
+            adapter = new BaseRecyclerViewAdapter<Article>(this, articleList, Resource.Layout.item_recyclerview_article, LoadMore);
             //  View  footerView = LayoutInflater.From(Activity).Inflate(Resource.Layout.item_recyclerView_footer_loading, null);
             _recyclerView.SetAdapter(adapter);
             adapter.ItemClick += (position, tag) =>
@@ -131,7 +129,7 @@ namespace Cnblogs.XamarinAndroid
                 holder.SetText(Resource.Id.tv_description, articleList[position].Description);
                 holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount + " " + digg);
                 holder.SetText(Resource.Id.tv_title, articleList[position].Title.Replace("\n  ",""));
-                holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
+                holder.GetView<CardView>(Resource.Id.ly_item).Tag = articleList[position].Id.ToString();
                 holder.SetTagUrl(Resource.Id.iv_avatar, articleList[position].Avatar);
                 //ImageLoader.Instance.DisplayImage(articleList[position].Avatar, Resource.Id.iv_avatar);
                 holder.SetImageLoader(Resource.Id.iv_avatar, options, articleList[position].Avatar);

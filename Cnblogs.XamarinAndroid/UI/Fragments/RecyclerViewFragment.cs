@@ -48,6 +48,7 @@ namespace Cnblogs.XamarinAndroid
                   .CacheOnDisk(true)
                   .Displayer(new DisplayerImageCircle(20))
                   .Build();
+            
             // Create your fragment here
             //IWindowManager wm = (IWindowManager)Activity.GetSystemService(Context.WindowService);
             //int wmHeight = wm.DefaultDisplay.Height;
@@ -87,7 +88,7 @@ namespace Cnblogs.XamarinAndroid
             },3000);
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
-            _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
+            //_recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
             articleList = await listArticleLocal();
             if (articleList != null && articleList.Count > 0)
             {
@@ -101,8 +102,6 @@ namespace Cnblogs.XamarinAndroid
             articleList = await listArticleServer();
             System.Diagnostics.Debug.Write("刷新已经完成");
             initRecycler();
-            RecyclerView.OnScrollListener scroll = new RecyclerViewOnScrollListtener(_swipeRefreshLayout,(Android.Support.V7.Widget.LinearLayoutManager)_recyclerView.GetLayoutManager(), adapter, LoadMore);
-            _recyclerView.AddOnScrollListener(scroll);
         }
         private async void LoadMore()
         {
@@ -115,13 +114,15 @@ namespace Cnblogs.XamarinAndroid
             }
             else if (articleList != null)
             {
-               adapter.SetNewData(articleList);
+               // Thread.Sleep(2000);
+                adapter.SetNewData(articleList);
+                adapter.NotifyItemRemoved(adapter.ItemCount);
                 System.Diagnostics.Debug.Write("页数:"+pageIndex+"数据总条数："+articleList.Count);
             }
         }
         async void initRecycler()
         {
-            adapter = new BaseRecyclerViewAdapter<Article>(this.Activity, articleList, Resource.Layout.item_recyclerview_article);
+            adapter = new BaseRecyclerViewAdapter<Article>(this.Activity, articleList, Resource.Layout.item_recyclerview_article, LoadMore);
             _recyclerView.SetAdapter(adapter);
             adapter.ItemClick += (position, tag) =>
             {
@@ -144,7 +145,8 @@ namespace Cnblogs.XamarinAndroid
                     holder.SetText(Resource.Id.tv_description, articleList[position].Description);
                     holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount + " " + digg);
                     holder.SetText(Resource.Id.tv_title, articleList[position].Title);
-                    holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
+                    //holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
+                    holder.GetView<CardView>(Resource.Id.ly_item).Tag=articleList[position].Id.ToString();
                     holder.SetTagUrl(Resource.Id.iv_avatar, articleList[position].Avatar);
                     holder.SetImageLoader(Resource.Id.iv_avatar, options, articleList[position].Avatar);
                 };

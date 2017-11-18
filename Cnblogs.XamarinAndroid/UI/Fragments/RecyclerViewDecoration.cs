@@ -55,6 +55,8 @@ namespace Cnblogs.XamarinAndroid
                 int childCount = parent.ChildCount;
                 for (int i = 0; i < childCount; i++)
                 {
+                   if (i+1 == childCount) //最后一项不用画线
+                    return;
                     View childView = parent.GetChildAt(i);
                     RecyclerView v = new RecyclerView(parent.Context);
                     RecyclerView.LayoutParams _params = (RecyclerView.LayoutParams)childView.LayoutParameters;
@@ -72,6 +74,8 @@ namespace Cnblogs.XamarinAndroid
                 int childCount = parent.ChildCount;
                 for (int i = 0; i < childCount; i++)
                 {
+                   if(i == childCount) //最后一项不用画线
+                    return;
                     View childView = parent.GetChildAt(i);
                     RecyclerView v = new RecyclerView(parent.Context);
                     RecyclerView.LayoutParams _params = (RecyclerView.LayoutParams)childView.LayoutParameters;

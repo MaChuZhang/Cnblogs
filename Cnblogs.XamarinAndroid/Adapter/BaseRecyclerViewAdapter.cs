@@ -13,6 +13,7 @@ using Android.Support.V7.Widget;
 using Android.Util;
 using Com.Nostra13.Universalimageloader.Core;
 using Android.Content.Res;
+using Cnblogs.HttpClient;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -108,15 +109,22 @@ namespace Cnblogs.XamarinAndroid
             private const int VIEW_NULL = 2;
             private View footerView, emptyView;
             private bool isBottom = false;
+            public delegate void InsertData();//添加更多数据的委托
+        private InsertData _InsertDataEvent; //加载更多的事件
         public override int ItemCount
             {
                 get
                 {
-                  if (list.Count == 0)
-                   {
-                      return EmptyViewCount();
-                   }
-                   return list.Count+FooterViewCount()+ EmptyViewCount();
+                  if (list != null)
+                  {
+                    if (list.Count == 0)
+                    {
+                        return list.Count + 1;
+                        return EmptyViewCount();
+                    }
+                    return list.Count +1;
+                  }
+                return 0;
                 }
             }
         private int FooterViewCount()
@@ -143,38 +151,20 @@ namespace Cnblogs.XamarinAndroid
             }
             if (position  == ItemCount-1)
             {
-                Activity activity = (Activity)context;
-                int childCount = _recyclerView.GetLayoutManager().ChildCount - 1;
-                if (childCount == 0)
-                    childCount = 1;
-                View lastChildView = _recyclerView.GetLayoutManager().GetChildAt(childCount - 1);
-                int recyclerViewPb = _recyclerView.PaddingBottom;
-                int lastChildBottom = lastChildView.Bottom;
-                int recyclerViewBottom = _recyclerView.Bottom - _recyclerView.PaddingBottom;
-
-                if (activity is StatusesCommentActivity)
+                if (position == Constact.PageSize - 1)
                 {
-                    LinearLayout headerView = activity.FindViewById<LinearLayout>(Resource.Id.ly_headerView);
-                    int headerTop = headerView.Top+headerView.Height;
-                    LinearLayout  ly_item = activity.FindViewById<LinearLayout>(Resource.Id.ly_item);
-                    int rHeight = 0;
-                    if (ly_item != null)
-                    {
-                        rHeight= ly_item.Height * (ItemCount - 1);
-                    }
-                    Resources res = context.Resources;
-                    DisplayMetrics dm = res.DisplayMetrics;
-                    int windowHeight = dm.HeightPixels;
-                    if(!isBottom)
-                    {
-                        isBottom = true;
-                        return VIEW_ITEM;
-                    }
-                    if (windowHeight > headerTop + rHeight) //判断recyclerView是否超出屏幕
-                        return VIEW_NULL;
-                    return VIEW_FOOTER;
+                    return VIEW_ITEM;
                 }
-                   return VIEW_FOOTER;
+                if (ItemCount < Constact.PageSize)
+                {
+                    if (ItemCount == 0)
+                        return VIEW_NULL;
+                    else
+                        return VIEW_NULL;
+                        //return VIEW_ITEM;
+                }
+                _InsertDataEvent();
+                return VIEW_FOOTER;
             }
             return VIEW_ITEM;
         }
@@ -184,47 +174,33 @@ namespace Cnblogs.XamarinAndroid
             this.list = list == null ? new List<T>() : list;
             NotifyDataSetChanged();
         }
-        //public int GetHeaderViewCount()
-        //{
-        //    if()
-        //}
-        public void SetItemCount(List<T> list)
-        {
-           //this.list
-        }
 
-        public void SetFooterView(int resId)
+        internal  void SetEmpty()
         {
-            this.footerView = inflater.Inflate(resId,null);
-            NotifyDataSetChanged();
-        }
-
-        public void SetEmptyView(View emptyView)
-        {
-           // if(emp)
-        }
-        protected RecyclerView.ViewHolder CreateBaseViewHolder(View view)
-        {
-            return new BaseHolder(view);
+            footerView = inflater.Inflate(Resource.Layout.item_recyclerView_footer_loading,null);
+             
+            footerView.FindViewById<TextView>(Resource.Id.tv_loadInfo).Text="没有更多了";
         }
         //在RecyclerView提供数据的时候调用
         public override void OnAttachedToRecyclerView(RecyclerView recyclerView)
-            {
+        {
                 base.OnAttachedToRecyclerView(recyclerView);
                 this._recyclerView = recyclerView;
-            }
-            public override void OnDetachedFromRecyclerView(RecyclerView recyclerView)
-            {
+         }
+         public override void OnDetachedFromRecyclerView(RecyclerView recyclerView)
+         {
                 base.OnDetachedFromRecyclerView(recyclerView);
                 this._recyclerView = null;
-            }
-            public BaseRecyclerViewAdapter(Context context, List<T> list, int itemLayoutId)
-            {
-                this.context = context;
-                this.list = list;
-                this.itemLayoutId = itemLayoutId;
-                inflater = LayoutInflater.From(context);
-            }
+         }
+
+        public BaseRecyclerViewAdapter(Context context, List<T> list, int itemLayoutId, InsertData _InsertDataEvent)
+        {
+            this.context = context;
+            this.list = list;
+            this.itemLayoutId = itemLayoutId;
+            this._InsertDataEvent = _InsertDataEvent;
+            inflater = LayoutInflater.From(context);
+        }
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             if (viewType == VIEW_FOOTER)

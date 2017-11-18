@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BookmarkViewModel.cs" />
     <Compile Include="KbArticles.cs" />
     <Compile Include="Article.cs" />
     <Compile Include="Interface\IActicalCallBack.cs" />

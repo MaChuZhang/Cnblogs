@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout 
+     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -57,7 +58,7 @@
         android:layout_height="match_parent"
         android:background="@color/bg"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-<!--底部布局-->
+  <!--底部布局-->
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/ly_menu"
@@ -65,36 +66,36 @@
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
         app:layout_behavior="Cnblogs.XamarinAndroid.UI.Widgets.BottomBehavior">
-        <View
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp1"
             android:id="@+id/view_divider"
-            android:background="@color/dedede"/>
+            android:background="@drawable/bg_top_shadow"/>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:background="@color/white"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/tv_news"
-                style="@style/tabText"
-                android:drawableTop="@drawable/selector_menu_news"
-                android:text="@string/bolgsnews" />
-            <TextView
-                android:id="@+id/tv_kbArticles"
-                style="@style/tabText"
-                android:drawableTop="@drawable/selector_menu_kbArticle"
-                android:text="@string/kbArticles" />
-            <TextView
-                android:id="@+id/tv_status"
-                style="@style/tabText"
-                android:drawableTop="@drawable/selector_menu_shancun"
-                android:text="@string/statusesQuestion" />
-            <TextView
-                android:id="@+id/tv_userCenter"
-                style="@style/tabText"
-                android:drawableTop="@drawable/selector_menu_qa"
-                android:text="@string/userCenter" />
+            android:orientation="horizontal"
+            android:background="@drawable/bg_top_shadow">
+          <TextView
+              android:id="@+id/tv_news"
+              style="@style/tabText"
+              android:drawableTop="@drawable/selector_menu_news"
+              android:text="@string/bolgsnews" />
+          <TextView
+              android:id="@+id/tv_kbArticles"
+              style="@style/tabText"
+              android:drawableTop="@drawable/selector_menu_kbArticle"
+              android:text="@string/kbArticles" />
+          <TextView
+              android:id="@+id/tv_status"
+              style="@style/tabText"
+              android:drawableTop="@drawable/selector_menu_shancun"
+              android:text="@string/statusesQuestion" />
+          <TextView
+              android:id="@+id/tv_userCenter"
+              style="@style/tabText"
+              android:drawableTop="@drawable/selector_menu_qa"
+              android:text="@string/userCenter" />
         </LinearLayout>
-    </LinearLayout>
+   </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

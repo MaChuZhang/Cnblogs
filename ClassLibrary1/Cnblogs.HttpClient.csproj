@@ -59,6 +59,7 @@
     <Compile Include="ArticleRequest.cs" />
     <Compile Include="Authorization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BookmarksRequest.cs" />
     <Compile Include="UserRequest.cs" />
   </ItemGroup>
   <ItemGroup>
