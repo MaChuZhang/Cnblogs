@@ -17,7 +17,7 @@
   <string name="bolgs">博客</string>
   <string name="news">新闻</string>
   <string name="bolgsnews">博文</string>
-
+  <string name="comment">评论</string>
   <string name="about">关于</string>
   <string name="setting">设置</string>
   <string name="share">分享</string>
@@ -58,15 +58,31 @@
   <string name="question_myanswer">我的回答</string>
   <string name="question_mybestanswer">被采纳</string>
 
+  <string name="news_home">新闻</string>
+  <string name="news_hot">热门</string>
+  <string name="news_weekHot">本周热门</string>
+  <string name="news_digg">推荐新闻</string>
+  
   <string name="bookmark_add">添加收藏</string>
   <string name="bookmark_my">我的收藏</string>
   <string name="bookmark_edit">编辑收藏</string>
+  <string name="bookmark_linkUrl">网址</string>
+  <string name="bookmark_title">标题</string>
+  <string name="bookmark_tag">标签</string>
+  <string name="bookmark_tags_hint">多个标签用逗号分隔</string>
+  <string name="bookmark_summary">摘要</string>
+  <string name="bookmark_summary_hint">摘要不能超过200字符</string>
+  <string name="bookmark_submit">添加收藏</string>
   
   <string name="userCenter">我的</string>
   <string name="myBlog">我的博客</string>
   <string name="myStatus">我的闪存</string>
   <string name="myQuestion">我的博问</string>
   <string name="login">登录</string>
+
+  <string name="dialogmenu_delete">删除</string>
+  <string name="dialogmenu_edit">编辑</string>
+  <string name="dialogmenu_download">下载到本地</string>
   <!--Tab-->
   <string name="HomeTabsBlog">博客</string>
   <string name="HomeTabsHot">精华</string>

@@ -6,16 +6,113 @@
     android:fitsSystemWindows="true">
     <include
         layout="@layout/child_toolbar" />
-  <ProgressBar
-    android:id="@+id/progressBar_login"
-    style="?android:attr/progressBarStyleHorizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="3dp"
-    android:indeterminate="false"
-    android:progressDrawable="@drawable/layerlist_progressbar"/>
-  <WebView
-    android:id="@+id/webview_login"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="@dimen/dp15"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/dp10">
+            <TextView
+                style="@style/InlineText"
+                android:text="@string/bookmark_linkUrl" />
+            <EditText
+                android:id="@+id/edit_url"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:editable="false"
+                android:textSize="@dimen/TextMiddle"
+                android:layout_marginLeft="@dimen/dp10"
+                android:background="@null"
+                android:lineSpacingExtra="3dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginBottom="@dimen/dp10">
+            <TextView
+                style="@style/InlineText"
+                android:text="@string/bookmark_title" />
+            <EditText
+                android:id="@+id/edit_title"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:editable="false"
+                android:textSize="@dimen/TextMiddle"
+                android:layout_marginLeft="@dimen/dp10"
+                android:background="@null"
+                android:lineSpacingExtra="3dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginBottom="@dimen/dp10">
+            <TextView
+                style="@style/InlineText"
+                android:text="@string/bookmark_tag" />
+            <EditText
+                android:id="@+id/edit_tags"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:editable="true"
+                android:textSize="@dimen/TextMiddle"
+                android:layout_marginLeft="@dimen/dp10"
+                android:lineSpacingExtra="3dp"
+                android:hint="@string/bookmark_tags_hint"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginBottom="@dimen/dp10">
+            <TextView
+                style="@style/InlineText"
+                android:text="@string/bookmark_summary" />
+            <EditText
+                android:id="@+id/edit_summary"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:editable="true"
+                android:textSize="@dimen/TextMiddle"
+                android:layout_marginLeft="@dimen/dp10"
+                android:lineSpacingExtra="3dp"
+                android:hint="@string/bookmark_summary_hint"/>
+        </LinearLayout>
+      <LinearLayout
+          android:layout_height="wrap_content"
+          android:layout_width="match_parent"
+          android:orientation="horizontal"
+          android:gravity="right"
+          android:id="@+id/ly_expire"
+          android:layout_marginTop="@dimen/dp20">
+        <TextView
+            android:text="未登录或登录token已经过期，请"
+            style="@style/InlineText"
+            android:textSize="@dimen/TextMiddle" />
+        <TextView
+            android:id="@+id/tv_startLogin"
+            android:text="立即登录"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/TextMiddle" />
+      </LinearLayout>
+      <Button
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/bookmark_submit"
+            android:background="@drawable/selector_btn_primary"
+            android:layout_marginTop="@dimen/dp15"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:id="@+id/btn_submit" />
+    </LinearLayout>
 </LinearLayout>

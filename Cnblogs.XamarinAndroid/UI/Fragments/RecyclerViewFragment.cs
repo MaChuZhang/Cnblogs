@@ -40,7 +40,7 @@ namespace Cnblogs.XamarinAndroid
             position = Arguments.GetInt("position");
             //ÏÔÊ¾Í¼Æ¬ÅäÖÃ
             options = new DisplayImageOptions.Builder()
-                  .ShowImageOnFail(Resource.Drawable.Icon)
+                .ShowImageForEmptyUri(Resource.Drawable.Icon)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
                   .ShowImageOnFail(Resource.Drawable.icon_user)
@@ -126,11 +126,15 @@ namespace Cnblogs.XamarinAndroid
             _recyclerView.SetAdapter(adapter);
             adapter.ItemClick += (position, tag) =>
             {
-                System.Diagnostics.Debug.Write(position, tag);
+                    System.Diagnostics.Debug.Write(position, tag);
+                    AlertUtil.ToastShort(this.Activity, tag);
+                    var intent = new Intent(Activity, typeof(DetailArticleActivity));
+                    intent.PutExtra("id", int.Parse(tag));
+                    StartActivity(intent);
+            };
+            adapter.ItemLongClick += (tag, position) =>
+            {
                 AlertUtil.ToastShort(this.Activity, tag);
-                var intent = new Intent(Activity, typeof(DetailArticleActivity));
-                intent.PutExtra("id", int.Parse(tag));
-                StartActivity(intent);
             };
             string read = Resources.GetString(Resource.String.read);
             string comment = Resources.GetString(Resource.String.comment);

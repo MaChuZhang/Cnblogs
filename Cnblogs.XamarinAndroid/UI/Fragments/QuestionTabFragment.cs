@@ -30,6 +30,8 @@ namespace Cnblogs.XamarinAndroid
         private RecyclerView _recyclerView;
         private SwipeRefreshLayout _swipeRefreshLayout;
         private BaseRecyclerViewAdapter<QuestionModel> adapter;
+        private LinearLayout ly_expire;
+        private TextView tv_startLogin;
         private int position;
         private DisplayImageOptions options;
         private int pageIndex = 1;
@@ -42,7 +44,7 @@ namespace Cnblogs.XamarinAndroid
             isMy = Arguments.GetBoolean("isMy");
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
-                  .ShowImageOnFail(Resource.Drawable.Icon)
+                 .ShowImageForEmptyUri(Resource.Drawable.Icon)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
                   .ShowImageOnFail(Resource.Drawable.icon_user)
@@ -72,7 +74,10 @@ namespace Cnblogs.XamarinAndroid
         {
             base.OnViewCreated(view, savedInstanceState);
             _swipeRefreshLayout = view.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
+            ly_expire = view.FindViewById<LinearLayout>(Resource.Id.ly_expire);
+            tv_startLogin = view.FindViewById<TextView>(Resource.Id.tv_startLogin);
             _swipeRefreshLayout.SetColorSchemeResources(Resource.Color.primary);
+
             _swipeRefreshLayout.SetOnRefreshListener(this);
             _swipeRefreshLayout.Post(() =>
             {
@@ -86,6 +91,22 @@ namespace Cnblogs.XamarinAndroid
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
 
+            Token token = UserTokenUtil.GetToken(Activity);
+            if (isMy && token.IsExpire)
+            {
+                ly_expire.Visibility = ViewStates.Visible;
+                _swipeRefreshLayout.Visibility = ViewStates.Gone;
+                tv_startLogin.Click += (s, e) =>
+                {
+                    Activity.StartActivity(new Intent(Activity, typeof(loginactivity)));
+                };
+                return;
+            }
+            else
+            {
+                ly_expire.Visibility = ViewStates.Gone;
+                _swipeRefreshLayout.Visibility = ViewStates.Visible;
+            }
             listQuestion = await listStatusLocal();
             if (listQuestion.Count > 0)
             {
@@ -127,11 +148,15 @@ namespace Cnblogs.XamarinAndroid
             _recyclerView.SetAdapter(adapter);
             adapter.ItemClick += (position, tag) =>
             {
-                System.Diagnostics.Debug.Write(position, tag);
-                AlertUtil.ToastShort(this.Activity, tag);
-                QuestionActivity.Enter(Activity,int.Parse(tag));
+                    System.Diagnostics.Debug.Write(position, tag);
+                    AlertUtil.ToastShort(this.Activity, tag);
+                    QuestionActivity.Enter(Activity, int.Parse(tag));
             };
-                string read = Resources.GetString(Resource.String.read);
+            adapter.ItemLongClick += (tag, position) =>
+            {
+                AlertUtil.ToastShort(this.Activity, tag);
+            };
+            string read = Resources.GetString(Resource.String.read);
                 string answer = Resources.GetString(Resource.String.answer);
             try
             {
@@ -175,11 +200,12 @@ namespace Cnblogs.XamarinAndroid
             var result = new ApiResult<List<QuestionModel>>();
             if (isMy)
             {
-                result = await QuestionRequest.ListQuestion(UserTokenUtil.GetToken(this.Activity), position, pageIndex,true);
+                var user = UserInfoShared.GetUserInfo(this.Activity);
+                result = await QuestionRequest.ListQuestion(UserTokenUtil.GetToken(this.Activity), position, pageIndex,true,user.SpaceUserId);
             }
             else
             {
-                result = await QuestionRequest.ListQuestion(AccessTokenUtil.GetToken(this.Activity), position, pageIndex,false);
+                result = await QuestionRequest.ListQuestion(AccessTokenUtil.GetToken(this.Activity), position, pageIndex,false,0);
             }
             if (result.Success)
             {

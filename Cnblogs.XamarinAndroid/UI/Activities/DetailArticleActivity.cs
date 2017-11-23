@@ -31,9 +31,7 @@ namespace Cnblogs.XamarinAndroid
         private WebView wb_content;
         private int articleId;
         DisplayImageOptions options;
-        private Button btn_comment;
-        private Button btn_digg;
-        private Button btn_mark;
+        private Button btn_comment, btn_digg, btn_mark;
         private Article article;
         private UMengShareWidget shareWidget;
         
@@ -50,7 +48,7 @@ namespace Cnblogs.XamarinAndroid
             ImageLoader.Instance.Init(configuration);
             //显示图片配置
             options = new DisplayImageOptions.Builder()
-                  .ShowImageOnFail(Resource.Drawable.Icon)
+                  .ShowImageForEmptyUri(Resource.Drawable.Icon)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
                   .ShowImageOnFail(Resource.Drawable.icon_user)
@@ -58,7 +56,7 @@ namespace Cnblogs.XamarinAndroid
                   .CacheOnDisk(true)
                   .Displayer(new DisplayerImageCircle(20))
                   .Build();
-            SetNavIcon(Resource.Drawable.icon_back);
+            SetToolBarNavBack();
             //toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             //toolbar.Title = "博客";
          //  toolbar.(Resource.Drawable.icon_back);
@@ -72,6 +70,16 @@ namespace Cnblogs.XamarinAndroid
             btn_digg = FindViewById<Button>(Resource.Id.btn_digg);
             btn_mark = FindViewById<Button>(Resource.Id.btn_mark);
             tv_view = FindViewById<TextView>(Resource.Id.tv_view);
+
+            btn_mark.Click += (s, e) =>
+            {
+                AddBookmarkActivity.Enter(this,article.Url,article.Title,"add");
+            };
+
+            btn_comment.Click += (s, e) =>
+            {
+                ArticleCommentActivity.Enter(this, article.BlogApp,articleId);
+            };
 
             wb_content.Settings.DomStorageEnabled = true;
             wb_content.Settings.JavaScriptEnabled = true;//支持js
@@ -108,7 +116,7 @@ namespace Cnblogs.XamarinAndroid
             {
                 tv_author.Text = article.Author;
                 tv_postDate.Text = article.PostDate.ToCommonString();
-                tv_articleTitle.Text = article.Title;
+                tv_articleTitle.Text = article.Title.Replace("\n","").Replace("  ","");
                 tv_view.Text = article.ViewCount.ToString();
                 btn_digg.Text = article.Diggcount.ToString();
                 btn_comment.Text = article.CommentCount.ToString();

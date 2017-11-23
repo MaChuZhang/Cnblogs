@@ -10,35 +10,35 @@
     android:id="@+id/bottom_sheet"
     android:background="@drawable/bg_top_shadow"
     app:layout_behavior="Cnblogs.XamarinAndroid.UI.Widgets.BottomBehavior">
-    <!--<View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp1"
-        android:id="@+id/view_divider"
-        android:background="@color/dedede" />-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/white">
-        <TextView
-            android:id="@+id/tv_view"
-            style="@style/BottomText"
-            android:drawableTop="@drawable/icon_view"
-            android:text="@string/view"
-            android:background="?attr/selectableItemBackgroundRipple"
-            android:layout_alignParentLeft="true" />
-        <Button
-            android:id="@+id/btn_mark"
-            style="@style/BottomText"
-            android:drawableTop="@drawable/icon_mark"
-            android:text="@string/mark"
-            android:background="?attr/selectableItemBackgroundRipple"
-            android:layout_alignParentRight="true" />
-        <Button
-          android:id="@+id/btn_digg"
-            style="@style/BottomText"
-            android:drawableTop="@drawable/icon_digg"
-            android:text="@string/digg"
-            android:layout_toLeftOf="@id/btn_mark"
-            android:background="?attr/selectableItemBackgroundRipple"/>
-    </RelativeLayout>
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp3"
+    android:id="@+id/view_divider"
+    android:background="@drawable/bg_top_shadow"/>
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="55dp"
+      android:background="@color/white">
+    <TextView
+        android:id="@+id/tv_view"
+        style="@style/BottomText"
+        android:drawableTop="@drawable/icon_view"
+        android:text="@string/view"
+        android:background="?attr/selectableItemBackgroundRipple"
+        android:layout_alignParentLeft="true" />
+    <Button
+        android:id="@+id/btn_mark"
+        style="@style/BottomText"
+        android:drawableTop="@drawable/icon_mark"
+        android:text="@string/mark"
+        android:background="?attr/selectableItemBackgroundRipple"
+        android:layout_alignParentRight="true" />
+    <Button
+      android:id="@+id/btn_digg"
+        style="@style/BottomText"
+        android:drawableTop="@drawable/icon_digg"
+        android:text="@string/digg"
+        android:layout_toLeftOf="@id/btn_mark"
+        android:background="?attr/selectableItemBackgroundRipple"/>
+  </RelativeLayout>
 </LinearLayout>

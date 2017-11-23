@@ -37,7 +37,7 @@ namespace Cnblogs.XamarinAndroid
             ImageLoader.Instance.Init(configuration);
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
-                  .ShowImageOnFail(Resource.Drawable.Icon)
+                  .ShowImageForEmptyUri(Resource.Drawable.Icon)
                   .CacheInMemory(true)
                   .BitmapConfig(Android.Graphics.Bitmap.Config.Rgb565)
                   .ShowImageOnFail(Resource.Drawable.noavatar)

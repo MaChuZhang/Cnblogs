@@ -27,7 +27,7 @@ namespace Cnblogs.XamarinAndroid
                 instance = new SQLiteAsyncConnection(DBPATH);
                 InitDataBase();
             }
-            return instance;
+                 return instance;
         }
         private static async void InitDataBase()
         {
@@ -55,12 +55,56 @@ namespace Cnblogs.XamarinAndroid
             {
                 System.Diagnostics.Debug.Write("CreateTable_UserInfo", "success");
             });
+            await Instance().CreateTableAsync<ApiModel.BookmarksModel>().ContinueWith(r =>
+            {
+                System.Diagnostics.Debug.Write("CreateTable_BookmarksModel", "success");
+            });
+            await Instance().CreateTableAsync<ApiModel.ArticleCommentModel>().ContinueWith(r =>
+            {
+                System.Diagnostics.Debug.Write("CreateTable_ArticleCommentModel", "success");
+            });
+            await Instance().CreateTableAsync<ApiModel.NewsViewModel>().ContinueWith(r =>
+            {
+                System.Diagnostics.Debug.Write("CreateTable_NewsViewModel", "success");
+            });
+            await Instance().CreateTableAsync<ApiModel.NewsCommentViewModel>().ContinueWith(r =>
+            {
+                System.Diagnostics.Debug.Write("CreateTable_NewsCommentViewModel", "success");
+            });
         }
         #region  用户相关
         //public static async Task<ApiModel.UserInfo> UserInfo()
         //{
         //    return  await  Instance
         //}
+        #endregion
+        #region 收藏相关
+        public static async Task<ApiModel.BookmarksModel> SelectBookMark(int id)
+        {
+            return await Instance().Table<ApiModel.BookmarksModel>().Where(s => s.WzLinkId == id).FirstOrDefaultAsync();
+        }
+        public static async Task<List<ApiModel.BookmarksModel>> SelectBookMarkList(int pageSize)
+        {
+            return await Instance().Table<ApiModel.BookmarksModel>().OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
+        }
+        public static async Task UpdateBookMark(Cnblogs.ApiModel.BookmarksModel model)
+        {
+            await Instance().UpdateAsync(model);
+        }
+        public static async Task UpdateBookMarkList(List<ApiModel.BookmarksModel> list)
+        {
+            foreach (var item in list)
+            {
+                if (await SelectBookMark(item.WzLinkId) == null)
+                {
+                    await Instance().InsertAsync(item);
+                }
+                else
+                {
+                    await UpdateBookMark(item);
+                }
+            }
+        }
         #endregion
         #region  文章相关
         public static async Task<ApiModel.Article> SelectArticle(int id)
@@ -86,6 +130,32 @@ namespace Cnblogs.XamarinAndroid
                 else
                 {
                     await UpdateArticle(item);
+                }
+            }
+        }
+        public static async Task<ApiModel.ArticleCommentModel> SelectArticleComment(int id)
+        {
+            return await Instance().Table<ApiModel.ArticleCommentModel>().Where(s => s.Id == id).FirstOrDefaultAsync();
+        }
+        public static async Task<List<ApiModel.ArticleCommentModel>> SelectArticleCommentList(int pageSize)
+        {
+            return await Instance().Table<ApiModel.ArticleCommentModel>().OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
+        }
+        public static async Task UpdateArticleComment(Cnblogs.ApiModel.ArticleCommentModel model)
+        {
+            await Instance().UpdateAsync(model);
+        }
+        public static async Task UpdateArticleCommentList(List<ApiModel.ArticleCommentModel> list)
+        {
+            foreach (var item in list)
+            {
+                if (await SelectArticleComment(item.Id) == null)
+                {
+                    await Instance().InsertAsync(item);
+                }
+                else
+                {
+                    await UpdateArticleComment(item);
                 }
             }
         }
@@ -119,7 +189,75 @@ namespace Cnblogs.XamarinAndroid
             return await Instance().Table<ApiModel.KbArticles>().OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
         }
         #endregion
+        #region 新闻相关
 
+
+
+        public static async Task<ApiModel.NewsCommentViewModel> SelectNewsComment(int id)
+        {
+            return await Instance().Table<ApiModel.NewsCommentViewModel>().Where(s => s.Id == id).FirstOrDefaultAsync();
+        }
+        public static async Task UpdateNewsComment(Cnblogs.ApiModel.NewsCommentViewModel model)
+        {
+            await Instance().UpdateAsync(model);
+        }
+        public static async Task UpdateNewsCommentList(List<ApiModel.NewsCommentViewModel> list)
+        {
+            foreach (var item in list)
+            {
+                if (await SelectNewsComment(item.Id) == null)
+                {
+                    await Instance().InsertAsync(item);
+                }
+                else
+                {
+                    await UpdateNewsComment(item);
+                }
+            }
+        }
+        public static async Task<List<ApiModel.NewsCommentViewModel>> SelectNewsCommentList(int pageSize)
+        {
+            return await Instance().Table<ApiModel.NewsCommentViewModel>().OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
+        }
+
+
+
+
+        public static async Task<ApiModel.NewsViewModel> SelectNews(int id)
+        {
+            return await Instance().Table<ApiModel.NewsViewModel>().Where(s => s.Id == id).FirstOrDefaultAsync();
+        }
+        public static async Task UpdateNews(Cnblogs.ApiModel.NewsViewModel model)
+        {
+            await Instance().UpdateAsync(model);
+        }
+        public static async Task UpdateNewsList(List<ApiModel.NewsViewModel> list)
+        {
+            foreach (var item in list)
+            {
+                if (await SelectNews(item.Id) == null)
+                {
+                    await Instance().InsertAsync(item);
+                }
+                else
+                {
+                    await UpdateNews(item);
+                }
+            }
+        }
+        public static async Task<List<ApiModel.NewsViewModel>> SelectNewsList(int pageSize)
+        {
+            return await Instance().Table<ApiModel.NewsViewModel>().OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
+        }
+        public static async Task<List<ApiModel.NewsViewModel>> SelectNewsListByDigg(int pageSize)
+        {
+            return await Instance().Table<ApiModel.NewsViewModel>().OrderByDescending(a => a.DateAdded).Where(s=>s.IsRecommend).Skip(0).Take(pageSize).ToListAsync();
+        }
+        public static async Task<List<ApiModel.NewsViewModel>> SelectNewsListByHotWeek(int pageSize)
+        {
+            return await Instance().Table<ApiModel.NewsViewModel>().OrderByDescending(a => a.DateAdded).Where(s => s.IsHot).Skip(0).Take(pageSize).ToListAsync();
+        }
+        #endregion
         #region  闪存相关
         public static async Task<ApiModel.StatusModel> SelectStatus(int id)
         {

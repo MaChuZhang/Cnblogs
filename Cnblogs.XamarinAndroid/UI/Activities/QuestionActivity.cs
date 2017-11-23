@@ -53,7 +53,7 @@ namespace Cnblogs.XamarinAndroid
             ImageLoader.Instance.Init(configuration);
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
-                  .ShowImageOnFail(Resource.Drawable.Icon)
+                  .ShowImageForEmptyUri(Resource.Drawable.Icon)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
                   .ShowImageOnFail(Resource.Drawable.icon_user)
@@ -61,7 +61,7 @@ namespace Cnblogs.XamarinAndroid
                   .CacheOnDisk(true)
                   .Displayer(new DisplayerImageCircle(20))
                   .Build();
-            SetNavIcon(Resource.Drawable.icon_back);
+            SetToolBarNavBack();
             tv_title = FindViewById<TextView>(Resource.Id.tv_title);
             tv_award = FindViewById<TextView>(Resource.Id.tv_award);
             tv_dateAdded = FindViewById<TextView>(Resource.Id.tv_dateAdded);

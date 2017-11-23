@@ -34,12 +34,12 @@ namespace Cnblogs.XamarinAndroid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetNavIcon(Resource.Drawable.back_24dp);
+            SetToolBarNavBack();
             StatusBarUtil.SetColorStatusBars(this);
             SetToolBarTitle(Resources.GetString(Resource.String.myStatus));
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
-                  .ShowImageOnFail(Resource.Drawable.Icon)
+                  .ShowImageForEmptyUri(Resource.Drawable.Icon)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
                   .ShowImageOnFail(Resource.Drawable.icon_user)

@@ -13,13 +13,13 @@ using Android.Support.V4.App;
 
 namespace Cnblogs.XamarinAndroid
 {
-    public class HomeFragmentTabsAdapter :FragmentPagerAdapter
+    public class BlogFragmentTabsAdapter :FragmentPagerAdapter
     {
         private const int TabItemCount = 2;
         private Android.Support.V4.App.FragmentManager _fragmentManager;
         private List<RecyclerViewFragment> fragments=new List<RecyclerViewFragment> ();
         private string[] tabsTitle;
-        public HomeFragmentTabsAdapter(Android.Support.V4.App.FragmentManager fm,string[] tabsTitle):base(fm)
+        public BlogFragmentTabsAdapter(Android.Support.V4.App.FragmentManager fm,string[] tabsTitle):base(fm)
         {
             _fragmentManager = fm;
             this.tabsTitle = tabsTitle;

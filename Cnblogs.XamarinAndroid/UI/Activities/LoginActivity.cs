@@ -35,7 +35,7 @@ namespace Cnblogs.XamarinAndroid
         private WebView loginview;
         private ProgressBar progressBar;
         //private static Context context => this;
-        protected override async void OnCreate(Bundle savedinstancestate)
+        protected override  void OnCreate(Bundle savedinstancestate)
         {
             base.OnCreate(savedinstancestate);
             StatusBarUtil.SetColorStatusBars(this);

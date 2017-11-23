@@ -20,7 +20,7 @@ namespace Cnblogs.HttpClient
     }
     public class  QuestionRequest
     {
-        public static async Task<ApiResult<List<QuestionModel>>> ListQuestion(Token token,int questionType,int pageIndex,bool  isMy)
+        public static async Task<ApiResult<List<QuestionModel>>> ListQuestion(Token token,int questionType,int pageIndex,bool  isMy,int spaceUserId)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Cnblogs.HttpClient
                             break;
                     }
                 }
-                string url = string.Format(Constact.QuestionsType, _questionType, pageIndex,Constact.PageSize);
+                string url = string.Format(Constact.QuestionsType, _questionType, pageIndex,Constact.PageSize,spaceUserId);
                 var result=await HttpBase.GetAsync(url,null,token);
                 if (result.IsSuccess)
                 {

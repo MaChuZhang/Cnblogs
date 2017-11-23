@@ -57,7 +57,7 @@ namespace Cnblogs.XamarinAndroid
             ImageLoader.Instance.Init(configuration);
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
-                  .ShowImageOnFail(Resource.Drawable.Icon)
+                .ShowImageForEmptyUri(Resource.Drawable.Icon)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
                   .ShowImageOnFail(Resource.Drawable.icon_user)
@@ -65,7 +65,7 @@ namespace Cnblogs.XamarinAndroid
                   .CacheOnDisk(true)
                   .Displayer(new DisplayerImageCircle(20))
                   .Build();
-            SetNavIcon(Resource.Drawable.icon_back);
+            SetToolBarNavBack();
             tv_dateAdded = FindViewById<TextView>(Resource.Id.tv_dateAdded);
             tv_userDisplayName = FindViewById<TextView>(Resource.Id.tv_userDisplayName);
             iv_userIcon = FindViewById<ImageView>(Resource.Id.iv_userIcon);
@@ -166,7 +166,7 @@ namespace Cnblogs.XamarinAndroid
             //    AlertUtil.ToastShort(this, tag);
             //    DetailKbArticlesActivity.Enter(this, int.Parse(tag));
             //};
-            adapter.ItemClick += (position, tag) =>
+            adapter.ItemClick+= (position, tag) =>
             {
 
             };

@@ -10,7 +10,7 @@ namespace Cnblogs.HttpClient
 {
     public class BookmarksRequest
     {
-        public static async Task<ApiResult<BookmarksModel>> List(Token token)
+        public static async Task<ApiResult<List<BookmarksModel>>> List(Token token,int pageSize,int pageIndex)
         {
             //var result=null;
             try
@@ -19,15 +19,15 @@ namespace Cnblogs.HttpClient
                 if (result.IsSuccess)
                 {
                     //errorAction("网络请求失败:" + response.StatusCode);
-                    var userinfo = JsonConvert.DeserializeObject<BookmarksModel>(result.Message);
-                    return ApiResult.Ok(userinfo);
+                    var list = JsonConvert.DeserializeObject<List<BookmarksModel>>(result.Message);
+                    return ApiResult.Ok(list);
                 }
-                return ApiResult<BookmarksModel>.Error(result.Message);
+                return ApiResult<List<BookmarksModel>>.Error(result.Message);
 
             }
             catch (Exception ex)
             {
-                return ApiResult<BookmarksModel>.Error(ex.Message);
+                return ApiResult<List<BookmarksModel>>.Error(ex.Message);
             }
         }
 
@@ -38,11 +38,15 @@ namespace Cnblogs.HttpClient
             try
             {
                 string url = string.Format(Constact.BookMarks_add);
-                var result = await HttpBase.PostAsync(token,url, null);
+                Dictionary<string, string> _params = new Dictionary<string, string>();
+                _params.Add("LinkUrl",model.LinkUrl);
+                _params.Add("Title",model.Title);
+                _params.Add("Summary",model.Summary);
+                _params.Add("Tags",model.Tag);
+                var result = await HttpBase.PostAsync(token,url, _params);
                 if (result.IsSuccess)
                 {
-                    var  msg = JsonConvert.DeserializeObject<string>(result.Message);
-                    return ApiResult.Ok(msg);
+                    return ApiResult.Ok(result.Message);
                     //return   ApiResult.Ok(list);
                 }
                 return ApiResult<string>.Error(result.Message);
@@ -55,5 +59,45 @@ namespace Cnblogs.HttpClient
             }
         }
 
+
+        public static void Delete(Token token,int id,Action<ResponseMessage>  callBack)
+        {
+                string url = string.Format(Constact.BookMarks_delete, id);
+                HttpBase.Delete(url, token, callBack);
+        }
+
+        public static void Edit(Token token, BookmarksModel model, Action<ResponseMessage> callBack)
+        {
+            string url = string.Format(Constact.BookMarks_patch, model.WzLinkId);
+            Dictionary<string, string> _params = new Dictionary<string, string>();
+            _params.Add("LinkUrl", model.LinkUrl);
+            _params.Add("Title", model.Title);
+            _params.Add("Summary", model.Summary);
+            _params.Add("Tags", model.Tag);
+            _params.Add("WzLinkId",model.WzLinkId.ToString());
+            HttpBase.Patch(url, token,_params, callBack);
+        }
+        public static async Task<ApiResult<bool>> Exist(Token token,string  _url)
+        {
+            //var result=null;
+            try
+            {
+                string url = string.Format(Constact.BookMarks_exists,_url);
+                var result = await HttpBase.GetAsync( url, null,token);
+                if (result.IsSuccess)
+                {
+                    var msg ="你已经收藏了";
+                    return ApiResult.Ok(true);
+                    //return   ApiResult.Ok(list);
+                }
+                return ApiResult.Ok(false);
+                //return ApiResult<List<Article>>.Error(result.Message);
+
+            }
+            catch (Exception ex)
+            {
+                return ApiResult<bool>.Ok(false);
+            }
+        }
     }
 }

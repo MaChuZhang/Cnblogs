@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
-  <android.support.v4.widget.SwipeRefreshLayout 
+<android.support.v4.widget.SwipeRefreshLayout
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -14,4 +13,23 @@
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"/>
   </android.support.v4.widget.SwipeRefreshLayout>
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal|center_vertical"
+        android:visibility="gone"
+        android:id="@+id/ly_expire">
+        <TextView
+            android:text="未登录或登录token已经过期，请"
+            style="@style/InlineText"
+            android:textSize="@dimen/TextMiddle" />
+        <TextView
+            android:id="@+id/tv_startLogin"
+            android:text="立即登录"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/TextMiddle" />
+    </LinearLayout>
 </LinearLayout>

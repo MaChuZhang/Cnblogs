@@ -17,6 +17,7 @@ using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
 using Cnblogs.HttpClient;
 using Com.Nostra13.Universalimageloader.Core;
 using static Android.App.ActionBar;
+using Android.Content;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -26,19 +27,21 @@ namespace Cnblogs.XamarinAndroid
         private DateTime ? firstBackTime; //第一次单击返回
         //private Toolbar _toolbar;
 
-        private UserCenterFragment _userCenterFragment;
-        private HomeFragment _homeFragment;
+        private NewsFragment newsFragment;
+        private BlogFragment _homeFragment;
         private StatusQuestionFragment _statusQuestionFragment;
         private StatusFragment _statusFragment;
         private QuestionFragment _questionFragment;
         private KbArticlesFragment _kbArticlesFragment;
         private FragmentManager _fm;
-        private TextView tv_news,tv_kbArticles,tv_userCenter,tv_status;
+        private TextView tv_blog,tv_kbArticles,tv_news,tv_status;
         private RecyclerView _recyclerView;
         private Button btn_status;
         private Button btn_question;
         protected override int LayoutResourceId => Resource.Layout.Main;
         protected override string ToolBarTitle =>Resources.GetString(Resource.String.ToolBar_Title_Cnblogs);
+
+    
 
         protected override async void OnCreate(Bundle bundle)
         {
@@ -46,20 +49,21 @@ namespace Cnblogs.XamarinAndroid
             ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();//初始化图片加载框架
             ImageLoader.Instance.Init(configuration);
             StatusBarUtil.SetColorStatusBars(this);
+            SetToolBarNavUserCenter();
             _fm = SupportFragmentManager;
             //SetSupportActionBar(_toolbar);
+            tv_blog = FindViewById<TextView>(Resource.Id.tv_blog);
             tv_news = FindViewById<TextView>(Resource.Id.tv_news);
-            tv_userCenter = FindViewById<TextView>(Resource.Id.tv_userCenter);
             tv_status = FindViewById<TextView>(Resource.Id.tv_status);
             tv_kbArticles = FindViewById<TextView>(Resource.Id.tv_kbArticles);
             BindViewsClick();
-            tv_news.PerformClick();
+            tv_blog.PerformClick();
         }
         void SetUnSelected()
         {
-            tv_news.Selected = false;
+            tv_blog.Selected = false;
             tv_kbArticles.Selected = false;
-            tv_userCenter.Selected = false;
+            tv_news.Selected = false;
             tv_status.Selected = false;
         }
         //隐藏所有Fragment
@@ -67,17 +71,17 @@ namespace Cnblogs.XamarinAndroid
         {
             if (_homeFragment != null) fragmentTransaction.Hide(_homeFragment);
             if (_kbArticlesFragment != null) fragmentTransaction.Hide(_kbArticlesFragment);
-            if (_userCenterFragment != null) fragmentTransaction.Hide(_userCenterFragment);
+            if (newsFragment != null) fragmentTransaction.Hide(newsFragment);
             if (_statusQuestionFragment != null) fragmentTransaction.Hide(_statusQuestionFragment);
             if (StatusQuestionFragment._questionFragment != null) fragmentTransaction.Hide(StatusQuestionFragment._questionFragment);
             if (StatusQuestionFragment._statusFragment != null) fragmentTransaction.Hide(StatusQuestionFragment._statusFragment);
         }
         void BindViewsClick()
         {
-            tv_userCenter.Click += (s, e) => { MenuSwitch(tv_userCenter); };
+            tv_news.Click += (s, e) => { MenuSwitch(tv_news); };
             tv_status.Click += (s, e) => { MenuSwitch(tv_status); };
             tv_kbArticles.Click += (s, e) => { MenuSwitch(tv_kbArticles); };
-            tv_news.Click += (s, e) => { MenuSwitch(tv_news); };
+            tv_blog.Click += (s, e) => { MenuSwitch(tv_blog); };
         }
         void MenuSwitch(View v)
         {
@@ -85,12 +89,12 @@ namespace Cnblogs.XamarinAndroid
             hideAllFragment(ft);
             switch (v.Id)
             {
-                case Resource.Id.tv_news:
+                case Resource.Id.tv_blog:
                     SetUnSelected();
-                    tv_news.Selected = true;
+                    tv_blog.Selected = true;
                     if (_homeFragment == null)
                     {
-                        _homeFragment = new HomeFragment();
+                        _homeFragment = new BlogFragment();
                         ft.Add(Resource.Id.frameContent, _homeFragment);
                     }
                     else ft.Show(_homeFragment);
@@ -129,17 +133,17 @@ namespace Cnblogs.XamarinAndroid
                     base.SetToolBarTitle("");
                     SetTabVisible(true);
                     break;
-                case Resource.Id.tv_userCenter:
+                case Resource.Id.tv_news:
                     SetUnSelected();
-                    tv_userCenter.Selected = true;
-                    if (_userCenterFragment == null)
+                    tv_news.Selected = true;
+                    if (newsFragment == null)
                     {
-                        _userCenterFragment = new UserCenterFragment();
-                        ft.Add(Resource.Id.frameContent, _userCenterFragment);
+                        newsFragment = new NewsFragment();
+                        ft.Add(Resource.Id.frameContent, newsFragment);
                     }
                     else
-                        ft.Show(_userCenterFragment);
-                    base.SetToolBarTitle(Resources.GetString(Resource.String.CnblogsTitle));
+                        ft.Show(newsFragment);
+                    base.SetToolBarTitle(Resources.GetString(Resource.String.news));
                     SetTabVisible(false);
                     break;
             }

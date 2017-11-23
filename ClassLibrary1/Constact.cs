@@ -38,6 +38,23 @@ namespace Cnblogs.HttpClient
         public const string SiteHomeArticleList = Host+Api+"/blogposts/@sitehome?pageIndex={0}&pageSize={1}";
         public const string ArticleHot = Host + Api + "/blogposts/@picked?pageIndex={0}&pageSize={1}";
         public const string CnblogsPic = "https://pic.cnblogs.com/face/";
+        
+        public const string NewsList = Host + Api + "/newsitems?pageIndex={0}&pageSize={1}";
+        public const string NewsHotList = Host + Api + "/newsitems/@hot?startDate={0}&endDate={1}&pageIndex={2}&pageSize={3}";
+        public const string NewsHotWeekList = Host + Api + "/newsitems/@hot-week?pageIndex={0}&pageSize={1}";
+        public const string NewsDiggList = Host + Api + "/newsitems/@recommended?pageIndex={0}&pageSize={1}";
+        public const string NewsDetail = Host + Api + "/newsitems/{0}/body";
+        public const string NewsCommentList = Host + Api + "/news/{0}/comments?pageIndex={1}&pageSize={2}";
+        public const string NewsCommentAdd = Host + Api + "/news/{0}/comments";
+        public const string NewsCommentDelete = Host + Api + "/newscomments/{0}";
+        /// <summary>
+        /// 获取博客文章评论内容,params1:博客名,博文编号,pageIndex pageSize
+        /// </summary>
+        public const string ArticleCommentList = Host + Api + "/blogs/{0}/posts/{1}/comments?pageIndex={2}&pageSize={3}";
+       /// <summary>
+       /// 添加评论
+       /// </summary>
+        public const string AddArticleComment= Host + Api + "/blogs/{0}/posts/{1}/comments";
         /// <summary>
         /// 获取用户信息
         /// </summary>
@@ -54,9 +71,9 @@ namespace Cnblogs.HttpClient
         public const string BookMarks_exists = Host + Api + "/Bookmarks?url={0}";
 
         /// <summary>
-        /// 根据url删除收藏，url需要编码delete方式
+        /// 根据url删除收藏
         /// </summary>
-        public const string BookMarks_delete = Host + Api + "/Bookmarks?url={0}";
+        public const string BookMarks_delete = Host + Api + "/bookmarks/{0}";
         /// <summary>
         /// 根据id修改收藏 patch方式
         /// </summary>
@@ -84,9 +101,10 @@ namespace Cnblogs.HttpClient
         /// 获取博客文章内容
         /// </summary>
         public const string ArticleBody = Host + Api + "/blogposts/{0}/body";
-       /// <summary>
-       /// 获取知识库列表
-       /// </summary>
+        /// <summary>
+        /// 获取知识库列表
+        /// </summary>
+        public const string KbPage = "https://kb.cnblogs.com/page/{0}/";
         public const string KbArticles = Host + Api + "/KbArticles?pageIndex={0}&pageSize={1}";
         /// <summary>
         ///知识库内容
@@ -111,7 +129,7 @@ namespace Cnblogs.HttpClient
         /// <summary>
         /// 根据类型分页获取博问列表
         /// </summary>
-        public const string QuestionsType = Host + Api +"/questions/@{0}?pageIndex={1}&pageSize={2}";
+        public const string QuestionsType = Host + Api + "/questions/@{0}?pageIndex={1}&pageSize={2}&spaceUserId={3}";
 
         /// <summary>
         /// 获取根据id博问详情

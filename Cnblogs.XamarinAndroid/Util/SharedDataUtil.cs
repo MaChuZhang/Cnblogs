@@ -46,7 +46,7 @@ namespace Cnblogs.XamarinAndroid
             BaseShared.Instance(context, fileName).SetString(Constact.KeyTokenType, token.token_type);
             BaseShared.Instance(context, fileName).SetString(Constact.KeyRefreshToken, token.refresh_token);
             BaseShared.Instance(context, fileName).SetInt(Constact.KeyExpiresIn, token.expires_in);
-            BaseShared.Instance(context, fileName).SetDateTime(Constact.KeyRefreshTime, token.RefreshTime);
+            BaseShared.Instance(context, fileName).SetDateTime(Constact.KeyRefreshTime,DateTime.Now);
             BaseShared.Instance(context, fileName).SetBool(Constact.KeyIsIdentityUser, token.IsIdentityUser);
         }
         public static Token GetToken(Context context)

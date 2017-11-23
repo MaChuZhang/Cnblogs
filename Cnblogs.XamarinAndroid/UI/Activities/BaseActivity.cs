@@ -16,7 +16,7 @@ using Android.Support.V4.App;
 namespace Cnblogs.XamarinAndroid
 {
     [Activity]
-    public abstract class BaseActivity : AppCompatActivity,View.IOnClickListener, Toolbar.IOnMenuItemClickListener
+    public abstract class BaseActivity : AppCompatActivity, Toolbar.IOnMenuItemClickListener
     {
         private Toolbar toolbar;
         private LinearLayout ly_tabs;
@@ -26,14 +26,17 @@ namespace Cnblogs.XamarinAndroid
             StatusBarUtil.SetColorStatusBars(this);
             SetContentView(LayoutResourceId);
             toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            if(toolbar.ChildCount>0)
-            { 
-                ly_tabs = FindViewById<LinearLayout>(Resource.Id.ly_tabs);
+            if (toolbar != null)
+            {
+                if (toolbar.ChildCount > 0)
+                {
+                    ly_tabs = FindViewById<LinearLayout>(Resource.Id.ly_tabs);
+                }
+                toolbar.Title = ToolBarTitle;
+
+                SetSupportActionBar(toolbar);
+                toolbar.SetOnMenuItemClickListener(this);
             }
-            toolbar.Title = ToolBarTitle;
-        
-            SetSupportActionBar(toolbar);
-            toolbar.SetOnMenuItemClickListener(this);
             // Create your application here
         }
         protected void SetTabVisible(bool isVisible)
@@ -56,16 +59,35 @@ namespace Cnblogs.XamarinAndroid
         protected void SetToolBarTitle(string title) {
             this.toolbar.Title = title;
         }
-        protected virtual void SetNavIcon(int resId)
+        protected virtual void SetToolBarNavBack()
         {
-            toolbar.SetNavigationIcon(resId);
-            toolbar.SetNavigationOnClickListener(this);
+            toolbar.SetNavigationIcon(Resource.Drawable.back_24dp);
+            toolbar.NavigationClick += (s, e) =>
+            {
+                ActivityCompat.FinishAfterTransition(this);
+            };
         }
 
-        public void OnClick(View v)
+        protected virtual void SetToolBarNavUserCenter()
         {
-            ActivityCompat.FinishAfterTransition(this);
+            toolbar.SetNavigationIcon(Resource.Drawable.icon_user_nav);
+            toolbar.NavigationClick += (s, e) =>
+            {
+                StartActivity(new Intent(this, typeof(UserCenterActivity)));
+            };
         }
+
+        //public void OnClick(View v)
+        //{
+            
+        //    if (!isBack)
+        //    {
+        //        context.StartActivity(new Intent(context, typeof(UserCenterActivity)));
+        //        //AlertUtil.ToastShort(this,"跳转到我的个人中心");
+        //    }
+        //    if(isBack)
+        //       ActivityCompat.FinishAfterTransition(this);
+        //}
 
         public virtual bool OnMenuItemClick(IMenuItem item)
         {

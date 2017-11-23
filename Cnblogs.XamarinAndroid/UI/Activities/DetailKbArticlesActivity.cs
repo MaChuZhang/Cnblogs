@@ -19,6 +19,7 @@ using Cnblogs.XamarinAndroid;
 using Cnblogs.ApiModel;
 using Com.Umeng.Socialize;
 using Cnblogs.XamarinAndroid.UI.Widgets;
+using Cnblogs.HttpClient;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -50,11 +51,16 @@ namespace Cnblogs.XamarinAndroid
             // Create your application here
             StatusBarUtil.SetColorStatusBars(this);
 
-            SetNavIcon(Resource.Drawable.icon_back);
+            SetToolBarNavBack();
             wb_content = FindViewById<WebView>(Resource.Id.wb_content);
             btn_digg = FindViewById<Button>(Resource.Id.btn_digg);
             btn_mark = FindViewById<Button>(Resource.Id.btn_mark);
             tv_view = FindViewById<TextView>(Resource.Id.tv_view);
+
+            btn_mark.Click += (s, e) =>
+            {
+                AddBookmarkActivity.Enter(this,string.Format(Constact.KbPage, _id), kbArticles.Title, "add");
+            };
 
             wb_content.Settings.DomStorageEnabled = true;
             wb_content.Settings.JavaScriptEnabled = true;//Ö§³Öjs
@@ -91,7 +97,7 @@ namespace Cnblogs.XamarinAndroid
             {
                  tv_view.Text = kbArticles.ViewCount.ToString();
                  btn_digg.Text = kbArticles.Diggcount.ToString();
-                SetToolBarTitle(kbArticles.Title);
+                 SetToolBarTitle(kbArticles.Title);
                  if (string.IsNullOrEmpty(kbArticles.Content))
                     GetRequestArticle(id);
                  else

@@ -19,7 +19,8 @@
           android:background="?attr/colorPrimary"
           android:minHeight="?attr/actionBarSize"
           app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-         android:contentInsetStartWithNavigation="0dp"
+           android:contentInsetStartWithNavigation="0dp"
+          app:contentInsetStart="0dp"  
           app:layout_scrollFlags="scroll|enterAlways|snap"
           android:orientation="horizontal">
         <LinearLayout android:id="@+id/ly_tabs"
@@ -66,18 +67,18 @@
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
         app:layout_behavior="Cnblogs.XamarinAndroid.UI.Widgets.BottomBehavior">
-        <!--<View
+        <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp1"
+            android:layout_height="@dimen/dp3"
             android:id="@+id/view_divider"
-            android:background="@drawable/bg_top_shadow"/>-->
+            android:background="@drawable/bg_top_shadow"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:orientation="horizontal"
-            android:background="@drawable/bg_top_shadow">
+            android:background="@color/white">
           <TextView
-              android:id="@+id/tv_news"
+              android:id="@+id/tv_blog"
               style="@style/tabText"
               android:drawableTop="@drawable/selector_menu_news"
               android:text="@string/bolgsnews" />
@@ -92,10 +93,10 @@
               android:drawableTop="@drawable/selector_menu_shancun"
               android:text="@string/statusesQuestion" />
           <TextView
-              android:id="@+id/tv_userCenter"
+              android:id="@+id/tv_news"
               style="@style/tabText"
               android:drawableTop="@drawable/selector_menu_qa"
-              android:text="@string/userCenter" />
+              android:text="@string/news" />
         </LinearLayout>
    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

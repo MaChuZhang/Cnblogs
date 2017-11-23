@@ -34,10 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ArticleCommentViewModel.cs" />
     <Compile Include="BookmarkViewModel.cs" />
     <Compile Include="KbArticles.cs" />
     <Compile Include="Article.cs" />
     <Compile Include="Interface\IActicalCallBack.cs" />
+    <Compile Include="NewsCommentViewModel.cs" />
+    <Compile Include="NewsViewModel.cs" />
     <Compile Include="QuestionModel.cs" />
     <Compile Include="ResponseMessage.cs" />
     <Compile Include="StatusCommentModel.cs" />

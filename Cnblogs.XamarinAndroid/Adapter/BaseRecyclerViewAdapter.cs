@@ -17,22 +17,37 @@ using Cnblogs.HttpClient;
 
 namespace Cnblogs.XamarinAndroid
 {
-    public class BaseHolder : RecyclerView.ViewHolder
+    public interface ILongClick: View.IOnLongClickListener
+    {
+       
+    }
+    public class BaseHolder : RecyclerView.ViewHolder,View.IOnLongClickListener
     {
         private SparseArray<View> views;
         private Context context;
-        private BaseHolder(Context context, View itemView, Action<int,string> listener) : base(itemView)
+        private BaseHolder(Context context, View itemView, Action<int,string> click, Action<string, int> longClick) : base(itemView)
         {
             this.context = context;
             views = new SparseArray<View>(8);
-            ItemView.Click += (s, e) => listener(base.Position,itemView.Tag.ToString());
+            ItemView.Click += (s, e) => click(base.Position,itemView.Tag.ToString());
+            
+            ItemView.LongClick += (s, e) => longClick(itemView.Tag.ToString(), Position);
+            // ItemView.SetOnLongClickListener(this);
+        }
+        private BaseHolder(Context context, View itemView, Action<string, int> longClick) : base(itemView)
+        {
+            this.context = context;
+            views = new SparseArray<View>(8);
+            ItemView.LongClick += (s, e) => longClick(itemView.Tag.ToString(), Position);
+            //ItemView.LongClick+= (s, e) => listener(base.Position, itemView.Tag.ToString());
+            // ItemView.SetOnLongClickListener(this);
         }
         public BaseHolder(View view) : base(view)
         {
         }
-        public static BaseHolder GetRecyclerHolder(Context context, View itemView, Action<int,string> listener)
+        public static BaseHolder GetRecyclerHolder(Context context, View itemView, Action<int,string> click,Action<string,int> longClick)
         {
-            return new BaseHolder(context, itemView, listener);
+            return new BaseHolder(context, itemView, click,longClick);
         }
         public SparseArray<View> GetViews()
         {
@@ -59,8 +74,8 @@ namespace Cnblogs.XamarinAndroid
             ImageView iv = GetView<ImageView>(viewId);
             //string url = iv.Tag.ToString();
             System.Diagnostics.Debug.Write("imgaeUrl",url);
-            if (!url.Substring(url.Length - 4, 4).Contains(".png"))
-                iv.SetImageResource(Resource.Drawable.noavatar);
+            if (string.IsNullOrEmpty(url) || url.Length < 4||!url.Substring(url.Length - 4, 4).Contains(".png"))
+               ImageLoader.Instance.DisplayImage("",iv,options);
             else
                 ImageLoader.Instance.DisplayImage(url, iv, options);
             return this;
@@ -76,6 +91,11 @@ namespace Cnblogs.XamarinAndroid
             ImageView iv = GetView<ImageView>(viewId);
             iv.Tag = url;
             return this;
+        }
+
+        public bool OnLongClick(View v)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -103,15 +123,16 @@ namespace Cnblogs.XamarinAndroid
             private RecyclerView _recyclerView;
             public delegate void Convert(BaseHolder holder, int position);
             public event Convert OnConvertView;
-            public Action<int,string> ItemClick; //单击事件
+            public Action<int,string> ItemClick; //子view
+            public Action<string,int> ItemLongClick; //子view
             private const int VIEW_ITEM = 0;
             private const int VIEW_FOOTER = 1;
             private const int VIEW_NULL = 2;
             private View footerView, emptyView;
             private bool isBottom = false;
             public delegate void InsertData();//添加更多数据的委托
-        private InsertData _InsertDataEvent; //加载更多的事件
-        public override int ItemCount
+            private InsertData _InsertDataEvent; //加载更多的事件
+            public override int ItemCount
             {
                 get
                 {
@@ -127,7 +148,7 @@ namespace Cnblogs.XamarinAndroid
                 return 0;
                 }
             }
-        private int FooterViewCount()
+            private int FooterViewCount()
         {
             if (footerView==null)
             {
@@ -135,7 +156,7 @@ namespace Cnblogs.XamarinAndroid
             }
             return 1;
         }
-        private int EmptyViewCount()
+            private int EmptyViewCount()
         {
             if (emptyView == null)
             {
@@ -143,7 +164,7 @@ namespace Cnblogs.XamarinAndroid
             }
             return 1;
         }
-        public override int GetItemViewType(int position)
+            public override int GetItemViewType(int position)
         {
             if (ItemCount == 0)
             {
@@ -169,18 +190,11 @@ namespace Cnblogs.XamarinAndroid
             return VIEW_ITEM;
         }
 
-        public void SetNewData(List<T> list)
-        {
-            this.list = list == null ? new List<T>() : list;
-            NotifyDataSetChanged();
-        }
-
-        internal  void SetEmpty()
-        {
-            footerView = inflater.Inflate(Resource.Layout.item_recyclerView_footer_loading,null);
-             
-            footerView.FindViewById<TextView>(Resource.Id.tv_loadInfo).Text="没有更多了";
-        }
+            public void SetNewData(List<T> list)
+            {
+              this.list = list == null ? new List<T>() : list;
+              NotifyDataSetChanged();
+            }
         //在RecyclerView提供数据的时候调用
         public override void OnAttachedToRecyclerView(RecyclerView recyclerView)
         {
@@ -215,7 +229,7 @@ namespace Cnblogs.XamarinAndroid
                 return new EmptyViewHolder(emptyView);
             }
             View view = inflater.Inflate(itemLayoutId, parent, false);
-            return BaseHolder.GetRecyclerHolder(context, view, ItemClick);
+            return BaseHolder.GetRecyclerHolder(context, view, ItemClick,ItemLongClick);
         }
          public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
          {

@@ -8,17 +8,18 @@
     app:layout_anchor="@id/scrollView"
     app:layout_anchorGravity="bottom"
     android:id="@+id/bottom_sheet"
+   
     app:layout_behavior="Cnblogs.XamarinAndroid.UI.Widgets.BottomBehavior">
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp3"
+    android:id="@+id/view_divider"
+    android:background="@drawable/bg_top_shadow"/>
   <FrameLayout
       android:id="@+id/bottom_container"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="@drawable/bg_top_shadow">
-    <!--<View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp1"
-        android:id="@+id/view_divider"
-        android:background="@color/dedede" />-->
+      android:layout_height="wrap_content">
+  
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"

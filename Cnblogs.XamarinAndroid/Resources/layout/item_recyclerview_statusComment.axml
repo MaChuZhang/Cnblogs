@@ -13,15 +13,15 @@
         android:layout_gravity="left">
         <ImageView
             android:id="@+id/iv_commentUserIcon"
-            android:layout_height="@dimen/ImgMiddle"
-            android:layout_width="@dimen/ImgMiddle" />
+            android:layout_height="@dimen/dp40"
+            android:layout_width="@dimen/dp40" />
         <TextView
             android:id="@+id/tv_floor"
             style="@style/InlineText"
             android:text="楼层"
             android:layout_marginLeft="@dimen/dp5"
             android:layout_marginTop="@dimen/dp5"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal" />
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
@@ -35,10 +35,14 @@
             android:orientation="horizontal"
             android:layout_marginBottom="@dimen/dp5">
             <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:id="@+id/tv_commentUserName"
                 android:text="评论的用户名"
-                style="@style/InlineText"
-                android:layout_alignParentLeft="true" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/TextMiddle"
+                android:layout_alignParentLeft="true"
+                 android:textStyle="bold"/>
             <TextView
                 android:id="@+id/tv_commentDateAdded"
                 android:text="评论时间"
@@ -51,6 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/TextMiddle"
-            android:textColor="@color/titleDrak" />
+            android:textColor="@color/lightBlack"/>
     </LinearLayout>
 </LinearLayout>

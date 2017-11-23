@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:id="@+id/bottom_sheet"
+    android:background="@drawable/bg_top_shadow"
+    app:layout_behavior="Cnblogs.XamarinAndroid.UI.Widgets.BottomBehavior">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp3"
+        android:id="@+id/view_divider"
+        android:background="@drawable/bg_top_shadow" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <EditText
+            android:id="@+id/edit_content"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="请输入评论内容"
+            style="@style/EditTextComment"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/dp5"/>
+        <Button
+            android:id="@+id/btn_submit"
+            style="@style/InlineButton"
+            android:text="@string/comment"
+            android:enabled="false"
+            android:layout_marginRight="@dimen/dp10"
+             android:layout_weight="0"/>
+    </LinearLayout>
+</LinearLayout>

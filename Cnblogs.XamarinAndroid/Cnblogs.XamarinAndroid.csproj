@@ -112,15 +112,21 @@
   <ItemGroup>
     <Compile Include="Adapter\BaseRecyclerHolder.cs" />
     <Compile Include="Adapter\BaseRecyclerViewAdapter.cs" />
+    <Compile Include="Adapter\NewsFragmentTabsAdapter.cs" />
     <Compile Include="Adapter\HomeArticleAdapter.cs" />
     <Compile Include="Adapter\QuestionTabFragmentAdapter.cs" />
     <Compile Include="Adapter\StatusTabsFragmentAdapter.cs" />
-    <Compile Include="Adapter\HomeFragmentAdapter.cs" />
+    <Compile Include="Adapter\BlogFragmentTabsAdapter.cs" />
     <Compile Include="Adapter\PhotoAdapter.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Activities\NewsComment.cs" />
     <Compile Include="UI\Activities\BaseActivity.cs" />
     <Compile Include="UI\Activities\AddBookmarkActivity.cs" />
+    <Compile Include="UI\Activities\ArticleComment.cs" />
+    <Compile Include="UI\Activities\DetailNewsActivity.cs" />
+    <Compile Include="UI\Activities\UserCenterActivity.cs" />
+    <Compile Include="UI\Activities\MyBookmark.cs" />
     <Compile Include="UI\Activities\MyBlogActivity.cs" />
     <Compile Include="UI\Activities\MyQuestionActivity.cs" />
     <Compile Include="UI\Activities\MyStatus.cs" />
@@ -136,11 +142,12 @@
     <Compile Include="UI\Fragments\QuestionFragment.cs" />
     <Compile Include="UI\Fragments\StatusQuestionFragment.cs" />
     <Compile Include="UI\Fragments\QuestionTabFragment.cs" />
+    <Compile Include="UI\Fragments\NewsTabFragment.cs" />
     <Compile Include="UI\Fragments\StatusTabFragment .cs" />
     <Compile Include="UI\Fragments\StatusFragment.cs" />
     <Compile Include="UI\Fragments\KbArticlesFragment.cs" />
-    <Compile Include="UI\Fragments\UserCenterFragment.cs" />
-    <Compile Include="UI\Fragments\HomeFragment.cs" />
+    <Compile Include="UI\Fragments\NewsFragment.cs" />
+    <Compile Include="UI\Fragments\BlogFragment.cs" />
     <Compile Include="UI\Fragments\RecyclerViewDecoration.cs" />
     <Compile Include="UI\Fragments\RecyclerViewFragment.cs" />
     <Compile Include="UI\Fragments\RecyclerviewScroll.cs" />
@@ -154,6 +161,7 @@
     <Compile Include="Util\BaseShared.cs" />
     <Compile Include="Util\DateTimeUtil.cs" />
     <Compile Include="Util\HtmlUtil.cs" />
+    <Compile Include="Util\ProgressDialogUtil.cs" />
     <Compile Include="Util\SharedDataUtil.cs" />
     <Compile Include="Util\SQLiteUtil.cs" />
     <Compile Include="Util\StatusBarUtil.cs" />
@@ -256,6 +264,27 @@
     <AndroidResource Include="Resources\layout\myStatus.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\addBookmark.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\myBookmark.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_recyclerview_myBookmark.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\articleComment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_comment_bottom.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\item_recyclerview_news.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\detailNews.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">
@@ -317,7 +346,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\Dimens.xml" />
+    <AndroidResource Include="Resources\values\Dimens.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\main.xml" />
@@ -480,6 +511,28 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\bg_top_shadow.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\selector_btn_primary.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\shape_btn_primary_normal.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\shape_btn_primary_pressed.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\shape_btn_primary_disabled.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\cursor_drawable.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_user_nav.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

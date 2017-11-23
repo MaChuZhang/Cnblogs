@@ -2,6 +2,7 @@
 <resources>
 <color name="primary">#1e89e7</color>
 <color name="primaryDark">#1976d2</color>
+<color name="primaryDisabled">#7dc5eb</color>
 <color name="red">#ff0000</color>
 <color name="white">#ffffff</color>
 <color name="red">#ff0000</color>
@@ -13,7 +14,8 @@
 <color name="c707070">#707070</color>
 
 <color name="subTitleGray">#8a8a8a</color>
-<color name="titleDrak">#000000</color>
+<color name="titleDrak">#8a8a8a</color>
+  <color name="lightBlack">#515151</color>
 
 <color name="selectable_item_background_pressed">#f1f1f1</color>
 <color name="selectable_item_background_ripple">#e6e6e6</color>
