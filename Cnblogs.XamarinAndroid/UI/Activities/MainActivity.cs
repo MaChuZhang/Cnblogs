@@ -29,15 +29,14 @@ namespace Cnblogs.XamarinAndroid
 
         private NewsFragment newsFragment;
         private BlogFragment _homeFragment;
-        private StatusQuestionFragment _statusQuestionFragment;
+        private QuestionFragment questionFragment;
+        private StatusFragment statusFragment;
         private StatusFragment _statusFragment;
         private QuestionFragment _questionFragment;
         private KbArticlesFragment _kbArticlesFragment;
         private FragmentManager _fm;
-        private TextView tv_blog,tv_kbArticles,tv_news,tv_status;
+        private TextView tv_blog,tv_kbArticles,tv_news,tv_status,tv_question;
         private RecyclerView _recyclerView;
-        private Button btn_status;
-        private Button btn_question;
         protected override int LayoutResourceId => Resource.Layout.Main;
         protected override string ToolBarTitle =>Resources.GetString(Resource.String.ToolBar_Title_Cnblogs);
 
@@ -55,6 +54,7 @@ namespace Cnblogs.XamarinAndroid
             tv_blog = FindViewById<TextView>(Resource.Id.tv_blog);
             tv_news = FindViewById<TextView>(Resource.Id.tv_news);
             tv_status = FindViewById<TextView>(Resource.Id.tv_status);
+            tv_question = FindViewById<TextView>(Resource.Id.tv_question);
             tv_kbArticles = FindViewById<TextView>(Resource.Id.tv_kbArticles);
             BindViewsClick();
             tv_blog.PerformClick();
@@ -65,6 +65,7 @@ namespace Cnblogs.XamarinAndroid
             tv_kbArticles.Selected = false;
             tv_news.Selected = false;
             tv_status.Selected = false;
+            tv_question.Selected = false;
         }
         //隐藏所有Fragment
         void hideAllFragment(FragmentTransaction fragmentTransaction)
@@ -72,9 +73,10 @@ namespace Cnblogs.XamarinAndroid
             if (_homeFragment != null) fragmentTransaction.Hide(_homeFragment);
             if (_kbArticlesFragment != null) fragmentTransaction.Hide(_kbArticlesFragment);
             if (newsFragment != null) fragmentTransaction.Hide(newsFragment);
-            if (_statusQuestionFragment != null) fragmentTransaction.Hide(_statusQuestionFragment);
-            if (StatusQuestionFragment._questionFragment != null) fragmentTransaction.Hide(StatusQuestionFragment._questionFragment);
-            if (StatusQuestionFragment._statusFragment != null) fragmentTransaction.Hide(StatusQuestionFragment._statusFragment);
+            if (statusFragment != null) fragmentTransaction.Hide(statusFragment);
+            if (questionFragment != null) fragmentTransaction.Hide(questionFragment);
+            //if (StatusQuestionFragment._questionFragment != null) fragmentTransaction.Hide(StatusQuestionFragment._questionFragment);
+            //if (StatusQuestionFragment._statusFragment != null) fragmentTransaction.Hide(StatusQuestionFragment._statusFragment);
         }
         void BindViewsClick()
         {
@@ -82,6 +84,7 @@ namespace Cnblogs.XamarinAndroid
             tv_status.Click += (s, e) => { MenuSwitch(tv_status); };
             tv_kbArticles.Click += (s, e) => { MenuSwitch(tv_kbArticles); };
             tv_blog.Click += (s, e) => { MenuSwitch(tv_blog); };
+            tv_question.Click += (s, e) => { MenuSwitch(tv_question); };
         }
         void MenuSwitch(View v)
         {
@@ -99,7 +102,6 @@ namespace Cnblogs.XamarinAndroid
                     }
                     else ft.Show(_homeFragment);
                     base.SetToolBarTitle(Resources.GetString(Resource.String.CnblogsTitle));
-                    SetTabVisible(false);
                     break;
 
                 case Resource.Id.tv_kbArticles:
@@ -115,24 +117,37 @@ namespace Cnblogs.XamarinAndroid
                         ft.Show(_kbArticlesFragment);
                     }
                     base.SetToolBarTitle(Resources.GetString(Resource.String.kbArticles));
-                    SetTabVisible(false);
                     break;
                 case Resource.Id.tv_status:
                     SetUnSelected();
                     tv_status.Selected = true;
-                    if (_statusQuestionFragment == null)
+                    if (statusFragment == null)
                     {
-                        _statusQuestionFragment = new StatusQuestionFragment();
-                        ft.Add(Resource.Id.frameContent, _statusQuestionFragment);
+                        statusFragment = new StatusFragment();
+                        ft.Add(Resource.Id.frameContent,statusFragment);
                     }
                     else
                     {
-                        ft.Show(_statusQuestionFragment);
-                        ft.Show(StatusQuestionFragment._statusFragment);
+                        ft.Show(statusFragment);
                     }
-                    base.SetToolBarTitle("");
-                    SetTabVisible(true);
+                    base.SetToolBarTitle(Resources.GetString(Resource.String.statuses));
                     break;
+
+                case Resource.Id.tv_question:
+                    SetUnSelected();
+                    tv_question.Selected = true;
+                    if (questionFragment == null)
+                    {
+                        questionFragment = new QuestionFragment();
+                        ft.Add(Resource.Id.frameContent, questionFragment);
+                    }
+                    else
+                    {
+                        ft.Show(questionFragment);
+                    }
+                    base.SetToolBarTitle(Resources.GetString(Resource.String.question));
+                    break;
+
                 case Resource.Id.tv_news:
                     SetUnSelected();
                     tv_news.Selected = true;
@@ -144,7 +159,6 @@ namespace Cnblogs.XamarinAndroid
                     else
                         ft.Show(newsFragment);
                     base.SetToolBarTitle(Resources.GetString(Resource.String.news));
-                    SetTabVisible(false);
                     break;
             }
             ft.Commit();

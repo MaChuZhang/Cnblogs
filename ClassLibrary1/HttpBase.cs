@@ -210,5 +210,39 @@ namespace Cnblogs.ApiModel
                     return new ResponseMessage(false, "请检查网络连接，稍后再试");
             }
         }
+
+        public static async Task<ResponseMessage> PostAsyncJson(Token token, string  url,object obj)
+        {
+            RestClient restClient = Instance(url);
+            RestRequest request = new RestRequest();
+
+            if (token != null)
+            {
+                request.AddHeader("Authorization", token.token_type + " " + token.access_token);
+            }
+            request.AddHeader("Content-Type", "application/json");
+            request.AddJsonBody(obj);
+            var response = await restClient.ExecutePostTaskAsync(request);
+            var statusCode = response.StatusCode;
+            switch (statusCode)
+            {
+                case (System.Net.HttpStatusCode.OK):
+                    return new ResponseMessage(true,response.Content);
+                case (System.Net.HttpStatusCode.Created):
+                    return new ResponseMessage(true, "Created");
+                case (System.Net.HttpStatusCode.Conflict):
+                    return new ResponseMessage(false, "Conflict409");
+                case System.Net.HttpStatusCode.NotFound:
+                    return new ResponseMessage(false, "errorCode:404NotFound");
+                case System.Net.HttpStatusCode.Unauthorized:
+                    return new ResponseMessage(false, "errorCode:401Unauthorized");
+                case System.Net.HttpStatusCode.InternalServerError:
+                    return new ResponseMessage(false, "errorCode:500InternalServerError");
+                case HttpStatusCode.UnsupportedMediaType:
+                    return new ResponseMessage(false, "errorCode:415UnsupportedMediaType");
+                default:
+                    return new ResponseMessage(false, "请检查网络连接，稍后再试");
+            }
+        }
     }
 }

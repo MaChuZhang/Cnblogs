@@ -65,7 +65,7 @@
                 android:textSize="@dimen/TextMiddle"
                 android:layout_marginLeft="@dimen/dp10"
                 android:lineSpacingExtra="3dp"
-                android:hint="@string/bookmark_tags_hint"/>
+                android:hint="@string/bookmark_tags_hint" />
         </LinearLayout>
         <LinearLayout
             android:layout_height="wrap_content"
@@ -84,28 +84,28 @@
                 android:textSize="@dimen/TextMiddle"
                 android:layout_marginLeft="@dimen/dp10"
                 android:lineSpacingExtra="3dp"
-                android:hint="@string/bookmark_summary_hint"/>
+                android:hint="@string/bookmark_summary_hint" />
         </LinearLayout>
-      <LinearLayout
-          android:layout_height="wrap_content"
-          android:layout_width="match_parent"
-          android:orientation="horizontal"
-          android:gravity="right"
-          android:id="@+id/ly_expire"
-          android:layout_marginTop="@dimen/dp20">
-        <TextView
-            android:text="未登录或登录token已经过期，请"
-            style="@style/InlineText"
-            android:textSize="@dimen/TextMiddle" />
-        <TextView
-            android:id="@+id/tv_startLogin"
-            android:text="立即登录"
+        <LinearLayout
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textColor="@color/primary"
-            android:textSize="@dimen/TextMiddle" />
-      </LinearLayout>
-      <Button
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:id="@+id/ly_expire"
+            android:layout_marginTop="@dimen/dp20">
+            <TextView
+                android:text="未登录或登录token已经过期，请"
+                style="@style/InlineText"
+                android:textSize="@dimen/TextMiddle" />
+            <TextView
+                android:id="@+id/tv_startLogin"
+                android:text="立即登录"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/TextMiddle" />
+        </LinearLayout>
+        <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/bookmark_submit"

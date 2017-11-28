@@ -38,6 +38,9 @@ namespace Cnblogs.XamarinAndroid
         private int pageIndex = 1; int postId;
         private EditText edit_content;
         private Button btn_submit;
+        private int parentId;
+        private string atUserName;
+        private bool isAt;
         private List<NewsCommentViewModel> commentList = new List<NewsCommentViewModel>();
         internal static void Enter(Context context,int postId)
         {
@@ -71,12 +74,16 @@ namespace Cnblogs.XamarinAndroid
             };
             edit_content.TextChanged+=(s,e)=>
             {
-                if (!string.IsNullOrEmpty(edit_content.Text))
+                string temp = edit_content.Text.TrimStart().TrimEnd();
+                if (!string.IsNullOrEmpty(temp))
                 {
                     btn_submit.Enabled = true;
+                    if (atUserName!=null&&atUserName.Length>0&&temp.Contains(atUserName))
+                        isAt = true;
+                    else
+                        isAt = false;
                 }
-                else
-                    btn_submit.Enabled = false;
+                else btn_submit.Enabled = false;
             };
 
             _swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
@@ -136,7 +143,7 @@ namespace Cnblogs.XamarinAndroid
                 return;
             }
             dialog.Show();
-            var  result= await  NewsService.Add(userToken, 1, postId, body);
+            var  result= await  NewsService.Add(userToken, parentId, postId, body);
             if (result.Success)
             {
                 dialog.Hide();
@@ -169,7 +176,7 @@ namespace Cnblogs.XamarinAndroid
         }
         async void initRecycler()
         {
-            adapter = new BaseRecyclerViewAdapter<NewsCommentViewModel>(this, commentList, Resource.Layout.item_recyclerview_statusComment, LoadMore);
+            adapter = new BaseRecyclerViewAdapter<NewsCommentViewModel>(this, commentList, Resource.Layout.item_newsComment, LoadMore);
             _recyclerView.SetAdapter(adapter);
             adapter.ItemClick += (position, tag) =>
             {
@@ -180,7 +187,16 @@ namespace Cnblogs.XamarinAndroid
             };
             adapter.ItemLongClick += (tag, position) =>
             {
-                AlertUtil.ToastShort(this, tag);
+                if (!isAt)//目前仅支持at一次
+                {
+                    isAt = true;
+                    parentId = commentList[position].ParentCommentID;
+                    atUserName = commentList[position].UserName;
+                    string temp = edit_content.Text;
+                    edit_content.Text = "@" + atUserName + temp;
+                    edit_content.SetSelection(edit_content.Text.Length);
+                }
+                //AlertUtil.ToastShort(this, tag);
             };
             string read = Resources.GetString(Resource.String.read);
             string comment = Resources.GetString(Resource.String.comment);
@@ -189,6 +205,9 @@ namespace Cnblogs.XamarinAndroid
             adapter.OnConvertView += (holder, position) =>
             {
                 var model = commentList[position];
+                holder.SetText(Resource.Id.tv_commentUserName, model.UserName);
+                holder.SetText(Resource.Id.tv_ding, model.AgreeCount.ToString());
+                holder.SetText(Resource.Id.tv_cai, model.AntiCount.ToString());
                 holder.SetText(Resource.Id.tv_commentUserName, model.UserName);
                 holder.SetText(Resource.Id.tv_commentDateAdded, model.DateAdded.ToCommonString());
                 (holder.GetView<TextView>(Resource.Id.tv_commentContent)).SetText(HtmlUtil.GetHtml(model.CommentContent), TextView.BufferType.Spannable);

@@ -160,7 +160,7 @@ namespace Cnblogs.XamarinAndroid
 
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
-            Activity.MenuInflater.Inflate(Resource.Menu.setting, menu);
+            //Activity.MenuInflater.Inflate(Resource.Menu.setting, menu);
         }
         public override bool OnOptionsItemSelected(IMenuItem item)
         {

@@ -23,45 +23,9 @@ namespace Cnblogs.XamarinAndroid
         private ViewPager _viewPager;
         private TabLayout _tab;
         private StatusTabsFragmentAdapter adapter;
-        private Button btn_status,btn_question;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            btn_status = Activity.FindViewById<Button>(Resource.Id.btn_tabStatus);
-            btn_question = Activity.FindViewById<Button>(Resource.Id.btn_tabQuestion);
-        
-            btn_status.Click += (s, e) =>
-            {
-                if (btn_status.Tag!=null &&!(bool)btn_status.Tag)
-                    return;
-               // btn_status.SetBackgroundColor(Resources.GetColor(Resource.Color.primaryDark));
-                btn_status.Background=Resources.GetDrawable(Resource.Drawable.shape_corner_left_selected);
-                btn_status.SetTextColor(Resources.GetColor(Resource.Color.white));
-                btn_status.SetTypeface(Android.Graphics.Typeface.SansSerif,Android.Graphics.TypefaceStyle.Bold);
-
-                btn_question.Background = Resources.GetDrawable(Resource.Drawable.shape_corner_right);
-                btn_question.SetTextColor(Resources.GetColor(Resource.Color.black));
-                btn_question.SetTypeface(Android.Graphics.Typeface.Default, Android.Graphics.TypefaceStyle.Normal);
-
-                btn_status.Tag = false;
-                btn_question.Tag = true;
-            };
-            btn_question.Click += (s, e) =>
-            {
-                if (btn_question.Tag!=null&&!(bool)btn_question.Tag)
-                    return;
-
-                btn_question.Background = Resources.GetDrawable(Resource.Drawable.shape_corner_right_selected);
-                btn_question.SetTextColor(Resources.GetColor(Resource.Color.white));
-                btn_question.SetTypeface(Android.Graphics.Typeface.SansSerif, Android.Graphics.TypefaceStyle.Bold);
-
-                btn_status.Background = Resources.GetDrawable(Resource.Drawable.shape_corner_left);
-                btn_status.SetTextColor(Resources.GetColor(Resource.Color.black));
-                btn_status.SetTypeface(Android.Graphics.Typeface.Default, Android.Graphics.TypefaceStyle.Normal);
-
-                btn_status.Tag = true;
-                btn_question.Tag = false;
-            };
         }
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
@@ -78,7 +42,6 @@ namespace Cnblogs.XamarinAndroid
         {
             base.OnViewCreated(view,savedInstanceState);
             HasOptionsMenu=true;
-            btn_status.PerformClick();
             _viewPager = view.FindViewById<ViewPager>(Resource.Id.viewPager_home);
             _tab = view.FindViewById<TabLayout>(Resource.Id.tab_home);
             string[] statusTabs = Resources.GetStringArray(Resource.Array.StatusTabs);

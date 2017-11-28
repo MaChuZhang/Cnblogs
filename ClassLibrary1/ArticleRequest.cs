@@ -94,7 +94,7 @@ namespace Cnblogs.HttpClient
             }
         }
 
-        public static async Task<ApiResult<string>> Add(Token token,string  blogApp,int postId,string  body)
+        public static async Task<ApiResult<string>> AddArticleComment(Token token,string  blogApp,int postId,string  body)
         {
             //var result=null;
             try
@@ -102,15 +102,13 @@ namespace Cnblogs.HttpClient
                 string url = string.Format(Constact.AddArticleComment,blogApp,postId);
                 Dictionary<string, string> dict = new Dictionary<string, string>();
                 dict.Add("body",body);
-                var result = await HttpBase.PostAsync(token, url,dict);
+                var obj = new { body = body };
+                var result = await HttpBase.PostAsyncJson(token, url,obj);
                 if (result.IsSuccess)
                 {
                     return ApiResult.Ok(result.Message);
-                    //return   ApiResult.Ok(list);
                 }
                 return ApiResult<string>.Error(result.Message);
-                //return ApiResult<List<Article>>.Error(result.Message);
-
             }
             catch (Exception ex)
             {

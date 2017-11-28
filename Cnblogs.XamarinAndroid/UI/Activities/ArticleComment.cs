@@ -39,6 +39,8 @@ namespace Cnblogs.XamarinAndroid
         private int pageIndex = 1; int postId;
         private EditText edit_content;
         private Button btn_submit;
+        private bool isAt;
+        private string atUserName;
         private List<ArticleCommentModel> commentList = new List<ArticleCommentModel>();
         internal static void Enter(Context context, string _blogApp,int postId)
         {
@@ -72,14 +74,18 @@ namespace Cnblogs.XamarinAndroid
             {
                 Add();
             };
-            edit_content.TextChanged+=(s,e)=>
+            edit_content.TextChanged += (s, e) =>
             {
-                if (!string.IsNullOrEmpty(edit_content.Text))
+                string temp = edit_content.Text.TrimStart().TrimEnd();
+                if (!string.IsNullOrEmpty(temp))
                 {
                     btn_submit.Enabled = true;
+                    if (atUserName != null && atUserName.Length > 0 && temp.Contains(atUserName))
+                        isAt = true;
+                    else
+                        isAt = false;
                 }
-                else
-                    btn_submit.Enabled = false;
+                else btn_submit.Enabled = false;
             };
 
             _swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
@@ -97,22 +103,6 @@ namespace Cnblogs.XamarinAndroid
             _recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this));
             _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this, (int)Orientation.Vertical));
-            Token token = UserTokenUtil.GetToken(this);
-            //if (token.IsExpire)
-            //{
-            //    ly_expire.Visibility = ViewStates.Visible;
-            //    _swipeRefreshLayout.Visibility = ViewStates.Gone;
-            //    tv_startLogin.Click += (s, e) =>
-            //    {
-            //        StartActivity(new Intent(this, typeof(loginactivity)));
-            //    };
-            //    return;
-            //}
-            //else
-            //{
-            //    ly_expire.Visibility = ViewStates.Gone;
-            //    _swipeRefreshLayout.Visibility = ViewStates.Visible;
-            //}
             try
             {
                 commentList = await listArticleCommentServer();
@@ -132,19 +122,36 @@ namespace Cnblogs.XamarinAndroid
             dialog.SetTitle("评论");
             dialog.SetMessage("提交评论中.....");
             string body = edit_content.Text.TrimEnd().TrimStart();
-          
+            var userToken = UserTokenUtil.GetToken(this);
+            if (userToken.IsExpire)
+            {
+                Android.Support.V7.App.AlertDialog.Builder alertDialog = new Android.Support.V7.App.AlertDialog.Builder(this)
+                .SetTitle("登录提示")
+                 .SetMessage("未登录或登录token已经过期")
+                 .SetPositiveButton("授权", (s1, e1) =>
+                 {
+                     StartActivity(new Intent(this, typeof(loginactivity)));
+                 })
+                 .SetNegativeButton("取消", (s1, e1) =>
+                 {
+                     return;
+                 });
+                alertDialog.Create().Show();
+            }
             if (string.IsNullOrEmpty(body))
             {
                 AlertUtil.ToastShort(this, "请输入内容");
                 return;
             }
             dialog.Show();
-            var  result= await  ArticleRequest.Add(UserTokenUtil.GetToken(this), blogApp, postId, body);
+            var  result= await  ArticleRequest.AddArticleComment(userToken, blogApp, postId, body);
             if (result.Success)
             {
                 dialog.Hide();
                 AlertUtil.ToastShort(this, "评论成功");
+                edit_content.Text = "";
                 btn_submit.Enabled = false;
+                OnRefresh();
             }
             else
             {
@@ -165,9 +172,7 @@ namespace Cnblogs.XamarinAndroid
             }
             else if (commentList != null)
             {
-                //adapter.NotifyDataSetChanged();
-                // adapter.NotifyItemChanged(commentList.Count + 1);
-                //var ds= adapter.ItemCount;
+
                 adapter.SetNewData(commentList);
                 System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + commentList.Count);
             }
@@ -175,16 +180,7 @@ namespace Cnblogs.XamarinAndroid
          void initRecycler()
         {
             adapter = new BaseRecyclerViewAdapter<ArticleCommentModel>(this, commentList, Resource.Layout.item_recyclerview_statusComment, LoadMore);
-            //  View  footerView = LayoutInflater.From(Activity).Inflate(Resource.Layout.item_recyclerView_footer_loading, null);
             _recyclerView.SetAdapter(adapter);
-            //adapter.ItemClick += (position, tag) =>
-            //{
-            //    System.Diagnostics.Debug.Write(position, tag);
-            //    AlertUtil.ToastShort(this, tag);
-            //    var intent = new Intent(this, typeof(DetailArticleActivity));
-            //    intent.PutExtra("id", int.Parse(tag));
-            //    StartActivity(intent);
-            //};
             adapter.ItemClick += (position, tag) =>
             {
                     System.Diagnostics.Debug.Write(position, tag);
@@ -194,7 +190,13 @@ namespace Cnblogs.XamarinAndroid
             };
             adapter.ItemLongClick += (tag, position) =>
             {
-                AlertUtil.ToastShort(this, tag);
+                if (!isAt)
+                {
+                    isAt = true;
+                    string temp = edit_content.Text;
+                    edit_content.Text = "@" + atUserName + temp;
+                    edit_content.SetSelection(edit_content.Text.Length);
+                }
             };
             string read = Resources.GetString(Resource.String.read);
             string comment = Resources.GetString(Resource.String.comment);
@@ -220,7 +222,6 @@ namespace Cnblogs.XamarinAndroid
                 if (result.Success)
                 {
                     _swipeRefreshLayout.Refreshing = false;
-                    //commentList = result.Data;
                     try
                     {
                         await SQLiteUtil.UpdateArticleCommentList(result.Data);

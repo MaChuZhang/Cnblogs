@@ -77,15 +77,15 @@ namespace Cnblogs.XamarinAndroid
             {
                 StartActivity(new Intent(this,typeof(MyBookmarkActivity)));
             };
-    ly_startLogin.Click += (s, e) =>
+            ly_startLogin.Click += (s, e) =>
             {
                 StartActivity(new Intent(this, typeof(loginactivity)));
             };
 
-tv_userName = FindViewById<TextView>(Resource.Id.tv_userName);
+            tv_userName = FindViewById<TextView>(Resource.Id.tv_userName);
             iv_userAvatar = FindViewById<ImageView>(Resource.Id.iv_userAvatar);
             Token userToken = UserTokenUtil.GetToken(this);
-userToken.RefreshTime = DateTime.Now;
+            userToken.RefreshTime = DateTime.Now;
             //用户token 未过期
             if (!string.IsNullOrEmpty(userToken.access_token) && !userToken.IsExpire)
             {
