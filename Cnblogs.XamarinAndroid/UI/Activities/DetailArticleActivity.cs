@@ -129,7 +129,7 @@ namespace Cnblogs.XamarinAndroid
                 else
                 {
                     article.Content = article.Content.ReplaceHtml().Trim('"');
-                    string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", article.Content).Replace("#title#", article.Title).Replace("#author#", "").Replace("#date#","");
+                    string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", article.Content).Replace("#title#","").Replace("#author#", "").Replace("#date#","");
                     wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
                 }
             }
@@ -138,7 +138,6 @@ namespace Cnblogs.XamarinAndroid
         {
             string content = HtmlUtil.ReadHtml(Assets);
             body = body.ReplaceHtml();
-
         }
 
         async void GetRequestArticle(int id)

@@ -77,6 +77,12 @@
   <ItemGroup>
     <EmbeddedJar Include="Jars\umeng_social_shareview.jar" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\git\Cnblogs\UMeng.Shares\UMeng.Shares.csproj">
+      <Project>{beacbc23-e993-487a-b676-c17d1c900c89}</Project>
+      <Name>UMeng.Shares</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.Bindings.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

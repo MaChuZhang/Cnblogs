@@ -15,24 +15,42 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-	<!--QQ QQ空间所需权限-->
 	<uses-permission android:name="android.permission.GET_TASKS" />
-	<application android:label="@string/ApplicationName" android:theme="@style/AppTheme" android:largeHeap="true" android:icon="@drawable/icon_app">
-		<meta-data android:name="UMENG_APPKEY" android:value="59f001d5a40fa36423000018" />
+	<application android:allowBackup="true" android:label="@string/ApplicationName" android:theme="@style/AppTheme" android:largeHeap="true" android:icon="@drawable/icon_app">
+		<!--友盟统计-->
+		<meta-data android:name="UMENG_APPKEY" android:value="58de538f4544cb13c4000c80" />
+		<meta-data android:name="UMENG_CHANNEL" android:value="" />
+		<!--腾讯-->
+		<activity android:name="com.umeng.qq.tencent.AuthActivity" android:launchMode="singleTask" android:noHistory="true">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<!--公用账号无需修改：100424468，否则改成你在qq开放平台上申请的APPID-->
+				<data android:scheme="tencent100424468" />
+			</intent-filter>
+		</activity>
+    
+		<!--微信-->
+    <activity android:name=".WBShareActivity" android:configChanges="keyboardHidden|orientation" android:screenOrientation="portrait"/>
+		<!--qq-->
+		<activity android:name="com.umeng.qq.tencent.AssistActivity" 
+              android:configChanges="orientation|keyboardHidden|screenSize" 
+              android:screenOrientation="portrait" 
+              android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+		<!--微博-->
+		<activity android:name=".WBShareActivity" 
+              android:configChanges="keyboardHidden|orientation" 
+              android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+    <!--分享编辑页-->
+    <activity
+        android:name="com.umeng.socialize.editorpage.ShareActivity"
+        android:excludeFromRecents="true"
+        android:theme="@style/Theme.UMDefault"/>
 	</application>
-	<activity android:name="com.umeng.qq.tencent.AuthActivity" android:launchMode="singleTask" android:noHistory="true">
-		<intent-filter>
-			<action android:name="android.intent.action.VIEW" />
-			<category android:name="android.intent.category.DEFAULT" />
-			<category android:name="android.intent.category.BROWSABLE" />
-			<data android:scheme="tencent100424468" />
-		</intent-filter>
-	</activity>
-	<activity android:name="com.umeng.qq.tencent.AssistActivity" android:configChanges="orientation|keyboardHidden|screenSize" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-	<activity android:name=".WBShareActivity" android:configChanges="keyboardHidden|orientation" android:screenOrientation="portrait">
-		<intent-filter>
-			<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-			<category android:name="android.intent.category.DEFAULT" />
-		</intent-filter>
-	</activity>
 </manifest>

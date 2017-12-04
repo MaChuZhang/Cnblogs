@@ -1,0 +1,148 @@
+﻿<html>
+<head>
+    <title>#title#</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="font.css" />
+    <link rel="stylesheet" type="text/css" href="blog-common.css" />
+</head>
+<body>
+    <p>[toc]</p><br /><h2 id="功能和特性">功能和特性</h2><br /><ul><br /><li>基于socket实现的c/s架构的的通信</li><br /><li>服务器和客户心跳连接</li><br /><li>gson实现的消息通信机制</li><br /><li>注册及登录</li><br /><li>支持私聊和群聊。</li><br /><li>动态更新用户列表以及用户消息提示</li><br /><li>支持emoji表情,以及emoji表情选择器</li><br /><li>服务器端数据库用户记录</li><br /><li><del>实现文件传输</del></li><br /><li><del>文件记录</del></li><br /></ul><br /><h2 id="功能展示">功能展示</h2><br /><ul><br /><li>login<br><br /><img src="http://ox6e8ykxi.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20171202155132.png"></li><br /><li>chatroom<br><br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2hf483lcj20gn0bwwep.jpg"><br><br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2hgxka7aj20go0bvq36.jpg"><br><br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2hl3hf8mj20gr0bwq3i.jpg"></li><br /><li>表情包<br><br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2hneb75uj20j30cejuo.jpg"></li><br /><li>数据库<br><br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2hosjtilj20af031q2s.jpg"></li><br /></ul><br /><h2 id="整体架构">整体架构</h2><br /><ul><br /><li><p>使用了比较简单的worker-master架构。</p><br /><blockquote><br /><ul><br /><li>由masterserve进行事件的分发</li><br /><li>由workserver具体的管理单个用户的消息请求</li><br /><li>相关模型链接 <a href="https://www.cnblogs.com/liang1101/p/6456070.html?utm_source=itdadao&amp;utm_medium=referral">Master-Worker模式</a></li><br /></ul><br /></blockquote></li><br /><li>消息机制</li><br /><li>采用json作为通信载体，后期功能性的更改较为简单</li><br /><li><p>通信命令字设计如下</p></li><br /></ul><br /><div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java">  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">boolean</span> SINGLE = <span class="kw">true</span>;<br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">boolean</span> GROUP = <span class="kw">false</span>;<br />  <span class="co">/**</span><br /><span class="co">   * status</span><br /><span class="co">   */</span><br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> SUCCESS = <span class="bn">0x01</span>;<br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> FAILED = <span class="bn">0x02</span>;<br /><br />  <span class="co">/**</span><br /><span class="co">   * message</span><br /><span class="co">   */</span><br />  <span class="kw">public</span> <span class="dt">static</span> Integer  COMMAND = <span class="bn">0x10</span>;<br />  <span class="kw">public</span> <span class="dt">static</span> Integer  TIME = <span class="bn">0x11</span>;<br />  <span class="kw">public</span> <span class="dt">static</span> Integer  USERNAME = <span class="bn">0x12</span>;<br />  <span class="kw">public</span> <span class="dt">static</span> Integer  PASSWORD = <span class="bn">0x13</span>;<br />  <span class="kw">public</span> <span class="dt">static</span> Integer  SPEAKER = <span class="bn">0x14</span>;<br />  <span class="kw">public</span> <span class="dt">static</span> Integer  RECEIVER = <span class="bn">0x15</span>;<br />  <span class="kw">public</span> <span class="dt">static</span> Integer  CONTENT= <span class="bn">0x16</span>;<br />  <span class="co">/**</span><br /><span class="co">   * command</span><br /><span class="co">   */</span><br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_LOGIN = <span class="bn">0x20</span>;<br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_SIGNUP = <span class="bn">0x21</span>;<br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_RESULT = <span class="bn">0x22</span>;<br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_DESCRIPTION = <span class="bn">0x23</span>;<br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_LOGOUT =<span class="bn">0x24</span>;<br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_CHATWITH = <span class="bn">0x25</span>;<br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_GROUP = <span class="bn">0x26</span>;<br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_CHATALL = <span class="bn">0x27</span>;<br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_KEEP = <span class="bn">0x28</span>;<br />  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_MESSAGEALL = <span class="bn">0X29</span>;</code></pre></div><br /><ul><br /><li><h3 id="基本响应流程概述">基本响应流程概述</h3><br /><ul><br /><li>Client-&gt;Server</li><br /><li>请求注册（已注册用户请求登录），请求登录状态</li><br /><li>聊天命令分为单人和多人群聊</li><br /><li>Server-&gt;Client<br /><ul><br /><li>返回登录|注册成功反馈</li><br /><li>返回登录|注册失败反馈，及失败原因（用户已经注册|用户尚未注册|密码错误|服务器连接失败等...）</li><br /><li>每个用户登录广播用户集</li><br /><li>提取数据仓发送消息给指定用户</li><br /><li>广播信息</li><br /></ul></li><br /></ul></li><br /><li><h3 id="心跳连接">心跳连接</h3><br />之前考虑上线下线方式的时候想到的一个办法是，下线的时候给服务器发送下线通知，后面考虑了出现断网等突发情况时这样的设计将出现问题。所以采用了心跳连接的方式。<br /><ul><br /><li>server端采用了以时间差为判断方式的连接判断方式，通过具体的实践server端的实践差为2000ms较为合适.</li><br /><li>client维持了500ms的心跳</li><br /></ul></li><br /></ul><br /><h2 id="server">Server</h2><br /><ul><br /><li>启动环节</li><br /><li><p>服务器前先查询数据库，从中加载出用户列表到内存。</p><br /><blockquote><br /><p>（注：这样的方式在数据较大时不合适，应该设计好数据库的消息存储机制，避免服务器端的数据量大时出现问题，这个小程序因为之前在设计的时候本来没有加上数据库的打算，后期加入后，也不想再次重构服务器端）</p><br /></blockquote></li><br /><li><p>数据库已经封装成Dao层，使用双重锁的单例模式进行控制访问</p></li><br /><li>用户信息存储及转发</li><br /><li>用户信息存储仓的设置<br><br />serverUser的实体bean在设计时采用的是 ConcurrentLinkedQueue作为信息存储仓的数据结构，保证在多线程下的安全。</li><br /><li><p>每次server端读取client端发送的comment将数据发送到对应user的warehouse（数据仓）中，接着读取其控制用户的warehouse，执行命令。</p></li><br /></ul><br /><h2 id="client">client</h2><br /><ul><br /><li>整体基本架构为MVC<br><br />model层通过control在login和chatroom界面进行数据交互。</li><br /><li>基本界面切换<br><br />之前对javafx不熟悉，根据写andorid经验，总觉得Javafx的界面切换不是很方便。初期将界面写了出来，后期进行了界面切换方式的修改。<br><br />参考<a href="http://blog.csdn.net/nthack5730/article/details/51901593">JavaFX - 实现管理多个Stage窗口及源码解析</a></li><br /></ul><br /><h2 id="一些值得注意的问题">一些值得注意的问题</h2><br /><ul><br /><li><h3 id="gson的使用"><strong>gson的使用</strong></h3><br /><p>gson 的好用不必多说,写的时候发现一个小问题gson 在使用时会将Integer以及int都会转为Double或者double类型<br><br />解决方案如下<a href="http://blog.csdn.net/xiao_jun_0820/article/details/50232017">解决gson将Integer默认转换成Double的问题</a></p></li><br /><li><h3 id="javafx-ui界面更新">javafx UI界面更新</h3><br /><ul><br /><li><p>类似于android在UI界面只能在UI线程中进行更改，在javafx中也是如此。不过之前Android知道其异步方式的实现<br><br />在javafx中查阅资料后总结下其更改界面的方法</p><br /><blockquote><br /><p><code>java Platform.runLater(new Task&lt;String&gt;() {    @Override    protected String call() throws Exception {       //do UI operato        return null<br />  } });</code></p><br /></blockquote><br /><h3 id="文件路径"><strong>文件路径</strong></h3><br /><p>在写图片的显示时发现了显示的问题，特地的查了这部分的材料，其中比较好的几篇<br><br /><a href="http://blog.csdn.net/u011983531/article/details/48443195">Java中文件的相对路径与绝对路径</a><br><br /><a href="http://blog.csdn.net/theonegis/article/details/23695057">Java中文件路径及其访问</a></p><br /><h3 id="emoji表情的实现"><strong>emoji表情的实现</strong></h3></li><br /></ul></li><br /><li><p>方案1 传统emoji的表情的实现</p><br /><blockquote><br /><p>其实早在2010年，Unicode编码就已经纳入了700多个Emoji表情，所以是可以支持表情的，只要加载支持Emoji表情的字库即可 链接<a href="http://www.guigarage.com/2015/01/support-emojis/">How to support Emojis (Part1)</a></p><br /></blockquote></li><br /></ul><br /><p>但是emoji的显示时要依赖于平台的，之前在Android端写过的emoji实现由于和ios端不统一也重新定制了一份<br><br />- 附上对比<br><br />Android<br><br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2k8ay0c1j20gu06v41g.jpg"><br><br />javafx<br><br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2kam0mlqj207c0400ss.jpg"><br><br />简直要丑哭了</p><br /><ul><br /><li>实现方式<br><br />emoji 的编码方式<br><br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2ke8ym1zj211a053gmr.jpg"><br><br />java中String 采用 UTF-16 编码方式存储所有字符, getBytes(String charsetName)也就是转为UTF-8 即可实现编码转换。将其输出即可显示emoji</li><br /><li>方案2 之前在Android端通过对SpannableString 的处理实现添加任何的图片到文本中<br><br />根据这个思路 参考<a href="https://github.com/UltimateZero/EmojiOneJava">EmojiOneJava</a>实现了功能.<br><br />而且javafx的textArea不支持 文字加图片， 在java分fx中textflow可以存放子组件，所以显示界面使用textflow，输入界面使用textArea，显示的表情以表情简写表示</li><br /></ul><br /><h3 id="项目地址we-chat">项目地址<a href="https://github.com/Dyleaf/WeChat">We Chat</a></h3><br /><img src="http://counter.cnblogs.com//blog/post/7955145" width="1" height="1" style="border:0px;visibility:hidden" />
+    
+    
+    <ul><li><h3 id="基本响应流程概述">基本响应流程概述</h3><ul><li>Client-&gt;Server</li><li>请求注册（已注册用户请求登录），请求登录状态</li><li>聊天命令分为单人和多人群聊</li><li>Server-&gt;Client<ul><li>返回登录|注册成功反馈</li><li>返回登录|注册失败反馈，及失败原因（用户已经注册|用户尚未注册|密码错误|服务器连接失败等...）</li><li>每个用户登录广播用户集</li><li>提取数据仓发送消息给指定用户</li><li>广播信息</li></ul></li></ul></li><li><h3 id="心跳连接">心跳连接</h3>之前考虑上线下线方式的时候想到的一个办法是，下线的时候给服务器发送下线通知，后面考虑了出现断网等突发情况时这样的设计将出现问题。所以采用了心跳连接的方式。<ul><li>server端采用了以时间差为判断方式的连接判断方式，通过具体的实践server端的实践差为2000ms较为合适.</li><li>client维持了500ms的心跳</li></ul></li></ul><h2 id="server">Server</h2><ul><li>启动环节</li><li><p>服务器前先查询数据库，从中加载出用户列表到内存。</p><blockquote><p>（注：这样的方式在数据较大时不合适，应该设计好数据库的消息存储机制，避免服务器端的数据量大时出现问题，这个小程序因为之前在设计的时候本来没有加上数据库的打算，后期加入后，也不想再次重构服务器端）</p></blockquote></li><li><p>数据库已经封装成Dao层，使用双重锁的单例模式进行控制访问</p></li><li>用户信息存储及转发</li><li>用户信息存储仓的设置<br>serverUser的实体bean在设计时采用的是 ConcurrentLinkedQueue作为信息存储仓的数据结构，保证在多线程下的安全。</li><li><p>每次server端读取client端发送的comment将数据发送到对应user的warehouse（数据仓）中，接着读取其控制用户的warehouse，执行命令。</p></li></ul><h2 id="client">client</h2><ul><li>整体基本架构为MVC<br>model层通过control在login和chatroom界面进行数据交互。</li><li>基本界面切换<br>之前对javafx不熟悉，根据写andorid经验，总觉得Javafx的界面切换不是很方便。初期将界面写了出来，后期进行了界面切换方式的修改。<br>参考<a href="http://blog.csdn.net/nthack5730/article/details/51901593">JavaFX - 实现管理多个Stage窗口及源码解析</a></li></ul><h2 id="一些值得注意的问题">一些值得注意的问题</h2><ul><li><h3 id="gson的使用"><strong>gson的使用</strong></h3><p>gson 的好用不必多说,写的时候发现一个小问题gson 在使用时会将Integer以及int都会转为Double或者double类型<br>解决方案如下<a href="http://blog.csdn.net/xiao_jun_0820/article/details/50232017">解决gson将Integer默认转换成Double的问题</a></p></li><li><h3 id="javafx-ui界面更新">javafx UI界面更新</h3><ul><li><p>类似于android在UI界面只能在UI线程中进行更改，在javafx中也是如此。不过之前Android知道其异步方式的实现<br>在javafx中查阅资料后总结下其更改界面的方法</p><blockquote><p><code>java Platform.runLater(new Task&lt;String&gt;() {    @Override    protected String call() throws Exception {       //do UI operato        return null;    } });</code></p></blockquote><h3 id="文件路径"><strong>文件路径</strong></h3><p>在写图片的显示时发现了显示的问题，特地的查了这部分的材料，其中比较好的几篇<br><a href="http://blog.csdn.net/u011983531/article/details/48443195">Java中文件的相对路径与绝对路径</a><br><a href="http://blog.csdn.net/theonegis/article/details/23695057">Java中文件路径及其访问</a></p><h3 id="emoji表情的实现"><strong>emoji表情的实现</strong></h3></li></ul></li><li><p>方案1 传统emoji的表情的实现</p><blockquote><p>其实早在2010年，Unicode编码就已经纳入了700多个Emoji表情，所以是可以支持表情的，只要加载支持Emoji表情的字库即可 链接<a href="http://www.guigarage.com/2015/01/support-emojis/">How to support Emojis (Part1)</a></p></blockquote></li></ul><p>但是emoji的显示时要依赖于平台的，之前在Android端写过的emoji实现由于和ios端不统一也重新定制了一份<br>- 附上对比<br>Android<br><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2k8ay0c1j20gu06v41g.jpg"><br>javafx<br><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2kam0mlqj207c0400ss.jpg"><br>简直要丑哭了</p><ul><li>实现方式<br>emoji 的编码方式<br><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2ke8ym1zj211a053gmr.jpg"><br>java中String 采用 UTF-16 编码方式存储所有字符, getBytes(String charsetName)也就是转为UTF-8 即可实现编码转换。将其输出即可显示emoji</li><li>方案2 之前在Android端通过对SpannableString 的处理实现添加任何的图片到文本中<br>根据这个思路 参考<a href="https://github.com/UltimateZero/EmojiOneJava">EmojiOneJava</a>实现了功能.<br>而且javafx的textArea不支持 文字加图片， 在java分fx中textflow可以存放子组件，所以显示界面使用textflow，输入界面使用textArea，显示的表情以表情简写表示</li></ul><h3 id="项目地址we-chat">项目地址<a href="https://github.com/Dyleaf/WeChat">We Chat</a></h3><img src="http://counter.cnblogs.com//blog/post/7955145" width="1" height="1" style="border:0px;visibility:hidden" />"
+
+        <h2>java 聊天室WeChat</h2>
+        <p></p>
+        <p></p>
+        <div id="content">
+            <p>[toc]</p>
+            <h2 id="功能和特性">功能和特性</h2>
+            <ul>
+                <li>基于socket实现的c/s架构的的通信</li>
+                <li>服务器和客户心跳连接</li>
+                <li>gson实现的消息通信机制</li>
+                <li>注册及登录</li>
+                <li>支持私聊和群聊。</li>
+                <li>动态更新用户列表以及用户消息提示</li>
+                <li>支持emoji表情,以及emoji表情选择器</li>
+                <li>服务器端数据库用户记录</li>
+                <li>
+                    <del>
+                        实现文件传输
+                    </del>
+                </li>
+                <li>
+                    <del>
+                        文件记录
+                    </del>
+                </li>
+            </ul>
+            <h2 id="功能展示">功能展示</h2>
+            <ul>
+                <li>login<br /><img src="http://ox6e8ykxi.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20171202155132.png" /></li>
+                <li>chatroom<br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2hf483lcj20gn0bwwep.jpg" /><br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2hgxka7aj20go0bvq36.jpg" /><br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2hl3hf8mj20gr0bwq3i.jpg" /></li>
+                <li>表情包<br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2hneb75uj20j30cejuo.jpg" /></li>
+                <li>数据库<br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2hosjtilj20af031q2s.jpg" /></li>
+            </ul>
+            <h2 id="整体架构">整体架构</h2>
+            <ul>
+                <li>
+                    <p>使用了比较简单的worker-master架构。</p>
+                    <blockquote>
+                        <ul>
+                            <li>由masterserve进行事件的分发</li>
+                            <li>由workserver具体的管理单个用户的消息请求</li>
+                            <li>相关模型链接 <a href="https://www.cnblogs.com/liang1101/p/6456070.html?utm_source=itdadao&amp;utm_medium=referral">Master-Worker模式</a></li>
+                        </ul>
+                    </blockquote>
+                </li>
+                <li>消息机制</li>
+                <li>采用json作为通信载体，后期功能性的更改较为简单</li>
+                <li><p>通信命令字设计如下</p></li>
+            </ul>
+            <div class="sourceCode">
+                <pre class="sourceCode java">
+                   <code class="sourceCode java">
+                     <span class="kw">public</span>
+                     <span class="dt">final</span> <span class="dt">static</span> <span class="dt">boolean</span> SINGLE = <span class="kw">true</span>;  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">boolean</span> GROUP = <span class="kw">false</span>;  <span class="co">/**</span><span class="co">   * status</span><span class="co">   */</span>  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> SUCCESS = <span class="bn">0x01</span>;  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> FAILED = <span class="bn">0x02</span>;  <span class="co">/**</span><span class="co">   * message</span><span class="co">   */</span>  <span class="kw">public</span> <span class="dt">static</span> Integer  COMMAND = <span class="bn">0x10</span>;  <span class="kw">public</span> <span class="dt">static</span> Integer  TIME = <span class="bn">0x11</span>;  <span class="kw">public</span> <span class="dt">static</span> Integer  USERNAME = <span class="bn">0x12</span>;  <span class="kw">public</span> <span class="dt">static</span> Integer  PASSWORD = <span class="bn">0x13</span>;  <span class="kw">public</span> <span class="dt">static</span> Integer  SPEAKER = <span class="bn">0x14</span>;  <span class="kw">public</span> <span class="dt">static</span> Integer  RECEIVER = <span class="bn">0x15</span>;  <span class="kw">public</span> <span class="dt">static</span> Integer  CONTENT= <span class="bn">0x16</span>;  <span class="co">/**</span><span class="co">   * command</span><span class="co">   */</span>  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_LOGIN = <span class="bn">0x20</span>;  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_SIGNUP = <span class="bn">0x21</span>;  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_RESULT = <span class="bn">0x22</span>;  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_DESCRIPTION = <span class="bn">0x23</span>;  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_LOGOUT =<span class="bn">0x24</span>;  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_CHATWITH = <span class="bn">0x25</span>;  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_GROUP = <span class="bn">0x26</span>;  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_CHATALL = <span class="bn">0x27</span>;  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_KEEP = <span class="bn">0x28</span>;  <span class="kw">public</span> <span class="dt">final</span> <span class="dt">static</span> <span class="dt">int</span> COM_MESSAGEALL = <span class="bn">0X29</span>;
+                    </code>
+               </pre>
+            </div>
+            <ul>
+                <li>
+                    <h3 id="基本响应流程概述">基本响应流程概述</h3>
+                    <ul>
+                        <li>Client-&gt;Server</li>
+                        <li>请求注册（已注册用户请求登录），请求登录状态</li>
+                        <li>聊天命令分为单人和多人群聊</li>
+                        <li>
+                            Server-&gt;Client
+                            <ul>
+                                <li>返回登录|注册成功反馈</li>
+                                <li>返回登录|注册失败反馈，及失败原因（用户已经注册|用户尚未注册|密码错误|服务器连接失败等...）</li>
+                                <li>每个用户登录广播用户集</li>
+                                <li>提取数据仓发送消息给指定用户</li>
+                                <li>广播信息</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h3 id="心跳连接">心跳连接</h3>之前考虑上线下线方式的时候想到的一个办法是，下线的时候给服务器发送下线通知，后面考虑了出现断网等突发情况时这样的设计将出现问题。所以采用了心跳连接的方式。
+                    <ul>
+                        <li>server端采用了以时间差为判断方式的连接判断方式，通过具体的实践server端的实践差为2000ms较为合适.</li>
+                        <li>client维持了500ms的心跳</li>
+                    </ul>
+                </li>
+            </ul>
+            <h2 id="server">Server</h2>
+            <ul>
+                <li>启动环节</li>
+                <li>
+                    <p>服务器前先查询数据库，从中加载出用户列表到内存。</p>
+                    <blockquote>
+                        <p>（注：这样的方式在数据较大时不合适，应该设计好数据库的消息存储机制，避免服务器端的数据量大时出现问题，这个小程序因为之前在设计的时候本来没有加上数据库的打算，后期加入后，也不想再次重构服务器端）</p>
+                    </blockquote>
+                </li>
+                <li><p>数据库已经封装成Dao层，使用双重锁的单例模式进行控制访问</p></li>
+                <li>用户信息存储及转发</li>
+                <li>用户信息存储仓的设置<br />serverUser的实体bean在设计时采用的是 ConcurrentLinkedQueue作为信息存储仓的数据结构，保证在多线程下的安全。</li>
+                <li><p>每次server端读取client端发送的comment将数据发送到对应user的warehouse（数据仓）中，接着读取其控制用户的warehouse，执行命令。</p></li>
+            </ul>
+            <h2 id="client">client</h2>
+            <ul>
+                <li>整体基本架构为MVC<br />model层通过control在login和chatroom界面进行数据交互。</li>
+                <li>基本界面切换<br />之前对javafx不熟悉，根据写andorid经验，总觉得Javafx的界面切换不是很方便。初期将界面写了出来，后期进行了界面切换方式的修改。<br />参考<a href="http://blog.csdn.net/nthack5730/article/details/51901593">JavaFX - 实现管理多个Stage窗口及源码解析</a></li>
+            </ul>
+            <h2 id="一些值得注意的问题">一些值得注意的问题</h2>
+            <ul>
+                <li><h3 id="gson的使用"><strong>gson的使用</strong></h3><p>gson 的好用不必多说,写的时候发现一个小问题gson 在使用时会将Integer以及int都会转为Double或者double类型<br />解决方案如下<a href="http://blog.csdn.net/xiao_jun_0820/article/details/50232017">解决gson将Integer默认转换成Double的问题</a></p></li>
+                <li>
+                    <h3 id="javafx-ui界面更新">javafx UI界面更新</h3>
+                    <ul>
+                        <li>
+                            <p>类似于android在UI界面只能在UI线程中进行更改，在javafx中也是如此。不过之前Android知道其异步方式的实现<br />在javafx中查阅资料后总结下其更改界面的方法</p>
+                            <blockquote>
+                                <p><code>java Platform.runLater(new Task&lt;String&gt;() { @Override protected String call() throws Exception { //do UI operato return null; } });</code></p>
+                            </blockquote><h3 id="文件路径"><strong>文件路径</strong></h3><p>在写图片的显示时发现了显示的问题，特地的查了这部分的材料，其中比较好的几篇<br /><a href="http://blog.csdn.net/u011983531/article/details/48443195">Java中文件的相对路径与绝对路径</a><br /><a href="http://blog.csdn.net/theonegis/article/details/23695057">Java中文件路径及其访问</a></p><h3 id="emoji表情的实现"><strong>emoji表情的实现</strong></h3>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <p>方案1 传统emoji的表情的实现</p>
+                    <blockquote>
+                        <p>其实早在2010年，Unicode编码就已经纳入了700多个Emoji表情，所以是可以支持表情的，只要加载支持Emoji表情的字库即可 链接<a href="http://www.guigarage.com/2015/01/support-emojis/">How to support Emojis (Part1)</a></p>
+                    </blockquote>
+                </li>
+            </ul>
+            <p>但是emoji的显示时要依赖于平台的，之前在Android端写过的emoji实现由于和ios端不统一也重新定制了一份<br />- 附上对比<br />Android<br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2k8ay0c1j20gu06v41g.jpg" /><br />javafx<br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2kam0mlqj207c0400ss.jpg" /><br />简直要丑哭了</p>
+            <ul>
+                <li>实现方式<br />emoji 的编码方式<br /><img src="http://ww1.sinaimg.cn/large/ced9506agy1fm2ke8ym1zj211a053gmr.jpg" /><br />java中String 采用 UTF-16 编码方式存储所有字符, getBytes(String charsetName)也就是转为UTF-8 即可实现编码转换。将其输出即可显示emoji</li>
+                <li>方案2 之前在Android端通过对SpannableString 的处理实现添加任何的图片到文本中<br />根据这个思路 参考<a href="https://github.com/UltimateZero/EmojiOneJava">EmojiOneJava</a>实现了功能.<br />而且javafx的textArea不支持 文字加图片， 在java分fx中textflow可以存放子组件，所以显示界面使用textflow，输入界面使用textArea，显示的表情以表情简写表示</li>
+            </ul>
+            <h3 id="项目地址we-chat">项目地址<a href="https://github.com/Dyleaf/WeChat">We Chat</a></h3>
+            <img src="http://counter.cnblogs.com//blog/post/7955145" width="1" height="1" style="border:0px;visibility:hidden" />
+        </div>
+    </body>
+</html>

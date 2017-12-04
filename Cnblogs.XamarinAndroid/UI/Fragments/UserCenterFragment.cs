@@ -1,44 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Com.Nostra13.Universalimageloader.Core;
-using Android.Support.V7.Widget;
 using Cnblogs.ApiModel;
-using Android.Support.V4.Widget;
 using Android.Graphics;
-using System.Threading.Tasks;
 using Cnblogs.HttpClient;
-using Cnblogs.XamarinAndroid.UI.Widgets;
-using Android.Support.V4.App;
 
 namespace Cnblogs.XamarinAndroid
 {
-    [Activity(Label = "我的博客园", Theme = "@style/AppTheme")]
-    public class UserCenterActivity : BaseActivity
+    public class UserCenterFragment: Android.Support.V4.App.Fragment
     {
-
-        protected override int LayoutResourceId
-        {
-            get
-            {
-                return Resource.Layout.UserCenter;
-            }
-        }
-        protected override string ToolBarTitle
-        {
-            get
-            {
-                return  "我的博客园";
-            }
-        }
 
         private ImageView iv_userAvatar;
         private LinearLayout ly_user, ly_startLogin, ly_myBlog;
@@ -46,12 +20,21 @@ namespace Cnblogs.XamarinAndroid
         private DisplayImageOptions options;
         private UserInfo userInfo;
         private UserBlog userBlog;
-        protected override async void OnCreate(Bundle savedInstanceState)
+
+        public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            HasOptionsMenu = true;
+        }
 
-            SetToolBarNavBack();
-            StatusBarUtil.SetColorStatusBars(this);
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+            base.OnCreateView(inflater, container, savedInstanceState);
+            return inflater.Inflate(Resource.Layout.UserCenter, container, false);
+        }
+
+        public override async void OnViewCreated(View view, Bundle savedInstanceState)
+        {
             //SetToolBarTitle(Resources.GetString(Resource.String.myBlog));
             //显示图片配置
             options = new DisplayImageOptions.Builder()
@@ -63,28 +46,28 @@ namespace Cnblogs.XamarinAndroid
                   .CacheOnDisk(true)
                   .Displayer(new DisplayerImageCircle(20))
                   .Build();
-            ly_user = FindViewById<LinearLayout>(Resource.Id.ly_user);
-            tv_login = FindViewById<TextView>(Resource.Id.tv_login);
-            tv_seniority= FindViewById<TextView>(Resource.Id.tv_seniority);
-            ly_startLogin = FindViewById<LinearLayout>(Resource.Id.ly_startLogin);
-            tv_subTitle = FindViewById<TextView>(Resource.Id.tv_subTitle);
-            tv_postCount = FindViewById<TextView>(Resource.Id.tv_postCount);
-            ly_myBlog =FindViewById<LinearLayout>(Resource.Id.ly_myBlog);
-            tv_myStatus = FindViewById<TextView>(Resource.Id.tv_myStatus);
-            tv_myQuestion = FindViewById<TextView>(Resource.Id.tv_myQuestion);
-            tv_myBookmark = FindViewById<TextView>(Resource.Id.tv_myBookmark);
+            ly_user = Activity.FindViewById<LinearLayout>(Resource.Id.ly_user);
+            tv_login = Activity.FindViewById<TextView>(Resource.Id.tv_login);
+            tv_seniority= Activity.FindViewById<TextView>(Resource.Id.tv_seniority);
+            ly_startLogin = Activity.FindViewById<LinearLayout>(Resource.Id.ly_startLogin);
+            tv_subTitle = Activity.FindViewById<TextView>(Resource.Id.tv_subTitle);
+            tv_postCount = Activity.FindViewById<TextView>(Resource.Id.tv_postCount);
+            ly_myBlog =Activity.FindViewById<LinearLayout>(Resource.Id.ly_myBlog);
+            tv_myStatus = Activity.FindViewById<TextView>(Resource.Id.tv_myStatus);
+            tv_myQuestion = Activity.FindViewById<TextView>(Resource.Id.tv_myQuestion);
+            tv_myBookmark = Activity.FindViewById<TextView>(Resource.Id.tv_myBookmark);
             tv_myBookmark.Click += (s, e) =>
             {
-                StartActivity(new Intent(this,typeof(MyBookmarkActivity)));
+                StartActivity(new Intent(Activity,typeof(MyBookmarkActivity)));
             };
             ly_startLogin.Click += (s, e) =>
             {
-                StartActivity(new Intent(this, typeof(loginactivity)));
+                StartActivity(new Intent(Activity, typeof(loginactivity)));
             };
 
-            tv_userName = FindViewById<TextView>(Resource.Id.tv_userName);
-            iv_userAvatar = FindViewById<ImageView>(Resource.Id.iv_userAvatar);
-            Token userToken = UserTokenUtil.GetToken(this);
+            tv_userName = Activity.FindViewById<TextView>(Resource.Id.tv_userName);
+            iv_userAvatar = Activity.FindViewById<ImageView>(Resource.Id.iv_userAvatar);
+            Token userToken = UserTokenUtil.GetToken(Activity);
             userToken.RefreshTime = DateTime.Now;
             //用户token 未过期
             if (!string.IsNullOrEmpty(userToken.access_token) && !userToken.IsExpire)
@@ -93,11 +76,11 @@ namespace Cnblogs.XamarinAndroid
                 ly_user.Visibility = ViewStates.Visible;
                 //ly_startLogin.Clickable = false;
                 //本地读取登录用户信息，用户博客信息
-                userInfo = UserInfoShared.GetUserInfo(this);
-                userBlog = UserBlogShared.GetUserBlog(this);
+                userInfo = UserInfoShared.GetUserInfo(Activity);
+                userBlog = UserBlogShared.GetUserBlog(Activity);
                 if (userInfo.BlogId != 0)
                 {
-                    InitViewUserInfo(userInfo);
+                   InitViewUserInfo(userInfo);
                 }
                 else
                 {
@@ -105,13 +88,13 @@ namespace Cnblogs.XamarinAndroid
                     if (result.Success)
                     {
                         userInfo = result.Data;
-                        UserInfoShared.SetUserInfo(userInfo, this);
+                        UserInfoShared.SetUserInfo(userInfo, Activity);
                         InitViewUserInfo(userInfo);
                     }
                 }
                 if (userBlog.BlogId != 0)
                 {
-                    InitViewUserBlog(userBlog);
+                   InitViewUserBlog(userBlog);
                 }
                 else
                 {
@@ -119,7 +102,7 @@ namespace Cnblogs.XamarinAndroid
                     if (result.Success)
                     {
                         userBlog = result.Data;
-                        UserBlogShared.SetUserBlog(userBlog, this);
+                        UserBlogShared.SetUserBlog(userBlog, Activity);
                         InitViewUserBlog(userBlog);
                     }
                 }
@@ -131,20 +114,20 @@ namespace Cnblogs.XamarinAndroid
             }
         }
         void InitViewUserInfo(UserInfo userInfo)
-{
-    tv_userName.Text = userInfo.DisplayName;
-    tv_seniority.Text = "园龄:" + userInfo.Seniority + "积分:" + userInfo.Score;
+      {
+        tv_userName.Text = userInfo.DisplayName;
+        tv_seniority.Text = "园龄:" + userInfo.Seniority + "积分:" + userInfo.Score;
     ly_myBlog.Click += (s, e) =>
     {
-        MyBlogActivity.Enter(userInfo.BlogApp, this);
+        MyBlogActivity.Enter(userInfo.BlogApp, Activity);
     };
     tv_myStatus.Click += (s, e) =>
     {
-        MyStatusActivity.Enter(userInfo.BlogApp, this);
+        MyStatusActivity.Enter(userInfo.BlogApp, Activity);
     };
     tv_myQuestion.Click += (s, e) =>
     {
-        MyQuestionActivity.Enter(userInfo.BlogApp, this);
+        MyQuestionActivity.Enter(userInfo.BlogApp, Activity);
     };
     ImageLoader.Instance.DisplayImage(userInfo.Avatar, iv_userAvatar, options);
 }

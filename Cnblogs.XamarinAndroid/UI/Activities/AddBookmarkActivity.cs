@@ -166,6 +166,7 @@ namespace Cnblogs.XamarinAndroid
                         btn_submit.Enabled = false;
                         dialog.Hide();
                         AlertUtil.ToastLong(this, result.Message + "添加收藏成功");
+                        this.Finish();
                         System.Diagnostics.Debug.Write(result.Message);
                     }
                     else

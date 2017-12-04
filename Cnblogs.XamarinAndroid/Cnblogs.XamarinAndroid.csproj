@@ -33,12 +33,13 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
     <BundleAssemblies>False</BundleAssemblies>
-    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
     <Debugger>Xamarin</Debugger>
     <AotAssemblies>False</AotAssemblies>
     <EnableLLVM>False</EnableLLVM>
     <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
     <EnableProguard>False</EnableProguard>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86;x86_64;arm64-v8a</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -118,6 +119,7 @@
     <Compile Include="Adapter\StatusTabsFragmentAdapter.cs" />
     <Compile Include="Adapter\BlogFragmentTabsAdapter.cs" />
     <Compile Include="Adapter\PhotoAdapter.cs" />
+    <Compile Include="App.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Activities\NewsComment.cs" />
@@ -125,7 +127,6 @@
     <Compile Include="UI\Activities\AddBookmarkActivity.cs" />
     <Compile Include="UI\Activities\ArticleComment.cs" />
     <Compile Include="UI\Activities\DetailNewsActivity.cs" />
-    <Compile Include="UI\Activities\UserCenterActivity.cs" />
     <Compile Include="UI\Activities\MyBookmark.cs" />
     <Compile Include="UI\Activities\MyBlogActivity.cs" />
     <Compile Include="UI\Activities\MyQuestionActivity.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="UI\Fragments\RecyclerViewDecoration.cs" />
     <Compile Include="UI\Fragments\RecyclerViewFragment.cs" />
     <Compile Include="UI\Fragments\RecyclerviewScroll.cs" />
+    <Compile Include="UI\Fragments\UserCenterFragment.cs" />
     <Compile Include="UI\Widgets\BodyWebViewClient.cs" />
     <Compile Include="UI\Widgets\BottomBehavior.cs" />
     <Compile Include="UI\Widgets\ImageCircle.cs" />
@@ -164,6 +166,7 @@
     <Compile Include="Util\SharedDataUtil.cs" />
     <Compile Include="Util\SQLiteUtil.cs" />
     <Compile Include="Util\StatusBarUtil.cs" />
+    <Compile Include="wxapi\WXEntryActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GettingStarted.Xamarin" />
@@ -294,7 +297,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\Strings.xml" />
+    <AndroidResource Include="Resources\values\Strings.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Icon.png" />
@@ -353,7 +358,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\menu\main.xml" />
+    <AndroidResource Include="Resources\menu\main.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_home.png" />
@@ -386,18 +393,6 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_question_pressed.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\icon_zhishiku.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\icon_zhishiku_pressed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\icon_blog.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\icon_blog_pressed.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_qa.png" />
   </ItemGroup>
   <ItemGroup>
@@ -407,7 +402,7 @@
     <AndroidResource Include="Resources\drawable\selector_menu_news.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\selector_menu_kbArticle.xml" />
+    <AndroidResource Include="Resources\drawable\selector_menu_userCenter.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\selector_menu_status.xml" />
@@ -555,7 +550,25 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_status_pressed.png" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_usercenter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_usercenter_pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_status.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_blog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_blog_pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\test.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\blog-common.css" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

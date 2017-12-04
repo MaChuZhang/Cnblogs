@@ -19,13 +19,17 @@
   <LinearLayout
       android:layout_height="match_parent"
       android:layout_width="match_parent"
-      android:orientation="vertical">
+      android:orientation="horizontal"
+      android:gravity="center">
+      <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/dp5"
-        android:layout_marginBottom="@dimen/dp5"
         android:gravity="center_vertical">
       <ImageView
           android:id="@+id/iv_avatar"
@@ -36,33 +40,50 @@
           style="@style/InlineText"
           android:text="作者"
           android:layout_marginLeft="@dimen/dp5" />
-      <TextView
-          android:id="@+id/tv_dateAdded"
-          style="@style/InlineText"
-          android:layout_width="match_parent"
-          android:text="时间"
-          android:gravity="right" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/dp5"
-        android:layout_marginBottom="@dimen/dp5"
-        android:gravity="center_vertical">
       <TextView
           android:id="@+id/tv_title"
           style="@style/TitleText"
           android:maxLines="2"
           android:layout_marginTop="@dimen/dp5"
-          android:layout_marginBottom="@dimen/dp5"
-          android:text="测试标题测试标题测试标题测试标题测试标题测试标题"
-          android:layout_weight="1"
-          android:layout_marginRight="@dimen/dp15"/>
+          android:text="测试标题测试标题测试标题测试标题测试标题测试标题"/>
+
+      <TextView
+          android:id="@+id/tv_tags"
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:drawableLeft="@drawable/icon_tag"
+          android:drawablePadding="@dimen/dp3"
+          android:textSize="@dimen/TextSmall"
+          android:textColor="@color/primary"
+          android:layout_marginTop="@dimen/dp5"
+          android:gravity="center" />
+      </LinearLayout>
+    <LinearLayout
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:orientation="vertical"
+          android:layout_weight="0"
+         android:gravity="center_horizontal">
+      <LinearLayout
+          android:layout_height="@dimen/dp15"
+          android:layout_width="wrap_content"
+          android:orientation="horizontal"
+          android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/tv_awardCount"
+            style="@style/InlineText"
+            android:text="奖励" />
+        <ImageView
+            android:layout_height="15dp"
+            android:layout_width="15dp"
+            android:src="@drawable/yuandou" />
+      </LinearLayout>
+
       <LinearLayout
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_weight="0"
+          android:layout_marginTop="@dimen/dp3"
           android:orientation="vertical"
           android:background="#cbe6f4"
           android:paddingBottom="@dimen/dp5"
@@ -85,40 +106,17 @@
             android:textColor="@color/primary"
             android:textSize="10sp" />
       </LinearLayout>
-    </LinearLayout>
-    <TextView
-        android:id="@+id/tv_tags"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:drawableLeft="@drawable/icon_tag"
-        android:drawablePadding="@dimen/dp3"
-        android:textSize="@dimen/TextSmall"
-        android:textColor="@color/primary"
-        android:layout_marginBottom="@dimen/dp5"
-        android:gravity="center" />
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_marginTop="@dimen/dp5">
+   
       <TextView
-          android:id="@+id/tv_viewCount"
-          android:text="@string/view"
-          style="@style/InlineText"
-          android:layout_marginLeft="@dimen/dp10" />
-      <LinearLayout
-          android:layout_height="wrap_content"
-          android:layout_width="match_parent"
-          android:gravity="right">
-        <TextView
-            android:id="@+id/tv_awardCount"
-            style="@style/InlineText"
-            android:text="奖励"
-            android:drawableLeft="@drawable/yuandou"
-            android:drawablePadding="@dimen/dp3"
-            android:gravity="center" />
-      </LinearLayout>
-    </LinearLayout>
+      android:id="@+id/tv_dateAdded"
+      style="@style/InlineText"
+      android:layout_marginTop="@dimen/dp3"
+      android:text="时间"/>
+      
   </LinearLayout>
+    
+    
+  </LinearLayout>   
+
+ 
 </android.support.v7.widget.CardView>

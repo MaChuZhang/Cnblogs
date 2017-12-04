@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout 
-     xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -12,17 +11,16 @@
         android:layout_width="match_parent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">
-      <android.support.v7.widget.Toolbar
-          android:id="@+id/toolbar"
-          android:layout_width="match_parent"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-          android:background="?attr/colorPrimary"
-          android:minHeight="?attr/actionBarSize"
-          app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-           android:contentInsetStartWithNavigation="0dp"
-          app:contentInsetStart="0dp"  
-          app:layout_scrollFlags="scroll|enterAlways|snap"/>
-      </android.support.design.widget.AppBarLayout>
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:contentInsetStartWithNavigation="0dp"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
+    </android.support.design.widget.AppBarLayout>
 <!--主布局-->
     <FrameLayout
         android:id="@+id/frameContent"
@@ -30,7 +28,7 @@
         android:layout_height="match_parent"
         android:background="@color/bg"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-  <!--底部布局-->
+<!--底部布局-->
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/ly_menu"
@@ -42,37 +40,37 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp3"
             android:id="@+id/view_divider"
-            android:background="@drawable/bg_top_shadow"/>
+            android:background="@drawable/bg_top_shadow" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:orientation="horizontal"
             android:background="@color/white">
-          <TextView
-              android:id="@+id/tv_blog"
-              style="@style/tabText"
-              android:drawableTop="@drawable/selector_menu_blog"
-              android:text="@string/bolgsnews" />
-          <TextView
-              android:id="@+id/tv_kbArticles"
-              style="@style/tabText"
-              android:drawableTop="@drawable/selector_menu_kbArticle"
-              android:text="@string/kbArticles" />
-          <TextView
-              android:id="@+id/tv_status"
-              style="@style/tabText"
-              android:drawableTop="@drawable/selector_menu_status"
-              android:text="@string/statuses" />
-           <TextView
-              android:id="@+id/tv_question"
-              style="@style/tabText"
-              android:drawableTop="@drawable/selector_menu_question"
-              android:text="@string/question" />
-          <TextView
-              android:id="@+id/tv_news"
-              style="@style/tabText"
-              android:drawableTop="@drawable/selector_menu_news"
-              android:text="@string/news" />
+            <TextView
+                android:id="@+id/tv_blog"
+                style="@style/tabText"
+                android:drawableTop="@drawable/selector_menu_blog"
+                android:text="@string/bolgs" />
+            <TextView
+                android:id="@+id/tv_news"
+                style="@style/tabText"
+                android:drawableTop="@drawable/selector_menu_news"
+                android:text="@string/news" />
+            <TextView
+                android:id="@+id/tv_status"
+                style="@style/tabText"
+                android:drawableTop="@drawable/selector_menu_status"
+                android:text="@string/statuses" />
+            <TextView
+                android:id="@+id/tv_question"
+                style="@style/tabText"
+                android:drawableTop="@drawable/selector_menu_question"
+                android:text="@string/question" />
+            <TextView
+                android:id="@+id/tv_userCenter"
+                style="@style/tabText"
+                android:drawableTop="@drawable/selector_menu_userCenter"
+                android:text="@string/userCenter" />
         </LinearLayout>
-   </LinearLayout>
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -49,12 +49,11 @@ namespace Cnblogs.XamarinAndroid
         }
         public static string ReplaceHtml(this string  body)
         {
-            if (!string.IsNullOrEmpty(body))
-            {
-                body = body.Replace("\\r\\n",@"").Replace("\\n",@"").Replace("\\r","").Replace("\\t", "&nbsp;&nbsp;").Replace("\\u0004","").Replace(@"\","");
-                return body;
-            }
-            return "";
+            if (string.IsNullOrEmpty(body))
+                return "";
+            return body.Replace("\\r\\n", @"
+ ").Replace("\\n", @"
+ ").Replace("\\t", "&nbsp;&nbsp;").Replace("\\u0004", "").Replace("\\", "");
         }
         public static string ReadHtml(Android.Content.Res.AssetManager assets)
         {

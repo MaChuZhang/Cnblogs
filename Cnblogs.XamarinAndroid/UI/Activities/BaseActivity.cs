@@ -53,14 +53,14 @@ namespace Cnblogs.XamarinAndroid
             };
         }
 
-        protected virtual void SetToolBarNavUserCenter()
-        {
-            toolbar.SetNavigationIcon(Resource.Drawable.icon_user_nav);
-            toolbar.NavigationClick += (s, e) =>
-            {
-                StartActivity(new Intent(this, typeof(UserCenterActivity)));
-            };
-        }
+        //protected virtual void SetToolBarNavUserCenter()
+        //{
+        //    toolbar.SetNavigationIcon(Resource.Drawable.icon_user_nav);
+        //    toolbar.NavigationClick += (s, e) =>
+        //    {
+        //        StartActivity(new Intent(this, typeof(UserCenterActivity)));
+        //    };
+        //}
 
         //public void OnClick(View v)
         //{

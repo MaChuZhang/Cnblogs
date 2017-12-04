@@ -2,44 +2,98 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-  <android.support.v7.widget.Toolbar
-           xmlns:android="http://schemas.android.com/apk/res/android"
-           xmlns:app="http://schemas.android.com/apk/res-auto"
-           android:id="@+id/toolbar"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:background="?attr/colorPrimary"
-           android:minHeight="?attr/actionBarSize"
-           app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-    <LinearLayout android:id="@+id/ly_tabs"
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-                  android:layout_height="wrap_content"
-                  android:layout_width="wrap_content"
-                  android:layout_gravity="center">
-      <Button
-        android:layout_height="36dp"
+    android:layout_height="match_parent"
+    android:gravity="bottom">
+    <LinearLayout
+        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:id="@+id/btn_tabStatus"
-        android:text="@string/statuses"
-        android:textSize="20sp"
-        android:minHeight="0dp"
-        android:textColor="@android:color/black"
-        android:typeface="sans"
-        android:background="@drawable/shape_corner_left"
-        android:gravity="center"/>
-      <Button
-      android:layout_height="36dp"
-      android:layout_width="wrap_content"
-      android:id="@+id/btn_tabQuestion"
-      android:text="@string/question"
-      android:textSize="20sp"
-      android:typeface="sans"
-      android:minHeight="0dp"
-      android:textColor="@android:color/black"
-      android:background="@drawable/shape_corner_right"
-      android:gravity="center"/>
+        android:orientation="horizontal"
+        android:id="@+id/ly_startLogin"
+        android:background="@android:color/white"
+        android:clickable="true">
+        <ImageView
+            android:layout_height="@dimen/ImgMiddle"
+            android:layout_width="@dimen/ImgMiddle"
+            android:src="@drawable/icon_userdefault"
+            android:id="@+id/iv_userAvatar" />
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/TextMiddle"
+            android:textColor="@color/subTitleGray"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp13"
+            android:text="@string/login"
+            android:id="@+id/tv_login" />
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/dp13"
+            android:id="@+id/ly_user">
+            <LinearLayout
+                android:layout_height="30dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/tv_userName"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/TextMiddle"
+                    android:text="用户名"
+                    android:layout_gravity="center" />
+                <TextView
+                    android:id="@+id/tv_seniority"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/TextSmall"
+                    android:gravity="right"
+                    android:text="园龄" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_subTitle"
+                android:layout_height="30dp"
+                android:layout_width="match_parent"
+                android:textColor="@color/subTitleGray"
+                android:textSize="@dimen/TextSmall"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:text="121212简介简介简介简介简介1212简介21简介简介简介简介简介21121简介简介简介简介简介简介简介简介简介简介简介简介21212简介" />
+        </LinearLayout>
     </LinearLayout>
-  </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/tv_blog"
+            style="@style/tabText"
+            android:drawableTop="@drawable/selector_menu_blog"
+            android:text="@string/bolgs" />
+        <TextView
+            android:id="@+id/tv_news"
+            style="@style/tabText"
+            android:drawableTop="@drawable/selector_menu_news"
+            android:text="@string/news" />
+        <TextView
+            android:id="@+id/tv_status"
+            style="@style/tabText"
+            android:drawableTop="@drawable/selector_menu_status"
+            android:text="@string/statuses" />
+        <TextView
+            android:id="@+id/tv_question"
+            style="@style/tabText"
+            android:drawableTop="@drawable/selector_menu_question"
+            android:text="@string/question" />
+        <TextView
+            android:id="@+id/tv_userCenter"
+            style="@style/tabText"
+            android:drawableTop="@drawable/selector_menu_userCenter"
+            android:text="@string/userCenter" />
+    </LinearLayout>
 </LinearLayout>

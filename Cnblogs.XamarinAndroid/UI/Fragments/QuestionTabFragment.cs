@@ -166,7 +166,7 @@ namespace Cnblogs.XamarinAndroid
                     holder.SetText(Resource.Id.tv_dateAdded, model.DateAdded.ToCommonString());
                     holder.SetText(Resource.Id.tv_title, model.Title);
                     //holder.SetText(Resource.Id.tv_summary, model.Summary);
-                    holder.SetText(Resource.Id.tv_viewCount, read + " " + model.ViewCount.ToString());
+                    //holder.SetText(Resource.Id.tv_viewCount, read + " " + model.ViewCount.ToString());
                     holder.SetText(Resource.Id.tv_answerCount, model.AnswerCount.ToString());
                     holder.SetText(Resource.Id.tv_awardCount, model.Award.ToString());
                     TextView tv_tags = (holder.GetView<TextView>(Resource.Id.tv_tags));

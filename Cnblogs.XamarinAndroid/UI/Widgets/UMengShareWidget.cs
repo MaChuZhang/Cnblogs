@@ -27,8 +27,8 @@ namespace Cnblogs.XamarinAndroid.UI.Widgets
         {
             this.context = context;
             shareAction = new ShareAction(context)
-                .SetDisplayList(SHARE_MEDIA.Weixin, SHARE_MEDIA.WeixinCircle, SHARE_MEDIA.WeixinFavorite, SHARE_MEDIA.Sina)
-                .AddButton("Œ¢–≈", "Œ¢–≈≈Û”—»¶", "Œ¢–≈ ’≤ÿ", "–¬¿À")
+                .SetDisplayList(SHARE_MEDIA.Weixin, SHARE_MEDIA.WeixinCircle,SHARE_MEDIA.Qq,SHARE_MEDIA.Qzone)
+                .AddButton("Œ¢–≈", "Œ¢–≈≈Û”—»¶","QQ","QQø’º‰")
                 .SetShareboardclickCallback(this);
         }
         //IShareBoardListener

@@ -79,20 +79,15 @@ namespace Cnblogs.HttpClient
         }
         public static async Task<ApiResult<bool>> Exist(Token token,string  _url)
         {
-            //var result=null;
             try
             {
                 string url = string.Format(Constact.BookMarks_exists,_url);
                 var result = await HttpBase.GetAsync( url, null,token);
                 if (result.IsSuccess)
                 {
-                    var msg ="你已经收藏了";
                     return ApiResult.Ok(true);
-                    //return   ApiResult.Ok(list);
                 }
                 return ApiResult.Ok(false);
-                //return ApiResult<List<Article>>.Error(result.Message);
-
             }
             catch (Exception ex)
             {

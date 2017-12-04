@@ -1,27 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Android.Support.V7.Widget;
 using Android.Support.V4.Widget;
 using Fragment = Android.Support.V4.App.Fragment;
-using Cnblogs.XamarinAndroid;
 using Cnblogs.HttpClient;
 using Cnblogs.ApiModel;
-using Cnblogs.XamarinAndroid.UI;
 using Com.Nostra13.Universalimageloader.Core;
 using Android.Graphics;
 using System.Threading.Tasks;
-using System.Threading;
-using Cnblogs.XamarinAndroid.UI.Widgets;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -36,8 +25,9 @@ namespace Cnblogs.XamarinAndroid
         private DisplayImageOptions options;
         private int pageIndex = 1;
         private List<NewsViewModel> newsList = new List<NewsViewModel>();
-        private Button btn_status;
-        private Button btn_question;
+
+        private BaseRecyclerViewAdapter<KbArticles> adapterKbArticles;
+        private List<KbArticles> kbArticlesList = new List<KbArticles>();
         private bool isMy; 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -92,25 +82,116 @@ namespace Cnblogs.XamarinAndroid
             //_recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
             Token token = UserTokenUtil.GetToken(Activity);
 
-            newsList = await listNewsLocal();
-            if (newsList != null&&newsList.Count>0)
+            if (position == 0)
             {
-                initRecycler();
+                kbArticlesList = await listKbArticleLocal();
+                if (kbArticlesList.Count > 0)
+                {
+                    initRecyclerKbArticles();
+                }
+                else
+                {
+                    kbArticlesList = await listKbArticlesServer();
+                    if (kbArticlesList.Count > 0)
+                    {
+                        initRecyclerKbArticles();
+                    }
+                }
             }
             else
             {
+                newsList = await listNewsLocal();
+                if (newsList != null && newsList.Count > 0)
+                {
+                    initRecycler();
+                }
+                else
+                {
+                    newsList = await listNewsServer();
+                    if (newsList != null && newsList.Count > 0)
+                    {
+                        initRecycler();
+                    }
+                }
                 newsList = await listNewsServer();
                 if (newsList != null && newsList.Count > 0)
                 {
                     initRecycler();
                 }
             }
-            newsList = await listNewsServer();
-            if (newsList != null && newsList.Count > 0)
+        }
+        #region 知识库
+        private async Task<List<KbArticles>> listKbArticlesServer()
+        {
+            var result = await KbArticlesRequest.GetKbArticlesList(AccessTokenUtil.GetToken(this.Activity), pageIndex);
+            if (result.Success)
             {
-                initRecycler();
+                _swipeRefreshLayout.Refreshing = false;
+                try
+                {
+
+                    await SQLiteUtil.UpdateKbArticlesList(result.Data);
+                    return result.Data;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Write(ex.ToString());
+                    return null;
+                }
+            }
+            return null;
+        }
+        private async Task<List<KbArticles>> listKbArticleLocal()
+        {
+            kbArticlesList = await SQLiteUtil.SelectKbArticleList(Constact.PageSize);
+            return kbArticlesList;
+        }
+
+        async void initRecyclerKbArticles()
+        {
+            adapterKbArticles = new BaseRecyclerViewAdapter<KbArticles>(this.Activity, kbArticlesList, Resource.Layout.item_recyclerview_kbarticles, LoadMoreKbarticles);
+            _recyclerView.SetAdapter(adapterKbArticles);
+            adapterKbArticles.ItemClick += (position, tag) =>
+            {
+                System.Diagnostics.Debug.Write(position, tag);
+                AlertUtil.ToastShort(this.Activity, tag);
+                DetailKbArticlesActivity.Enter(Activity, int.Parse(tag));
+            };
+            adapterKbArticles.ItemLongClick += (tag, position) =>
+            {
+                AlertUtil.ToastShort(this.Activity, tag);
+            };
+            string read = Resources.GetString(Resource.String.read);
+            string digg = Resources.GetString(Resource.String.digg);
+
+            adapterKbArticles.OnConvertView += (holder, position) =>
+            {
+                holder.SetText(Resource.Id.tv_dateAdded, kbArticlesList[position].DateAdded.ToCommonString());
+                holder.SetText(Resource.Id.tv_viewCount, kbArticlesList[position].ViewCount + " " + read);
+                holder.SetText(Resource.Id.tv_summary, kbArticlesList[position].Summary);
+                holder.SetText(Resource.Id.tv_diggCount, kbArticlesList[position].Diggcount + " " + digg);
+                holder.SetText(Resource.Id.tv_title, kbArticlesList[position].Title);
+                holder.SetText(Resource.Id.tv_author, kbArticlesList[position].Author);
+                holder.GetView<CardView>(Resource.Id.ly_item).Tag = kbArticlesList[position].Id.ToString();
+            };
+        }
+
+        private async void LoadMoreKbarticles()
+        {
+            pageIndex++;
+            var tempList = await listKbArticlesServer();
+            kbArticlesList.AddRange(tempList);
+            if (tempList.Count == 0)
+            {
+                return;
+            }
+            else if (kbArticlesList != null)
+            {
+                adapterKbArticles.SetNewData(kbArticlesList);
+                System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + kbArticlesList.Count);
             }
         }
+        #endregion
         private async void LoadMore()
         {
             pageIndex++;
@@ -199,14 +280,27 @@ namespace Cnblogs.XamarinAndroid
 
         public async void OnRefresh()
         {
-            if(pageIndex>1)
-                pageIndex = 1; 
-            var tempList  = await listNewsServer();
-            if (tempList != null)
+            if (pageIndex > 1)
+                pageIndex = 1;
+            if (position == 0)
             {
-                newsList = tempList;
-                _swipeRefreshLayout.Refreshing = false;
-                adapter.SetNewData(tempList);
+                var tempList = await listKbArticlesServer();
+                if (tempList != null)
+                {
+                    kbArticlesList = tempList;
+                    _swipeRefreshLayout.Refreshing = false;
+                    adapterKbArticles.SetNewData(tempList);
+                }
+            }
+            else
+            {
+                var tempList = await listNewsServer();
+                if (tempList != null)
+                {
+                    newsList = tempList;
+                    _swipeRefreshLayout.Refreshing = false;
+                    adapter.SetNewData(tempList);
+                }
             }
         }
     }

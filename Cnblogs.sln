@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMeng", "UMeng\UMeng.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMeng.Shares", "..\..\git\Cnblogs\UMeng.Shares\UMeng.Shares.csproj", "{BEACBC23-E993-487A-B676-C17D1C900C89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMengTest", "UMengTest\UMengTest.csproj", "{60E20CC5-DBD3-46D4-A736-C2C17A8DBA47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,12 @@ Global
 		{BEACBC23-E993-487A-B676-C17D1C900C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEACBC23-E993-487A-B676-C17D1C900C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEACBC23-E993-487A-B676-C17D1C900C89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60E20CC5-DBD3-46D4-A736-C2C17A8DBA47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60E20CC5-DBD3-46D4-A736-C2C17A8DBA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60E20CC5-DBD3-46D4-A736-C2C17A8DBA47}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{60E20CC5-DBD3-46D4-A736-C2C17A8DBA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60E20CC5-DBD3-46D4-A736-C2C17A8DBA47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60E20CC5-DBD3-46D4-A736-C2C17A8DBA47}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
