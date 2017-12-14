@@ -85,16 +85,16 @@ namespace Cnblogs.ApiModel
                         callBack(new ResponseMessage (true,response.Content));
                         break;
                     case System.Net.HttpStatusCode.NotFound:
-                        callBack(new ResponseMessage(true, response.Content));
+                        callBack(new ResponseMessage(false, response.Content));
                         break;
                     case System.Net.HttpStatusCode.Unauthorized:
-                        callBack(new ResponseMessage(true, response.Content));
+                        callBack(new ResponseMessage(false, response.Content));
                         break;
                     case System.Net.HttpStatusCode.InternalServerError:
-                        callBack(new ResponseMessage(true, response.Content));
+                        callBack(new ResponseMessage(false, response.Content));
                         break;
                     default:
-                        callBack(new ResponseMessage(true, "请检查网络连接，稍后再试"));
+                        callBack(new ResponseMessage(false, "请检查网络连接，稍后再试"));
                         break;
                         //return new ResponseMessage(false, "请检查网络连接，稍后再试");
                 }
@@ -194,8 +194,12 @@ namespace Cnblogs.ApiModel
             var statusCode = response.StatusCode;
             switch (statusCode)
             {
+                case (System.Net.HttpStatusCode.OK):
+                    return new ResponseMessage(true, "Ok");
                 case (System.Net.HttpStatusCode.Created):
                     return new ResponseMessage(true, "Created");
+                case (System.Net.HttpStatusCode.BadRequest):
+                    return new ResponseMessage(false,"badRequest400:"+response.Content);
                 case (System.Net.HttpStatusCode.Conflict):
                     return new ResponseMessage(false, "Conflict409");
                 case System.Net.HttpStatusCode.NotFound:
@@ -204,6 +208,7 @@ namespace Cnblogs.ApiModel
                     return new ResponseMessage(false, "errorCode:401Unauthorized");
                 case System.Net.HttpStatusCode.InternalServerError:
                     return new ResponseMessage(false, "errorCode:500InternalServerError");
+                
                 case HttpStatusCode.UnsupportedMediaType:
                     return new ResponseMessage(false, "errorCode:415UnsupportedMediaType");
                 default:

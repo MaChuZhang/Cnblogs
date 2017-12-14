@@ -20,6 +20,7 @@ using Cnblogs.ApiModel;
 using Com.Umeng.Socialize;
 using Cnblogs.XamarinAndroid.UI.Widgets;
 using Cnblogs.HttpClient;
+using Newtonsoft.Json;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -43,6 +44,14 @@ namespace Cnblogs.XamarinAndroid
         {
             Intent intent = new Intent(context, typeof(DetailNewsActivity));
             intent.PutExtra("id",id);
+            context.StartActivity(intent);
+        }
+        internal static void Enter(Context context, int id,NewsViewModel model)
+        {
+            string newsStr = JsonConvert.SerializeObject(model);
+            Intent intent = new Intent(context, typeof(DetailNewsActivity));
+            intent.PutExtra("id", id);
+            intent.PutExtra("news", newsStr);
             context.StartActivity(intent);
         }
 
@@ -98,7 +107,15 @@ namespace Cnblogs.XamarinAndroid
 
         async void GetClientArticle(int id)
         {
-             news = await SQLiteUtil.SelectNews(id);
+            string newsStr = Intent.GetStringExtra("news");
+            if (string.IsNullOrEmpty(newsStr))//从搜索直接进入的
+            {
+                news = await SQLiteUtil.SelectNews(id);
+            }
+            else
+            {
+                news = JsonConvert.DeserializeObject<NewsViewModel>(newsStr);
+            }
             if (news != null)
             {
                  tv_view.Text = news.ViewCount.ToString();
@@ -129,15 +146,11 @@ namespace Cnblogs.XamarinAndroid
                 var result = await HttpClient.NewsService.GetNewsDetail(AccessTokenUtil.GetToken(this),id);
                 if (result.Success)
                 {
-                    await SQLiteUtil.SelectNews(id).ContinueWith(async (r) =>
-                    {
-                        news = r.Result;
                         news.Body = result.Data;
                         await SQLiteUtil.UpdateNews(news);
                         news.Body = news.Body.ReplaceHtml().Trim('"');
                         string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", news.Body).Replace("#title#",news.Title).Replace("#author#","").Replace("#date#","发布日期："+news.DateAdded.ToString("yyyy年MM月dd日 HH:mm"));
                         wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
-                    });
                 }
             }
             catch (Exception ex)

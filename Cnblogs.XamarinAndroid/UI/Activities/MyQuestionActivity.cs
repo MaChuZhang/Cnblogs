@@ -74,5 +74,18 @@ namespace Cnblogs.XamarinAndroid
         {
            // throw new NotImplementedException();
         }
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.add, menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
+        public override bool OnMenuItemClick(IMenuItem item)
+        {
+            if (item.ItemId == Resource.Id.add)
+            {
+                AddQuestionActivity.Enter(this);
+            }
+            return base.OnMenuItemClick(item);
+        }
     }
 }

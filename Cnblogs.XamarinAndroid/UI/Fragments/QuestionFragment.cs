@@ -29,7 +29,7 @@ namespace Cnblogs.XamarinAndroid
             }
             public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
             {
-                Activity.MenuInflater.Inflate(Resource.Menu.add, menu);
+                Activity.MenuInflater.Inflate(Resource.Menu.question, menu);
             }
             public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
             {

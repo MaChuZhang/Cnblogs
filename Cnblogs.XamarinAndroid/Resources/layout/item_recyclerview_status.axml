@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<!--<android.support.v7.widget.CardView
      xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/dp8"
-     android:layout_marginLeft="@dimen/dp3"
-     android:layout_marginRight="@dimen/dp3"
+    android:layout_marginTop="@dimen/dp5"
     android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@color/white"
     app:cardElevation="2dp"
@@ -15,10 +13,17 @@
      app:cardUseCompatPadding="true"
      app:contentPadding="@dimen/dp10"
     android:orientation="vertical"
-     android:id="@+id/ly_item">
-  <LinearLayout android:layout_height="match_parent"
+     android:id="@+id/ly_item">-->
+  <LinearLayout 
+               xmlns:android="http://schemas.android.com/apk/res/android"
+               xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/dp5"
+                android:background="?attr/selectableItemBackgroundRipple"
+                android:id="@+id/ly_item"
+                android:orientation="vertical"
+                android:padding="@dimen/dp10">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,15 +33,17 @@
           android:layout_height="@dimen/ImgSmall"
           android:layout_width="@dimen/ImgSmall"
           android:id="@+id/iv_userIcon"/>
-      <TextView
-          style="@style/InlineText"
-          android:id="@+id/tv_userDisplayName"
-          android:layout_marginLeft="@dimen/dp5" />
-      <TextView
-          style="@style/InlineText"
-          android:layout_width="match_parent"
-          android:gravity="right"
-          android:id="@+id/tv_dateAdded"/>
+      <LinearLayout android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="@dimen/dp10" 
+                    android:orientation="vertical">
+        <TextView
+            style="@style/InlineText"
+            android:id="@+id/tv_userDisplayName"/>
+        <TextView
+            style="@style/InlineText"
+            android:id="@+id/tv_dateAdded"/>
+      </LinearLayout>
     </LinearLayout>
     <TextView
       style="@style/TitleText"
@@ -47,7 +54,6 @@
     <TextView
         android:id="@+id/tv_commentCount"
         style="@style/InlineText"
-        android:drawableLeft="@drawable/icon_comment"
-        android:layout_gravity="right"/>
+        android:drawableLeft="@drawable/icon_comment"/>
   </LinearLayout>
-</android.support.v7.widget.CardView>
+ 

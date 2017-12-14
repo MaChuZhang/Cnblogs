@@ -20,6 +20,7 @@ using Cnblogs.ApiModel;
 using Com.Umeng.Socialize;
 using Cnblogs.XamarinAndroid.UI.Widgets;
 using Cnblogs.HttpClient;
+using Newtonsoft.Json;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -42,6 +43,14 @@ namespace Cnblogs.XamarinAndroid
         {
             Intent intent = new Intent(context, typeof(DetailKbArticlesActivity));
             intent.PutExtra("id",id);
+            context.StartActivity(intent);
+        }
+        internal static void Enter(Context context, int id,KbArticles kb)
+        {
+            string kbStr = JsonConvert.SerializeObject(kb);
+            Intent intent = new Intent(context, typeof(DetailKbArticlesActivity));
+            intent.PutExtra("id", id);
+            intent.PutExtra("kb", kbStr);
             context.StartActivity(intent);
         }
 
@@ -92,7 +101,15 @@ namespace Cnblogs.XamarinAndroid
 
         async void GetClientArticle(int id)
         {
-             kbArticles = await SQLiteUtil.SelectKbArticles(id);
+            string kbStr = Intent.GetStringExtra("kb");
+            if (string.IsNullOrEmpty(kbStr))
+            {
+                kbArticles = await SQLiteUtil.SelectKbArticles(id);
+            }
+            else
+            {
+                kbArticles = JsonConvert.DeserializeObject<KbArticles>(kbStr);
+            }
             if (kbArticles != null)
             {
                  tv_view.Text = kbArticles.ViewCount.ToString();
@@ -122,15 +139,11 @@ namespace Cnblogs.XamarinAndroid
                 var result = await HttpClient.KbArticlesRequest.GetKbArticlesDetail(AccessTokenUtil.GetToken(this),id);
                 if (result.Success)
                 {
-                    await SQLiteUtil.SelectKbArticles(id).ContinueWith(async (r) =>
-                    {
-                        kbArticles = r.Result;
                         kbArticles.Content = result.Data;
                         await SQLiteUtil.UpdateKbArticles(kbArticles);
                         kbArticles.Content = kbArticles.Content.ReplaceHtml().Trim('"');
                         string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", kbArticles.Content).Replace("#title#",kbArticles.Title).Replace("#author#","作者："+kbArticles.Author).Replace("#date#","发布日期："+kbArticles.DateAdded.ToString("yyyy年MM月dd日 HH:mm"));
                         wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
-                    });
                 }
             }
             catch (Exception ex)
@@ -153,10 +166,5 @@ namespace Cnblogs.XamarinAndroid
             base.OnActivityResult(requestCode,resultCode,data);
             UMShareAPI.Get(this).OnActivityResult(requestCode,(int)resultCode,data);
         }
-
-        //public void OnClick(View v)
-        //{
-        //    ActivityCompat.FinishAfterTransition(this);
-        //}
     }
 }

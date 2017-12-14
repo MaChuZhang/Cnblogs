@@ -1,99 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ly_item">
     <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/ly_startLogin"
-        android:background="@android:color/white"
-        android:clickable="true">
-        <ImageView
-            android:layout_height="@dimen/ImgMiddle"
-            android:layout_width="@dimen/ImgMiddle"
-            android:src="@drawable/icon_userdefault"
-            android:id="@+id/iv_userAvatar" />
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:textSize="@dimen/TextMiddle"
-            android:textColor="@color/subTitleGray"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp13"
-            android:text="@string/login"
-            android:id="@+id/tv_login" />
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
         <LinearLayout
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp5"
+            android:layout_marginBottom="@dimen/dp5"
+            android:gravity="center_vertical">
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_height="@dimen/dp10"
+                android:layout_width="@dimen/dp10"
+                android:src="@drawable/icon_cycle" />
+            <View
+                android:id="@+id/tv_line"
+                android:layout_width="@dimen/dp3"
+                android:layout_height="match_parent"
+                android:background="@android:color/white" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="@dimen/dp13"
-            android:id="@+id/ly_user">
-            <LinearLayout
-                android:layout_height="30dp"
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-                <TextView
-                    android:id="@+id/tv_userName"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/TextMiddle"
-                    android:text="用户名"
-                    android:layout_gravity="center" />
-                <TextView
-                    android:id="@+id/tv_seniority"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/TextSmall"
-                    android:gravity="right"
-                    android:text="园龄" />
-            </LinearLayout>
+            android:orientation="vertical">
             <TextView
-                android:id="@+id/tv_subTitle"
-                android:layout_height="30dp"
+                android:id="@+id/tv_postDate"
+                style="@style/InlineText"
                 android:layout_width="match_parent"
-                android:textColor="@color/subTitleGray"
-                android:textSize="@dimen/TextSmall"
+                android:text="时间"
+                android:gravity="right" />
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/TitleText"
+                android:maxLines="1"
+                android:text="测试标题测试标题测试标题测试标题测试标题测试标题" />
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:ellipsize="end"
+                android:lineSpacingExtra="@dimen/dp5"
+                android:textColor="@color/subTitleGray"
+                android:layout_marginTop="@dimen/dp10"
+                android:text="测试简介测试简介测试简介测试简介测试简介测试简介测试简介测试简介测试简介" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="121212简介简介简介简介简介1212简介21简介简介简介简介简介21121简介简介简介简介简介简介简介简介简介简介简介简介21212简介" />
+                android:layout_marginTop="@dimen/dp5">
+                <TextView
+                    android:id="@+id/tv_diggCount"
+                    android:text="@string/digg"
+                    style="@style/InlineText" />
+                <TextView
+                    android:id="@+id/tv_commentCount"
+                    android:text="@string/comment"
+                    style="@style/InlineText"
+                    android:layout_marginLeft="@dimen/dp10" />
+                <TextView
+                    android:id="@+id/tv_viewCount"
+                    android:text="@string/read"
+                    style="@style/InlineText"
+                    android:layout_marginLeft="@dimen/dp10" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:orientation="horizontal"
-        android:background="@color/white">
-        <TextView
-            android:id="@+id/tv_blog"
-            style="@style/tabText"
-            android:drawableTop="@drawable/selector_menu_blog"
-            android:text="@string/bolgs" />
-        <TextView
-            android:id="@+id/tv_news"
-            style="@style/tabText"
-            android:drawableTop="@drawable/selector_menu_news"
-            android:text="@string/news" />
-        <TextView
-            android:id="@+id/tv_status"
-            style="@style/tabText"
-            android:drawableTop="@drawable/selector_menu_status"
-            android:text="@string/statuses" />
-        <TextView
-            android:id="@+id/tv_question"
-            style="@style/tabText"
-            android:drawableTop="@drawable/selector_menu_question"
-            android:text="@string/question" />
-        <TextView
-            android:id="@+id/tv_userCenter"
-            style="@style/tabText"
-            android:drawableTop="@drawable/selector_menu_userCenter"
-            android:text="@string/userCenter" />
     </LinearLayout>
 </LinearLayout>

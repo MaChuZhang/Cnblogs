@@ -15,8 +15,8 @@ namespace Cnblogs.XamarinAndroid
     {
 
         private ImageView iv_userAvatar;
-        private LinearLayout ly_user, ly_startLogin, ly_myBlog;
-        private TextView tv_login, tv_seniority, tv_userName, tv_subTitle, tv_postCount, tv_myStatus, tv_myQuestion, tv_myBookmark;
+        private LinearLayout ly_user, ly_startLogin, ll_question, ll_status, ll_blog;
+        private TextView tv_login, tv_seniority, tv_userName, tv_subTitle, tv_postCount, tv_myBookmark;
         private DisplayImageOptions options;
         private UserInfo userInfo;
         private UserBlog userBlog;
@@ -52,9 +52,9 @@ namespace Cnblogs.XamarinAndroid
             ly_startLogin = Activity.FindViewById<LinearLayout>(Resource.Id.ly_startLogin);
             tv_subTitle = Activity.FindViewById<TextView>(Resource.Id.tv_subTitle);
             tv_postCount = Activity.FindViewById<TextView>(Resource.Id.tv_postCount);
-            ly_myBlog =Activity.FindViewById<LinearLayout>(Resource.Id.ly_myBlog);
-            tv_myStatus = Activity.FindViewById<TextView>(Resource.Id.tv_myStatus);
-            tv_myQuestion = Activity.FindViewById<TextView>(Resource.Id.tv_myQuestion);
+            ll_blog =Activity.FindViewById<LinearLayout>(Resource.Id.ll_blog);
+            ll_status = Activity.FindViewById<LinearLayout>(Resource.Id.ll_status);
+            ll_question = Activity.FindViewById<LinearLayout>(Resource.Id.ll_question);
             tv_myBookmark = Activity.FindViewById<TextView>(Resource.Id.tv_myBookmark);
             tv_myBookmark.Click += (s, e) =>
             {
@@ -117,15 +117,15 @@ namespace Cnblogs.XamarinAndroid
       {
         tv_userName.Text = userInfo.DisplayName;
         tv_seniority.Text = "Ô°Áä:" + userInfo.Seniority + "»ý·Ö:" + userInfo.Score;
-    ly_myBlog.Click += (s, e) =>
+    ll_blog.Click += (s, e) =>
     {
         MyBlogActivity.Enter(userInfo.BlogApp, Activity);
     };
-    tv_myStatus.Click += (s, e) =>
+            ll_status.Click += (s, e) =>
     {
         MyStatusActivity.Enter(userInfo.BlogApp, Activity);
     };
-    tv_myQuestion.Click += (s, e) =>
+            ll_question.Click += (s, e) =>
     {
         MyQuestionActivity.Enter(userInfo.BlogApp, Activity);
     };

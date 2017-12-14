@@ -55,11 +55,12 @@ namespace Cnblogs.XamarinAndroid.UI.Widgets
                     .Share();
             }
         }
-        public void Open(string  url,string  title,object icon =null)
+        public void Open(string  url,string  title,string desc,object icon =null)
         {
             umWeb = new UMWeb(url);
             umWeb.Title = title;
-            if (icon == null)
+            umWeb.Description = desc;
+            if(string.IsNullOrEmpty(icon.ToString()))
             {
                 umWeb.SetThumb(new UMImage(context, Resource.Drawable.icon_app));
             }

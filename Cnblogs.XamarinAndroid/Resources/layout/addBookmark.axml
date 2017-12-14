@@ -26,7 +26,6 @@
                 android:editable="false"
                 android:textSize="@dimen/TextMiddle"
                 android:layout_marginLeft="@dimen/dp10"
-                android:background="@null"
                 android:lineSpacingExtra="3dp" />
         </LinearLayout>
         <LinearLayout
@@ -45,7 +44,6 @@
                 android:editable="false"
                 android:textSize="@dimen/TextMiddle"
                 android:layout_marginLeft="@dimen/dp10"
-                android:background="@null"
                 android:lineSpacingExtra="3dp" />
         </LinearLayout>
         <LinearLayout

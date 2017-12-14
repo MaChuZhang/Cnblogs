@@ -209,62 +209,71 @@ namespace UMengTest
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f080009
-			public const int progress_bar_parent = 2131230729;
-			
-			// aapt resource value: 0x7f08000a
-			public const int root = 2131230730;
-			
-			// aapt resource value: 0x7f080000
-			public const int socialize_image_view = 2131230720;
-			
 			// aapt resource value: 0x7f080001
-			public const int socialize_text_view = 2131230721;
-			
-			// aapt resource value: 0x7f080004
-			public const int umeng_back = 2131230724;
-			
-			// aapt resource value: 0x7f080012
-			public const int umeng_del = 2131230738;
-			
-			// aapt resource value: 0x7f08000f
-			public const int umeng_image_edge = 2131230735;
-			
-			// aapt resource value: 0x7f080005
-			public const int umeng_share_btn = 2131230725;
-			
-			// aapt resource value: 0x7f080010
-			public const int umeng_share_icon = 2131230736;
-			
-			// aapt resource value: 0x7f080006
-			public const int umeng_socialize_follow = 2131230726;
-			
-			// aapt resource value: 0x7f080007
-			public const int umeng_socialize_follow_check = 2131230727;
-			
-			// aapt resource value: 0x7f08000e
-			public const int umeng_socialize_share_bottom_area = 2131230734;
-			
-			// aapt resource value: 0x7f08000c
-			public const int umeng_socialize_share_edittext = 2131230732;
-			
-			// aapt resource value: 0x7f08000b
-			public const int umeng_socialize_share_titlebar = 2131230731;
-			
-			// aapt resource value: 0x7f08000d
-			public const int umeng_socialize_share_word_num = 2131230733;
+			public const int Text017_01 = 2131230721;
 			
 			// aapt resource value: 0x7f080002
-			public const int umeng_socialize_titlebar = 2131230722;
+			public const int TextCommonSpecimen = 2131230722;
+			
+			// aapt resource value: 0x7f080000
+			public const int commonSpecimenLayout = 2131230720;
+			
+			// aapt resource value: 0x7f08000c
+			public const int progress_bar_parent = 2131230732;
+			
+			// aapt resource value: 0x7f08000d
+			public const int root = 2131230733;
 			
 			// aapt resource value: 0x7f080003
-			public const int umeng_title = 2131230723;
+			public const int socialize_image_view = 2131230723;
 			
-			// aapt resource value: 0x7f080011
-			public const int umeng_web_title = 2131230737;
+			// aapt resource value: 0x7f080004
+			public const int socialize_text_view = 2131230724;
+			
+			// aapt resource value: 0x7f080007
+			public const int umeng_back = 2131230727;
+			
+			// aapt resource value: 0x7f080015
+			public const int umeng_del = 2131230741;
+			
+			// aapt resource value: 0x7f080012
+			public const int umeng_image_edge = 2131230738;
 			
 			// aapt resource value: 0x7f080008
-			public const int webView = 2131230728;
+			public const int umeng_share_btn = 2131230728;
+			
+			// aapt resource value: 0x7f080013
+			public const int umeng_share_icon = 2131230739;
+			
+			// aapt resource value: 0x7f080009
+			public const int umeng_socialize_follow = 2131230729;
+			
+			// aapt resource value: 0x7f08000a
+			public const int umeng_socialize_follow_check = 2131230730;
+			
+			// aapt resource value: 0x7f080011
+			public const int umeng_socialize_share_bottom_area = 2131230737;
+			
+			// aapt resource value: 0x7f08000f
+			public const int umeng_socialize_share_edittext = 2131230735;
+			
+			// aapt resource value: 0x7f08000e
+			public const int umeng_socialize_share_titlebar = 2131230734;
+			
+			// aapt resource value: 0x7f080010
+			public const int umeng_socialize_share_word_num = 2131230736;
+			
+			// aapt resource value: 0x7f080005
+			public const int umeng_socialize_titlebar = 2131230725;
+			
+			// aapt resource value: 0x7f080006
+			public const int umeng_title = 2131230726;
+			
+			// aapt resource value: 0x7f080014
+			public const int umeng_web_title = 2131230740;
+			
+			// aapt resource value: 0x7f08000b
+			public const int webView = 2131230731;
 			
 			static Id()
 			{

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Hello">Hello World, Click Me!</string>
-    <string name="ApplicationName">看博客</string>
+    <string name="ApplicationName">博客园</string>
     <string name="AppTitle">博客开放平台,全网最全的博客</string>
     <string name="CnblogsTitle">博客园</string>
     <string name="CnblogsSubTitle">代码改变世界</string>
@@ -14,6 +14,7 @@
   
   <string name="ClickLogin">点击头像登录</string>
   <!--菜单-->
+  <string name="news2">新闻</string>
   <string name="bolgs">博客</string>
   <string name="news">资讯</string>
   <string name="comment">评论</string>
@@ -44,6 +45,7 @@
   <string name="status_add">发布闪存</string>
 
   <string name="question">问答</string>
+  <string name="question_add">发布问答</string>
   <string name="question_unsolved">最新</string>
   <string name="question_highscore">高分</string>
   <string name="question_noanswer">待解决</string>
@@ -84,4 +86,6 @@
   <!--Tab-->
   <string name="HomeTabsBlog">博客</string>
   <string name="HomeTabsHot">精华</string>
+
+  <string name="zzk">找找看</string>
 </resources>

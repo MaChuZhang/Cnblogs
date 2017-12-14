@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="Cnblogs.XamarinAndroid.Cnblogs.XamarinAndroid" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="Cnblogs.XamarinAndroid.Cnblogs.XamarinAndroid2" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="16" />
 	<!--检查网络状态-->
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -30,27 +30,18 @@
 				<data android:scheme="tencent100424468" />
 			</intent-filter>
 		</activity>
-    
 		<!--微信-->
-    <activity android:name=".WBShareActivity" android:configChanges="keyboardHidden|orientation" android:screenOrientation="portrait"/>
+		<activity android:name=".wxapi.WXEntryActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:exported="true" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 		<!--qq-->
-		<activity android:name="com.umeng.qq.tencent.AssistActivity" 
-              android:configChanges="orientation|keyboardHidden|screenSize" 
-              android:screenOrientation="portrait" 
-              android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+		<activity android:name="com.umeng.qq.tencent.AssistActivity" android:configChanges="orientation|keyboardHidden|screenSize" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 		<!--微博-->
-		<activity android:name=".WBShareActivity" 
-              android:configChanges="keyboardHidden|orientation" 
-              android:screenOrientation="portrait">
+		<activity android:name=".WBShareActivity" android:configChanges="keyboardHidden|orientation" android:screenOrientation="portrait">
 			<intent-filter>
 				<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-    <!--分享编辑页-->
-    <activity
-        android:name="com.umeng.socialize.editorpage.ShareActivity"
-        android:excludeFromRecents="true"
-        android:theme="@style/Theme.UMDefault"/>
+		<!--分享编辑页-->
+		<activity android:name="com.umeng.socialize.editorpage.ShareActivity" android:excludeFromRecents="true" android:theme="@style/Theme.UMDefault" />
 	</application>
 </manifest>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <include
+        layout="@layout/child_toolbar" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="@dimen/dp15"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/dp10">
+            <TextView
+                style="@style/InlineText"
+                android:text="标题" />
+            <EditText
+                android:id="@+id/edit_title"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/TextMiddle"
+                android:layout_marginLeft="@dimen/dp10"
+                android:hint="标题6-200分字符"
+                android:lineSpacingExtra="3dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginBottom="@dimen/dp10"
+            android:id="@+id/ll_content">
+            <TextView
+                style="@style/InlineText"
+                android:text="标签"/>
+            <EditText
+                android:id="@+id/edit_tags"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:hint="不能超过5个标签,以中文都好隔开"
+                android:textSize="@dimen/TextMiddle"
+                android:layout_marginLeft="@dimen/dp10"
+                android:lineSpacingExtra="3dp" />
+        </LinearLayout>
+
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="200dp"
+          android:padding="@dimen/dp10"
+                      android:layout_marginTop="@dimen/dp10"
+      android:layout_marginBottom="@dimen/dp10"
+          android:background="@drawable/shape_corner_round"
+          android:layout_marginLeft="@dimen/dp10">
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/edit_content"
+            android:hint="提问内容20-100000个字符之间"
+            android:background="@null"
+            android:lineSpacingExtra="3dp"
+            android:editable="true"
+            android:textSize="@dimen/TextMiddle" />
+      </LinearLayout>        
+        <RadioGroup
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/rg_flags"
+            android:layout_gravity="center_vertical|right">
+            <RadioButton
+                android:id="@+id/rb_true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="首页"
+                android:checked="true" />
+            <RadioButton
+                android:id="@+id/rb_false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp20"
+                android:text="草稿" />
+        </RadioGroup>
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:id="@+id/ly_expire"
+            android:layout_marginTop="@dimen/dp20">
+            <TextView
+                android:text="未登录或登录token已经过期，请"
+                style="@style/InlineText"
+                android:textSize="@dimen/TextMiddle" />
+            <TextView
+                android:id="@+id/tv_startLogin"
+                android:text="立即登录"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/TextMiddle" />
+        </LinearLayout>
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/question_add"
+            android:background="@drawable/selector_btn_primary"
+            android:layout_marginTop="@dimen/dp15"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:id="@+id/btn_submit"
+            android:enabled="false" />
+    </LinearLayout>
+</LinearLayout>

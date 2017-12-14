@@ -45,4 +45,8 @@
     <item>@string/dialogmenu_edit</item>
     <item>@string/dialogmenu_download</item>
   </string-array>
+
+  <string-array name="DialogDelete">
+    <item>@string/dialogmenu_delete</item>
+  </string-array>
 </resources>

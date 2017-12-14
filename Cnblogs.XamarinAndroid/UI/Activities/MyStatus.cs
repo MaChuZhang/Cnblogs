@@ -58,6 +58,19 @@ namespace Cnblogs.XamarinAndroid
             _tab.SetupWithViewPager(_viewPager);
             _tab.SetOnTabSelectedListener(this);
         }
+        public override bool OnMenuItemClick(IMenuItem menuItem)
+        {
+            if (menuItem.ItemId == Resource.Id.add)
+            {
+                AddStatusActivity.Enter(this);
+            }
+            return true;
+        }
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.add,menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
 
         public void OnTabReselected(TabLayout.Tab tab)
         {

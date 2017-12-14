@@ -123,6 +123,19 @@ namespace Cnblogs.HttpClient
         /// </summary>
         public const string StatusBody = Host + Api + "/statuses/{0}";
         /// <summary>
+        /// 发布闪存
+        /// </summary>
+        public const string StatusAdd = Host + Api + "/statuses";
+        /// <summary>
+        /// 删除闪存
+        /// </summary>
+        public const string StatusDelete = Host + Api + "/statuses/{0}";
+        /// <summary>
+        /// 删除我的评论闪存
+        /// </summary>
+        public const string StatusDeleteComment = Host + Api + "/statuses/{0}/comments/{1}";
+
+        /// <summary>
         /// 分页获取首页博问列表
         /// </summary>
         public const string Questions = Host + Api + "/questions/@sitehome?pageIndex={0}&pageSize={1}";
@@ -135,5 +148,11 @@ namespace Cnblogs.HttpClient
         /// 获取根据id博问详情
         /// </summary>
         public const string QuestionDetail = Host + Api + "/questions/{0}";
+        /// <summary>
+        /// 添加问答
+        /// </summary>
+        public const string QuestionAdd= Host + Api + "/questions";
+
+        public const string Zzk = Host + Api + "/ZzkDocuments/{0}?keyWords={1}&pageIndex={2}";
     }
 }

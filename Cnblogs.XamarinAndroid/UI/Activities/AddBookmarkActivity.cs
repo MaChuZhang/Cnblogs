@@ -36,6 +36,12 @@ namespace Cnblogs.XamarinAndroid
         private LinearLayout ly_expire;
         private  string mode;
         private int wzLinkId;
+        internal static void Enter(Context context, string mode)
+        {
+            Intent intent = new Intent(context, typeof(AddBookmarkActivity));
+            intent.PutExtra("mode", mode);
+            context.StartActivity(intent);
+        }
         internal static void Enter(Context context, string url, string title,string mode)
         {
             Intent intent = new Intent(context, typeof(AddBookmarkActivity));
@@ -81,12 +87,11 @@ namespace Cnblogs.XamarinAndroid
             string url = Intent.GetStringExtra("url");
             mode = Intent.GetStringExtra("mode");
 
-            edit_url.Text = url;
-            edit_title.Text = title;
+            edit_url.Text   = string.IsNullOrEmpty(url)?"":url;
+            edit_title.Text = string.IsNullOrEmpty(title)?"":title;
             Token token = UserTokenUtil.GetToken(this);
             if (mode == "edit")
             {
-                edit_title.Focusable = true;
                 string editTitle = Resources.GetString(Resource.String.bookmark_edit);
                 btn_submit.Text = editTitle;
                 SetToolBarTitle(editTitle);
@@ -102,11 +107,11 @@ namespace Cnblogs.XamarinAndroid
                     edit_tags.Text = tags;
                 }
             }
-            if (mode == "add")
+            else if (mode == "add")
             {
-                edit_title.Focusable = false;
                 btn_submit.Text = "ÃÌº” ’≤ÿ";
             }
+            //≈–∂œ «∑Òµ«¬º
             if (token.IsExpire)
             {
                 btn_submit.Enabled = false;

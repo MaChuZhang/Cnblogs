@@ -19,6 +19,7 @@ namespace Cnblogs.XamarinAndroid
     public abstract class BaseActivity : AppCompatActivity, Toolbar.IOnMenuItemClickListener
     {
         private Toolbar toolbar;
+        private InitApp application;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -32,7 +33,17 @@ namespace Cnblogs.XamarinAndroid
                 SetSupportActionBar(toolbar);
                 toolbar.SetOnMenuItemClickListener(this);
             }
+            if (application == null)
+                application = (InitApp)ApplicationContext;
             // Create your application here
+        }
+        protected void addActivity(Activity context)
+        {
+            application.addActivity(context);
+        }
+        protected void removeAllActivity()
+        {
+            application.removeAllActivity();
         }
         protected abstract int LayoutResourceId
         {
@@ -73,7 +84,6 @@ namespace Cnblogs.XamarinAndroid
         //    if(isBack)
         //       ActivityCompat.FinishAfterTransition(this);
         //}
-
         public virtual bool OnMenuItemClick(IMenuItem item)
         {
             // throw new NotImplementedException();

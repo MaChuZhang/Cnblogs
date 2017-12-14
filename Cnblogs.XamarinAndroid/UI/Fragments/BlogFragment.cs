@@ -52,7 +52,8 @@ namespace Cnblogs.XamarinAndroid
             adapter=new BlogFragmentTabsAdapter(this.ChildFragmentManager,Resources.GetStringArray(Resource.Array.HomeTabs));
 
             _viewPagerHome.Adapter = adapter;
-            _tabHome.TabMode = TabLayout.GravityCenter;
+            _tabHome.TabMode = TabLayout.ModeFixed;
+            _tabHome.TabGravity = TabLayout.GravityFill;
             _tabHome.SetupWithViewPager(_viewPagerHome);
             _tabHome.SetOnTabSelectedListener(this);
 

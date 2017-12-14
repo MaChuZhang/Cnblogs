@@ -161,9 +161,23 @@ namespace Cnblogs.XamarinAndroid
                     AlertUtil.ToastShort(this.Activity, tag);
                     StatusesCommentActivity.Enter(Activity, int.Parse(tag));
             };
-            adapter.ItemLongClick += (tag, position) =>
+            adapter.ItemLongClick += (tag, _position) =>
             {
-                AlertUtil.ToastShort(this.Activity, tag);
+                if (Activity is MyStatusActivity&&position==0)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Activity);
+                    builder.SetCancelable(true);
+                    string[] btns = Resources.GetStringArray(Resource.Array.DialogDelete);
+                    var model = statusList.Find(f => f.Id == int.Parse(tag));
+                    builder.SetItems(btns, (s, e) =>
+                    {
+                        if (e.Which == 0)
+                        {
+                            Delete(model);
+                        }
+                    }).Show();
+                   //AlertUtil.ToastShort(this.Activity, tag);
+                }
             };
             string comment = Resources.GetString(Resource.String.comment);
                 adapter.OnConvertView += (holder, position) =>
@@ -174,9 +188,30 @@ namespace Cnblogs.XamarinAndroid
                     holder.SetText(Resource.Id.tv_dateAdded, statusList[position].DateAdded.ToCommonString());
                     (holder.GetView<TextView>(Resource.Id.tv_content)).SetText(HtmlUtil.GetHtml(statusList[position].Content), TextView.BufferType.Spannable);
                     holder.SetText(Resource.Id.tv_userDisplayName, statusList[position].UserDisplayName);
-                    holder.GetView<CardView>(Resource.Id.ly_item).Tag = statusList[position].Id.ToString();
+                    holder.GetView<LinearLayout>(Resource.Id.ly_item).Tag = statusList[position].Id.ToString();
                     holder.SetImageLoader(Resource.Id.iv_userIcon, options,statusList[position].UserIconUrl);
                 };
+        }
+        private void Delete(StatusModel model)
+        {
+            ProgressDialog progressDialog = new ProgressDialog(Activity);
+            progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
+            progressDialog.SetMessage("É¾³ýÖÐ....");
+            progressDialog.Show();
+            StatusRequest.Delete(UserTokenUtil.GetToken(Activity),model.Id,(success)=> {
+                Activity.RunOnUiThread(() =>
+                {
+                    progressDialog.Hide();
+                    statusList.Remove(model);
+                    adapter.SetNewData(statusList);
+                });
+            },(error)=> {
+                Activity.RunOnUiThread(() =>
+                {
+                    progressDialog.Hide();
+                    AlertUtil.ToastShort(Activity, error);
+                });
+            });
         }
         private async Task<List<StatusModel>> listStatusServer()
         {

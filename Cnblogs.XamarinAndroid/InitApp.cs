@@ -5,26 +5,41 @@ using Android.Runtime;
 using Android.Widget;
 using Com.Umeng.Socialize;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Cnblogs.Droid
+namespace Cnblogs.XamarinAndroid
 {
     [Application]
-    public class App : Application
+    public class InitApp : Application
     {
-        public App() { }
-        public App(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
+        public InitApp() { }
+        public InitApp(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
+        private List<Activity> activities;
         public override void OnCreate()
         {
             base.OnCreate();
             Config.Debug =true;
-            PlatformConfig.SetWeixin("wxcf8f642a8aa4c630", "76ebc29b4194164aee32eedff2e17900");
+            PlatformConfig.SetWeixin("wx633888643fbae319", "90af1431fb8a7a191394238799178360");
             PlatformConfig.SetSinaWeibo("1422675167", "02975c36afd93d3ae983f8da9e596b86", "https://api.weibo.com/oauth2/default.html");
             PlatformConfig.SetQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
             if (!BuildConfig.Debug)
             {
                 AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
             }
+            activities = new List<Activity>();
+        }
+        internal void addActivity(Activity activity)
+        {
+            if (!activities.Contains(activity))
+            {
+                activities.Add(activity);
+            }
+        }
+        internal void removeAllActivity()
+        {
+            activities.ForEach(activity => { activity.Finish(); });
+            System.Diagnostics.Debug.Write("finsh all activity success");
         }
 
         protected override void Dispose(bool disposing)
@@ -37,7 +52,7 @@ namespace Cnblogs.Droid
             await Task.Run(() =>
             {
                 Looper.Prepare();
-                Toast.MakeText(this, Resources.GetString(Resource.String.Cut), ToastLength.Long).Show();
+                Toast.MakeText(this, Resources.GetString(Resource.String.search), ToastLength.Long).Show();
                 Looper.Loop();
             });
             System.Text.StringBuilder sb = new System.Text.StringBuilder();

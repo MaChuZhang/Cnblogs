@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Cnblogs.ApiModel;
 using Cnblogs.HttpClient;
+using Newtonsoft.Json;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -115,6 +116,74 @@ namespace Cnblogs.XamarinAndroid
             userInfo.PageSize = BaseShared.Instance(context, fileName).GetInt("PageSize",10);
             userInfo.EnableScript = BaseShared.Instance(context, fileName).GetBool("EnableScript",false);
             return userInfo;
+        }
+    }
+
+    public class SearchHistoryShared
+    {
+        private const string fileName = "SearchHistory";
+        public static void SetSearchHistory(string  keyword, Context context)
+        {
+            var dict = GetSearchHistory(context);
+            if (dict == null)
+                dict = new Dictionary<string, DateTime>();
+            if (dict.ContainsKey(keyword))
+                return;
+            if (dict.Count == 10)
+            {
+                var minKeyword =  dict.Select(s => s.Value).Min();
+                var removeKey = dict.First(f => f.Value == minKeyword).Key;
+                dict.Remove(removeKey);
+            }
+                dict.Add(keyword, DateTime.Now);
+                string str = JsonConvert.SerializeObject(dict);
+                BaseShared.Instance(context, fileName).SetString(fileName,str);
+        }
+        public static Dictionary<string,DateTime> GetSearchHistory(Context context)
+        {
+            try
+            {
+                string str = BaseShared.Instance(context, fileName).GetString(fileName, "");
+                Dictionary<string, DateTime> dict = JsonConvert.DeserializeObject<Dictionary<string, DateTime>>(str);
+                dict = dict.OrderByDescending(p => p.Value).ToDictionary(p => p.Key, o => o.Value);
+                return dict;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Write(ex.ToString());
+                return null;
+            }
+        }
+        public static bool  DeleteSearchHistory(string keyword, Context context)
+        {
+            try
+            {
+                var dict = GetSearchHistory(context);
+                if (dict == null || dict.Count == 0 || !dict.ContainsKey(keyword))
+                    return false;
+                dict.Remove(keyword);
+                string str = JsonConvert.SerializeObject(dict);
+                BaseShared.Instance(context, fileName).SetString(fileName, str);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Write(ex.ToString());
+                return false;
+            }
+        }
+        public static bool DeleteSearchHistory(Context context)
+        {
+            try
+            {
+                BaseShared.Instance(context, fileName).SetString(fileName, "");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Write(ex.ToString());
+                return false;
+            }
         }
     }
 }

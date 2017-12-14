@@ -28,22 +28,24 @@ using System.Threading.Tasks;
 namespace Cnblogs.XamarinAndroid
 {
     [Activity(Label = "StatusesCommentActivity", Theme = "@style/AppTheme")]
-    public class StatusesCommentActivity : BaseActivity,SwipeRefreshLayout.IOnRefreshListener,View.IOnClickListener
+    public class StatusesCommentActivity : BaseActivity,View.IOnClickListener
     {
         //private Toolbar toolbar;
-        private TextView tv_userDisplayName, tv_dateAdded, tv_content,tv_view,tv_commentContent, tv_commentUserName, tv_floor,tv_commentDateAdded;
-        private ImageView iv_userIcon, iv_commentUserIcon;
+        private TextView tv_userDisplayName, tv_dateAdded, tv_content;
+        private ImageView iv_userIcon;
         private int statusId;
-        DisplayImageOptions options;
-
+        private DisplayImageOptions options;
+        private EditText edit_content;
+        private Button btn_submit;
         private StatusModel status;
         private UMengShareWidget shareWidget;
 
         private RecyclerView _recyclerView;
-        //private SwipeRefreshLayout _swipeRefreshLayout;
+        private SwipeRefreshLayout _swipeRefreshLayout;
         private BaseRecyclerViewAdapter<StatusCommentsModel> adapter;
         private List<StatusCommentsModel> listStatusComment;
-        private int pageIndex = 1;
+        private int parentCommentId, replyToUserId;
+        private string atUserName,displayUserName;
         protected override int LayoutResourceId => Resource.Layout.statusesComment;
 
         protected override string ToolBarTitle => Resources.GetString(Resource.String.comment);
@@ -66,25 +68,40 @@ namespace Cnblogs.XamarinAndroid
                   .Displayer(new DisplayerImageCircle(20))
                   .Build();
             SetToolBarNavBack();
+            _swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
+            _swipeRefreshLayout.SetColorScheme(Resource.Color.primary);
             tv_dateAdded = FindViewById<TextView>(Resource.Id.tv_dateAdded);
             tv_userDisplayName = FindViewById<TextView>(Resource.Id.tv_userDisplayName);
             iv_userIcon = FindViewById<ImageView>(Resource.Id.iv_userIcon);
             tv_content = FindViewById<TextView>(Resource.Id.tv_content);
-            //            tv_view = FindViewById<TextView>(Resource.Id.tv_view);
-
+            edit_content = FindViewById<EditText>(Resource.Id.edit_content);
+            btn_submit = FindViewById<Button>(Resource.Id.btn_submit);
+            btn_submit.Click += AddCommentClick;
             statusId = Intent.GetIntExtra("id", 0);
             GetClientStatus(statusId);
             shareWidget = new UMengShareWidget(this);
             _recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new LinearLayoutManager(this));
 
-            listStatusComment = await listStatusCommentsServer(pageIndex);
 
-            //statusList = await listStatusLocal();
-            if (listStatusComment != null)
+            _swipeRefreshLayout.Post(()=> {
+                _swipeRefreshLayout.Refreshing = true;
+            });
+            _swipeRefreshLayout.Refresh += async (s, e) =>
             {
-                initRecycler();
-            }
+                await StatusRequest.ListStatusComment(AccessTokenUtil.GetToken(this), statusId, callBackSuccess, callBackError);
+            };
+            edit_content.TextChanged += (s, e) =>
+            {
+                if (string.IsNullOrEmpty(edit_content.Text.Trim()))
+                {
+                    btn_submit.Enabled = false;
+                }
+                else
+                    btn_submit.Enabled = true;
+            };
+            AlertUtil.ToastShort(this,"线程ID"+System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
+           await StatusRequest.ListStatusComment(AccessTokenUtil.GetToken(this), statusId, callBackSuccess, callBackError);
             _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this, (int)Orientation.Vertical));
         }
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -119,56 +136,35 @@ namespace Cnblogs.XamarinAndroid
 
             }
         }
-        private async Task<List<StatusCommentsModel>> listStatusCommentsServer(int _pageIndex)
-        {
-            pageIndex = _pageIndex;
-            var result = await  StatusRequest.ListStatusComment(AccessTokenUtil.GetToken(this), statusId);
-            if (result.Success)
-            {
-               // _swipeRefreshLayout.Refreshing = false;
-                try
-                {
-
-                    await SQLiteUtil.UpdateStatusCommentList(result.Data);
-                    return result.Data;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.Write(ex.ToString());
-                    return null;
-                }
-            }
-            return null;
-        }
-        private async void LoadMore()
-        {
-            pageIndex++;
-            var tempList = await listStatusCommentServer();
-            listStatusComment.AddRange(tempList);
-            if (tempList.Count == 0)
-            {
-                return;
-            }
-            else if (listStatusComment != null)
-            {
-                adapter.SetNewData(listStatusComment);
-                System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + listStatusComment.Count);
-            }
-        }
-        async void initRecycler()
+        void initRecycler()
         {
             listStatusComment = listStatusComment.OrderByDescending(s => s.DateAdded).ToList();
-            adapter = new BaseRecyclerViewAdapter<StatusCommentsModel>(this,listStatusComment, Resource.Layout.item_recyclerview_statusComment, LoadMore);
+            adapter = new BaseRecyclerViewAdapter<StatusCommentsModel>(this, listStatusComment, Resource.Layout.item_recyclerview_statusComment, ()=> { });
             _recyclerView.SetAdapter(adapter);
-            //adapter.ItemClick += (position, tag) =>
-            //{
-            //    System.Diagnostics.Debug.Write(position, tag);
-            //    AlertUtil.ToastShort(this, tag);
-            //    DetailKbArticlesActivity.Enter(this, int.Parse(tag));
-            //};
-            adapter.ItemClick+= (position, tag) =>
+            adapter.ItemClick += (position, tag) =>
+             {
+                 var currentCommentModel = listStatusComment.Find(p => p.Id == int.Parse(tag));
+                 var userInfo = UserInfoShared.GetUserInfo(this);
+                 if (userInfo.DisplayName == currentCommentModel.UserDisplayName)
+                 {
+                     return;
+                 }
+                 parentCommentId = currentCommentModel.Id;
+                 replyToUserId = currentCommentModel.UserId;
+                 atUserName = "<a href='http://home.cnblogs.com/u/"+currentCommentModel.UserId+"'>@"+currentCommentModel.UserDisplayName+"：</a>";
+                 displayUserName = currentCommentModel.UserDisplayName;
+                 edit_content.SetText(HtmlUtil.GetHtml(atUserName), TextView.BufferType.Spannable);
+                // edit_content.Text = "@"+currentCommentModel.UserDisplayName;
+             };
+            adapter.ItemLongClick += (tag, position) =>
             {
-
+                //删除我评论闪存
+                var model = listStatusComment.Find(f=>f.Id==int.Parse(tag));
+               var  user = UserInfoShared.GetUserInfo(this);
+                if (model.UserDisplayName==user.DisplayName)
+                {
+                    DeleteComment(model);
+                }
             };
             string read = Resources.GetString(Resource.String.read);
             string digg = Resources.GetString(Resource.String.digg);
@@ -176,44 +172,102 @@ namespace Cnblogs.XamarinAndroid
             {
                 holder.SetText(Resource.Id.tv_commentDateAdded, listStatusComment[position].DateAdded.ToCommonString());
                 (holder.GetView<TextView>(Resource.Id.tv_commentContent)).SetText(HtmlUtil.GetHtml(listStatusComment[position].Content), TextView.BufferType.Spannable);
-                holder.SetImageLoader(Resource.Id.iv_commentUserIcon,options,listStatusComment[position].UserIconUrl);
+                holder.SetImageLoader(Resource.Id.iv_commentUserIcon, options, listStatusComment[position].UserIconUrl);
                 holder.SetText(Resource.Id.tv_commentUserName, listStatusComment[position].UserDisplayName);
-                holder.SetText(Resource.Id.tv_floor, adapter.ItemCount-position +"楼");
+                holder.SetText(Resource.Id.tv_floor, adapter.ItemCount - position-1 + "楼");
                 holder.SetTag(Resource.Id.ly_item, listStatusComment[position].Id.ToString());
             };
         }
-
-        public async void OnRefresh()
+        //删除我的闪存评论
+        void DeleteComment(StatusCommentsModel model)
         {
-            if (pageIndex > 1)
-                pageIndex = 1;
-            var tempList = await listStatusCommentServer();
-            if (tempList != null)
+            Android.Support.V7.App.AlertDialog.Builder builder = new Android.Support.V7.App.AlertDialog.Builder(this);
+            builder.SetCancelable(true);
+            string[] btns = Resources.GetStringArray(Resource.Array.DialogDelete);
+            builder.SetItems(btns, (s, e) =>
             {
-                listStatusComment = tempList;
-               // _swipeRefreshLayout.Refreshing = false;
-                adapter.SetNewData(tempList);
-            }
+                ProgressDialog progressDialog = new ProgressDialog(this);
+                progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
+                progressDialog.SetMessage("删除中....");
+                progressDialog.Show();
+                StatusRequest.DeleteComment(UserTokenUtil.GetToken(this),model.StatusId.ToString(),model.Id.ToString(),()=> {
+                    RunOnUiThread(() =>
+                    {
+                        progressDialog.Hide();
+                        listStatusComment.Remove(model);
+                        adapter.SetNewData(listStatusComment);
+                        AlertUtil.ToastShort(this,"删除成功");
+                    });
+                },
+                (error=> {
+                    RunOnUiThread(() =>
+                    {
+                        progressDialog.Hide();
+                        AlertUtil.ToastShort(this, error);
+                    });
+                }));
+            }).Show();
         }
 
-        private async Task<List<StatusCommentsModel>> listStatusCommentServer()
+        //添加闪存评论事件
+        public async void AddCommentClick(Object o, EventArgs e)
         {
-            var result = await StatusRequest.ListStatusComment(AccessTokenUtil.GetToken(this), pageIndex);
+            string content = edit_content.Text.Trim();
+            if (string.IsNullOrEmpty(content))
+                return;
+            content =content.Replace(displayUserName, displayUserName+" ");
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
+            progressDialog.SetMessage("添加评论中....");
+            progressDialog.Show();
+            var result = await StatusRequest.AddComment(UserTokenUtil.GetToken(this), statusId.ToString(), replyToUserId,parentCommentId, content);
             if (result.Success)
             {
-                //_swipeRefreshLayout.Refreshing = false;
-                try
+                RunOnUiThread(async () =>
                 {
-                    await SQLiteUtil.UpdateStatusCommentList(result.Data);
-                    return result.Data;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.Write(ex.ToString());
-                    return null;
-                }
+                    progressDialog.Hide();
+                    await StatusRequest.ListStatusComment(AccessTokenUtil.GetToken(this), statusId, callBackSuccess, callBackError);
+                    edit_content.Text = "";
+                    AlertUtil.ToastShort(this, "评论成功");
+                });
             }
-            return null;
+            else
+            {
+                RunOnUiThread(() =>
+                {
+                    progressDialog.Hide();
+                    AlertUtil.ToastShort(this,result.Message);
+                });
+            }
+        }
+        //请求闪存评论成功的回调
+        async void callBackSuccess(List<StatusCommentsModel> list)
+        {
+            AlertUtil.ToastShort(this, "线程ID" + System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
+            try
+            {
+                await SQLiteUtil.UpdateStatusCommentList(list);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            listStatusComment = list;
+            initRecycler();
+            _swipeRefreshLayout.PostDelayed(() =>
+            {
+                _swipeRefreshLayout.Refreshing = false;
+            }, 500);
+        }
+        //请求闪存评论失败的回调
+        void callBackError(string  error)
+        {
+            AlertUtil.ToastShort(this, "线程ID" + System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
+            _swipeRefreshLayout.PostDelayed(() =>
+            {
+                _swipeRefreshLayout.Refreshing = false;
+            }, 1000);
+            AlertUtil.ToastShort(this,"获取数据失败"+error);
         }
 
         public override bool OnMenuItemClick(IMenuItem item)

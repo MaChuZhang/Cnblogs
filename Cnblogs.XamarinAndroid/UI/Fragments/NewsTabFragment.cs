@@ -120,78 +120,7 @@ namespace Cnblogs.XamarinAndroid
                 }
             }
         }
-        #region 知识库
-        private async Task<List<KbArticles>> listKbArticlesServer()
-        {
-            var result = await KbArticlesRequest.GetKbArticlesList(AccessTokenUtil.GetToken(this.Activity), pageIndex);
-            if (result.Success)
-            {
-                _swipeRefreshLayout.Refreshing = false;
-                try
-                {
-
-                    await SQLiteUtil.UpdateKbArticlesList(result.Data);
-                    return result.Data;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.Write(ex.ToString());
-                    return null;
-                }
-            }
-            return null;
-        }
-        private async Task<List<KbArticles>> listKbArticleLocal()
-        {
-            kbArticlesList = await SQLiteUtil.SelectKbArticleList(Constact.PageSize);
-            return kbArticlesList;
-        }
-
-        async void initRecyclerKbArticles()
-        {
-            adapterKbArticles = new BaseRecyclerViewAdapter<KbArticles>(this.Activity, kbArticlesList, Resource.Layout.item_recyclerview_kbarticles, LoadMoreKbarticles);
-            _recyclerView.SetAdapter(adapterKbArticles);
-            adapterKbArticles.ItemClick += (position, tag) =>
-            {
-                System.Diagnostics.Debug.Write(position, tag);
-                AlertUtil.ToastShort(this.Activity, tag);
-                DetailKbArticlesActivity.Enter(Activity, int.Parse(tag));
-            };
-            adapterKbArticles.ItemLongClick += (tag, position) =>
-            {
-                AlertUtil.ToastShort(this.Activity, tag);
-            };
-            string read = Resources.GetString(Resource.String.read);
-            string digg = Resources.GetString(Resource.String.digg);
-
-            adapterKbArticles.OnConvertView += (holder, position) =>
-            {
-                holder.SetText(Resource.Id.tv_dateAdded, kbArticlesList[position].DateAdded.ToCommonString());
-                holder.SetText(Resource.Id.tv_viewCount, kbArticlesList[position].ViewCount + " " + read);
-                holder.SetText(Resource.Id.tv_summary, kbArticlesList[position].Summary);
-                holder.SetText(Resource.Id.tv_diggCount, kbArticlesList[position].Diggcount + " " + digg);
-                holder.SetText(Resource.Id.tv_title, kbArticlesList[position].Title);
-                holder.SetText(Resource.Id.tv_author, kbArticlesList[position].Author);
-                holder.GetView<CardView>(Resource.Id.ly_item).Tag = kbArticlesList[position].Id.ToString();
-            };
-        }
-
-        private async void LoadMoreKbarticles()
-        {
-            pageIndex++;
-            var tempList = await listKbArticlesServer();
-            kbArticlesList.AddRange(tempList);
-            if (tempList.Count == 0)
-            {
-                return;
-            }
-            else if (kbArticlesList != null)
-            {
-                adapterKbArticles.SetNewData(kbArticlesList);
-                System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + kbArticlesList.Count);
-            }
-        }
-        #endregion
+ 
         private async void LoadMore()
         {
             pageIndex++;
@@ -303,5 +232,77 @@ namespace Cnblogs.XamarinAndroid
                 }
             }
         }
+        #region 知识库
+        private async Task<List<KbArticles>> listKbArticlesServer()
+        {
+            var result = await KbArticlesRequest.GetKbArticlesList(AccessTokenUtil.GetToken(this.Activity), pageIndex);
+            if (result.Success)
+            {
+                _swipeRefreshLayout.Refreshing = false;
+                try
+                {
+
+                    await SQLiteUtil.UpdateKbArticlesList(result.Data);
+                    return result.Data;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Write(ex.ToString());
+                    return null;
+                }
+            }
+            return null;
+        }
+        private async Task<List<KbArticles>> listKbArticleLocal()
+        {
+            kbArticlesList = await SQLiteUtil.SelectKbArticleList(Constact.PageSize);
+            return kbArticlesList;
+        }
+
+        async void initRecyclerKbArticles()
+        {
+            adapterKbArticles = new BaseRecyclerViewAdapter<KbArticles>(this.Activity, kbArticlesList, Resource.Layout.item_recyclerview_kbarticles, LoadMoreKbarticles);
+            _recyclerView.SetAdapter(adapterKbArticles);
+            adapterKbArticles.ItemClick += (position, tag) =>
+            {
+                System.Diagnostics.Debug.Write(position, tag);
+                AlertUtil.ToastShort(this.Activity, tag);
+                DetailKbArticlesActivity.Enter(Activity, int.Parse(tag));
+            };
+            adapterKbArticles.ItemLongClick += (tag, position) =>
+            {
+                AlertUtil.ToastShort(this.Activity, tag);
+            };
+            string read = Resources.GetString(Resource.String.read);
+            string digg = Resources.GetString(Resource.String.digg);
+
+            adapterKbArticles.OnConvertView += (holder, position) =>
+            {
+                holder.SetText(Resource.Id.tv_dateAdded, kbArticlesList[position].DateAdded.ToCommonString());
+                holder.SetText(Resource.Id.tv_viewCount, kbArticlesList[position].ViewCount + " " + read);
+                holder.SetText(Resource.Id.tv_summary, kbArticlesList[position].Summary);
+                holder.SetText(Resource.Id.tv_diggCount, kbArticlesList[position].Diggcount + " " + digg);
+                holder.SetText(Resource.Id.tv_title, kbArticlesList[position].Title);
+                holder.SetText(Resource.Id.tv_author, kbArticlesList[position].Author);
+                holder.GetView<CardView>(Resource.Id.ly_item).Tag = kbArticlesList[position].Id.ToString();
+            };
+        }
+
+        private async void LoadMoreKbarticles()
+        {
+            pageIndex++;
+            var tempList = await listKbArticlesServer();
+            kbArticlesList.AddRange(tempList);
+            if (tempList.Count == 0)
+            {
+                return;
+            }
+            else if (kbArticlesList != null)
+            {
+                adapterKbArticles.SetNewData(kbArticlesList);
+                System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + kbArticlesList.Count);
+            }
+        }
+        #endregion
     }
 }

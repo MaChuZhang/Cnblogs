@@ -24,6 +24,7 @@ using Android.Support.V4.Widget;
 using Cnblogs.XamarinAndroid.UI;
 using Cnblogs.HttpClient;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -121,11 +122,22 @@ namespace Cnblogs.XamarinAndroid
             intent.PutExtra("id",id);
             context.StartActivity(intent);
         }
+        internal static void Enter(Context context, int id,bool isSearch)
+        {
+            Intent intent = new Intent(context, typeof(QuestionActivity));
+            intent.PutExtra("id", id);
+            intent.PutExtra("issearch",isSearch);
+            context.StartActivity(intent);
+        }
         async void GetClientQuestion(int id)
         {
             try
             {
-                question = await SQLiteUtil.SelectQuestion(id);
+                bool isSearch = Intent.GetBooleanExtra("issearch", false);
+                if(!isSearch)
+                {
+                    question = await SQLiteUtil.SelectQuestion(id);
+                }
                 BindView();
             }
             catch (Exception ex)
@@ -145,11 +157,13 @@ namespace Cnblogs.XamarinAndroid
                 }
                 if (question.Award == 0)
                 {
-                    tv_award.Visibility = ViewStates.Gone;
+                    View awardParent = (View)tv_award.Parent;
+                       awardParent.Visibility = ViewStates.Gone;
                 }
                 else
                 {
-                    tv_award.Visibility = ViewStates.Visible;
+                    View awardParent = (View)tv_award.Parent;
+                    awardParent.Visibility = ViewStates.Visible;
                     tv_award.Text = "½±Àø" + question.Award.ToString();
                 }
                 if (!string.IsNullOrEmpty(question.Tags))
@@ -191,7 +205,7 @@ namespace Cnblogs.XamarinAndroid
                 btn_diggCount.Text = question.DiggCount.ToString();
                 btn_answerCount.Text = question.DiggCount.ToString();
                 tv_viewCount.Text = question.ViewCount.ToString();
-
+                tv_title.Text = question.Title;
                 //tv_content.Text = question.Content;
             }
         }

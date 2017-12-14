@@ -19,6 +19,7 @@ using Cnblogs.XamarinAndroid;
 using Cnblogs.ApiModel;
 using Com.Umeng.Socialize;
 using Cnblogs.XamarinAndroid.UI.Widgets;
+using Newtonsoft.Json;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -34,7 +35,7 @@ namespace Cnblogs.XamarinAndroid
         private Button btn_comment, btn_digg, btn_mark;
         private Article article;
         private UMengShareWidget shareWidget;
-        
+        private string firstImgSrc;//第一张图片作为分享文章的封面
         protected override int LayoutResourceId => Resource.Layout.detailArticle;
 
         protected override string ToolBarTitle => Resources.GetString(Resource.String.ToolBar_Title_Blog);
@@ -57,10 +58,11 @@ namespace Cnblogs.XamarinAndroid
                   .Displayer(new DisplayerImageCircle(20))
                   .Build();
             SetToolBarNavBack();
+            articleId = Intent.GetIntExtra("id", 0);
             //toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             //toolbar.Title = "博客";
-         //  toolbar.(Resource.Drawable.icon_back);
-           // SetSupportActionBar(toolbar);
+            //  toolbar.(Resource.Drawable.icon_back);
+            // SetSupportActionBar(toolbar);
             tv_author = FindViewById<TextView>(Resource.Id.tv_author);
             tv_postDate = FindViewById<TextView>(Resource.Id.tv_postDate);
             wb_content = FindViewById<WebView>(Resource.Id.wb_content);
@@ -80,7 +82,6 @@ namespace Cnblogs.XamarinAndroid
             {
                 ArticleCommentActivity.Enter(this, article.BlogApp,articleId);
             };
-
             wb_content.Settings.DomStorageEnabled = true;
             wb_content.Settings.JavaScriptEnabled = true;//支持js
             wb_content.Settings.DefaultTextEncodingName = "utf-8";//设置编码方式utf-8
@@ -99,9 +100,22 @@ namespace Cnblogs.XamarinAndroid
             {
                   PhotoActivity.Enter(this,e.Result.Split(','),e.Index);
             };
-            articleId = Intent.GetIntExtra("id",0);
-            GetClientArticle(articleId);
+            GetArticle(articleId);
             shareWidget = new UMengShareWidget(this);
+        }
+        public static void Enter(Context context,int id)
+        {
+            Intent intent = new Intent(context,typeof(DetailArticleActivity));
+            intent.PutExtra("id",id);
+            context.StartActivity(intent);
+        }
+        public static void Enter(Context context, int id,Article _article)
+        {
+            Intent intent = new Intent(context, typeof(DetailArticleActivity));
+            string articleStr = JsonConvert.SerializeObject(_article);
+            intent.PutExtra("id", id);
+            intent.PutExtra("article",articleStr);
+            context.StartActivity(intent);
         }
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
@@ -109,29 +123,44 @@ namespace Cnblogs.XamarinAndroid
             return  true;
         }
 
-        async void GetClientArticle(int id)
+        async void GetArticle(int id)
         {
-             article = await SQLiteUtil.SelectArticle(id);
+          
+                string articleStr = Intent.GetStringExtra("article");
+                if(!string.IsNullOrEmpty(articleStr))//从搜索页过来的
+                {
+                  article = JsonConvert.DeserializeObject<Article>(articleStr);
+                }
+                if (article == null)//从博客页面直接点击过来的
+                {
+                    article = await SQLiteUtil.SelectArticle(id);
+                }
             if (article != null)
             {
                 tv_author.Text = article.Author;
                 tv_postDate.Text = article.PostDate.ToCommonString();
-                tv_articleTitle.Text = article.Title.Replace("\n","").Replace("  ","");
+                tv_articleTitle.Text = article.Title.Replace("\n", "").Replace("  ", "");
                 tv_view.Text = article.ViewCount.ToString();
                 btn_digg.Text = article.Diggcount.ToString();
                 btn_comment.Text = article.CommentCount.ToString();
-                if (!article.Avatar.Substring(article.Avatar.Length - 4, 4).Contains(".png"))
+                if (string.IsNullOrEmpty(article.Avatar)||!article.Avatar.Substring(article.Avatar.Length - 4, 4).Contains(".png"))
                     iv_avatar.SetImageResource(Resource.Drawable.noavatar);
                 else
                     ImageLoader.Instance.DisplayImage(article.Avatar, iv_avatar, options);
-                if (string.IsNullOrEmpty(article.Content))
-                    GetRequestArticle(id);
-                else
+                if (!string.IsNullOrEmpty(article.Content))
                 {
                     article.Content = article.Content.ReplaceHtml().Trim('"');
-                    string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", article.Content).Replace("#title#","").Replace("#author#", "").Replace("#date#","");
+                    string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", article.Content).Replace("#title#", "").Replace("#author#", "").Replace("#date#", "");
                     wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
+                    GetFirstImgSrc();
                 }
+                else
+                {
+                    GetServiceArticle(articleId);
+                }
+            }
+            else {
+
             }
         }
         void GetAssetContent(string body)
@@ -139,23 +168,34 @@ namespace Cnblogs.XamarinAndroid
             string content = HtmlUtil.ReadHtml(Assets);
             body = body.ReplaceHtml();
         }
-
-        async void GetRequestArticle(int id)
+        void GetFirstImgSrc()
+        {
+            string[] srcs = HtmlUtil.GetHtmlImageUrlList(article.Content);
+            if (srcs.Length > 0)
+            {
+                firstImgSrc = srcs[0];
+            }
+            else
+                firstImgSrc = "";
+        }
+        async void GetServiceArticle(int id)
         {
             try
             {
+                if (!string.IsNullOrEmpty(article.Content))
+                {
+                    return;
+                }
                 var result = await HttpClient.ArticleRequest.GetArticleDetail(AccessTokenUtil.GetToken(this),id);
                 if (result.Success)
                 {
-                    await SQLiteUtil.SelectArticle(id).ContinueWith(async (r) =>
-                    {
-                        article = r.Result;
+          
                         article.Content = result.Data;
                         await SQLiteUtil.UpdateArticle(article);
                         article.Content = article.Content.ReplaceHtml().Trim('"');
                         string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", article.Content).Replace("#title#",article.Title).Replace("#author#", "").Replace("#date#", "");
                         wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
-                    });
+                        GetFirstImgSrc();
                 }
             }
             catch (Exception ex)
@@ -169,7 +209,7 @@ namespace Cnblogs.XamarinAndroid
             if (article != null)
             {
                 // sharesWidget
-                shareWidget.Open(article.Url,article.Title);
+                shareWidget.Open(article.Url,article.Title,article.Description,firstImgSrc);
             }
             return true;
         }

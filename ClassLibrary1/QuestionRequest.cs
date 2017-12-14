@@ -20,6 +20,15 @@ namespace Cnblogs.HttpClient
     }
     public class  QuestionRequest
     {
+       /// <summary>
+       /// 分类获取问答
+       /// </summary>
+       /// <param name="token"></param>
+       /// <param name="questionType"></param>
+       /// <param name="pageIndex"></param>
+       /// <param name="isMy"></param>
+       /// <param name="spaceUserId"></param>
+       /// <returns></returns>
         public static async Task<ApiResult<List<QuestionModel>>> ListQuestion(Token token,int questionType,int pageIndex,bool  isMy,int spaceUserId)
         {
             try
@@ -88,29 +97,13 @@ namespace Cnblogs.HttpClient
             }
         }
 
-        public static async Task<ApiResult<List<StatusCommentsModel>>> ListStatusComment(Token token,int id)
-        {
-            try {
-                string url = string.Format(Constact.StatusesComment, id);
-                var result = await HttpBase.GetAsync(url, null, token);
-                if (result.IsSuccess)
-                {
-                    var list = JsonConvert.DeserializeObject<List<StatusCommentsModel>>(result.Message);
-                    //successAction(list);
-                    return ApiResult.Ok(list);
-                }
-                else
-                {
-                    return ApiResult<List<StatusCommentsModel>>.Error(result.Message);
-                    //errorAction(result.Message);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.Write(ex.ToString());
-                return ApiResult<List<StatusCommentsModel>>.Error(ex.ToString());
-            }
-        }
+  
+       /// <summary>
+       ///根据id获取问答详情
+       /// </summary>
+       /// <param name="token"></param>
+       /// <param name="id"></param>
+       /// <returns></returns>
         public static async Task<ApiResult<QuestionModel>> GetQuestionDetail(Token token,int id)
         {
             try
@@ -135,5 +128,25 @@ namespace Cnblogs.HttpClient
                 return ApiResult<QuestionModel>.Error(ex.Message);
             }
         }
+
+        public static async Task<ApiResult<bool>> Add(Token token, string title, string content, string tags, string flags, string userId)
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("Title", title);
+            dict.Add("Content", content);
+            dict.Add("Tags", tags);
+            dict.Add("Flags", flags);
+            dict.Add("UserID", userId);
+            var result = await HttpBase.PostAsyncJson(token, Constact.QuestionAdd, dict);
+            if (result.IsSuccess)
+            {
+                return ApiResult.Ok(true);
+            }
+            else
+            {
+                return ApiResult<bool>.Error(result.Message);
+            }
+        }
     }
+
 }

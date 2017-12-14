@@ -42,6 +42,7 @@ namespace Cnblogs.XamarinAndroid
         protected override async void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            addActivity(this);
             ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();//初始化图片加载框架
             ImageLoader.Instance.Init(configuration);
             StatusBarUtil.SetColorStatusBars(this);
@@ -54,6 +55,51 @@ namespace Cnblogs.XamarinAndroid
             tv_userCenter = FindViewById<TextView>(Resource.Id.tv_userCenter);
             BindViewsClick();
             tv_blog.PerformClick();
+        }
+        internal static void Enter(Context context)
+        {
+            Intent intent = new Intent(context,typeof(MainActivity));
+            context.StartActivity(intent);
+        }
+        public override bool OnMenuItemClick(IMenuItem menuItem)
+        {
+            if (menuItem.ItemId == Resource.Id.search)
+            {
+                string category = string.Empty;
+                if (tv_blog.Selected)
+                {
+                    category = "Blog";
+                }
+                else if (tv_news.Selected)
+                {
+                    if (newsFragment.currentPosition == 0)
+                        category = "Kb";
+                    else category = "News";
+                    System.Diagnostics.Debug.Write("position",newsFragment.currentPosition.ToString());
+                }
+                else if (tv_question.Selected)
+                {
+                    category = "Question";
+                }
+                else
+                {
+                    category = "Blog";
+                }
+                SearchResultActivity.Enter(category, this);
+            }
+            if (menuItem.ItemId == Resource.Id.add)
+            {
+                if (tv_status.Selected)
+                {
+                    AddStatusActivity.Enter(this);
+                }
+                else if (tv_question.Selected)
+                {
+                    AddQuestionActivity.Enter(this);
+                }
+                AlertUtil.ToastShort(this,"添加");
+            }
+            return true;
         }
         void SetUnSelected()
         {
@@ -172,7 +218,7 @@ namespace Cnblogs.XamarinAndroid
                 }
                 else
                 {
-                    this.Finish();
+                    removeAllActivity();
                 }
                 return true;
             }
@@ -183,12 +229,6 @@ namespace Cnblogs.XamarinAndroid
         //    MenuInflater.Inflate(Resource.Menu.search, menu);
         //    return base.OnCreateOptionsMenu(menu);
         //}
-
-        public override bool OnMenuItemClick(IMenuItem item)
-        {
-            //throw new NotImplementedException();
-            return true;
-        }
         #endregion
     }
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:contentInsetStartWithNavigation="0dp">
+        <android.support.v7.widget.SearchView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:background="@color/primaryDark"
+            app:queryHint="搜博客"
+            android:textColor="@color/titleDrak"
+            android:textSize="@dimen/TextMiddle"
+            android:id="@+id/search_keyword"
+            android:layout_marginRight="@dimen/dp10" />
+    </android.support.v7.widget.Toolbar>
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/rl_listview">
+        <ListView
+            android:id="@+id/lv_searchHistory"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dp10"
+            android:divider="@null" />
+    </RelativeLayout>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/dp20"
+        android:text="清除搜索历史记录"
+        android:clickable="true"
+        android:visibility="gone"
+        android:id="@+id/tv_deleteAll"
+        android:textSize="@dimen/TextMiddle"
+        android:textColor="@color/primary"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

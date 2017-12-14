@@ -74,7 +74,7 @@ namespace Cnblogs.HttpClient
             }
         }
 
-        public static async Task<ApiResult<List<StatusCommentsModel>>> ListStatusComment(Token token,int id)
+        public static async Task ListStatusComment(Token token,int id,Action<List<StatusCommentsModel>> callBackSuccess,Action<string> callBackError)
         {
             try {
                 string url = string.Format(Constact.StatusesComment, id);
@@ -83,42 +83,88 @@ namespace Cnblogs.HttpClient
                 {
                     var list = JsonConvert.DeserializeObject<List<StatusCommentsModel>>(result.Message);
                     //successAction(list);
-                    return ApiResult.Ok(list);
+                    callBackSuccess(list);
                 }
                 else
                 {
-                    return ApiResult<List<StatusCommentsModel>>.Error(result.Message);
+                    callBackError(result.Message);
                     //errorAction(result.Message);
                 }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.Write(ex.ToString());
-                return ApiResult<List<StatusCommentsModel>>.Error(ex.ToString());
+                callBackError(ex.ToString());
             }
         }
-        public static async Task<ApiResult<string>> GetArticleDetail(Token token,int id)
+   
+
+        public static async Task<ApiResult<bool>> Add(Token token,string content,bool  isPrivate)
         {
-            try
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("Content",content);
+            dict.Add("IsPrivate",isPrivate.ToString());
+            var result =await HttpBase.PostAsyncJson(token,Constact.StatusAdd,dict);
+            if (result.IsSuccess)
             {
-                string url = string.Format(Constact.ArticleBody,id);
-                var result = await HttpBase.GetAsync(url, null, token);
-                if (result.IsSuccess)
+                return  ApiResult.Ok(true);
+            }
+            else return ApiResult<bool>.Error(result.Message);
+        }
+
+        public static void Delete(Token token,int id,Action<string> callBackSuccess,Action<string> callBackError)
+        {
+            string url = string.Format(Constact.StatusDelete, id);
+            HttpBase.Delete(url,token,(response)=> {
+                if (response.IsSuccess)
                 {
-                    var articleDetail = result.Message;
-                    //successAction(list);
-                    return ApiResult.Ok(articleDetail);
+                    callBackSuccess(response.Message);
                 }
                 else
                 {
-                    return ApiResult<string>.Error(result.Message);
-                    //errorAction(result.Message);
+                    callBackError(response.Message);
                 }
-            }
-            catch (Exception ex)
+            });
+        }
+        public static void DeleteComment(Token token ,string  statusId ,string id , Action callBackSuccess,Action<string> callBackError)
+        {
+            string url = string.Format(Constact.StatusDeleteComment,statusId,id);
+            HttpBase.Delete(url,token,(response)=> {
+                if (response.IsSuccess)
+                {
+                    callBackSuccess();
+                }
+                else
+                {
+                    callBackError(response.Message);
+                }
+            });
+        }
+        /// <summary>
+        /// 添加闪存评论
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="statusId"></param>
+        /// <param name="replyTo"></param>
+        /// <param name="parentCommentId"></param>
+        /// <param name="Content"></param>
+        /// <returns></returns>
+        public static async Task<ApiResult<bool>> AddComment(Token token, string statusId, int replyTo,  int parentCommentId, string Content)
+        {
+            string url = string.Format(Constact.StatusesComment, statusId);
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            dict.Add("ReplyTo", replyTo.ToString());
+            dict.Add("ParentCommentId", parentCommentId.ToString());
+            dict.Add("Content", Content);
+            var result =  await HttpBase.PostAsyncJson(token, url, dict);
+            System.Diagnostics.Debug.Write("PostAsyncJson", "PostAsyncJson");
+            if (result.IsSuccess)
             {
-                //errorAction(ex.StackTrace.ToString());
-                return ApiResult<string>.Error(ex.Message);
+                return ApiResult.Ok(true);
+            }
+            else
+            {
+                return ApiResult<bool>.Error(result.Message);
             }
         }
     }

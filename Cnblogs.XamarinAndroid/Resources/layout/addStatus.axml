@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <include
+        layout="@layout/child_toolbar" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="@dimen/dp15"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:padding="@dimen/dp10"
+            android:background="@drawable/shape_corner_round">
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/et_content"
+                android:hint="你在做什么?你在想什么?"
+                android:background="@null" />
+        </LinearLayout>
+        <RadioGroup
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/rg_isPrivate"
+            android:gravity="center_vertical">
+            <RadioButton
+                android:id="@+id/rb_false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公开"
+                android:checked="true" />
+            <RadioButton
+                android:id="@+id/rb_true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp20"
+                android:text="私有" />
+        </RadioGroup>
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="right"
+            android:id="@+id/ly_expire"
+            android:layout_marginTop="@dimen/dp20">
+            <TextView
+                android:text="未登录或登录token已经过期，请"
+                style="@style/InlineText"
+                android:textSize="@dimen/TextMiddle" />
+            <TextView
+                android:id="@+id/tv_startLogin"
+                android:text="立即登录"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/TextMiddle" />
+        </LinearLayout>
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/status_add"
+            android:background="@drawable/selector_btn_primary"
+            android:layout_marginTop="@dimen/dp15"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:id="@+id/btn_submit"
+            android:enabled="false" />
+    </LinearLayout>
+</LinearLayout>

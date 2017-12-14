@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiResult.cs" />
+    <Compile Include="ZzkService.cs" />
     <Compile Include="NewsService.cs" />
     <Compile Include="QuestionRequest.cs" />
     <Compile Include="StatusRequest.cs" />

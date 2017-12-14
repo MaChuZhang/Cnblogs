@@ -2,6 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+<LinearLayout
+                android:orientation="horizontal"
+                android:minWidth="25dp"
+                android:minHeight="25dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:id="@+id/commonSpecimenLayout">
+                <TextView
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/Text017_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="标本"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="18dp" />
+                <TextView
+                    android:id="@+id/TextCommonSpecimen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="@android:color/background_dark"
+                    android:text="暂cdascdacdascdsc无"
+                    android:textStyle="bold"
+                    android:textSize="18dp" />
+            </LinearLayout>
 </LinearLayout>

@@ -150,7 +150,7 @@ namespace Cnblogs.XamarinAndroid
                             AddBookmarkActivity.Enter(this,model.WzLinkId,model.LinkUrl,model.Title,model.Tag,model.Summary,"edit");
                             break;
                         case 2:
-                            AlertUtil.ToastShort(this,"改功能暂时未推出，敬请期待");
+                            AlertUtil.ToastShort(this,"该功能暂时未推出，敬请期待");
                             break;
                     }
                 });
@@ -259,5 +259,21 @@ namespace Cnblogs.XamarinAndroid
                 System.Diagnostics.Debug.Write(ex.ToString());
             }
         }
+        #region override method
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.add,menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
+        public override bool OnMenuItemClick(IMenuItem item)
+        {
+            if (item.ItemId == Resource.Id.add)
+            {
+                AddBookmarkActivity.Enter(this,"add");
+            }
+            return base.OnMenuItemClick(item);
+        }
+        #endregion
+
     }
 }

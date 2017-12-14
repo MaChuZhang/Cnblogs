@@ -28,7 +28,37 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <LinearLayout
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:orientation="horizontal"
+      android:gravity="center_vertical"
+      android:padding="@dimen/dp10"
+      android:background="@color/primary">
+      <ImageView
+        android:layout_height="@dimen/ImgMiddle"
+        android:layout_width="@dimen/ImgMiddle"
+        android:id="@+id/headPic"/>
+      <LinearLayout
+              android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:orientation="vertical"
+              android:layout_marginLeft="@dimen/dp10">
+        <TextView
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:id="@+id/tv_userName"
+          android:textColor="@android:color/white"
+          android:textSize="@dimen/TextMiddle"/>
+        <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/tv_articleCount"
+        android:textColor="@android:color/white"
+          android:textSize="@dimen/TextMiddle"/>
+      </LinearLayout>
+    </LinearLayout>
     <android.support.v4.widget.SwipeRefreshLayout
       android:id="@+id/swipeRefreshLayout"
       android:layout_width="match_parent"
@@ -36,8 +66,9 @@
       <android.support.v7.widget.RecyclerView
           android:id="@+id/recyclerView"
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:scrollbars="horizontal"/>
+          android:layout_height="match_parent"
+          android:scrollbars="vertical"
+          android:background="@color/f1f1f1"/>
     </android.support.v4.widget.SwipeRefreshLayout>
   </LinearLayout>
   <LinearLayout

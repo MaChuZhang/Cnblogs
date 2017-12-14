@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dp20"
+    android:paddingRight="@dimen/dp10"
+    android:background="?attr/selectableItemBackgroundRipple"
+    android:id="@+id/ll_root">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp50"
+        android:descendantFocusability="blocksDescendants">
+        <TextView
+            android:text="关键ccdascdascdascdascdasc茶市场大事擦上次出大事才打算cdascdascdascdscdas字"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="@dimen/dp10"
+            android:textSize="@dimen/TextMiddle"
+            android:textColor="@android:color/black"
+            android:id="@+id/tv_keyword" />
+        <ImageButton
+            android:layout_height="match_parent"
+            android:layout_width="@dimen/dp50"
+            android:src="@drawable/icon_delete"
+            android:scaleType="center"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:focusable="false"
+            android:id="@+id/imgbtn_delete" />
+    </RelativeLayout>
+    <View
+        android:layout_height="@dimen/dp1"
+        android:layout_width="match_parent"
+        android:background="@color/f1f1f1" />
+</LinearLayout>

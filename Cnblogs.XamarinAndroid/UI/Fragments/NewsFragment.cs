@@ -22,9 +22,10 @@ namespace Cnblogs.XamarinAndroid
 {
     public class NewsFragment : Fragment, TabLayout.IOnTabSelectedListener
     {
-        private ViewPager _viewPagerHome;
+        public ViewPager _viewPagerHome;
         private TabLayout _tabHome;
         private NewsFragmentTabsAdapter adapter;
+        public int currentPosition;//Viewpager 当前选中的index
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -32,7 +33,7 @@ namespace Cnblogs.XamarinAndroid
         }
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
-            //Activity.MenuInflater.Inflate(Resource.Menu.search, menu);
+            Activity.MenuInflater.Inflate(Resource.Menu.search, menu);
         }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -67,7 +68,7 @@ namespace Cnblogs.XamarinAndroid
         public void OnTabSelected(TabLayout.Tab tab)
         {
             _viewPagerHome.CurrentItem = tab.Position;
-
+            currentPosition = tab.Position;
         }
 
         public void OnTabUnselected(TabLayout.Tab tab)
