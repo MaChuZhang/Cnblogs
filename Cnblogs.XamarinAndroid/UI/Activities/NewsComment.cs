@@ -228,7 +228,7 @@ namespace Cnblogs.XamarinAndroid
                     //commentList = result.Data;
                     try
                     {
-                        await SQLiteUtil.UpdateNewsCommentList(result.Data);
+                        await SQLiteUtil.UpdateNewscommentList(result.Data);
                         return result.Data;
                     }
                     catch (Exception ex)
@@ -247,7 +247,7 @@ namespace Cnblogs.XamarinAndroid
         }
         private async Task<List<NewsCommentViewModel>> listNewsCommentLocal()
         {
-            commentList = await SQLiteUtil.SelectNewsCommentList(Constact.PageSize);
+            commentList = await SQLiteUtil.SelectNewscommentList(Constact.PageSize);
             return commentList;
         }
 

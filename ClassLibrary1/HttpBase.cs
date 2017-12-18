@@ -85,13 +85,13 @@ namespace Cnblogs.ApiModel
                         callBack(new ResponseMessage (true,response.Content));
                         break;
                     case System.Net.HttpStatusCode.NotFound:
-                        callBack(new ResponseMessage(false, response.Content));
+                        callBack(new ResponseMessage(false, "NotFound404" + response.Content));
                         break;
                     case System.Net.HttpStatusCode.Unauthorized:
-                        callBack(new ResponseMessage(false, response.Content));
+                        callBack(new ResponseMessage(false, "Unauthorized401" + response.Content));
                         break;
                     case System.Net.HttpStatusCode.InternalServerError:
-                        callBack(new ResponseMessage(false, response.Content));
+                        callBack(new ResponseMessage(false, "InternalServerError500" + response.Content));
                         break;
                     default:
                         callBack(new ResponseMessage(false, "请检查网络连接，稍后再试"));
@@ -99,6 +99,34 @@ namespace Cnblogs.ApiModel
                         //return new ResponseMessage(false, "请检查网络连接，稍后再试");
                 }
             });
+        }
+
+        public static async Task<ResponseMessage> Delete(string url, Token token)
+        {
+            RestClient restClient = Instance(url);
+            RestRequest request = new RestRequest();
+            request.AddHeader("Authorization", token.token_type + " " + token.access_token);
+            request.Method = Method.DELETE;
+            var response = await restClient.ExecuteTaskAsync(request);
+                switch (response.StatusCode)
+                {
+                    case (HttpStatusCode.OK):
+                        return  new ResponseMessage(true, response.Content);
+                       
+                    case (System.Net.HttpStatusCode.Created):
+                        return new ResponseMessage(true, "Created");
+                    case (System.Net.HttpStatusCode.Conflict):
+                        return new ResponseMessage(false, "Conflict409,你已经收藏了");
+                    case System.Net.HttpStatusCode.NotFound:
+                        return new ResponseMessage(false, "errorCode:404NotFound");
+                    case System.Net.HttpStatusCode.Unauthorized:
+                        return new ResponseMessage(false, "errorCode:401Unauthorized");
+                    case System.Net.HttpStatusCode.InternalServerError:
+                        return new ResponseMessage(false, "errorCode:500InternalServerError");
+                    default:
+                        return new ResponseMessage(false, "请检查网络连接，稍后再试");
+                        //return new ResponseMessage(false, "请检查网络连接，稍后再试");
+                }
         }
 
         public static void Patch(string url, Token token, Dictionary<string,string> _params,Action<ResponseMessage> callBack)
@@ -113,6 +141,7 @@ namespace Cnblogs.ApiModel
                 }
             }
             request.AddHeader("Authorization", token.token_type + " " + token.access_token);
+            request.AddHeader("Content-Type", "application/json");
             request.Method = Method.PATCH;
             restClient.PatchAsync(request, (response, handle) =>
             {
@@ -122,13 +151,13 @@ namespace Cnblogs.ApiModel
                         callBack(new ResponseMessage(true, response.Content));
                         break;
                     case System.Net.HttpStatusCode.NotFound:
-                        callBack(new ResponseMessage(false, response.Content));
+                        callBack(new ResponseMessage(false, "NotFound404"+response.Content));
                         break;
                     case System.Net.HttpStatusCode.Unauthorized:
-                        callBack(new ResponseMessage(false, response.Content));
+                        callBack(new ResponseMessage(false, "Unauthorized401"+response.Content));
                         break;
                     case System.Net.HttpStatusCode.InternalServerError:
-                        callBack(new ResponseMessage(false, response.Content));
+                        callBack(new ResponseMessage(false, "InternalServerError500"+response.Content));
                         break;
                     default:
                         callBack(new ResponseMessage(false, "请检查网络连接，稍后再试"));

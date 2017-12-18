@@ -215,7 +215,10 @@ namespace Cnblogs.XamarinAndroid
             string content = edit_content.Text.Trim();
             if (string.IsNullOrEmpty(content))
                 return;
-            content =content.Replace(displayUserName, displayUserName+" ");
+            if (!string.IsNullOrEmpty(displayUserName))
+            {
+                content = content.Replace(displayUserName, displayUserName + " ");
+            }
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
             progressDialog.SetMessage("添加评论中....");
@@ -246,7 +249,7 @@ namespace Cnblogs.XamarinAndroid
             AlertUtil.ToastShort(this, "线程ID" + System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
             try
             {
-                await SQLiteUtil.UpdateStatusCommentList(list);
+                await SQLiteUtil.UpdateStatuscommentList(list);
             }
             catch (Exception ex)
             {

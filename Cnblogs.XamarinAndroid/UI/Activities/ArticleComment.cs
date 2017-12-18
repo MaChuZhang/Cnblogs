@@ -224,7 +224,7 @@ namespace Cnblogs.XamarinAndroid
                     _swipeRefreshLayout.Refreshing = false;
                     try
                     {
-                        await SQLiteUtil.UpdateArticleCommentList(result.Data);
+                        await SQLiteUtil.UpdateArticlecommentList(result.Data);
                         return result.Data;
                     }
                     catch (Exception ex)
@@ -243,7 +243,7 @@ namespace Cnblogs.XamarinAndroid
         }
         private async Task<List<ArticleCommentModel>> listArticleLocal()
         {
-            commentList = await SQLiteUtil.SelectArticleCommentList(Constact.PageSize);
+            commentList = await SQLiteUtil.SelectArticlecommentList(Constact.PageSize);
             return commentList;
         }
 

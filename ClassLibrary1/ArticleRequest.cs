@@ -73,7 +73,7 @@ namespace Cnblogs.HttpClient
         {
             try
             {
-                string url = string.Format(Constact.ArticleCommentList,blogApp,postId, pageIndex, Constact.PageSize);
+                string url = string.Format(Constact.ArticlecommentList,blogApp,postId, pageIndex, Constact.PageSize);
                 var result = await HttpBase.GetAsync(url, null, token);
                 if (result.IsSuccess)
                 {

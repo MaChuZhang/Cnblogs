@@ -80,7 +80,7 @@ namespace Cnblogs.HttpClient
         {
             try
             {
-                string url = string.Format(Constact.NewsCommentList,postId, pageIndex, Constact.PageSize);
+                string url = string.Format(Constact.NewscommentList,postId, pageIndex, Constact.PageSize);
                 var result = await HttpBase.GetAsync(url, null, token);
                 if (result.IsSuccess)
                 {

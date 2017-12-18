@@ -82,7 +82,10 @@ namespace Cnblogs.XamarinAndroid
             GetClientQuestion(questionId);
             GetServerQuestion();
             shareWidget = new UMengShareWidget(this);
-
+            btn_answerCount.Click += (s, e) =>
+            {
+                QuestionAnswerActivity.Enter(this, questionId);
+            };
             //_swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             //_swipeRefreshLayout.SetColorSchemeResources(Resource.Color.primary);
             //_swipeRefreshLayout.SetOnRefreshListener(this);
@@ -203,7 +206,7 @@ namespace Cnblogs.XamarinAndroid
 
                 tv_dateAdded.Text = question.DateAdded.ToCommonString();
                 btn_diggCount.Text = question.DiggCount.ToString();
-                btn_answerCount.Text = question.DiggCount.ToString();
+                btn_answerCount.Text = question.AnswerCount.ToString();
                 tv_viewCount.Text = question.ViewCount.ToString();
                 tv_title.Text = question.Title;
                 //tv_content.Text = question.Content;

@@ -41,7 +41,6 @@
                 android:id="@+id/edit_title"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:editable="false"
                 android:textSize="@dimen/TextMiddle"
                 android:layout_marginLeft="@dimen/dp10"
                 android:lineSpacingExtra="3dp" />

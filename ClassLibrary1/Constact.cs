@@ -44,13 +44,13 @@ namespace Cnblogs.HttpClient
         public const string NewsHotWeekList = Host + Api + "/newsitems/@hot-week?pageIndex={0}&pageSize={1}";
         public const string NewsDiggList = Host + Api + "/newsitems/@recommended?pageIndex={0}&pageSize={1}";
         public const string NewsDetail = Host + Api + "/newsitems/{0}/body";
-        public const string NewsCommentList = Host + Api + "/news/{0}/comments?pageIndex={1}&pageSize={2}";
+        public const string NewscommentList = Host + Api + "/news/{0}/comments?pageIndex={1}&pageSize={2}";
         public const string NewsCommentAdd = Host + Api + "/news/{0}/comments";
         public const string NewsCommentDelete = Host + Api + "/newscomments/{0}";
         /// <summary>
         /// 获取博客文章评论内容,params1:博客名,博文编号,pageIndex pageSize
         /// </summary>
-        public const string ArticleCommentList = Host + Api + "/blogs/{0}/posts/{1}/comments?pageIndex={2}&pageSize={3}";
+        public const string ArticlecommentList = Host + Api + "/blogs/{0}/posts/{1}/comments?pageIndex={2}&pageSize={3}";
        /// <summary>
        /// 添加评论
        /// </summary>
@@ -148,10 +148,38 @@ namespace Cnblogs.HttpClient
         /// 获取根据id博问详情
         /// </summary>
         public const string QuestionDetail = Host + Api + "/questions/{0}";
+
+        /// <summary>
+        /// 获取单个回答的评论列表
+        /// </summary>
+        public const string QuestionAnswerCommentList = Host + Api + "/questions/answers/{0}/comments";
+        /// <summary>
+        /// 添加问答的回答的评论,参数1 questionID,参数2 用户名
+        /// </summary>
+        public const string QuestionAddAnswerComment = Host + Api + "/questions/{0}/answers/{1}/comments?loginName={2}";
+        /// <summary>
+        /// 删除、编辑问答回答的评论
+        /// </summary>
+        public const string QuestionDeleteAnswerComment = Host + Api + "/questions/{0}/answers/{1}/comments/{2}";
+
         /// <summary>
         /// 添加问答
         /// </summary>
-        public const string QuestionAdd= Host + Api + "/questions";
+        public const string QuestionAdd = Host + Api + "/questions";
+        /// <summary>
+        ///获取单个问题对应的回答列表
+        /// </summary>
+
+        public const string QuestionAnswerList = Host + Api + "/questions/{0}/answers";
+        /// <summary>
+        /// 添加问答的回答
+        /// </summary>
+        public const string QuestionAddAnswer = Host + Api + "/questions/{0}/answers?loginName={1}";
+
+        /// <summary>
+        /// 删除，修改问答的回答
+        /// </summary>
+        public const string QuestionDeleteAnswer = Host + Api + "/questions/{0}/answers/{1}";
 
         public const string Zzk = Host + Api + "/ZzkDocuments/{0}?keyWords={1}&pageIndex={2}";
     }

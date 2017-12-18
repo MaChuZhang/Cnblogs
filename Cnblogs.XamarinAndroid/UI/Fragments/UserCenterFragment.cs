@@ -26,7 +26,11 @@ namespace Cnblogs.XamarinAndroid
             base.OnCreate(savedInstanceState);
             HasOptionsMenu = true;
         }
-
+        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+        {
+            inflater.Inflate(Resource.Menu.setting,menu);
+            base.OnCreateOptionsMenu(menu, inflater);
+        }
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);

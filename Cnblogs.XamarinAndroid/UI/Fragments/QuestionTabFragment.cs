@@ -83,11 +83,7 @@ namespace Cnblogs.XamarinAndroid
             {
                 _swipeRefreshLayout.Refreshing = true;
             });
-            _swipeRefreshLayout.PostDelayed(() =>
-            {
-                System.Diagnostics.Debug.Write("PostDelayed刷新已经完成");
-                _swipeRefreshLayout.Refreshing = false;
-            }, 4000);
+
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
 
@@ -95,41 +91,21 @@ namespace Cnblogs.XamarinAndroid
             if (isMy && token.IsExpire)
             {
                 ly_expire.Visibility = ViewStates.Visible;
-                _swipeRefreshLayout.Visibility = ViewStates.Gone;
                 tv_startLogin.Click += (s, e) =>
                 {
                     Activity.StartActivity(new Intent(Activity, typeof(loginactivity)));
                 };
-                return;
             }
             else
             {
                 ly_expire.Visibility = ViewStates.Gone;
-                _swipeRefreshLayout.Visibility = ViewStates.Visible;
             }
-            listQuestion = await listStatusLocal();
-            if (listQuestion.Count > 0)
-            {
-                initRecycler();
-            }
-            else
-            {
-                listQuestion = await listQuestionServer(pageIndex);
-                if(listQuestion.Count>0)
-                {
-                  initRecycler();
-                }
-            }
-            listQuestion = await listQuestionServer(pageIndex);
-            if (listQuestion.Count > 0)
-            {
-                initRecycler();
-            }
+            InitRecyclerView();
         }
         private async void LoadMore()
         {
             pageIndex++;
-            var tempList = await listQuestionServer(pageIndex);
+            var tempList = await listQuestionService();
             listQuestion.AddRange(tempList);
             if (tempList.Count==0)
              {
@@ -142,22 +118,42 @@ namespace Cnblogs.XamarinAndroid
                 System.Diagnostics.Debug.Write("页数:"+pageIndex+"数据总条数："+listQuestion.Count);
             }
         }
-        async void initRecycler()
+
+        async void InitRecyclerView()
+        {
+            listQuestion = await SQLiteUtil.SelectListQuestion(Constact.PageSize, isMy);
+            var user = UserInfoShared.GetUserInfo(this.Activity);
+            if (listQuestion == null || listQuestion.Count == 0)
+            {
+                var result = await listQuestionService();
+                if (result != null && result.Count != 0)
+                {
+                    listQuestion = result;
+                    initRecycler();
+                }
+            }
+            else
+            {
+                initRecycler();
+                OnRefresh();
+            }
+        }
+        void initRecycler()
         {
             adapter = new BaseRecyclerViewAdapter<QuestionModel>(this.Activity, listQuestion, Resource.Layout.item_recyclerview_question, LoadMore);
             _recyclerView.SetAdapter(adapter);
             adapter.ItemClick += (position, tag) =>
             {
-                    System.Diagnostics.Debug.Write(position, tag);
-                    AlertUtil.ToastShort(this.Activity, tag);
-                    QuestionActivity.Enter(Activity, int.Parse(tag));
+                System.Diagnostics.Debug.Write(position, tag);
+                AlertUtil.ToastShort(this.Activity, tag);
+                QuestionActivity.Enter(Activity, int.Parse(tag));
             };
             adapter.ItemLongClick += (tag, position) =>
             {
                 AlertUtil.ToastShort(this.Activity, tag);
             };
             string read = Resources.GetString(Resource.String.read);
-                string answer = Resources.GetString(Resource.String.answer);
+            string answer = Resources.GetString(Resource.String.answer);
             try
             {
                 adapter.OnConvertView += (holder, position) =>
@@ -193,9 +189,8 @@ namespace Cnblogs.XamarinAndroid
                 System.Diagnostics.Debug.Write(ex.ToString());
             }
         }
-        private async Task<List<QuestionModel>> listQuestionServer(int _pageIndex)
+        private async Task<List<QuestionModel>> listQuestionService()
         {
-            pageIndex = _pageIndex;
             var result = new ApiResult<List<QuestionModel>>();
             if (isMy)
             {
@@ -232,12 +227,15 @@ namespace Cnblogs.XamarinAndroid
         {
             if(pageIndex>1)
                 pageIndex = 1; 
-            var tempList  = await listQuestionServer(pageIndex);
+            var tempList  = await listQuestionService();
             if (tempList != null)
             {
                 listQuestion = tempList;
-                _swipeRefreshLayout.Refreshing = false;
                 adapter.SetNewData(tempList);
+                _swipeRefreshLayout.Post(() =>
+                {
+                    _swipeRefreshLayout.Refreshing = false;
+                });
             }
         }
     }

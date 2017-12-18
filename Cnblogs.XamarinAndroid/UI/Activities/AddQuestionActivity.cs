@@ -100,14 +100,14 @@ namespace Cnblogs.XamarinAndroid
             //验证提交按钮
             edit_title.TextChanged += (s, e) =>
             {
-                if (string.IsNullOrEmpty(edit_title.Text.Trim()))
+                if (string.IsNullOrEmpty(edit_title.Text.Trim())|| string.IsNullOrEmpty(edit_content.Text.Trim()))
                     btn_submit.Enabled = false;
                 else
                     btn_submit.Enabled = true;
             };
             edit_content.TextChanged += (s, e) =>
             {
-                if (string.IsNullOrEmpty(edit_content.Text.Trim()))
+                if (string.IsNullOrEmpty(edit_content.Text.Trim())|| string.IsNullOrEmpty(edit_title.Text.Trim()))
                     btn_submit.Enabled = false;
                 else
                     btn_submit.Enabled = true;

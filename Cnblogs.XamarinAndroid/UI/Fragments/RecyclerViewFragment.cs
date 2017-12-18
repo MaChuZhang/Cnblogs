@@ -34,6 +34,7 @@ namespace Cnblogs.XamarinAndroid
         private DisplayImageOptions options;
         private int pageIndex = 1;
         private List<Article> articleList = new List<Article>();
+        private DateTime lastRefreshTime ;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -81,43 +82,71 @@ namespace Cnblogs.XamarinAndroid
             {
                 _swipeRefreshLayout.Refreshing = true;
             });
-            _swipeRefreshLayout.PostDelayed(() =>
-            {
-                System.Diagnostics.Debug.Write("PostDelayed刷新已经完成");
-                _swipeRefreshLayout.Refreshing = false;
-            },3000);
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
+            InitRecyclerView();
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
             //_recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
-            articleList = await listArticleLocal();
+         
+        }
+
+        async void InitRecyclerView()
+        {
+            articleList = await SQLiteUtil.SelectArticleList(Constact.PageSize);
             if (articleList != null && articleList.Count > 0)
             {
                 initRecycler();
+                OnRefresh();
             }
             else
             {
-                articleList = await  listArticleServer();
-                initRecycler();
+                var result = await ArticleRequest.GetArticleList(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
+                if (result.Success)
+                {
+                    articleList = result.Data;
+                    initRecycler();
+                    if (lastRefreshTime.Year==0)
+                    {
+                        lastRefreshTime = DateTime.Now;
+                        await SQLiteUtil.UpdateArticleList(articleList);
+                    }
+                    else if (lastRefreshTime.Subtract(DateTime.Now).Seconds > 60)
+                    {
+                        await SQLiteUtil.UpdateArticleList(articleList);
+                    }
+                }
+                else
+                {
+                    AlertUtil.ToastShort(Activity, result.Message);
+                }
+                _swipeRefreshLayout.PostDelayed(() =>
+                {
+                    _swipeRefreshLayout.Refreshing = false;
+                },1000);
             }
-            articleList = await listArticleServer();
-            System.Diagnostics.Debug.Write("刷新已经完成");
-            initRecycler();
         }
         private async void LoadMore()
         {
             pageIndex++;
-            var tempList = await listArticleServer();
-            articleList.AddRange(tempList);
-            if (tempList.Count==0)
-             {
-                return;
-            }
-            else if (articleList != null)
+            var result = await ArticleRequest.GetArticleList(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
+            if (result.Success)
             {
-               // Thread.Sleep(2000);
-                adapter.SetNewData(articleList);
-                adapter.NotifyItemRemoved(adapter.ItemCount);
-                System.Diagnostics.Debug.Write("页数:"+pageIndex+"数据总条数："+articleList.Count);
+                var tempList = result.Data;
+                if (tempList == null || tempList.Count == 0)
+                {
+                    AlertUtil.ToastShort(Activity, "网络不太好哦");
+                }
+                else
+                {
+                    // Thread.Sleep(2000);
+                    articleList.AddRange(tempList);
+                    adapter.SetNewData(articleList);
+                    adapter.NotifyItemRemoved(adapter.ItemCount);
+                    System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + articleList.Count);
+                }
+            }
+            else
+            {
+                AlertUtil.ToastShort(Activity, "网络不太好哦");
             }
         }
         async void initRecycler()
@@ -155,42 +184,43 @@ namespace Cnblogs.XamarinAndroid
                     holder.SetImageLoader(Resource.Id.iv_avatar, options, articleList[position].Avatar);
                 };
         }
-        private async Task<List<Article>> listArticleServer()
-        {
-            var result = await ArticleRequest.GetArticleList(AccessTokenUtil.GetToken(this.Activity),pageIndex,position);
-            if (result.Success)
-            {
-                try
-                {
-                    await SQLiteUtil.UpdateArticleList(result.Data);
-                    return result.Data;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.Write(ex.ToString());
-                    return null;
-                }
-            }
-            _swipeRefreshLayout.Refreshing = false;
-            return null;
-        }
-        private async Task<List<Article>> listArticleLocal()
-        {
-            articleList = await SQLiteUtil.SelectArticleList(Constact.PageSize);
-            return articleList;
-        }
 
         public async void OnRefresh()
         {
             if(pageIndex>1)
                 pageIndex = 1; 
-            var tempList  = await listArticleServer();
-            if (tempList != null)
+            var result  = await ArticleRequest.GetArticleList(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
+            if (result.Success)
             {
-                articleList = tempList;
-                _swipeRefreshLayout.Refreshing = false;
-                adapter.SetNewData(tempList);
+                var tempList = result.Data;
+                if (tempList != null && tempList.Count > 0)
+                {
+                    articleList = tempList;
+                    adapter.SetNewData(tempList);
+                    //lastRefreshTime 避免短时间内刷新，多次插入sqlite。
+                    if (lastRefreshTime.Ticks==0)
+                    {
+                        lastRefreshTime = DateTime.Now;
+                        await SQLiteUtil.UpdateArticleList(tempList);
+                    }
+                    else if (lastRefreshTime.Subtract(DateTime.Now).Seconds > 60)
+                    {
+                        await SQLiteUtil.UpdateArticleList(tempList);
+                    }
+                }
+                else
+                {
+                    AlertUtil.ToastShort(Activity, "网络不太好哦");
+                }
             }
+            else
+            {
+                AlertUtil.ToastShort(Activity,result.Message);
+            }
+            _swipeRefreshLayout.PostDelayed(() =>
+            {
+                _swipeRefreshLayout.Refreshing = false;
+            }, 1000);
         }
     }
 }

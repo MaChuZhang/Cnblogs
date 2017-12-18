@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <include
+        layout="@layout/child_toolbar" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="@dimen/dp15"
+        android:orientation="vertical">
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="@dimen/dp10"
+                      android:layout_marginTop="@dimen/dp10"
+      android:layout_marginBottom="@dimen/dp10"
+          android:minHeight="200dp"
+          android:background="@drawable/shape_corner_round">
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/edit_content"
+            android:hint="提问内容20-100000个字符之间"
+            android:background="@null"
+            android:lineSpacingExtra="3dp"
+            android:editable="true"
+            android:textSize="@dimen/TextMiddle" />
+      </LinearLayout>        
+        
+        
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/question_add"
+            android:background="@drawable/selector_btn_primary"
+            android:layout_marginTop="@dimen/dp15"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:id="@+id/btn_submit"
+            android:enabled="false" />
+    </LinearLayout>
+</LinearLayout>

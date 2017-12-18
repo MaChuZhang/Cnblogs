@@ -137,7 +137,7 @@ namespace Cnblogs.XamarinAndroid
         {
             return await Instance().Table<ApiModel.ArticleCommentModel>().Where(s => s.Id == id).FirstOrDefaultAsync();
         }
-        public static async Task<List<ApiModel.ArticleCommentModel>> SelectArticleCommentList(int pageSize)
+        public static async Task<List<ApiModel.ArticleCommentModel>> SelectArticlecommentList(int pageSize)
         {
             return await Instance().Table<ApiModel.ArticleCommentModel>().OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
         }
@@ -145,7 +145,7 @@ namespace Cnblogs.XamarinAndroid
         {
             await Instance().UpdateAsync(model);
         }
-        public static async Task UpdateArticleCommentList(List<ApiModel.ArticleCommentModel> list)
+        public static async Task UpdateArticlecommentList(List<ApiModel.ArticleCommentModel> list)
         {
             foreach (var item in list)
             {
@@ -201,7 +201,7 @@ namespace Cnblogs.XamarinAndroid
         {
             await Instance().UpdateAsync(model);
         }
-        public static async Task UpdateNewsCommentList(List<ApiModel.NewsCommentViewModel> list)
+        public static async Task UpdateNewscommentList(List<ApiModel.NewsCommentViewModel> list)
         {
             foreach (var item in list)
             {
@@ -215,7 +215,7 @@ namespace Cnblogs.XamarinAndroid
                 }
             }
         }
-        public static async Task<List<ApiModel.NewsCommentViewModel>> SelectNewsCommentList(int pageSize)
+        public static async Task<List<ApiModel.NewsCommentViewModel>> SelectNewscommentList(int pageSize)
         {
             return await Instance().Table<ApiModel.NewsCommentViewModel>().OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
         }
@@ -291,7 +291,7 @@ namespace Cnblogs.XamarinAndroid
         {
             return await Instance().Table<ApiModel.StatusCommentsModel>().Where(s => s.Id == id).FirstOrDefaultAsync();
         }
-        public static async Task<List<ApiModel.StatusCommentsModel>> SelectStatusCommentList(int pageSize)
+        public static async Task<List<ApiModel.StatusCommentsModel>> SelectStatuscommentList(int pageSize)
         {
             return await Instance().Table<ApiModel.StatusCommentsModel>().OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
         }
@@ -299,7 +299,7 @@ namespace Cnblogs.XamarinAndroid
         {
             await Instance().UpdateAsync(model);
         }
-        public static async Task UpdateStatusCommentList(List<ApiModel.StatusCommentsModel> list)
+        public static async Task UpdateStatuscommentList(List<ApiModel.StatusCommentsModel> list)
         {
             foreach (var item in list)
             {

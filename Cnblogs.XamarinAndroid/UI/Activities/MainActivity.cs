@@ -99,6 +99,13 @@ namespace Cnblogs.XamarinAndroid
                 }
                 AlertUtil.ToastShort(this,"添加");
             }
+            if (menuItem.ItemId == Resource.Id.setting)
+            {
+                if (tv_userCenter.Selected)
+                {
+                    AlertUtil.ToastShort(this, "设置");
+                }
+            }
             return true;
         }
         void SetUnSelected()

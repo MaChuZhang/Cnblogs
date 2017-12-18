@@ -41,6 +41,8 @@
     <Compile Include="Interface\IActicalCallBack.cs" />
     <Compile Include="NewsCommentViewModel.cs" />
     <Compile Include="NewsViewModel.cs" />
+    <Compile Include="QuestionAnswerViewModel.cs" />
+    <Compile Include="QuestionCommentViewModel.cs" />
     <Compile Include="QuestionModel.cs" />
     <Compile Include="ResponseMessage.cs" />
     <Compile Include="StatusCommentModel.cs" />
