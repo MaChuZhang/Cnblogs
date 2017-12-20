@@ -136,7 +136,7 @@ namespace Cnblogs.XamarinAndroid
         {
             try
             {
-                var result = await HttpClient.KbArticlesRequest.GetKbArticlesDetail(AccessTokenUtil.GetToken(this),id);
+                var result = await HttpClient.KbArticlesService.GetKbArticles(AccessTokenUtil.GetToken(this),id);
                 if (result.Success)
                 {
                         kbArticles.Content = result.Data;

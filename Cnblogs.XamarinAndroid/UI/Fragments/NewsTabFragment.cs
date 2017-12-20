@@ -235,7 +235,7 @@ namespace Cnblogs.XamarinAndroid
         #region ÖªÊ¶¿â
         private async Task<List<KbArticles>> listKbArticlesServer()
         {
-            var result = await KbArticlesRequest.GetKbArticlesList(AccessTokenUtil.GetToken(this.Activity), pageIndex);
+            var result = await KbArticlesService.ListKbArticle(AccessTokenUtil.GetToken(this.Activity), pageIndex);
             if (result.Success)
             {
                 _swipeRefreshLayout.Refreshing = false;

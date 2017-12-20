@@ -103,7 +103,7 @@ namespace Cnblogs.XamarinAndroid
         }
         private async void initRecyclerView()
         {
-            var result = await QuestionRequest.ListQuestionAnswer(AccessTokenUtil.GetToken(this), questionId);
+            var result = await QuestionService.ListQuestionAnswer(AccessTokenUtil.GetToken(this), questionId);
             if (result.Success)
             {
                 answerList = result.Data;
@@ -149,7 +149,7 @@ namespace Cnblogs.XamarinAndroid
                 dialog.SetTitle("评论");
                 dialog.SetMessage("提交评论中.....");
                 dialog.Show();
-                var result = await QuestionRequest.AddQuestionAnswer(userToken, userInfo.BlogApp, userInfo.DisplayName, body, questionId, userInfo.SpaceUserId);
+                var result = await QuestionService.AddQuestionAnswer(userToken, userInfo.BlogApp, userInfo.DisplayName, body, questionId, userInfo.SpaceUserId);
                 if (result.Success)
                 {
                     dialog.Hide();
@@ -168,7 +168,7 @@ namespace Cnblogs.XamarinAndroid
         }
         private async void LoadMore()
         {
-            var result = await QuestionRequest.ListQuestionAnswer(userToken, questionId);
+            var result = await QuestionService.ListQuestionAnswer(userToken, questionId);
             if (result.Success)
             {
                 var tempList = result.Data;
@@ -253,7 +253,7 @@ namespace Cnblogs.XamarinAndroid
                             alertDialog.Create().Show();
                         }
                         progressDialog.Show();
-                        QuestionRequest.DeleteQuestionAnswer(userToken, questionId, answerId, (error) =>
+                        QuestionService.DeleteQuestionAnswer(userToken, questionId, answerId, (error) =>
                         {
                             RunOnUiThread(() =>
                             {
@@ -305,7 +305,7 @@ namespace Cnblogs.XamarinAndroid
                         alertDialog.Create().Show();
                     }
                     progressDialog.Show();
-                    QuestionRequest.DeleteQuestionAnswer(userToken, questionId, answerId, (error) =>
+                    QuestionService.DeleteQuestionAnswer(userToken, questionId, answerId, (error) =>
                     {
                         RunOnUiThread(() =>
                         {
@@ -331,7 +331,7 @@ namespace Cnblogs.XamarinAndroid
 
         public async void OnRefresh()
         {
-            var result = await  QuestionRequest.ListQuestionAnswer(userToken, questionId);
+            var result = await  QuestionService.ListQuestionAnswer(userToken, questionId);
             if (result.Success)
             {
                 answerList = result.Data;

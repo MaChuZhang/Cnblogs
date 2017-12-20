@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Cnblogs.HttpClient
 {
-    public class UserRequest
+    public class UserInfoService
     {
-        public static async Task<ApiResult<UserInfo>> UserInfo(Token token)
+        public static async Task<ApiResult<UserInfo>> GetUser(Token token)
         {
             //var result=null;
             try
@@ -31,7 +31,7 @@ namespace Cnblogs.HttpClient
             }
         }
 
-        public static async Task<ApiResult<UserBlog>> UserBlog(Token token,string blogApp)
+        public static async Task<ApiResult<UserBlog>> GetUserBlog(Token token,string blogApp)
         {
             //var result=null;
             try
@@ -53,7 +53,7 @@ namespace Cnblogs.HttpClient
             }
         }
 
-        public static async Task<ApiResult<List<Article>>> BlogPosts(Token token, string blogApp,int pageIndex)
+        public static async Task<ApiResult<List<Article>>> GetMyBlogPosts(Token token, string blogApp,int pageIndex)
         {
             //var result=null;
             try

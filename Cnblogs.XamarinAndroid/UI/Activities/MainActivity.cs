@@ -103,7 +103,7 @@ namespace Cnblogs.XamarinAndroid
             {
                 if (tv_userCenter.Selected)
                 {
-                    AlertUtil.ToastShort(this, "设置");
+                    SettingActivity.Enter(this);
                 }
             }
             return true;

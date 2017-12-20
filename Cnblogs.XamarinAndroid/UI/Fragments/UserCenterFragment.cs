@@ -88,7 +88,7 @@ namespace Cnblogs.XamarinAndroid
                 }
                 else
                 {
-                    var result = await UserRequest.UserInfo(userToken);
+                    var result = await UserInfoService.GetUser(userToken);
                     if (result.Success)
                     {
                         userInfo = result.Data;
@@ -102,7 +102,7 @@ namespace Cnblogs.XamarinAndroid
                 }
                 else
                 {
-                    var result = await UserRequest.UserBlog(userToken, userInfo.BlogApp);
+                    var result = await UserInfoService.GetUserBlog(userToken, userInfo.BlogApp);
                     if (result.Success)
                     {
                         userBlog = result.Data;

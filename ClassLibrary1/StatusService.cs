@@ -10,7 +10,7 @@ using Cnblogs.HttpClient;
 
 namespace Cnblogs.HttpClient
 {
-    public class StatusRequest
+    public class StatusService
     {
         public static async Task<ApiResult<List<StatusModel>>> ListStatus(Token token,int statusType,int pageIndex,bool isMy)
         {

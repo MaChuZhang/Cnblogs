@@ -87,5 +87,6 @@
   <string name="HomeTabsBlog">博客</string>
   <string name="HomeTabsHot">精华</string>
 
+  <string name="exitLogin">退出登录</string>
   <string name="zzk">找找看</string>
 </resources>

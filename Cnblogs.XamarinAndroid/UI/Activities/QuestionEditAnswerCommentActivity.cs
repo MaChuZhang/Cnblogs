@@ -122,7 +122,7 @@ namespace Cnblogs.XamarinAndroid
                 dialog.SetTitle("评论");
                 dialog.SetMessage("提交评论中.....");
                 dialog.Show();
-               QuestionRequest.EditQuestionAnswerComment(userToken, body, questionId, answerId,commentId,userInfo.SpaceUserId,()=> {
+               QuestionService.EditQuestionAnswerComment(userToken, body, questionId, answerId,commentId,userInfo.SpaceUserId,()=> {
                    RunOnUiThread(() =>
                    {
                        dialog.Hide();

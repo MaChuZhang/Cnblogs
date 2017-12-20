@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Cnblogs.HttpClient
 {
-    public class BookmarksRequest
+    public class BookmarksService
     {
         public static async Task<ApiResult<List<BookmarksModel>>> List(Token token,int pageSize,int pageIndex)
         {

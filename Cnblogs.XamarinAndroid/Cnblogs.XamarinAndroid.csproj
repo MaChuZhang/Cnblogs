@@ -144,6 +144,7 @@
     <Compile Include="UI\Activities\MyBlogActivity.cs" />
     <Compile Include="UI\Activities\MyQuestionActivity.cs" />
     <Compile Include="UI\Activities\MyStatus.cs" />
+    <Compile Include="UI\Activities\SettingActivity.cs" />
     <Compile Include="UI\Activities\StatusesCommentActivity.cs" />
     <Compile Include="UI\Activities\QuestionActivity.cs" />
     <Compile Include="UI\Activities\DetailKbArticlesActivity.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Util\SharedDataUtil.cs" />
     <Compile Include="Util\SQLiteUtil.cs" />
     <Compile Include="Util\StatusBarUtil.cs" />
+    <Compile Include="Util\UserUtil.cs" />
     <Compile Include="wxapi\WXEntryActivity.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +333,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\editQuestionAnswerComment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Setting.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

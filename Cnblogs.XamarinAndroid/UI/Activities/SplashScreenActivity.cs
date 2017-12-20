@@ -21,8 +21,8 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
         {
             base.OnCreate(savedInstanceState);
             StatusBarUtil.SetColorStatusBars(this);
-            //await UserRequest.Client_Credentials();
-            //await UserRequest.Client_Credentials((token) =>
+            //await UserService.Client_Credentials();
+            //await UserService.Client_Credentials((token) =>
             //{
             //    token.RefreshTime = DateTime.Now;
             //    AccessTokenUtil.SaveToken(token, this);

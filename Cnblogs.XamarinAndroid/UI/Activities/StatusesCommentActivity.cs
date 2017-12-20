@@ -89,7 +89,7 @@ namespace Cnblogs.XamarinAndroid
             });
             _swipeRefreshLayout.Refresh += async (s, e) =>
             {
-                await StatusRequest.ListStatusComment(AccessTokenUtil.GetToken(this), statusId, callBackSuccess, callBackError);
+                await StatusService.ListStatusComment(AccessTokenUtil.GetToken(this), statusId, callBackSuccess, callBackError);
             };
             edit_content.TextChanged += (s, e) =>
             {
@@ -101,7 +101,7 @@ namespace Cnblogs.XamarinAndroid
                     btn_submit.Enabled = true;
             };
             AlertUtil.ToastShort(this,"线程ID"+System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
-           await StatusRequest.ListStatusComment(AccessTokenUtil.GetToken(this), statusId, callBackSuccess, callBackError);
+           await StatusService.ListStatusComment(AccessTokenUtil.GetToken(this), statusId, callBackSuccess, callBackError);
             _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this, (int)Orientation.Vertical));
         }
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -190,7 +190,7 @@ namespace Cnblogs.XamarinAndroid
                 progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
                 progressDialog.SetMessage("删除中....");
                 progressDialog.Show();
-                StatusRequest.DeleteComment(UserTokenUtil.GetToken(this),model.StatusId.ToString(),model.Id.ToString(),()=> {
+                StatusService.DeleteComment(UserTokenUtil.GetToken(this),model.StatusId.ToString(),model.Id.ToString(),()=> {
                     RunOnUiThread(() =>
                     {
                         progressDialog.Hide();
@@ -223,13 +223,13 @@ namespace Cnblogs.XamarinAndroid
             progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
             progressDialog.SetMessage("添加评论中....");
             progressDialog.Show();
-            var result = await StatusRequest.AddComment(UserTokenUtil.GetToken(this), statusId.ToString(), replyToUserId,parentCommentId, content);
+            var result = await StatusService.AddComment(UserTokenUtil.GetToken(this), statusId.ToString(), replyToUserId,parentCommentId, content);
             if (result.Success)
             {
                 RunOnUiThread(async () =>
                 {
                     progressDialog.Hide();
-                    await StatusRequest.ListStatusComment(AccessTokenUtil.GetToken(this), statusId, callBackSuccess, callBackError);
+                    await StatusService.ListStatusComment(AccessTokenUtil.GetToken(this), statusId, callBackSuccess, callBackError);
                     edit_content.Text = "";
                     AlertUtil.ToastShort(this, "评论成功");
                 });

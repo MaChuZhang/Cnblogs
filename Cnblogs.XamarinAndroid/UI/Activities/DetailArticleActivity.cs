@@ -186,7 +186,7 @@ namespace Cnblogs.XamarinAndroid
                 {
                     return;
                 }
-                var result = await HttpClient.ArticleRequest.GetArticleDetail(AccessTokenUtil.GetToken(this),id);
+                var result = await HttpClient.ArticleService.GetArticle(AccessTokenUtil.GetToken(this),id);
                 if (result.Success)
                 {
           

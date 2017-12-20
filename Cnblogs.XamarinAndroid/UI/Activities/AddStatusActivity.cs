@@ -132,7 +132,7 @@ namespace Cnblogs.XamarinAndroid
             dialog.SetTitle(Resources.GetString(Resource.String.bookmark_add));
             dialog.SetMessage("Ã·Ωª÷–.......");
             dialog.Show();
-            var result = await StatusRequest.Add(userToken, et_content.Text.Trim(), isPrivate);
+            var result = await StatusService.Add(userToken, et_content.Text.Trim(), isPrivate);
             if (result.Success)
             {
                 dialog.Hide();

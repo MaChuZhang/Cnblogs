@@ -144,7 +144,7 @@ namespace Cnblogs.XamarinAndroid
                 return;
             }
             dialog.Show();
-            var  result= await  ArticleRequest.AddArticleComment(userToken, blogApp, postId, body);
+            var  result= await  ArticleService.AddArticleComment(userToken, blogApp, postId, body);
             if (result.Success)
             {
                 dialog.Hide();
@@ -218,7 +218,7 @@ namespace Cnblogs.XamarinAndroid
             try
             {
                 var token = UserTokenUtil.GetToken(this);
-                var result = await ArticleRequest.ListArticleComment(token, blogApp, postId, pageIndex);
+                var result = await ArticleService.ListArticleComment(token, blogApp, postId, pageIndex);
                 if (result.Success)
                 {
                     _swipeRefreshLayout.Refreshing = false;

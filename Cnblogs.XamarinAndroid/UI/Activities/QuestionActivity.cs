@@ -217,7 +217,7 @@ namespace Cnblogs.XamarinAndroid
         {
             try
             {
-                var  result = await QuestionRequest.GetQuestionDetail(AccessTokenUtil.GetToken(this), questionId);
+                var  result = await QuestionService.GetQuestionDetail(AccessTokenUtil.GetToken(this), questionId);
                 if (result.Success)
                 {
                     question = result.Data;

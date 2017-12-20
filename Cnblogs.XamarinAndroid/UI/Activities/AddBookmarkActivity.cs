@@ -164,7 +164,7 @@ namespace Cnblogs.XamarinAndroid
                 dialog.Show();
                 if (mode == "add")
                 {
-                    var result = await BookmarksRequest.Add(token, model);
+                    var result = await BookmarksService.Add(token, model);
 
                     if (result.Success)
                     {
@@ -184,7 +184,7 @@ namespace Cnblogs.XamarinAndroid
                 if (mode == "edit")
                 {
                     model.WzLinkId = wzLinkId;
-                    BookmarksRequest.Edit(token, model,(result)=> {
+                    BookmarksService.Edit(token, model,(result)=> {
                          if (result.IsSuccess)
                          {
                             RunOnUiThread(()=> {

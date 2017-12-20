@@ -99,7 +99,7 @@ namespace Cnblogs.XamarinAndroid
             }
             else
             {
-                var result = await ArticleRequest.GetArticleList(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
+                var result = await ArticleService.ListArticle(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
                 if (result.Success)
                 {
                     articleList = result.Data;
@@ -127,7 +127,7 @@ namespace Cnblogs.XamarinAndroid
         private async void LoadMore()
         {
             pageIndex++;
-            var result = await ArticleRequest.GetArticleList(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
+            var result = await ArticleService.ListArticle(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
             if (result.Success)
             {
                 var tempList = result.Data;
@@ -189,7 +189,7 @@ namespace Cnblogs.XamarinAndroid
         {
             if(pageIndex>1)
                 pageIndex = 1; 
-            var result  = await ArticleRequest.GetArticleList(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
+            var result  = await ArticleService.ListArticle(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
             if (result.Success)
             {
                 var tempList = result.Data;

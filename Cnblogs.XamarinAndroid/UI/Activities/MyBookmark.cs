@@ -194,7 +194,7 @@ namespace Cnblogs.XamarinAndroid
         private  void Delete(ProgressDialog progressDialog,BookmarksModel model)
         {
             progressDialog.Show();
-             BookmarksRequest.Delete(token, model.WzLinkId,(response)=> {
+             BookmarksService.Delete(token, model.WzLinkId,(response)=> {
                  if (response.IsSuccess)
                  {
                         progressDialog.Hide();
@@ -215,7 +215,7 @@ namespace Cnblogs.XamarinAndroid
         }
         private async Task<List<BookmarksModel>> listBookmarkServer()
         {
-            var result = await BookmarksRequest.List(UserTokenUtil.GetToken(this),Constact.PageSize,pageIndex);
+            var result = await BookmarksService.List(UserTokenUtil.GetToken(this),Constact.PageSize,pageIndex);
             if (result.Success)
             {
                 _swipeRefreshLayout.Refreshing = false;

@@ -10,9 +10,9 @@ using Cnblogs.HttpClient;
 
 namespace Cnblogs.HttpClient
 {
-    public class KbArticlesRequest
+    public class KbArticlesService
     {
-        public static async Task<ApiResult<List<KbArticles>>> GetKbArticlesList(Token token,int pageIndex)
+        public static async Task<ApiResult<List<KbArticles>>> ListKbArticle(Token token,int pageIndex)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Cnblogs.HttpClient
             }
         }
 
-        public static async Task<ApiResult<string>> GetKbArticlesDetail(Token token, int id)
+        public static async Task<ApiResult<string>> GetKbArticles(Token token, int id)
         {
             try
             {

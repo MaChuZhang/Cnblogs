@@ -105,7 +105,7 @@ namespace Cnblogs.XamarinAndroid
         }
         private async void initRecyclerView()
         {
-            var result = await QuestionRequest.ListQuestionAnswerComment(AccessTokenUtil.GetToken(this), answerId);
+            var result = await QuestionService.ListQuestionAnswerComment(AccessTokenUtil.GetToken(this), answerId);
             if (result.Success)
             {
                 answerCommentList = result.Data;
@@ -151,7 +151,7 @@ namespace Cnblogs.XamarinAndroid
                 dialog.SetTitle("评论");
                 dialog.SetMessage("提交评论中.....");
                 dialog.Show();
-                var result = await QuestionRequest.AddQuestionAnswerComment(userToken, body, userInfo.BlogApp, questionId, answerId, parentCommentId, userInfo.SpaceUserId);
+                var result = await QuestionService.AddQuestionAnswerComment(userToken, body, userInfo.BlogApp, questionId, answerId, parentCommentId, userInfo.SpaceUserId);
                 if (result.Success)
                 {
                     dialog.Hide();
@@ -170,7 +170,7 @@ namespace Cnblogs.XamarinAndroid
         }
         private async void LoadMore()
         {
-            var result = await QuestionRequest.ListQuestionAnswerComment(userToken, answerId);
+            var result = await QuestionService.ListQuestionAnswerComment(userToken, answerId);
             if (result.Success)
             {
                 var tempList = result.Data;
@@ -263,7 +263,7 @@ namespace Cnblogs.XamarinAndroid
                     progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
                     progressDialog.SetMessage("删除中....");
                     progressDialog.Show();
-                    QuestionRequest.DeleteQuestionAnswerComment(userToken, questionId, answerId, commentId, (error) =>
+                    QuestionService.DeleteQuestionAnswerComment(userToken, questionId, answerId, commentId, (error) =>
                     {
                         RunOnUiThread(() =>
                         {
@@ -283,7 +283,7 @@ namespace Cnblogs.XamarinAndroid
 
         public async void OnRefresh()
         {
-            var result = await  QuestionRequest.ListQuestionAnswerComment(userToken, answerId);
+            var result = await  QuestionService.ListQuestionAnswerComment(userToken, answerId);
             if (result.Success)
             {
                 answerCommentList = result.Data;

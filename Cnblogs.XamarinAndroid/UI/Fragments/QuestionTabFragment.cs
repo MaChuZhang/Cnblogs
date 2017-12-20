@@ -195,11 +195,11 @@ namespace Cnblogs.XamarinAndroid
             if (isMy)
             {
                 var user = UserInfoShared.GetUserInfo(this.Activity);
-                result = await QuestionRequest.ListQuestion(UserTokenUtil.GetToken(this.Activity), position, pageIndex,true,user.SpaceUserId);
+                result = await QuestionService.ListQuestion(UserTokenUtil.GetToken(this.Activity), position, pageIndex,true,user.SpaceUserId);
             }
             else
             {
-                result = await QuestionRequest.ListQuestion(AccessTokenUtil.GetToken(this.Activity), position, pageIndex,false,0);
+                result = await QuestionService.ListQuestion(AccessTokenUtil.GetToken(this.Activity), position, pageIndex,false,0);
             }
             if (result.Success)
             {

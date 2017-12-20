@@ -10,9 +10,9 @@ using Cnblogs.HttpClient;
 
 namespace Cnblogs.HttpClient
 {
-    public class ArticleRequest
+    public class ArticleService
     {
-        public static async Task<ApiResult<List<Article>>> GetArticleList(Token token,int pageIndex,int position)
+        public static async Task<ApiResult<List<Article>>> ListArticle(Token token,int pageIndex,int position)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace Cnblogs.HttpClient
             }
         }
 
-        public static async Task<ApiResult<string>> GetArticleDetail(Token token,int id)
+        public static async Task<ApiResult<string>> GetArticle(Token token,int id)
         {
             try
             {

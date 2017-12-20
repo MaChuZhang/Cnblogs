@@ -165,7 +165,7 @@ namespace Cnblogs.XamarinAndroid
         private async Task<List<Article>> listArticleServer(int _pageIndex)
         {
             pageIndex = _pageIndex;
-            var result = await UserRequest.BlogPosts(UserTokenUtil.GetToken(this),blogApp, pageIndex);
+            var result = await UserInfoService.GetMyBlogPosts(UserTokenUtil.GetToken(this),blogApp, pageIndex);
             if (result.Success)
             {
                 _swipeRefreshLayout.Refreshing = false;

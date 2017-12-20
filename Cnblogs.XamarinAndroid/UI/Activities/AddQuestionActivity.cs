@@ -162,7 +162,7 @@ namespace Cnblogs.XamarinAndroid
             dialog.SetTitle(Resources.GetString(Resource.String.bookmark_add));
             dialog.SetMessage("Ìá½»ÖÐ.......");
             dialog.Show();
-            var result = await QuestionRequest.Add(userToken, title, content, tags, flags, userInfo.SpaceUserId.ToString());
+            var result = await QuestionService.Add(userToken, title, content, tags, flags, userInfo.SpaceUserId.ToString());
             if (result.Success)
             {
                 RunOnUiThread(() =>

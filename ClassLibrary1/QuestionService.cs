@@ -18,7 +18,7 @@ namespace Cnblogs.HttpClient
     {
         myquestion, myunsolved, myanswer, mybestanswer
     }
-    public class QuestionRequest
+    public class QuestionService
     {
         /// <summary>
         /// 分类获取问答

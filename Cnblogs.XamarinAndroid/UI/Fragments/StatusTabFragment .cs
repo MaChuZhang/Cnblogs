@@ -198,7 +198,7 @@ namespace Cnblogs.XamarinAndroid
             progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
             progressDialog.SetMessage("É¾³ýÖÐ....");
             progressDialog.Show();
-            StatusRequest.Delete(UserTokenUtil.GetToken(Activity),model.Id,(success)=> {
+            StatusService.Delete(UserTokenUtil.GetToken(Activity),model.Id,(success)=> {
                 Activity.RunOnUiThread(() =>
                 {
                     progressDialog.Hide();
@@ -217,15 +217,15 @@ namespace Cnblogs.XamarinAndroid
         {
             var result = new ApiResult<List<StatusModel>>();
             if (isMy)
-                result = await StatusRequest.ListStatus(UserTokenUtil.GetToken(this.Activity), position, pageIndex, true);
+                result = await StatusService.ListStatus(UserTokenUtil.GetToken(this.Activity), position, pageIndex, true);
             else
             {
                 if (position == 0)
                 {
-                    result = await StatusRequest.ListStatus(AccessTokenUtil.GetToken(this.Activity), position, pageIndex, false);
+                    result = await StatusService.ListStatus(AccessTokenUtil.GetToken(this.Activity), position, pageIndex, false);
                 }
                 else
-                    result = await StatusRequest.ListStatus(UserTokenUtil.GetToken(this.Activity), position, pageIndex, false);
+                    result = await StatusService.ListStatus(UserTokenUtil.GetToken(this.Activity), position, pageIndex, false);
             }
             if (result.Success)
             {
