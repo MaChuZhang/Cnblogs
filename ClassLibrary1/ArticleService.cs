@@ -54,18 +54,15 @@ namespace Cnblogs.HttpClient
                 if (result.IsSuccess)
                 {
                     var articleDetail = result.Message;
-                    //successAction(list);
                     return ApiResult.Ok(articleDetail);
                 }
                 else
                 {
                     return ApiResult<string>.Error(result.Message);
-                    //errorAction(result.Message);
                 }
             }
             catch (Exception ex)
             {
-                //errorAction(ex.StackTrace.ToString());
                 return ApiResult<string>.Error(ex.Message);
             }
         }

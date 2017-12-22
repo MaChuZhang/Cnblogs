@@ -3,6 +3,7 @@ using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Android.Widget;
+using Com.Nostra13.Universalimageloader.Core;
 using Com.Umeng.Socialize;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ namespace Cnblogs.XamarinAndroid
         public override void OnCreate()
         {
             base.OnCreate();
+            ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();
+            ImageLoader.Instance.Init(configuration);//初始化图片加载框架
             Config.Debug =true;
             PlatformConfig.SetWeixin("wx633888643fbae319", "90af1431fb8a7a191394238799178360");
             PlatformConfig.SetSinaWeibo("1422675167", "02975c36afd93d3ae983f8da9e596b86", "https://api.weibo.com/oauth2/default.html");

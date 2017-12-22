@@ -33,10 +33,10 @@
   </string-array>
 
   <string-array name="NewsTabs">
-    <item>@string/kbArticles</item>
     <item>@string/news_home</item>
     <item>@string/news_weekHot</item>
     <item>@string/news_digg</item>
+    <item>@string/kbArticles</item>
   </string-array>
   
 

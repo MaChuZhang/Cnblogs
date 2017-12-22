@@ -65,13 +65,13 @@ namespace Cnblogs.XamarinAndroid
             tv_userName.Text = userInfo.DisplayName;
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
-                .ShowImageForEmptyUri(Resource.Drawable.Icon)
+                .ShowImageForEmptyUri(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnFail(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnLoading(Resource.Drawable.icon_user)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
-                  .ShowImageOnFail(Resource.Drawable.icon_user)
-                  .ShowImageOnLoading(Resource.Drawable.icon_user)
                   .CacheOnDisk(true)
-                  .Displayer(new DisplayerImageCircle(20))
+                 // .Displayer(new DisplayerImageCircle(20))
                   .Build();
             ImageLoader.Instance.DisplayImage(userInfo.Avatar, headPic, options);
             _swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);

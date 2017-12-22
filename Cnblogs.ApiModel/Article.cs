@@ -11,6 +11,7 @@ namespace Cnblogs.ApiModel
         public string Description { get; set; }
         public string Author { get; set; }
         public string BlogApp { get; set; }
+        [Ignore]
         public string Content { get; set; }
         public string Avatar { get; set; }
         public int ViewCount { get; set; }

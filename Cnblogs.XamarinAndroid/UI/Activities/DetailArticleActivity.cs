@@ -20,14 +20,16 @@ using Cnblogs.ApiModel;
 using Com.Umeng.Socialize;
 using Cnblogs.XamarinAndroid.UI.Widgets;
 using Newtonsoft.Json;
+using Android.Support.V4.Widget;
 
 namespace Cnblogs.XamarinAndroid
 {
     [Activity(Label = "DetailArticleActivity",Theme = "@style/AppTheme")]
-    public class DetailArticleActivity : BaseActivity
+    public class DetailArticleActivity : BaseActivity,SwipeRefreshLayout.IOnRefreshListener
     {
         //private Toolbar toolbar;
         private TextView tv_author, tv_postDate, tv_articleTitle,tv_view;
+        private SwipeRefreshLayout swipeRefreshLayout;
         private ImageView iv_avatar;
         private WebView wb_content;
         private int articleId;
@@ -49,20 +51,16 @@ namespace Cnblogs.XamarinAndroid
             ImageLoader.Instance.Init(configuration);
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
-                  .ShowImageForEmptyUri(Resource.Drawable.Icon)
+                .ShowImageForEmptyUri(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnFail(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnLoading(Resource.Drawable.icon_user)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
-                  .ShowImageOnFail(Resource.Drawable.icon_user)
-                  .ShowImageOnLoading(Resource.Drawable.icon_loading)
                   .CacheOnDisk(true)
-                  .Displayer(new DisplayerImageCircle(20))
+                 // .Displayer(new DisplayerImageCircle(20))
                   .Build();
             SetToolBarNavBack();
             articleId = Intent.GetIntExtra("id", 0);
-            //toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            //toolbar.Title = "≤©øÕ";
-            //  toolbar.(Resource.Drawable.icon_back);
-            // SetSupportActionBar(toolbar);
             tv_author = FindViewById<TextView>(Resource.Id.tv_author);
             tv_postDate = FindViewById<TextView>(Resource.Id.tv_postDate);
             wb_content = FindViewById<WebView>(Resource.Id.wb_content);
@@ -72,7 +70,10 @@ namespace Cnblogs.XamarinAndroid
             btn_digg = FindViewById<Button>(Resource.Id.btn_digg);
             btn_mark = FindViewById<Button>(Resource.Id.btn_mark);
             tv_view = FindViewById<TextView>(Resource.Id.tv_view);
-
+            swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
+            swipeRefreshLayout.SetColorSchemeColors(Resources.GetColor(Resource.Color.primary));
+            swipeRefreshLayout.SetOnRefreshListener(this);
+            OnRefresh();
             btn_mark.Click += (s, e) =>
             {
                 AddBookmarkActivity.Enter(this,article.Url,article.Title,"add");
@@ -100,30 +101,12 @@ namespace Cnblogs.XamarinAndroid
             {
                   PhotoActivity.Enter(this,e.Result.Split(','),e.Index);
             };
-            GetArticle(articleId);
+            InitArticle(articleId);
             shareWidget = new UMengShareWidget(this);
         }
-        public static void Enter(Context context,int id)
-        {
-            Intent intent = new Intent(context,typeof(DetailArticleActivity));
-            intent.PutExtra("id",id);
-            context.StartActivity(intent);
-        }
-        public static void Enter(Context context, int id,Article _article)
-        {
-            Intent intent = new Intent(context, typeof(DetailArticleActivity));
-            string articleStr = JsonConvert.SerializeObject(_article);
-            intent.PutExtra("id", id);
-            intent.PutExtra("article",articleStr);
-            context.StartActivity(intent);
-        }
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            MenuInflater.Inflate(Resource.Menu.share,menu);
-            return  true;
-        }
 
-        async void GetArticle(int id)
+
+        async void InitArticle(int id)
         {
           
                 string articleStr = Intent.GetStringExtra("article");
@@ -147,26 +130,7 @@ namespace Cnblogs.XamarinAndroid
                     iv_avatar.SetImageResource(Resource.Drawable.noavatar);
                 else
                     ImageLoader.Instance.DisplayImage(article.Avatar, iv_avatar, options);
-                if (!string.IsNullOrEmpty(article.Content))
-                {
-                    article.Content = article.Content.ReplaceHtml().Trim('"');
-                    string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", article.Content).Replace("#title#", "").Replace("#author#", "").Replace("#date#", "");
-                    wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
-                    GetFirstImgSrc();
-                }
-                else
-                {
-                    GetServiceArticle(articleId);
-                }
             }
-            else {
-
-            }
-        }
-        void GetAssetContent(string body)
-        {
-            string content = HtmlUtil.ReadHtml(Assets);
-            body = body.ReplaceHtml();
         }
         void GetFirstImgSrc()
         {
@@ -178,24 +142,24 @@ namespace Cnblogs.XamarinAndroid
             else
                 firstImgSrc = "";
         }
-        async void GetServiceArticle(int id)
+        async  void GetArticleContent(Action successCallBack)
         {
+            if (articleId==0)
+            {
+                AlertUtil.ToastShort(this,"Œ¥÷™µƒ¥ÌŒÛarticleId==0");
+                return;
+            }
             try
             {
-                if (!string.IsNullOrEmpty(article.Content))
-                {
-                    return;
-                }
-                var result = await HttpClient.ArticleService.GetArticle(AccessTokenUtil.GetToken(this),id);
+                var result = await HttpClient.ArticleService.GetArticle(AccessTokenUtil.GetToken(this),articleId);
                 if (result.Success)
                 {
-          
                         article.Content = result.Data;
-                        await SQLiteUtil.UpdateArticle(article);
                         article.Content = article.Content.ReplaceHtml().Trim('"');
                         string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", article.Content).Replace("#title#",article.Title).Replace("#author#", "").Replace("#date#", "");
                         wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
                         GetFirstImgSrc();
+                    successCallBack();
                 }
             }
             catch (Exception ex)
@@ -203,7 +167,39 @@ namespace Cnblogs.XamarinAndroid
 
             }
         }
+        public void OnRefresh()
+        {
+            swipeRefreshLayout.Post(() =>
+            {
+                swipeRefreshLayout.Refreshing = true;
+            });
+            GetArticleContent(()=> {
+                swipeRefreshLayout.PostDelayed(() =>
+                {
+                    swipeRefreshLayout.Refreshing = false;
+                }, 700);
+            });
 
+        }
+        public static void Enter(Context context, int id)
+        {
+            Intent intent = new Intent(context, typeof(DetailArticleActivity));
+            intent.PutExtra("id", id);
+            context.StartActivity(intent);
+        }
+        public static void Enter(Context context, int id, Article _article)
+        {
+            Intent intent = new Intent(context, typeof(DetailArticleActivity));
+            string articleStr = JsonConvert.SerializeObject(_article);
+            intent.PutExtra("id", id);
+            intent.PutExtra("article", articleStr);
+            context.StartActivity(intent);
+        }
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.share, menu);
+            return true;
+        }
         public override bool OnMenuItemClick(IMenuItem item)
         {
             if (article != null)
@@ -218,10 +214,5 @@ namespace Cnblogs.XamarinAndroid
             base.OnActivityResult(requestCode,resultCode,data);
             UMShareAPI.Get(this).OnActivityResult(requestCode,(int)resultCode,data);
         }
-
-        //public void OnClick(View v)
-        //{
-        //    ActivityCompat.FinishAfterTransition(this);
-        //}
     }
 }

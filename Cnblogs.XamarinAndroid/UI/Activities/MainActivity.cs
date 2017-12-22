@@ -43,8 +43,7 @@ namespace Cnblogs.XamarinAndroid
         {
             base.OnCreate(bundle);
             addActivity(this);
-            ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();//初始化图片加载框架
-            ImageLoader.Instance.Init(configuration);
+
             StatusBarUtil.SetColorStatusBars(this);
             _fm = SupportFragmentManager;
             //SetSupportActionBar(_toolbar);

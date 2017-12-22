@@ -54,13 +54,13 @@ namespace Cnblogs.XamarinAndroid
             ImageLoader.Instance.Init(configuration);
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
-                  .ShowImageForEmptyUri(Resource.Drawable.Icon)
+                .ShowImageForEmptyUri(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnFail(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnLoading(Resource.Drawable.icon_user)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
-                  .ShowImageOnFail(Resource.Drawable.icon_user)
-                  .ShowImageOnLoading(Resource.Drawable.icon_loading)
                   .CacheOnDisk(true)
-                  .Displayer(new DisplayerImageCircle(20))
+                 // .Displayer(new DisplayerImageCircle(20))
                   .Build();
             SetToolBarNavBack();
             tv_title = FindViewById<TextView>(Resource.Id.tv_title);

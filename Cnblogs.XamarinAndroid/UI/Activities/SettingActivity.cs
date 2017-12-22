@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace Cnblogs.XamarinAndroid.UI.Activities
 {
-    [Activity(Label = "SettingActivity",Theme ="@style/AppTheme")]
+    [Activity(Label = "",Theme ="@style/AppTheme")]
     public class SettingActivity : BaseActivity
     {
         protected override int LayoutResourceId
@@ -22,12 +22,22 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
                 return Resource.Layout.Setting;
             }
         }
-        private Button btn_exitLogin;
+        protected  override  string ToolBarTitle
+        {
+            get
+            {
+                return  Resources.GetString(Resource.String.setting);
+            }
+        } private Button btn_exitLogin;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             // Create your application here
             btn_exitLogin = FindViewById<Button>(Resource.Id.btn_exitLogin);
+            SetToolBarNavBack();
+            StatusBarUtil.SetColorStatusBars(this);
+            SetToolBarTitle(Resources.GetString(Resource.String.setting));
+            UpdateViewStatus();
             btn_exitLogin.Click += (s, e) =>
             {
                 Android.Support.V7.App.AlertDialog.Builder alertDialog = new Android.Support.V7.App.AlertDialog.Builder(this)
@@ -37,7 +47,8 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
                  {
                      //UserBlogShared.SetUserBlog();
                      UserUtil.Instance(this).Logout();
-                     AlertUtil.ToastLong(this,"成功");
+                     UpdateViewStatus();
+                    //AlertUtil.ToastLong(this,"成功");
                  })
                  .SetNegativeButton("取消", (s1, e1) =>
                  {
@@ -45,6 +56,17 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
                  });
                 alertDialog.Create().Show();
             };
+        }
+        void UpdateViewStatus()
+        {
+            if (UserUtil.Instance(this).LoginExpire())
+            {
+                btn_exitLogin.Enabled = false;
+            }
+            else
+            {
+                btn_exitLogin.Enabled = true;
+            }
         }
         internal static void Enter(Context context)
         {

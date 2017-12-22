@@ -57,14 +57,14 @@ namespace Cnblogs.XamarinAndroid
             SetToolBarTitle(Resources.GetString(Resource.String.comment));
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
-                  .ShowImageForEmptyUri(Resource.Drawable.icon_user)
-                  .CacheInMemory(true)
-                  .BitmapConfig(Bitmap.Config.Rgb565)
-                  .ShowImageOnFail(Resource.Drawable.icon_user)
-                  .ShowImageOnLoading(Resource.Drawable.icon_user)
-                  .CacheOnDisk(true)
-                  .Displayer(new DisplayerImageCircle(20))
-                  .Build();
+               .ShowImageForEmptyUri(Resource.Drawable.icon_yuanyou)
+                 .ShowImageOnFail(Resource.Drawable.icon_yuanyou)
+                 .ShowImageOnLoading(Resource.Drawable.icon_user)
+                 .CacheInMemory(true)
+                 .BitmapConfig(Bitmap.Config.Rgb565)
+                 .CacheOnDisk(true)
+                // .Displayer(new DisplayerImageCircle(20))
+                 .Build();
             edit_content = FindViewById<EditText>(Resource.Id.edit_content);
             btn_submit = FindViewById<Button>(Resource.Id.btn_submit);
             //btn_submit.enabvle

@@ -40,13 +40,13 @@ namespace Cnblogs.XamarinAndroid
             SetToolBarTitle(Resources.GetString(Resource.String.myStatus));
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
-                  .ShowImageForEmptyUri(Resource.Drawable.Icon)
+                .ShowImageForEmptyUri(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnFail(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnLoading(Resource.Drawable.icon_user)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
-                  .ShowImageOnFail(Resource.Drawable.icon_user)
-                  .ShowImageOnLoading(Resource.Drawable.icon_user)
                   .CacheOnDisk(true)
-                  .Displayer(new DisplayerImageCircle(20))
+                 // .Displayer(new DisplayerImageCircle(20))
                   .Build();
             _viewPager = FindViewById<ViewPager>(Resource.Id.viewPager_home);
             _tab = FindViewById<TabLayout>(Resource.Id.tab_home);

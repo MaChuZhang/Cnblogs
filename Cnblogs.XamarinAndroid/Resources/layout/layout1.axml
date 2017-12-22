@@ -4,133 +4,14 @@
     android:id="@+id/ly_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ly_headerView"
-        android:orientation="vertical"
-        android:background="@android:color/white">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/layer_articleHeader"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_title"
-                android:textSize="@dimen/TextLarge"
-                android:textColor="@color/white"
-                android:lineSpacingExtra="@dimen/dp5"
-                android:textStyle="bold"
-                android:text="C#常用的盗常用的盗版常用的盗版常用的盗版常用的盗版版"
-                android:padding="@dimen/dp10" />
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="2dp"
-                app:cardCornerRadius="2dp"
-                android:layout_margin="@dimen/dp5">
-                <LinearLayout
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:background="@android:color/white"
-                    android:id="@+id/ly_articleHeader"
-                    android:padding="@dimen/dp5">
-                    <ImageView
-                        android:layout_height="@dimen/ImgMiddle"
-                        android:layout_width="@dimen/ImgMiddle"
-                        android:id="@+id/iv_userIcon"
-                        android:src="@drawable/icon" />
-                    <LinearLayout
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:orientation="vertical">
-                        <RelativeLayout
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:layout_marginTop="@dimen/dp3"
-                            android:layout_marginBottom="@dimen/dp3"
-                            android:layout_marginLeft="@dimen/dp5">
-                            <TextView
-                                android:id="@+id/tv_userName"
-                                android:layout_height="wrap_content"
-                                android:layout_width="wrap_content"
-                                android:textSize="@dimen/TextMiddle"
-                                android:textColor="@color/black"
-                                android:text="zhan123"
-                                android:layout_alignParentLeft="true" />
-                            <TextView
-                                android:id="@+id/tv_dateAdded"
-                                style="@style/InlineText"
-                                android:layout_centerVertical="true"
-                                android:layout_alignParentRight="true"
-                                android:text="13小时前" />
-                        </RelativeLayout>
-                        <RelativeLayout
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:layout_marginTop="@dimen/dp3"
-                            android:layout_marginBottom="@dimen/dp3"
-                            android:layout_marginLeft="@dimen/dp5">
-                            <TextView
-                                android:id="@+id/tv_qScore"
-                                style="@style/InlineText"
-                                android:layout_marginLeft="@dimen/dp5"
-                                android:text="zhan123"
-                                android:layout_alignParentLeft="true" />
-                            <TextView
-                                android:id="@+id/tv_dealFlag"
-                                style="@style/InlineText"
-                                android:paddingLeft="@dimen/dp5"
-                                android:paddingRight="@dimen/dp5"
-                                android:paddingTop="@dimen/dp3"
-                                android:paddingBottom="@dimen/dp3"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/shape_corner_round" />
-                        </RelativeLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_height="@dimen/dp15"
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:gravity="right"
-            android:background="@android:color/white"
-            android:paddingRight="@dimen/dp10"
-            android:visibility="gone">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_award"
-                android:textSize="@dimen/TextSmall"
-                android:textColor="@color/primary"
-                android:text="奖励" />
-            <ImageView
-                android:layout_height="15dp"
-                android:layout_width="15dp"
-                android:src="@drawable/yuandou" />
-        </LinearLayout>
-        <TextView
-            android:id="@+id/tv_tags"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:drawableLeft="@drawable/icon_tag"
-            android:drawablePadding="@dimen/dp3"
-            android:textSize="@dimen/TextMiddle"
-            android:textColor="@color/primary"
-            android:background="@android:color/white"
-            android:paddingLeft="@dimen/dp10"
-            android:paddingTop="@dimen/dp5"
-            android:visibility="gone" />
-        <android.webkit.WebView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/wb_content" />
-    </LinearLayout>
+  <android.webkit.WebView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/wb_content"
+      android:padding="@dimen/dp10" />
+  <android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+  </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

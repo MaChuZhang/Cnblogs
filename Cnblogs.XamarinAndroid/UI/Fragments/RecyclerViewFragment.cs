@@ -41,18 +41,14 @@ namespace Cnblogs.XamarinAndroid
             position = Arguments.GetInt("position");
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
-                .ShowImageForEmptyUri(Resource.Drawable.Icon)
+                .ShowImageForEmptyUri(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnFail(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnLoading(Resource.Drawable.icon_user)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
-                  .ShowImageOnFail(Resource.Drawable.icon_user)
-                  .ShowImageOnLoading(Resource.Drawable.icon_user)
                   .CacheOnDisk(true)
-                  .Displayer(new DisplayerImageCircle(20))
+                 // .Displayer(new DisplayerImageCircle(20))
                   .Build();
-            
-            // Create your fragment here
-            //IWindowManager wm = (IWindowManager)Activity.GetSystemService(Context.WindowService);
-            //int wmHeight = wm.DefaultDisplay.Height;
         }
         public static RecyclerViewFragment Instance(int position)
         {
@@ -66,9 +62,7 @@ namespace Cnblogs.XamarinAndroid
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
              base.OnCreateView(inflater, container, savedInstanceState);
-         //   recyclerView_foot = Activity.FindViewById<LinearLayout>(Resource.Id.recyclerView_foot);
             return inflater.Inflate(Resource.Layout.fragment_recyclerview,container,false);
         }
 

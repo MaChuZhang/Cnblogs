@@ -36,13 +36,12 @@ namespace Cnblogs.XamarinAndroid
             isMy = Arguments.GetBoolean("isMy");
             //显示图片配置
             options = new DisplayImageOptions.Builder()
-                .ShowImageForEmptyUri(Resource.Drawable.Icon)
+                .ShowImageForEmptyUri(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnFail(Resource.Drawable.icon_yuanyou)
+                  .ShowImageOnLoading(Resource.Drawable.icon_user)
                   .CacheInMemory(true)
                   .BitmapConfig(Bitmap.Config.Rgb565)
-                  .ShowImageOnFail(Resource.Drawable.icon_user)
-                  .ShowImageOnLoading(Resource.Drawable.icon_user)
                   .CacheOnDisk(true)
-                  //.Displayer(new DisplayerImageCircle(20))
                   .Build();
         }
         public static NewsTabFragment Instance(int position)
@@ -82,69 +81,50 @@ namespace Cnblogs.XamarinAndroid
             //_recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
             Token token = UserTokenUtil.GetToken(Activity);
 
-            if (position == 0)
+            if (position == 3)
             {
-                kbArticlesList = await listKbArticleLocal();
-                if (kbArticlesList.Count > 0)
+                //kbArticlesList = await listKbArticleLocal();
+                kbArticlesList= await SQLiteUtil.SelectKbArticleList(Constact.PageSize);
+                if (kbArticlesList!=null)
                 {
                     initRecyclerKbArticles();
-                }
-                else
-                {
-                    kbArticlesList = await listKbArticlesServer();
-                    if (kbArticlesList.Count > 0)
-                    {
-                        initRecyclerKbArticles();
-                    }
                 }
             }
             else
             {
                 newsList = await listNewsLocal();
-                if (newsList != null && newsList.Count > 0)
-                {
-                    initRecycler();
-                }
-                else
-                {
-                    newsList = await listNewsServer();
-                    if (newsList != null && newsList.Count > 0)
-                    {
-                        initRecycler();
-                    }
-                }
-                newsList = await listNewsServer();
-                if (newsList != null && newsList.Count > 0)
+                if (newsList != null)
                 {
                     initRecycler();
                 }
             }
+            OnRefresh();
         }
  
         private async void LoadMore()
         {
             pageIndex++;
-            var tempList = await listNewsServer();
-            newsList.AddRange(tempList);
-            if (tempList.Count==0)
-             {
-                  return;
-            }
-            else if (newsList != null&&newsList.Count>0)
+            var result = await NewsService.ListNews(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
+            if (result.Success)
             {
-               adapter.SetNewData(newsList);
-                System.Diagnostics.Debug.Write("页数:"+pageIndex+"数据总条数："+newsList.Count);
+                var tempList = result.Data;
+                newsList.AddRange(tempList);
+                adapter.SetNewData(newsList);
+            }
+            else
+            {
+                AlertUtil.ToastShort(Activity,result.Message);
             }
         }
-        async void initRecycler()
+        void initRecycler()
         {
             adapter = new BaseRecyclerViewAdapter<NewsViewModel>(this.Activity, newsList, Resource.Layout.item_recyclerview_news, LoadMore);
             _recyclerView.SetAdapter(adapter);
             adapter.ItemClick += (position, tag) =>
             {
-                    System.Diagnostics.Debug.Write(position, tag);
-                    AlertUtil.ToastShort(this.Activity, tag);
-                    DetailNewsActivity.Enter(Activity, int.Parse(tag));
+                System.Diagnostics.Debug.Write(position, tag);
+                AlertUtil.ToastShort(this.Activity, tag);
+                DetailNewsActivity.Enter(Activity, int.Parse(tag));
             };
             adapter.ItemLongClick += (tag, position) =>
             {
@@ -157,109 +137,87 @@ namespace Cnblogs.XamarinAndroid
                 {
                     var model = newsList[position];
                     holder.SetText(Resource.Id.tv_description, model.Summary);
-                    holder.SetText(Resource.Id.tv_title,model.Title);
-                    holder.SetText(Resource.Id.tv_commentCount, comment+" "+model.CommentCount.ToString());
+                    holder.SetText(Resource.Id.tv_title, model.Title);
+                    holder.SetText(Resource.Id.tv_commentCount, comment + " " + model.CommentCount.ToString());
                     holder.SetText(Resource.Id.tv_dateAdded, model.DateAdded.ToCommonString());
-                    holder.SetText(Resource.Id.tv_diggCount,digg+" " +model.DiggCount.ToString());
-                    holder.SetText(Resource.Id.tv_viewCount,view+" "+ model.ViewCount.ToString());
+                    holder.SetText(Resource.Id.tv_diggCount, digg + " " + model.DiggCount.ToString());
+                    holder.SetText(Resource.Id.tv_viewCount, view + " " + model.ViewCount.ToString());
                     holder.GetView<CardView>(Resource.Id.ly_item).Tag = model.Id.ToString();
-                    holder.SetImageLoader(Resource.Id.iv_topicIcon, options,model.TopicIcon);
+                    holder.SetImageLoader(Resource.Id.iv_topicIcon, options, model.TopicIcon);
                 };
         }
-        private async Task<List<NewsViewModel>> listNewsServer()
-        {
-             var   result = await NewsService.ListNews(AccessTokenUtil.GetToken(this.Activity), pageIndex,position);
-            if (result.Success)
-            { 
-                _swipeRefreshLayout.Refreshing = false;
-                var data = result.Data;
-                try
-                {
-                    if (position == 1)
-                    {
-                        data.ForEach(f => f.IsRecommend = true);
-                    }
-                    if (position == 2)
-                    {
-                        data.ForEach(f => f.IsHot = true);
-                    }
-                    await SQLiteUtil.UpdateNewsList(data);
-                    return data;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.Write(ex.ToString());
-                    return null;
-                }
-            }
-            return null;
-        }
+
         private async Task<List<NewsViewModel>> listNewsLocal()
         {
-            if (position == 1)
+            switch (position)
             {
-                return await SQLiteUtil.SelectNewsListByDigg(Constact.PageSize);
+                case 1:
+                  return await SQLiteUtil.SelectNewsListByDigg(Constact.PageSize);
+                case 2:
+                 return await SQLiteUtil.SelectNewsListByHotWeek(Constact.PageSize);                   
+                case 0:
+                    return await SQLiteUtil.SelectNewsList(Constact.PageSize);
+                default:
+                    return await SQLiteUtil.SelectNewsList(Constact.PageSize);
             }
-            if (position == 2)
-            {
-                return await SQLiteUtil.SelectNewsListByHotWeek(Constact.PageSize);
-            }
-            return await SQLiteUtil.SelectNewsList(Constact.PageSize);
         }
 
         public async void OnRefresh()
         {
-            if (pageIndex > 1)
-                pageIndex = 1;
-            if (position == 0)
+            _swipeRefreshLayout.Post(()=> {
+                _swipeRefreshLayout.Refreshing = true;
+            });
+            pageIndex = 1;
+            if (position == 3)
             {
-                var tempList = await listKbArticlesServer();
-                if (tempList != null)
+                var result = await KbArticlesService.ListKbArticle(AccessTokenUtil.GetToken(this.Activity), pageIndex);
+                if (result.Success)
                 {
-                    kbArticlesList = tempList;
+                    //var tempList = result.Data;
+                    kbArticlesList = result.Data;
+                    adapterKbArticles.SetNewData(kbArticlesList);
+                    if (kbArticlesList != null && kbArticlesList.Count != 0)
+                    {
+                        await SQLiteUtil.UpdateKbArticlesList(result.Data);
+                    }
                     _swipeRefreshLayout.Refreshing = false;
-                    adapterKbArticles.SetNewData(tempList);
+                }
+                else
+                {
+                    AlertUtil.ToastShort(Activity,result.Message);
+                    _swipeRefreshLayout.Refreshing = false;
                 }
             }
             else
             {
-                var tempList = await listNewsServer();
-                if (tempList != null)
+                var  result= await NewsService.ListNews(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
+                if (result.Success)
                 {
-                    newsList = tempList;
+                    newsList = result.Data;
+                    if (position == 1)
+                    {
+                        newsList.ForEach(f => f.IsHot = true);
+                    }
+                    if (position == 2)
+                    {
+                        newsList.ForEach(f => f.IsRecommend = true);
+                    }
+                    adapter.SetNewData(newsList);
+                    if (newsList != null && newsList.Count != 0)
+                    {
+                        await SQLiteUtil.UpdateNewsList(newsList);
+                    }
                     _swipeRefreshLayout.Refreshing = false;
-                    adapter.SetNewData(tempList);
+                }
+                else
+                {
+                    AlertUtil.ToastShort(Activity,result.Message);
+                    _swipeRefreshLayout.Refreshing = false;
                 }
             }
         }
         #region 知识库
-        private async Task<List<KbArticles>> listKbArticlesServer()
-        {
-            var result = await KbArticlesService.ListKbArticle(AccessTokenUtil.GetToken(this.Activity), pageIndex);
-            if (result.Success)
-            {
-                _swipeRefreshLayout.Refreshing = false;
-                try
-                {
-
-                    await SQLiteUtil.UpdateKbArticlesList(result.Data);
-                    return result.Data;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.Write(ex.ToString());
-                    return null;
-                }
-            }
-            return null;
-        }
-        private async Task<List<KbArticles>> listKbArticleLocal()
-        {
-            kbArticlesList = await SQLiteUtil.SelectKbArticleList(Constact.PageSize);
-            return kbArticlesList;
-        }
-
-        async void initRecyclerKbArticles()
+        void initRecyclerKbArticles()
         {
             adapterKbArticles = new BaseRecyclerViewAdapter<KbArticles>(this.Activity, kbArticlesList, Resource.Layout.item_recyclerview_kbarticles, LoadMoreKbarticles);
             _recyclerView.SetAdapter(adapterKbArticles);
@@ -291,16 +249,16 @@ namespace Cnblogs.XamarinAndroid
         private async void LoadMoreKbarticles()
         {
             pageIndex++;
-            var tempList = await listKbArticlesServer();
-            kbArticlesList.AddRange(tempList);
-            if (tempList.Count == 0)
+            var result = await KbArticlesService.ListKbArticle(AccessTokenUtil.GetToken(this.Activity), pageIndex);
+            if (result.Success)
             {
-                return;
-            }
-            else if (kbArticlesList != null)
-            {
+                var tempList = result.Data;
+                kbArticlesList.AddRange(tempList);
                 adapterKbArticles.SetNewData(kbArticlesList);
-                System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + kbArticlesList.Count);
+            }
+            else
+            {
+                AlertUtil.ToastShort(Activity,result.Message);
             }
         }
         #endregion

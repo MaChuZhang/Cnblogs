@@ -20,8 +20,13 @@
             android:contentInsetStartWithNavigation="0dp"
             app:layout_scrollFlags="scroll|enterAlways" />
     </android.support.design.widget.AppBarLayout>
+            <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <android.support.v4.widget.NestedScrollView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView">
@@ -85,12 +90,15 @@
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>
+
             <android.webkit.WebView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/wb_content"
                 android:padding="@dimen/dp10"/>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+             </android.support.v4.widget.SwipeRefreshLayout>
     <include layout="@layout/item_article_bottom"/>
 </android.support.design.widget.CoordinatorLayout>

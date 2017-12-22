@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Cnblogs.ApiModel;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -16,14 +17,16 @@ namespace Cnblogs.XamarinAndroid
     {
         private Context context;
         private  static  UserUtil instance;
+       
         public  void Logout()
         {
             UserTokenUtil.SaveToken(new ApiModel.Token(),context);
         }
-        public bool Expire()
+        public bool LoginExpire()
         {
-            var user = UserTokenUtil.GetToken(context);
-            if (user.IsExpire||string.IsNullOrEmpty(user.access_token))
+            
+            var    userToken = UserTokenUtil.GetToken(context);
+            if (userToken.IsExpire||string.IsNullOrEmpty(userToken.access_token))
             {
                 return true;
             }
