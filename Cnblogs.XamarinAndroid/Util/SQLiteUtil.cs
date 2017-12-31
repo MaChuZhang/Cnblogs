@@ -21,13 +21,20 @@ namespace Cnblogs.XamarinAndroid
         private static SQLiteAsyncConnection instance;
         public static SQLiteAsyncConnection Instance()
         {
-            if (instance == null)
+            try
             {
-                string DBPATH = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), DBNAME);
-                instance = new SQLiteAsyncConnection(DBPATH);
-                InitDataBase();
+                if (instance == null)
+                {
+                    string DBPATH = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), DBNAME);
+                    instance = new SQLiteAsyncConnection(DBPATH);
+                    InitDataBase();
+                }
+                return instance;
             }
-                 return instance;
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         private static async void InitDataBase()
         {
@@ -113,7 +120,14 @@ namespace Cnblogs.XamarinAndroid
         }
         public static async Task<List<ApiModel.Article>> SelectArticleList(int pageSize)
         {
-            return await Instance().Table<ApiModel.Article>().OrderByDescending(a => a.PostDate).Skip(0).Take(pageSize).ToListAsync();
+            try
+            {
+                return await Instance().Table<ApiModel.Article>().OrderByDescending(a => a.PostDate).Skip(0).Take(pageSize).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         public static async Task UpdateArticle(Cnblogs.ApiModel.Article model)
         {

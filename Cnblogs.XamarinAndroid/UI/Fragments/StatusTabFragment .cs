@@ -174,13 +174,8 @@ namespace Cnblogs.XamarinAndroid
                     (holder.GetView<TextView>(Resource.Id.tv_content)).SetText(HtmlUtil.GetHtml(model.Content), TextView.BufferType.Spannable);
                     holder.SetText(Resource.Id.tv_userDisplayName, model.UserDisplayName);
                     holder.GetView<LinearLayout>(Resource.Id.ly_item).Tag = model.Id.ToString();
-                    
                     holder.GetView<ImageView>(Resource.Id.iv_userIcon).Tag=(model.UserIconUrl);
-                    if(model.UserIconUrl.Contains(holder.GetView<ImageView>(Resource.Id.iv_userIcon).Tag.ToString()))
-                    {
-                        holder.SetImageLoader(Resource.Id.iv_userIcon, options, model.UserIconUrl);
-                    }
-                    //System.Diagnostics.Debug.Write("UserIconUrl", model.UserIconUrl);
+                    holder.SetImageLoader(Resource.Id.iv_userIcon, options, model.UserIconUrl);
                 };
         }
         /// <summary>

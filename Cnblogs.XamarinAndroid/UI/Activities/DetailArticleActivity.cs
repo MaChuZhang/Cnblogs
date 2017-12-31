@@ -117,6 +117,7 @@ namespace Cnblogs.XamarinAndroid
                 if (article == null)//从博客页面直接点击过来的
                 {
                     article = await SQLiteUtil.SelectArticle(id);
+                    var   result = await SQLiteUtil.SelectArticle(id);
                 }
             if (article != null)
             {

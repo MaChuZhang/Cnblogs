@@ -20,7 +20,6 @@ namespace Cnblogs.XamarinAndroid
     public class PhotoActivity : AppCompatActivity,ViewPager.IOnPageChangeListener
     {
         private ViewPager viewPager_Img;
-        private PhotoView photoview;
         private Adapter.PhotoAdapter photoAdapter;
         private DisplayImageOptions options;
         private TextView tv_index;
@@ -31,10 +30,7 @@ namespace Cnblogs.XamarinAndroid
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Photo);
             viewPager_Img = FindViewById<ViewPager>(Resource.Id.viewpager_img);
-            photoview = FindViewById<PhotoView>(Resource.Id.photoview);
             tv_index = FindViewById<TextView>(Resource.Id.tv_index);
-            ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).Build();//≥ı ºªØÕº∆¨º”‘ÿøÚº‹
-            ImageLoader.Instance.Init(configuration);
             //œ‘ æÕº∆¨≈‰÷√
             options = new DisplayImageOptions.Builder()
                   .ShowImageForEmptyUri(Resource.Drawable.Icon)

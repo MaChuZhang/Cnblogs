@@ -77,15 +77,8 @@ namespace Cnblogs.XamarinAndroid
             _swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             _swipeRefreshLayout.SetColorSchemeResources(Resource.Color.primary);
             _swipeRefreshLayout.SetOnRefreshListener(this);
-            _swipeRefreshLayout.Post(() =>
-            {
-                _swipeRefreshLayout.Refreshing = true;
-            });
-            _swipeRefreshLayout.PostDelayed(() =>
-            {
-                System.Diagnostics.Debug.Write("PostDelayed方法已经完成");
-                _swipeRefreshLayout.Refreshing = false;
-            }, 3000);
+
+
             ly_expire = FindViewById<LinearLayout>(Resource.Id.ly_expire);
             tv_startLogin = FindViewById<TextView>(Resource.Id.tv_startLogin);
             _recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
@@ -106,28 +99,28 @@ namespace Cnblogs.XamarinAndroid
             {
                 ly_expire.Visibility = ViewStates.Gone;
                 _swipeRefreshLayout.Visibility = ViewStates.Visible;
-            }
-   
-                articleList = await listArticleServer(pageIndex);
+                articleList = await SQLiteUtil.SelectArticleList(Constact.PageSize);
                 if (articleList != null)
                 {
                     initRecycler();
                 }
+                OnRefresh();
+            }
         }
 
         private async void LoadMore()
         {
             pageIndex++;
-            var tempList = await listArticleServer(pageIndex);
-            articleList.AddRange(tempList);
-            if (tempList.Count == 0)
+            var result = await UserInfoService.GetMyBlogPosts(UserTokenUtil.GetToken(this), blogApp, pageIndex);
+            if (result.Success)
             {
-                return;
-            }
-            else if (articleList != null)
-            {
+                var tempList = result.Data;
+                articleList.AddRange(tempList);
                 adapter.SetNewData(articleList);
-                System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + articleList.Count);
+            }
+            else
+            {
+                AlertUtil.ToastShort(this,result.Message);
             }
         }
         async void initRecycler()
@@ -162,43 +155,33 @@ namespace Cnblogs.XamarinAndroid
                 //ImageLoader.Instance.DisplayImage(articleList[position].Avatar, Resource.Id.iv_avatar);
             };
         }
-        private async Task<List<Article>> listArticleServer(int _pageIndex)
-        {
-            pageIndex = _pageIndex;
-            var result = await UserInfoService.GetMyBlogPosts(UserTokenUtil.GetToken(this),blogApp, pageIndex);
-            if (result.Success)
-            {
-                _swipeRefreshLayout.Refreshing = false;
-                //articleList = result.Data;
-                try
-                {
-                    await SQLiteUtil.UpdateArticleList(result.Data);
-                    return result.Data;
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.Write(ex.ToString());
-                    return null;
-                }
-            }
-            return null;
-        }
-        private async Task<List<Article>> listArticleLocal()
-        {
-            articleList = await SQLiteUtil.SelectArticleList(Constact.PageSize);
-            return articleList;
-        }
+    
 
         public async void OnRefresh()
         {
-            if (pageIndex > 1)
-                pageIndex = 1;
-            var tempList = await listArticleServer(pageIndex);
-            if (tempList != null)
+            _swipeRefreshLayout.Post(()=> {
+                _swipeRefreshLayout.Refreshing = true;
+            });
+            pageIndex = 1;
+            var result =  await UserInfoService.GetMyBlogPosts(UserTokenUtil.GetToken(this), blogApp, pageIndex);
+            if (result.Success)
             {
-                articleList = tempList;
-                _swipeRefreshLayout.Refreshing = false;
-                adapter.SetNewData(tempList);
+                articleList = result.Data;
+                initRecycler();
+                if (articleList.Count != 0)
+                {
+                    await SQLiteUtil.UpdateArticleList(result.Data);
+                }
+                _swipeRefreshLayout.Post(() => {
+                    _swipeRefreshLayout.Refreshing = false;
+                });
+            }
+            else
+            {
+                AlertUtil.ToastShort(this,result.Message);
+                _swipeRefreshLayout.Post(() => {
+                    _swipeRefreshLayout.Refreshing = false;
+                });
             }
         }
     }

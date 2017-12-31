@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
   <android.support.v4.widget.SwipeRefreshLayout
 android:id="@+id/swipeRefreshLayout"
-android:layout_height="wrap_content"
+android:layout_height="match_parent"
 android:layout_width="match_parent">
   <LinearLayout
        android:orientation="vertical"
@@ -25,7 +25,7 @@ android:layout_width="match_parent">
             android:layout_width="match_parent"
             android:padding="@dimen/dp13"
             android:orientation="horizontal"
-            android:id="@+id/ly_startLogin"
+            android:id="@+id/ly_logged"
             android:background="@android:color/white"
             android:clickable="true">
             <ImageView
@@ -33,21 +33,11 @@ android:layout_width="match_parent">
                 android:layout_width="@dimen/ImgMiddle"
                 android:src="@drawable/icon_userdefault"
                 android:id="@+id/iv_userAvatar"/>
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="@dimen/TextMiddle"
-                android:textColor="@color/subTitleGray"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dp13"
-                android:text="@string/login"
-                android:id="@+id/tv_login" />
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
-                android:layout_marginLeft="@dimen/dp13"
-                android:id="@+id/ly_user">
+                android:layout_marginLeft="@dimen/dp13">
                 <LinearLayout
                     android:layout_height="30dp"
                     android:layout_width="match_parent"
@@ -82,6 +72,28 @@ android:layout_width="match_parent">
                     android:text="121212简介简介简介简介简介1212简介21简介简介简介简介简介21121简介简介简介简介简介简介简介简介简介简介简介简介21212简介" />
             </LinearLayout>
         </LinearLayout>
+      <LinearLayout
+      android:layout_height="wrap_content"
+      android:layout_width="match_parent"
+      android:padding="@dimen/dp13"
+      android:orientation="horizontal"
+      android:id="@+id/ly_unLogin"
+      android:background="@android:color/white"
+      android:clickable="true">
+        <ImageView
+            android:layout_height="@dimen/ImgMiddle"
+            android:layout_width="@dimen/ImgMiddle"
+            android:src="@drawable/icon_userdefault"
+            android:id="@+id/iv_userDefault"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/TextMiddle"
+            android:textColor="@color/subTitleGray"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp13"
+            android:text="@string/login"/>
+      </LinearLayout>
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"

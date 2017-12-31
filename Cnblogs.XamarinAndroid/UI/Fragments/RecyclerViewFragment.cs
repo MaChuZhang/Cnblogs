@@ -35,6 +35,8 @@ namespace Cnblogs.XamarinAndroid
         private int pageIndex = 1;
         private List<Article> articleList = new List<Article>();
         private DateTime lastRefreshTime ;
+        private Token accessToken;
+        private bool isFirstRefresh=true;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -49,6 +51,8 @@ namespace Cnblogs.XamarinAndroid
                   .CacheOnDisk(true)
                  // .Displayer(new DisplayerImageCircle(20))
                   .Build();
+            accessToken = AccessTokenUtil.GetToken(this.Activity);
+
         }
         public static RecyclerViewFragment Instance(int position)
         {
@@ -69,18 +73,25 @@ namespace Cnblogs.XamarinAndroid
         public override async void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
-            _swipeRefreshLayout = view.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
-            _swipeRefreshLayout.SetColorSchemeResources(Resource.Color.primary);
-            _swipeRefreshLayout.SetOnRefreshListener(this);
-            _swipeRefreshLayout.Post(() =>
+            try
             {
-                _swipeRefreshLayout.Refreshing = true;
-            });
-            _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
-            InitRecyclerView();
-            _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
-            //_recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
-         
+                _swipeRefreshLayout = view.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
+                _swipeRefreshLayout.SetColorSchemeResources(Resource.Color.primary);
+                _swipeRefreshLayout.SetOnRefreshListener(this);
+                _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
+                _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
+                articleList = await SQLiteUtil.SelectArticleList(Constact.PageSize);
+                    if (articleList != null && articleList.Count > 0)
+                    {
+                        initRecycler();
+                    }
+                    OnRefresh();
+                //_recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.Write(ex.ToString());
+            }
         }
 
         async void InitRecyclerView()
@@ -140,29 +151,31 @@ namespace Cnblogs.XamarinAndroid
             }
             else
             {
-                AlertUtil.ToastShort(Activity, "网络不太好哦");
+                AlertUtil.ToastShort(Activity,result.Message);
             }
         }
-        async void initRecycler()
+        void initRecycler()
         {
-            adapter = new BaseRecyclerViewAdapter<Article>(this.Activity, articleList, Resource.Layout.item_recyclerview_article, LoadMore);
-            _recyclerView.SetAdapter(adapter);
-            adapter.ItemClick += (position, tag) =>
+            try
             {
+                adapter = new BaseRecyclerViewAdapter<Article>(this.Activity, articleList, Resource.Layout.item_recyclerview_article, LoadMore);
+                _recyclerView.SetAdapter(adapter);
+                adapter.ItemClick += (position, tag) =>
+                {
                     System.Diagnostics.Debug.Write(position, tag);
                     AlertUtil.ToastShort(this.Activity, tag);
                     var intent = new Intent(Activity, typeof(DetailArticleActivity));
                     intent.PutExtra("id", int.Parse(tag));
                     StartActivity(intent);
-            };
-            adapter.ItemLongClick += (tag, position) =>
-            {
-                AlertUtil.ToastShort(this.Activity, tag);
-            };
-            string read = Resources.GetString(Resource.String.read);
-            string comment = Resources.GetString(Resource.String.comment);
-            string digg = Resources.GetString(Resource.String.digg);
-         
+                };
+                adapter.ItemLongClick += (tag, position) =>
+                {
+                    AlertUtil.ToastShort(this.Activity, tag);
+                };
+                string read = Resources.GetString(Resource.String.read);
+                string comment = Resources.GetString(Resource.String.comment);
+                string digg = Resources.GetString(Resource.String.digg);
+
                 adapter.OnConvertView += (holder, position) =>
                 {
                     holder.SetText(Resource.Id.tv_author, articleList[position].Author);
@@ -173,48 +186,59 @@ namespace Cnblogs.XamarinAndroid
                     holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount + " " + digg);
                     holder.SetText(Resource.Id.tv_title, articleList[position].Title);
                     //holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
-                    holder.GetView<CardView>(Resource.Id.ly_item).Tag=articleList[position].Id.ToString();
+                    holder.GetView<CardView>(Resource.Id.ly_item).Tag = articleList[position].Id.ToString();
                     holder.SetTagUrl(Resource.Id.iv_avatar, articleList[position].Avatar);
                     holder.SetImageLoader(Resource.Id.iv_avatar, options, articleList[position].Avatar);
                 };
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public async void OnRefresh()
         {
-            if(pageIndex>1)
-                pageIndex = 1; 
-            var result  = await ArticleService.ListArticle(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
+            _swipeRefreshLayout.Post(() =>
+            {
+                _swipeRefreshLayout.Refreshing = true;
+            });
+            pageIndex = 1; 
+            var result  = await ArticleService.ListArticle(accessToken, pageIndex, position);
             if (result.Success)
             {
                 var tempList = result.Data;
                 if (tempList != null && tempList.Count > 0)
                 {
                     articleList = tempList;
-                    adapter.SetNewData(tempList);
-                    //lastRefreshTime 避免短时间内刷新，多次插入sqlite。
-                    if (lastRefreshTime.Ticks==0)
+                    if (isFirstRefresh)
                     {
-                        lastRefreshTime = DateTime.Now;
-                        await SQLiteUtil.UpdateArticleList(tempList);
+                        initRecycler();
                     }
-                    else if (lastRefreshTime.Subtract(DateTime.Now).Seconds > 60)
+                    else
                     {
-                        await SQLiteUtil.UpdateArticleList(tempList);
+                        adapter.SetNewData(tempList);
                     }
+                    await SQLiteUtil.UpdateArticleList(tempList);
                 }
                 else
                 {
                     AlertUtil.ToastShort(Activity, "网络不太好哦");
                 }
+                _swipeRefreshLayout.PostDelayed(() =>
+                {
+                    _swipeRefreshLayout.Refreshing = false;
+                },800);
             }
             else
             {
                 AlertUtil.ToastShort(Activity,result.Message);
+                _swipeRefreshLayout.PostDelayed(() =>
+                {
+                    _swipeRefreshLayout.Refreshing = false;
+                },800);
             }
-            _swipeRefreshLayout.PostDelayed(() =>
-            {
-                _swipeRefreshLayout.Refreshing = false;
-            }, 1000);
+
         }
     }
 }

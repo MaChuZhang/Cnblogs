@@ -17,8 +17,8 @@ namespace Cnblogs.XamarinAndroid
     {
 
         private ImageView iv_userAvatar;
-        private LinearLayout ly_user, ly_startLogin, ll_question, ll_status, ll_blog;
-        private TextView tv_login, tv_seniority, tv_userName, tv_subTitle, tv_postCount, tv_myBookmark;
+        private LinearLayout  ly_unLogin,ly_logged, ll_question, ll_status, ll_blog;
+        private TextView tv_seniority, tv_userName, tv_subTitle, tv_postCount, tv_myBookmark, tv_about;
         private DisplayImageOptions options;
         private UserInfo userInfo;
         private UserBlog userBlog;
@@ -58,17 +58,21 @@ namespace Cnblogs.XamarinAndroid
             swipeRefreshLayout = View.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             swipeRefreshLayout.SetColorSchemeColors(Resources.GetColor(Resource.Color.primary)) ;
             swipeRefreshLayout.SetOnRefreshListener(this);
-            ly_user = View.FindViewById<LinearLayout>(Resource.Id.ly_user);
-            tv_login = View.FindViewById<TextView>(Resource.Id.tv_login);
             tv_seniority= View.FindViewById<TextView>(Resource.Id.tv_seniority);
-            ly_startLogin = View.FindViewById<LinearLayout>(Resource.Id.ly_startLogin);
+            ly_unLogin = View.FindViewById<LinearLayout>(Resource.Id.ly_unLogin);
+            ly_logged = View.FindViewById<LinearLayout>(Resource.Id.ly_logged);
             tv_subTitle = View.FindViewById<TextView>(Resource.Id.tv_subTitle);
             tv_postCount = View.FindViewById<TextView>(Resource.Id.tv_postCount);
             ll_blog = View.FindViewById<LinearLayout>(Resource.Id.ll_blog);
             ll_status = View.FindViewById<LinearLayout>(Resource.Id.ll_status);
             ll_question = View.FindViewById<LinearLayout>(Resource.Id.ll_question);
             tv_myBookmark = View.FindViewById<TextView>(Resource.Id.tv_myBookmark);
-            ly_startLogin.Click += (s, e) =>
+            tv_about = view.FindViewById<TextView>(Resource.Id.tv_about);
+            tv_about.Click += (s, e) =>
+            {
+                AboutActivity.Enter(Activity);
+            };
+            ly_unLogin.Click += (s, e) =>
             {
                 StartActivity(new Intent(Activity, typeof(loginactivity)));
             };
@@ -102,9 +106,9 @@ namespace Cnblogs.XamarinAndroid
             
             if (!UserUtil.Instance(Activity).LoginExpire())
             {
-                tv_login.Visibility = ViewStates.Gone;
-                ly_user.Visibility = ViewStates.Visible;
-                ly_startLogin.Clickable = false;
+                ly_unLogin.Visibility = ViewStates.Gone;
+                ly_logged.Visibility = ViewStates.Visible;
+                
                 userInfo = UserInfoShared.GetUserInfo(Activity);
                 userBlog = UserBlogShared.GetUserBlog(Activity);
 
@@ -129,7 +133,8 @@ namespace Cnblogs.XamarinAndroid
                     {
                         userBlog = result.Data;
                         UserBlogShared.SetUserBlog(userBlog, Activity);
-                        InitViewUserBlog(userBlog);
+                        tv_subTitle.Text = userBlog.SubTitle.ToDBC();
+                        tv_postCount.Text = userBlog.PostCount.ToString();
                         callBack();
                     }
                     else
@@ -161,10 +166,10 @@ namespace Cnblogs.XamarinAndroid
             else
             {
                 ImageLoader.Instance.DisplayImage("drawable://" + Resource.Drawable.icon_userDefault, iv_userAvatar, options);
-                tv_login.Visibility = ViewStates.Visible;
-                ly_user.Visibility = ViewStates.Gone;//用户layout不显示
+                ly_unLogin.Visibility = ViewStates.Visible;
+                ly_logged.Visibility = ViewStates.Gone;//用户layout不显示
                 tv_postCount.Text = "0";
-                ly_startLogin.Clickable = true;
+                
                 ll_blog.Click -= MyBlogClick;
                 ll_status.Click -= MyStatusClick;
                 ll_question.Click -= MyQuestionClick;
@@ -214,14 +219,7 @@ namespace Cnblogs.XamarinAndroid
             }
 }
 
-         void InitViewUserBlog(UserBlog userBlog)
-{
-    tv_subTitle.Text = userBlog.SubTitle.ToDBC();
-    tv_postCount.Text = userBlog.PostCount.ToString();
 
-
-    System.Diagnostics.Debug.Write(userBlog.Title);
-}
 
 
     }

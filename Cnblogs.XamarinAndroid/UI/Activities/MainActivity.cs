@@ -18,15 +18,16 @@ using Cnblogs.HttpClient;
 using Com.Nostra13.Universalimageloader.Core;
 using static Android.App.ActionBar;
 using Android.Content;
+using Com.Iflytek.Autoupdate;
 
 namespace Cnblogs.XamarinAndroid
 {
     [Activity(Label = "Cnblogs.XamarinAndroid", MainLauncher = false, Icon = "@drawable/icon", Theme = "@style/AppTheme")]
-    public class MainActivity : BaseActivity,Toolbar.IOnMenuItemClickListener
+    public class MainActivity : BaseActivity,Toolbar.IOnMenuItemClickListener, IFlytekUpdateListener
     {
         private DateTime ? firstBackTime; //第一次单击返回
         //private Toolbar _toolbar;
-
+        private Handler handler;
         private NewsFragment newsFragment;
         private BlogFragment _homeFragment;
         private QuestionFragment questionFragment;
@@ -34,6 +35,7 @@ namespace Cnblogs.XamarinAndroid
         private UserCenterFragment userCenterFragment;
         private FragmentManager _fm;
         private TextView tv_blog,tv_userCenter,tv_news,tv_status,tv_question;
+        private IFlytekUpdate updManager;
         protected override int LayoutResourceId => Resource.Layout.Main;
         protected override string ToolBarTitle =>Resources.GetString(Resource.String.ToolBar_Title_Cnblogs);
 
@@ -45,6 +47,7 @@ namespace Cnblogs.XamarinAndroid
             addActivity(this);
 
             StatusBarUtil.SetColorStatusBars(this);
+            handler = new Handler();
             _fm = SupportFragmentManager;
             //SetSupportActionBar(_toolbar);
             tv_blog = FindViewById<TextView>(Resource.Id.tv_blog);
@@ -54,6 +57,12 @@ namespace Cnblogs.XamarinAndroid
             tv_userCenter = FindViewById<TextView>(Resource.Id.tv_userCenter);
             BindViewsClick();
             tv_blog.PerformClick();
+            updManager = IFlytekUpdate.GetInstance(this.ApplicationContext);
+            updManager.SetDebugMode(true);
+            updManager.SetParameter(UpdateConstants.ExtraWifionly, "true");
+            updManager.SetParameter(UpdateConstants.ExtraNotiIcon, "true");
+            updManager.SetParameter(UpdateConstants.ExtraStyle, UpdateConstants.UpdateUiDialog);
+            updManager.AutoUpdate(this, this);
         }
         internal static void Enter(Context context)
         {
@@ -229,6 +238,24 @@ namespace Cnblogs.XamarinAndroid
                 return true;
             }
             return base.OnKeyDown(keycode,e);
+        }
+
+        public void OnResult(int errorCode, UpdateInfo result)
+        {
+            handler.Post(() =>
+            {
+                if (errorCode == UpdateErrorCode.Ok && result != null)
+                {
+                    if (result.UpdateType == UpdateType.NoNeed)
+                    {
+                        Android.Support.V7.App.AlertDialog.Builder alertDialog =new Android.Support.V7.App.AlertDialog.Builder(this);
+                        alertDialog.SetTitle("检查更新");
+                        alertDialog.SetMessage("当前版本" + Resources.GetString(Resource.String.version) + "已经是最新的");
+                        alertDialog.Show();
+                    }
+                    updManager.ShowUpdateInfo(this, result);
+                }
+            });
         }
         //public override bool OnCreateOptionsMenu(IMenu menu)
         //{

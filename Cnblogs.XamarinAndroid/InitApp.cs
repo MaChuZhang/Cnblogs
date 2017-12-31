@@ -8,7 +8,7 @@ using Com.Umeng.Socialize;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using Com.Umeng;
 namespace Cnblogs.XamarinAndroid
 {
     [Application]
@@ -23,7 +23,7 @@ namespace Cnblogs.XamarinAndroid
             ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();
             ImageLoader.Instance.Init(configuration);//初始化图片加载框架
             Config.Debug =true;
-            PlatformConfig.SetWeixin("wx633888643fbae319", "90af1431fb8a7a191394238799178360");
+            PlatformConfig.SetWeixin("wx633888643fbae319", "5034ad765b2ba64dec7ed7c6618581fb");
             PlatformConfig.SetSinaWeibo("1422675167", "02975c36afd93d3ae983f8da9e596b86", "https://api.weibo.com/oauth2/default.html");
             PlatformConfig.SetQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
             if (!BuildConfig.Debug)

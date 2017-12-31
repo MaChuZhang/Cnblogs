@@ -14,23 +14,14 @@ using Android.Support.V7.App;
 
 namespace Cnblogs.XamarinAndroid.UI.Activities
 {
-    [Activity(Label = "SplashScreenActivity", Theme = "@style/SplashScreen", MainLauncher = true)]
+    [Activity(Label = "@string/ApplicationName", Theme = "@style/SplashScreen", MainLauncher = true)]
     public class SplashScreenActivity : AppCompatActivity
     {
         protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             StatusBarUtil.SetColorStatusBars(this);
-            //await UserService.Client_Credentials();
-            //await UserService.Client_Credentials((token) =>
-            //{
-            //    token.RefreshTime = DateTime.Now;
-            //    AccessTokenUtil.SaveToken(token, this);
-            //}, error =>
-            //{
-            //    System.Diagnostics.Debug.Write(error);
-            //});
-
+            SetContentView(Resource.Layout.SplashScreen);
             var tokenTemp = AccessTokenUtil.GetToken(this);
             if (string.IsNullOrEmpty(tokenTemp.access_token)||tokenTemp.IsExpire)
             {
@@ -44,13 +35,12 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
                 });
 
             }
-             
             Handler handler = new Handler();
             handler.PostDelayed((() =>
             {
                 StartActivity(new Intent(this, typeof(MainActivity)));
                 this.Finish();
-            }), 800);
+            }), 2000);
             // Create your application here
         }
     }

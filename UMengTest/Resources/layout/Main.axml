@@ -17,20 +17,11 @@
                 <TextView
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:id="@+id/Text017_01"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
                     android:gravity="center"
                     android:text="标本"
                     android:textColor="@android:color/background_dark"
-                    android:textSize="18dp" />
-                <TextView
-                    android:id="@+id/TextCommonSpecimen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="@android:color/background_dark"
-                    android:text="暂cdascdacdascdsc无"
-                    android:textStyle="bold"
                     android:textSize="18dp" />
             </LinearLayout>
 </LinearLayout>

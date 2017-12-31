@@ -35,8 +35,11 @@ namespace Cnblogs.XamarinAndroid
         private int position;
         private DisplayImageOptions options;
         private int pageIndex = 1;
-        private bool isMy; 
+        private bool isMy;
+        private UserInfo userInfo;
         private List<QuestionModel> listQuestion = new List<QuestionModel>();
+        private bool isFirstRefresh = true;
+        private Token userToken, accessToken;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -76,21 +79,22 @@ namespace Cnblogs.XamarinAndroid
             _swipeRefreshLayout = view.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             ly_expire = view.FindViewById<LinearLayout>(Resource.Id.ly_expire);
             tv_startLogin = view.FindViewById<TextView>(Resource.Id.tv_startLogin);
+            userInfo = UserInfoShared.GetUserInfo(this.Activity); ;
+
             _swipeRefreshLayout.SetColorSchemeResources(Resource.Color.primary);
 
             _swipeRefreshLayout.SetOnRefreshListener(this);
-            _swipeRefreshLayout.Post(() =>
-            {
-                _swipeRefreshLayout.Refreshing = true;
-            });
+
 
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this.Activity));
 
-            Token token = UserTokenUtil.GetToken(Activity);
-            if (isMy && token.IsExpire)
+             userToken = UserTokenUtil.GetToken(Activity);
+            accessToken = AccessTokenUtil.GetToken(Activity);
+            if (isMy && userToken.IsExpire)
             {
                 ly_expire.Visibility = ViewStates.Visible;
+                _swipeRefreshLayout.Visibility = ViewStates.Gone;
                 tv_startLogin.Click += (s, e) =>
                 {
                     Activity.StartActivity(new Intent(Activity, typeof(loginactivity)));
@@ -99,45 +103,48 @@ namespace Cnblogs.XamarinAndroid
             else
             {
                 ly_expire.Visibility = ViewStates.Gone;
-            }
-            InitRecyclerView();
-        }
-        private async void LoadMore()
-        {
-            pageIndex++;
-            var tempList = await listQuestionService();
-            listQuestion.AddRange(tempList);
-            if (tempList.Count==0)
-             {
-                return;
-            }
-            else if (listQuestion != null)
-            {
-                //Thread.Sleep(2000);
-               adapter.SetNewData(listQuestion);
-                System.Diagnostics.Debug.Write("页数:"+pageIndex+"数据总条数："+listQuestion.Count);
-            }
-        }
-
-        async void InitRecyclerView()
-        {
-            listQuestion = await SQLiteUtil.SelectListQuestion(Constact.PageSize, isMy);
-            var user = UserInfoShared.GetUserInfo(this.Activity);
-            if (listQuestion == null || listQuestion.Count == 0)
-            {
-                var result = await listQuestionService();
-                if (result != null && result.Count != 0)
+                _swipeRefreshLayout.Visibility = ViewStates.Visible;
+                listQuestion = await SQLiteUtil.SelectListQuestion(Constact.PageSize, isMy);
+                if (listQuestion != null && listQuestion.Count > 0)
                 {
-                    listQuestion = result;
                     initRecycler();
                 }
-            }
-            else
-            {
-                initRecycler();
                 OnRefresh();
             }
         }
+        private async void LoadMore()
+        {
+            if (_swipeRefreshLayout.Refreshing)
+            {
+                _swipeRefreshLayout.Post(() =>
+                {
+                    _swipeRefreshLayout.Refreshing = false;
+                });
+            }
+            pageIndex++;
+            var result = new ApiResult<List<QuestionModel>>();
+            if (isMy)
+            {
+                
+                result = await QuestionService.ListQuestion(userToken, position, pageIndex, true, userInfo.SpaceUserId);
+            }
+            else
+            {
+                result = await QuestionService.ListQuestion(accessToken, position, pageIndex, false, 0);
+            }
+            if (result.Success)
+            {
+                var tempList = result.Data;
+                listQuestion.AddRange(tempList);
+                adapter.SetNewData(listQuestion);
+            }
+            else
+            {
+                AlertUtil.ToastShort(Activity,result.Message);
+            }
+        }
+
+     
         void initRecycler()
         {
             adapter = new BaseRecyclerViewAdapter<QuestionModel>(this.Activity, listQuestion, Resource.Layout.item_recyclerview_question, LoadMore);
@@ -217,21 +224,55 @@ namespace Cnblogs.XamarinAndroid
             }
             return null;
         }
-        private async Task<List<QuestionModel>> listStatusLocal()
-        {
-            listQuestion = await SQLiteUtil.SelectListQuestion(Constact.PageSize,isMy);
-            return listQuestion;
-        }
+
 
         public async void OnRefresh()
         {
-            if(pageIndex>1)
-                pageIndex = 1; 
-            var tempList  = await listQuestionService();
-            if (tempList != null)
+            _swipeRefreshLayout.Post(() =>
             {
-                listQuestion = tempList;
-                adapter.SetNewData(tempList);
+                _swipeRefreshLayout.Refreshing = true;
+            });
+            pageIndex = 1;
+            var result = new ApiResult<List<QuestionModel>>();
+            
+            if (isMy)
+            {
+                //var user = UserInfoShared.GetUserInfo(this.Activity);
+                result = await QuestionService.ListQuestion(UserTokenUtil.GetToken(this.Activity), position, pageIndex, true, userInfo.SpaceUserId);
+            }
+            else
+            {
+                result = await QuestionService.ListQuestion(AccessTokenUtil.GetToken(this.Activity), position, pageIndex, false, 0);
+            }
+            if (result.Success)
+            {
+                listQuestion = result.Data;
+                if (!isFirstRefresh)
+                {
+                    adapter.SetNewData(listQuestion);
+                }
+                else
+                {
+                    initRecycler();
+                    try
+                    {
+                        await SQLiteUtil.UpdateListQuestion(listQuestion, isMy);
+                    }
+                    catch (Exception ex)
+                    {
+                        //todo 
+                        //AlertUtil.ToastShort(Activity,ex.ToString());
+                    }
+                }
+                isFirstRefresh = false;
+                _swipeRefreshLayout.Post(() =>
+                {
+                    _swipeRefreshLayout.Refreshing = false;
+                });
+            }
+            else
+            {
+                AlertUtil.ToastShort(Activity,result.Message);
                 _swipeRefreshLayout.Post(() =>
                 {
                     _swipeRefreshLayout.Refreshing = false;

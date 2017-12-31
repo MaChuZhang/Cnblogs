@@ -28,9 +28,8 @@ namespace Cnblogs.XamarinAndroid
             toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             if (toolbar != null)
             {
-                toolbar.Title = ToolBarTitle;
-
                 SetSupportActionBar(toolbar);
+                SupportActionBar.Title = ToolBarTitle;
                 toolbar.SetOnMenuItemClickListener(this);
             }
             if (application == null)
@@ -53,7 +52,7 @@ namespace Cnblogs.XamarinAndroid
             get;
         }
         protected void SetToolBarTitle(string title) {
-            this.toolbar.Title = title;
+            SupportActionBar.Title = title;
         }
         protected virtual void SetToolBarNavBack()
         {
