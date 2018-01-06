@@ -24,6 +24,7 @@ namespace Cnblogs.XamarinAndroid
     [Activity(Label = "loginactivity", Theme = "@style/AppTheme",MainLauncher  =false)]
     public class loginactivity:BaseActivity
     {
+        public const string GetAuthrize = "https://oauth.cnblogs.com/connect/authorize?client_id={0}&scope=openid profile CnBlogsApi offline_access&response_type=code id_token&redirect_uri=https://oauth.cnblogs.com/auth/callback&state=cnblogs.com&nonce=zhanglin";
         protected override int LayoutResourceId
         {
             get
@@ -44,15 +45,6 @@ namespace Cnblogs.XamarinAndroid
            // toolbar.SetNavigationIcon(Resource.Drawable.back_24dp);
            //toolbar.Title = "µÇÂ¼";
             progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar_login);
-
-         //   SetSupportActionBar(toolbar);
-           // SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            //toolbar.setnavigationonclicklistener(this);
-            //toolbar.NavigationClick += (s, e) =>
-            //{
-            //    SetResult(Result.Canceled);
-            //    this.Finish();
-            //};
             progressBar.Max = 100;
             loginview = FindViewById<WebView>(Resource.Id.webview_login);
             loginview.Settings.SetSupportZoom(true);

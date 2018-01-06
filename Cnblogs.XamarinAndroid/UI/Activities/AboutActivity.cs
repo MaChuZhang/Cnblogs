@@ -94,6 +94,7 @@ namespace Cnblogs.XamarinAndroid
             }
             catch (Exception e)
             {
+                System.Diagnostics.Debug.Write(e.ToString());
                 // 未安装手Q或安装的版本不支持
                 return false;
             }
@@ -105,13 +106,18 @@ namespace Cnblogs.XamarinAndroid
             {
                 if (result.UpdateType == UpdateType.NoNeed)
                 {
-                    Android.Support.V7.App.AlertDialog.Builder alertDialog = new Android.Support.V7.App.AlertDialog.Builder(this);
-                    alertDialog.SetTitle("检查更新");
-                    alertDialog.SetMessage("当前版本" + Resources.GetString(Resource.String.version) + "已经是最新的");
-                    alertDialog.Show();
+                    RunOnUiThread(() =>
+                    {
+                        Android.Support.V7.App.AlertDialog.Builder alertDialog = new Android.Support.V7.App.AlertDialog.Builder(this);
+                        alertDialog.SetTitle("检查更新");
+                        alertDialog.SetMessage("当前版本" + Resources.GetString(Resource.String.version) + "已经是最新的");
+                        alertDialog.Show();
+                    });
                 }
                 else
-                updManager.ShowUpdateInfo(this, result);
+                {
+                    updManager.ShowUpdateInfo(this, result);
+                }
             }
         }
     }

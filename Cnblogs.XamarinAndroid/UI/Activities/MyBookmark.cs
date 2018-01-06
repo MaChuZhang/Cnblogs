@@ -122,15 +122,15 @@ namespace Cnblogs.XamarinAndroid
             {
              
                     System.Diagnostics.Debug.Write(position, tag);
-                    AlertUtil.ToastShort(this, tag);
-              //  var intent = new Intent(this, typeof(DetailArticleActivity));
+                  //  AlertUtil.ToastShort(this, tag);
+              //  var intent = new Intent(this, typeof(DetailBlogActivity));
                 //intent.PutExtra("id", int.Parse(tag));
                 //StartActivity(intent);
             };
             adapter.ItemLongClick += (tag, position) =>
             {
                
-                AlertUtil.ToastShort(this,tag);
+                //AlertUtil.ToastShort(this,tag);
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.SetCancelable(true);
                 string[] items = Resources.GetStringArray(Resource.Array.DialogMenu);

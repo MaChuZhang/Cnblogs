@@ -21,22 +21,23 @@ using Com.Umeng.Socialize;
 using Cnblogs.XamarinAndroid.UI.Widgets;
 using Cnblogs.HttpClient;
 using Newtonsoft.Json;
+using Android.Support.V4.Widget;
 
 namespace Cnblogs.XamarinAndroid
 {
     [Activity(Theme = "@style/AppTheme")]
-    public class DetailNewsActivity : BaseActivity
+    public class DetailNewsActivity : BaseActivity, SwipeRefreshLayout.IOnRefreshListener
     {
         //private Toolbar toolbar;
-        private TextView tv_view;
+        private TextView tv_view,tv_ding;
         private WebView wb_content;
-        private int _id;
-        private Button btn_digg;
+        private int ID;
         private Button btn_mark;
         private Button btn_comment;
         private NewsViewModel news;
         private UMengShareWidget shareWidget;
-        
+        private SwipeRefreshLayout swipeRefreshLayout;
+        private string firstImgUrl;
         protected override int LayoutResourceId => Resource.Layout.detailNews;
 
         protected override string ToolBarTitle => string.Empty;
@@ -60,21 +61,24 @@ namespace Cnblogs.XamarinAndroid
             base.OnCreate(savedInstanceState);
             // Create your application here
             StatusBarUtil.SetColorStatusBars(this);
-
             SetToolBarNavBack();
+            shareWidget = new UMengShareWidget(this);
             wb_content = FindViewById<WebView>(Resource.Id.wb_content);
-            btn_digg = FindViewById<Button>(Resource.Id.btn_digg);
+            tv_ding = FindViewById<TextView>(Resource.Id.tv_ding);
             btn_mark = FindViewById<Button>(Resource.Id.btn_mark);
             btn_comment = FindViewById<Button>(Resource.Id.btn_comment);
             tv_view = FindViewById<TextView>(Resource.Id.tv_view);
+            swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
+            swipeRefreshLayout.SetColorSchemeColors(Resources.GetColor(Resource.Color.primary));
+            swipeRefreshLayout.SetOnRefreshListener(this);
 
             btn_mark.Click += (s, e) =>
             {
-                AddBookmarkActivity.Enter(this,string.Format(Constact.KbPage, _id), news.Title, "add");
+                AddBookmarkActivity.Enter(this,string.Format(Constact.KbPage, ID), news.Title, "add");
             };
             btn_comment.Click += (s, e) =>
             {
-                NewsCommentActivity.Enter(this,_id);
+                NewsCommentActivity.Enter(this, ID);
             };
 
             wb_content.Settings.DomStorageEnabled = true;
@@ -95,8 +99,18 @@ namespace Cnblogs.XamarinAndroid
             {
                   PhotoActivity.Enter(this,e.Result.Split(','),e.Index);
             };
-            _id = Intent.GetIntExtra("id",0);
-            GetClientArticle(_id);
+            ID = Intent.GetIntExtra("id",0);
+            if (ID == 0)
+            {
+                Android.OS.Handler handle = new Android.OS.Handler();
+                handle.PostDelayed(() =>
+                {
+                    Finish();
+                }, 2000);
+                AlertUtil.ToastShort(this, "获取id错误立即返回");
+            }
+            InitNews();
+
             //shareWidget = new UMengShareWidget(this);
         }
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -105,12 +119,12 @@ namespace Cnblogs.XamarinAndroid
             return  true;
         }
 
-        async void GetClientArticle(int id)
+        async void InitNews()
         {
             string newsStr = Intent.GetStringExtra("news");
             if (string.IsNullOrEmpty(newsStr))//从搜索直接进入的
             {
-                news = await SQLiteUtil.SelectNews(id);
+                news = await SQLiteUtil.SelectNews(ID);
             }
             else
             {
@@ -118,44 +132,50 @@ namespace Cnblogs.XamarinAndroid
             }
             if (news != null)
             {
+                 OnRefresh();
                  tv_view.Text = news.ViewCount.ToString();
-                 btn_digg.Text = news.DiggCount.ToString();
+                tv_ding.Text = news.DiggCount.ToString();
                  btn_comment.Text = news.CommentCount.ToString();
                  SetToolBarTitle(news.Title);
-                 if (string.IsNullOrEmpty(news.Body))
-                    GetRequestArticle(id);
-                 else
-                 {
-                    news.Body = news.Body.ReplaceHtml().Trim('"');
-                    string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", news.Body).Replace("#title#", news.Title).Replace("#author#","").Replace("#date#","发布日期："+news.DateAdded.ToString("yyyy年MM月dd日 HH:mm"));
-                    wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
-                 }
             }
         }
-        void GetAssetContent(string body)
-        {
-            string content = HtmlUtil.ReadHtml(Assets);
-            body = body.ReplaceHtml();
 
-        }
-
-        async void GetRequestArticle(int id)
+        async void GetNewsContent(Action callBack)
         {
             try
             {
-                var result = await HttpClient.NewsService.GetNewsDetail(AccessTokenUtil.GetToken(this),id);
-                if (result.Success)
+                if (string.IsNullOrEmpty(news.Body))
                 {
+                    var result = await HttpClient.NewsService.GetNewsDetail(AccessTokenUtil.GetToken(this), ID);
+                    if (result.Success)
+                    {
                         news.Body = result.Data;
                         await SQLiteUtil.UpdateNews(news);
+                        firstImgUrl = HtmlUtil.GetHtmlFirstImgUrl(news.Body);
                         news.Body = news.Body.ReplaceHtml().Trim('"');
-                        string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", news.Body).Replace("#title#",news.Title).Replace("#author#","").Replace("#date#","发布日期："+news.DateAdded.ToString("yyyy年MM月dd日 HH:mm"));
+                        string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", news.Body).Replace("#title#", news.Title).Replace("#author#", "").Replace("#date#", "发布日期：" + news.DateAdded.ToString("yyyy年MM月dd日 HH:mm"));
                         wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
+                        callBack();
+                    }
+                    else
+                    {
+                        AlertUtil.ToastShort(this,result.Message);
+                        callBack();
+                    }
+                }
+                else
+                {
+                    news.Body = news.Body.ReplaceHtml().Trim('"');
+                    string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", news.Body).Replace("#title#", news.Title).Replace("#author#", "").Replace("#date#", "发布日期：" + news.DateAdded.ToString("yyyy年MM月dd日 HH:mm"));
+                    wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
+                    firstImgUrl = HtmlUtil.GetHtmlFirstImgUrl(news.Body);
+                    callBack();
                 }
             }
             catch (Exception ex)
             {
-
+                AlertUtil.ToastShort(this,ex.ToString());
+                callBack();
             }
         }
 
@@ -164,7 +184,8 @@ namespace Cnblogs.XamarinAndroid
             if (news != null)
             {
                 // sharesWidget
-                //shareWidget.Open(news.Url,news.Title);
+                string newsUrl = Constact.NewsOrigin + "/n/" + news.Id + "/";
+                shareWidget.Open(newsUrl,news.Title,news.Summary,firstImgUrl);
             }
             return true;
         }
@@ -172,6 +193,21 @@ namespace Cnblogs.XamarinAndroid
         {
             base.OnActivityResult(requestCode,resultCode,data);
             UMShareAPI.Get(this).OnActivityResult(requestCode,(int)resultCode,data);
+        }
+
+        public void OnRefresh()
+        {
+            swipeRefreshLayout.Post(() =>
+            {
+                swipeRefreshLayout.Refreshing = true;
+            });
+            GetNewsContent(() =>
+            {
+                swipeRefreshLayout.Post(() =>
+                {
+                    swipeRefreshLayout.Refreshing = false;
+                });
+            });
         }
 
         //public void OnClick(View v)

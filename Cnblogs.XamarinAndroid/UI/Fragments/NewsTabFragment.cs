@@ -123,12 +123,12 @@ namespace Cnblogs.XamarinAndroid
             adapter.ItemClick += (position, tag) =>
             {
                 System.Diagnostics.Debug.Write(position, tag);
-                AlertUtil.ToastShort(this.Activity, tag);
+                //AlertUtil.ToastShort(this.Activity, tag);
                 DetailNewsActivity.Enter(Activity, int.Parse(tag));
             };
             adapter.ItemLongClick += (tag, position) =>
             {
-                AlertUtil.ToastShort(this.Activity, tag);
+                //AlertUtil.ToastShort(this.Activity, tag);
             };
             string comment = Resources.GetString(Resource.String.comment);
             string view = Resources.GetString(Resource.String.view);
@@ -224,12 +224,12 @@ namespace Cnblogs.XamarinAndroid
             adapterKbArticles.ItemClick += (position, tag) =>
             {
                 System.Diagnostics.Debug.Write(position, tag);
-                AlertUtil.ToastShort(this.Activity, tag);
+                //AlertUtil.ToastShort(this.Activity, tag);
                 DetailKbArticlesActivity.Enter(Activity, int.Parse(tag));
             };
             adapterKbArticles.ItemLongClick += (tag, position) =>
             {
-                AlertUtil.ToastShort(this.Activity, tag);
+                //AlertUtil.ToastShort(this.Activity, tag);
             };
             string read = Resources.GetString(Resource.String.read);
             string digg = Resources.GetString(Resource.String.digg);

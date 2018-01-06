@@ -107,12 +107,12 @@ namespace Cnblogs.XamarinAndroid
             adapter.ItemClick += (position, tag) =>
             {
                     System.Diagnostics.Debug.Write(position, tag);
-                    AlertUtil.ToastShort(this.Activity, tag);
+                   // AlertUtil.ToastShort(this.Activity, tag);
                     DetailKbArticlesActivity.Enter(Activity, int.Parse(tag));
             };
             adapter.ItemLongClick += (tag, position) =>
             {
-                AlertUtil.ToastShort(this.Activity, tag);
+                //AlertUtil.ToastShort(this.Activity, tag);
             };
             string read = Resources.GetString(Resource.String.read);
             string digg = Resources.GetString(Resource.String.digg);

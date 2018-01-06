@@ -163,14 +163,14 @@ namespace Cnblogs.XamarinAndroid
                 adapter.ItemClick += (position, tag) =>
                 {
                     System.Diagnostics.Debug.Write(position, tag);
-                    AlertUtil.ToastShort(this.Activity, tag);
-                    var intent = new Intent(Activity, typeof(DetailArticleActivity));
+                    //AlertUtil.ToastShort(this.Activity, tag);
+                    var intent = new Intent(Activity, typeof(DetailBlogActivity));
                     intent.PutExtra("id", int.Parse(tag));
                     StartActivity(intent);
                 };
                 adapter.ItemLongClick += (tag, position) =>
                 {
-                    AlertUtil.ToastShort(this.Activity, tag);
+                    //AlertUtil.ToastShort(this.Activity, tag);
                 };
                 string read = Resources.GetString(Resource.String.read);
                 string comment = Resources.GetString(Resource.String.comment);

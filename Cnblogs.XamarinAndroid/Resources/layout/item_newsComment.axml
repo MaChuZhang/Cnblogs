@@ -64,13 +64,13 @@
       <TextView
         android:id="@+id/tv_ding"
         style="@style/InlineText"
-        android:drawableLeft="@drawable/icon_agree"
+        android:drawableLeft="@drawable/ic_agree_48px"
         android:drawablePadding="@dimen/dp3"
         android:gravity="center"/>
 
       <TextView
       android:id="@+id/tv_cai"
-      android:drawableLeft="@drawable/icon_anti"
+      android:drawableLeft="@drawable/ic_anti_48px"
       android:drawablePadding="@dimen/dp3"
       android:layout_marginLeft="@dimen/dp15"
        style="@style/InlineText"

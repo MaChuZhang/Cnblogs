@@ -54,6 +54,6 @@
     <TextView
         android:id="@+id/tv_commentCount"
         style="@style/InlineText"
-        android:drawableLeft="@drawable/icon_comment"/>
+        android:drawableLeft="@drawable/ic_comment_48px"/>
   </LinearLayout>
  

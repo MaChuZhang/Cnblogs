@@ -99,7 +99,7 @@ namespace Cnblogs.XamarinAndroid
     /// </summary>   
     /// <param name="sHtmlText">HTML代码</param>   
     /// <returns>图片的URL列表</returns>   
-    public static string[] GetHtmlImageUrlList(string sHtmlText)   
+    public static string GetHtmlFirstImgUrl(string sHtmlText)   
     {   
       // 定义正则表达式用来匹配 img 标签   
       Regex regImg = new Regex(@"<img\b[^<>]*?\bsrc[\s\t\r\n]*=[\s\t\r\n]*[""']?[\s\t\r\n]*(?<imgUrl>[^\s\t\r\n""'<>]*)[^<>]*?/?[\s\t\r\n]*>",   RegexOptions.IgnoreCase);   
@@ -111,8 +111,12 @@ namespace Cnblogs.XamarinAndroid
         
       // 取得匹配项列表   
       foreach (Match match in matches)   
-      sUrlList[i++] = match.Groups["imgUrl"].Value;   
-      return sUrlList;   
+      sUrlList[i++] = match.Groups["imgUrl"].Value;
+            if (sUrlList.Length > 0)
+            {
+                return sUrlList[0];
+            }
+            return ""; 
     }
 
         public static string GetScoreName(int score)

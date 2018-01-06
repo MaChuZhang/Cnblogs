@@ -91,6 +91,7 @@ namespace Cnblogs.HttpClient
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.Write(ex.ToString());
                 return ApiResult<bool>.Ok(false);
             }
         }

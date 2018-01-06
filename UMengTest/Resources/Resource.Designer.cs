@@ -178,24 +178,6 @@ namespace UMengTest
 			// aapt resource value: 0x7f020010
 			public const int umeng_socialize_share_video = 2130837520;
 			
-			// aapt resource value: 0x7f020011
-			public const int umeng_socialize_share_web = 2130837521;
-			
-			// aapt resource value: 0x7f020012
-			public const int umeng_socialize_sina = 2130837522;
-			
-			// aapt resource value: 0x7f020013
-			public const int umeng_socialize_wechat = 2130837523;
-			
-			// aapt resource value: 0x7f020014
-			public const int umeng_socialize_wxcircle = 2130837524;
-			
-			// aapt resource value: 0x7f020015
-			public const int weibosdk_common_shadow_top = 2130837525;
-			
-			// aapt resource value: 0x7f020016
-			public const int weibosdk_empty_failed = 2130837526;
-			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

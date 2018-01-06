@@ -2,7 +2,7 @@
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
-    <SelectedDevice>5" KitKat %284.4%29 XXHDPI Phone</SelectedDevice>
-    <ProjectView>ProjectFiles</ProjectView>
+    <SelectedDevice>4.7" Lollipop %285.0%29 XXHDPI Phone</SelectedDevice>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
 </Project>

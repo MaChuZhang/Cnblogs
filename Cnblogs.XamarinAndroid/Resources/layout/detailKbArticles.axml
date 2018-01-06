@@ -20,22 +20,68 @@
             android:contentInsetStartWithNavigation="0dp"
             app:layout_scrollFlags="scroll|enterAlways" />
     </android.support.design.widget.AppBarLayout>
-    <android.support.v4.widget.NestedScrollView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollView">
-        <LinearLayout
-            android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white">
-            <android.webkit.WebView
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView">
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/wb_content"
-                android:padding="@dimen/dp10"/>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-    <include layout="@layout/item_kbarticles_bottom"/>
+                android:background="@android:color/white">
+                <android.webkit.WebView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/wb_content"
+                    android:padding="@dimen/dp10" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_anchor="@id/scrollView"
+        app:layout_anchorGravity="bottom"
+        android:id="@+id/bottom_sheet"
+        android:background="@drawable/bg_top_shadow"
+        app:layout_behavior="Cnblogs.XamarinAndroid.UI.Widgets.BottomBehavior">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp3"
+            android:id="@+id/view_divider"
+            android:background="@drawable/bg_top_shadow" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/tv_view"
+                style="@style/BottomText"
+                android:drawableTop="@drawable/icon_view"
+                android:text="@string/view"
+                android:background="?attr/selectableItemBackgroundRipple"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:id="@+id/tv_ding"
+                style="@style/BottomText"
+                android:drawableTop="@drawable/icon_view"
+                android:text="@string/view"
+                android:background="?attr/selectableItemBackgroundRipple"
+                android:layout_toRightOf="@id/tv_view" />
+            <Button
+                android:id="@+id/btn_mark"
+                style="@style/BottomText"
+                android:drawableTop="@drawable/icon_mark"
+                android:text="@string/mark"
+                android:background="?attr/selectableItemBackgroundRipple"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

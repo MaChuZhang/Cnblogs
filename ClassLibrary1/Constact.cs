@@ -29,6 +29,8 @@ namespace Cnblogs.HttpClient
         public const string code = ""; //授权码
         public const string redirect_uri = "https://oauth.cnblos.com/auth/callback"; //回调地址
         public const  string Content_Type = "application/x-www-form-urlencoded";
+        public const string KbArticleOrigin = "https://kb.cnblogs.com";
+        public const string NewsOrigin = "https://news.cnblogs.com";
 
         public const string ConnectToken = "https://oauth.cnblogs.com/connect/token";
         public const string  GetAuthrize = "https://oauth.cnblogs.com/connect/authorize?client_id={0}&scope=openid profile CnBlogsApi offline_access&response_type=code id_token&redirect_uri=https://oauth.cnblogs.com/auth/callback&state=cnblogs.com&nonce=zhanglin";

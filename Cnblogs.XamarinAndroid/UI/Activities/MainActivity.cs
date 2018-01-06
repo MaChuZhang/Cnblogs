@@ -248,12 +248,15 @@ namespace Cnblogs.XamarinAndroid
                 {
                     if (result.UpdateType == UpdateType.NoNeed)
                     {
-                        Android.Support.V7.App.AlertDialog.Builder alertDialog =new Android.Support.V7.App.AlertDialog.Builder(this);
-                        alertDialog.SetTitle("检查更新");
-                        alertDialog.SetMessage("当前版本" + Resources.GetString(Resource.String.version) + "已经是最新的");
-                        alertDialog.Show();
+                        //Android.Support.V7.App.AlertDialog.Builder alertDialog =new Android.Support.V7.App.AlertDialog.Builder(this);
+                        //alertDialog.SetTitle("检查更新");
+                        //alertDialog.SetMessage("当前版本" + Resources.GetString(Resource.String.version) + "已经是最新的");
+                        //alertDialog.Show();
                     }
-                    updManager.ShowUpdateInfo(this, result);
+                    else
+                    {
+                        updManager.ShowUpdateInfo(this, result);
+                    }
                 }
             });
         }

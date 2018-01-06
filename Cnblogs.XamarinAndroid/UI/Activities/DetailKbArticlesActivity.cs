@@ -21,21 +21,23 @@ using Com.Umeng.Socialize;
 using Cnblogs.XamarinAndroid.UI.Widgets;
 using Cnblogs.HttpClient;
 using Newtonsoft.Json;
+using Android.Support.V4.Widget;
+using Java.Util.Logging;
 
 namespace Cnblogs.XamarinAndroid
 {
-    [Activity(Label = "DetailArticleActivity",Theme = "@style/AppTheme")]
-    public class DetailKbArticlesActivity : BaseActivity
+    [Activity(Label = "DetailBlogActivity",Theme = "@style/AppTheme")]
+    public class DetailKbArticlesActivity : BaseActivity, SwipeRefreshLayout.IOnRefreshListener
     {
         //private Toolbar toolbar;
-        private TextView tv_view;
+        private TextView tv_view,tv_ding;
         private WebView wb_content;
-        private int _id;
-        private Button btn_digg;
+        private int ID;//知识库ID
         private Button btn_mark;
         private KbArticles kbArticles;
         private UMengShareWidget shareWidget;
-        
+        private SwipeRefreshLayout swipeRefreshLayout;
+        private string firstImgUrl;
         protected override int LayoutResourceId => Resource.Layout.detailKbArticles;
 
         protected override string ToolBarTitle => string.Empty;
@@ -62,13 +64,16 @@ namespace Cnblogs.XamarinAndroid
 
             SetToolBarNavBack();
             wb_content = FindViewById<WebView>(Resource.Id.wb_content);
-            btn_digg = FindViewById<Button>(Resource.Id.btn_digg);
             btn_mark = FindViewById<Button>(Resource.Id.btn_mark);
             tv_view = FindViewById<TextView>(Resource.Id.tv_view);
+            tv_ding = FindViewById<TextView>(Resource.Id.tv_ding);
+            swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
+            swipeRefreshLayout.SetColorSchemeColors(Resources.GetColor(Resource.Color.primary));
+            swipeRefreshLayout.SetOnRefreshListener(this);
 
             btn_mark.Click += (s, e) =>
             {
-                AddBookmarkActivity.Enter(this,string.Format(Constact.KbPage, _id), kbArticles.Title, "add");
+                AddBookmarkActivity.Enter(this,string.Format(Constact.KbPage, ID), kbArticles.Title, "add");
             };
 
             wb_content.Settings.DomStorageEnabled = true;
@@ -89,9 +94,18 @@ namespace Cnblogs.XamarinAndroid
             {
                   PhotoActivity.Enter(this,e.Result.Split(','),e.Index);
             };
-            _id = Intent.GetIntExtra("id",0);
-            GetClientArticle(_id);
-            //shareWidget = new UMengShareWidget(this);
+            ID = Intent.GetIntExtra("id",0);
+            if (ID == 0)
+            {
+                Android.OS.Handler handle = new Android.OS.Handler();
+                handle.PostDelayed(() =>
+                {
+                    Finish();
+                }, 2000);
+                AlertUtil.ToastShort(this,"获取id错误立即返回");
+            }
+            InitKbArticle();
+            shareWidget = new UMengShareWidget(this);
         }
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
@@ -99,12 +113,12 @@ namespace Cnblogs.XamarinAndroid
             return  true;
         }
 
-        async void GetClientArticle(int id)
+        async void  InitKbArticle()
         {
             string kbStr = Intent.GetStringExtra("kb");
             if (string.IsNullOrEmpty(kbStr))
             {
-                kbArticles = await SQLiteUtil.SelectKbArticles(id);
+                kbArticles = await SQLiteUtil.SelectKbArticles(ID);
             }
             else
             {
@@ -112,43 +126,37 @@ namespace Cnblogs.XamarinAndroid
             }
             if (kbArticles != null)
             {
-                 tv_view.Text = kbArticles.ViewCount.ToString();
-                 btn_digg.Text = kbArticles.Diggcount.ToString();
+                OnRefresh();
+                tv_view.Text = kbArticles.ViewCount.ToString();
+                 tv_ding.Text = kbArticles.Diggcount.ToString();
                  SetToolBarTitle(kbArticles.Title);
-                 if (string.IsNullOrEmpty(kbArticles.Content))
-                    GetRequestArticle(id);
-                 else
-                 {
-                    kbArticles.Content = kbArticles.Content.ReplaceHtml().Trim('"');
-                    string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", kbArticles.Content).Replace("#title#", kbArticles.Title).Replace("#author#","作者："+kbArticles.Author).Replace("#date#","发布日期："+kbArticles.DateAdded.ToString("yyyy年MM月dd日 HH:mm"));
-                    wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
-                }
             }
         }
-        void GetAssetContent(string body)
-        {
-            string content = HtmlUtil.ReadHtml(Assets);
-            body = body.ReplaceHtml();
 
-        }
-
-        async void GetRequestArticle(int id)
+        async void GetKbArticleContent(Action callBack)
         {
             try
             {
-                var result = await HttpClient.KbArticlesService.GetKbArticles(AccessTokenUtil.GetToken(this),id);
+                var result = await HttpClient.KbArticlesService.GetKbArticles(AccessTokenUtil.GetToken(this),ID);
                 if (result.Success)
                 {
-                        kbArticles.Content = result.Data;
-                        await SQLiteUtil.UpdateKbArticles(kbArticles);
-                        kbArticles.Content = kbArticles.Content.ReplaceHtml().Trim('"');
-                        string content = HtmlUtil.ReadHtml(Assets).Replace("#body#", kbArticles.Content).Replace("#title#",kbArticles.Title).Replace("#author#","作者："+kbArticles.Author).Replace("#date#","发布日期："+kbArticles.DateAdded.ToString("yyyy年MM月dd日 HH:mm"));
-                        wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
+                    string content = result.Data;
+                    firstImgUrl = HtmlUtil.GetHtmlFirstImgUrl(content);
+                    content = content.ReplaceHtml().Trim('"');
+                    content = HtmlUtil.ReadHtml(Assets).Replace("#body#", content).Replace("#title#",kbArticles.Title).Replace("#author#", "作者：" + kbArticles.Author).Replace("#date#", "发布日期：" + kbArticles.DateAdded.ToString("yyyy年MM月dd日 HH:mm"));
+                    wb_content.LoadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null);
+                    callBack();
+                }
+                else
+                {
+                    AlertUtil.ToastShort(this, result.Message);
+                    callBack();
                 }
             }
             catch (Exception ex)
             {
-
+                AlertUtil.ToastShort(this,ex.Message);
+                callBack();
             }
         }
 
@@ -157,7 +165,8 @@ namespace Cnblogs.XamarinAndroid
             if (kbArticles != null)
             {
                 // sharesWidget
-                //shareWidget.Open(kbArticles.Url,kbArticles.Title);
+                string kbArticleUrl = Constact.KbArticleOrigin + "/page" + kbArticles.Id + "/";
+                shareWidget.Open(kbArticleUrl,kbArticles.Title,kbArticles.Summary,firstImgUrl);
             }
             return true;
         }
@@ -165,6 +174,19 @@ namespace Cnblogs.XamarinAndroid
         {
             base.OnActivityResult(requestCode,resultCode,data);
             UMShareAPI.Get(this).OnActivityResult(requestCode,(int)resultCode,data);
+        }
+
+        public void OnRefresh()
+        {
+            swipeRefreshLayout.Post(() =>
+            {
+                swipeRefreshLayout.Refreshing = true;
+            });
+            GetKbArticleContent(()=> {
+                swipeRefreshLayout.Post(()=> {
+                    swipeRefreshLayout.Refreshing = false;
+                });
+            });
         }
     }
 }

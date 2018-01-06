@@ -142,7 +142,7 @@ namespace Cnblogs.XamarinAndroid
             {
             
                     System.Diagnostics.Debug.Write(position, tag);
-                    AlertUtil.ToastShort(this.Activity, tag);
+                    //AlertUtil.ToastShort(this.Activity, tag);
                     StatusesCommentActivity.Enter(Activity, int.Parse(tag));
             };
             adapter.ItemLongClick += (tag, _position) =>

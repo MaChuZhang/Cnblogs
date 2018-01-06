@@ -184,7 +184,7 @@ namespace Cnblogs.XamarinAndroid
             adapter.ItemClick += (position, tag) =>
             {
                     System.Diagnostics.Debug.Write(position, tag);
-                    var intent = new Intent(this, typeof(DetailArticleActivity));
+                    var intent = new Intent(this, typeof(DetailBlogActivity));
                     intent.PutExtra("id", int.Parse(tag));
                     StartActivity(intent);
             };

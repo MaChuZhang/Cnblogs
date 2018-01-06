@@ -8,7 +8,6 @@
     app:layout_anchor="@id/scrollView"
     app:layout_anchorGravity="bottom"
     android:id="@+id/bottom_sheet"
-   
     app:layout_behavior="Cnblogs.XamarinAndroid.UI.Widgets.BottomBehavior">
   <View
     android:layout_width="match_parent"
@@ -47,7 +46,7 @@
       <Button
           android:id="@+id/btn_comment"
           style="@style/BottomText"
-          android:drawableTop="@drawable/icon_comment"
+          android:drawableTop="@drawable/ic_comment_48px"
           android:text="@string/comment"
           android:layout_toLeftOf="@id/btn_digg"
           android:background="?attr/selectableItemBackgroundRipple"/>

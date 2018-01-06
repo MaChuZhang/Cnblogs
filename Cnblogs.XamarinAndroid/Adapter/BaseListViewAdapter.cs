@@ -18,7 +18,6 @@ namespace Cnblogs.XamarinAndroid
     {
         private SparseArray<View> Views;
         View ConvertView;
-        private Context context;
         int mPosition;
         private ViewHolder(Context _context, ViewGroup parent, int itemLayoutId, int position)
         {

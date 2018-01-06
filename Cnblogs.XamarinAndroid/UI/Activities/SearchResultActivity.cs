@@ -346,7 +346,7 @@ namespace Cnblogs.XamarinAndroid
                         string tempstr= tempModel.Uri.Replace("http://www.cnblogs.com/", "");
                         string blogApp = tempstr.Substring(0,tempstr.IndexOf("/"));
                         Article article = new Article() { Id = int.Parse(tempModel.Id),Avatar="",BlogApp=blogApp, Title=tempModel.Title,Author=tempModel.UserName,Url=tempModel.Uri,PostDate=tempModel.PublishTime,CommentCount=tempModel.CommentTimes,ViewCount=tempModel.ViewTimes,Diggcount=tempModel.VoteTimes};
-                        DetailArticleActivity.Enter(this, int.Parse(tag),article );
+                        DetailBlogActivity.Enter(this, int.Parse(tag),article );
                         break;
                     case "News":
                         NewsViewModel news = new NewsViewModel() {Id=int.Parse(tempModel.Id),Title=tempModel.Title,ViewCount=tempModel.ViewTimes,CommentCount=tempModel.CommentTimes,DiggCount=tempModel.VoteTimes,DateAdded=tempModel.PublishTime};

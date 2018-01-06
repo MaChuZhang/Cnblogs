@@ -129,7 +129,6 @@ namespace Cnblogs.XamarinAndroid
             private const int VIEW_FOOTER = 1;
             private const int VIEW_NULL = 2;
             private View footerView, emptyView;
-            private bool isBottom = false;
             public delegate void InsertData();//添加更多数据的委托
             private InsertData _InsertDataEvent; //加载更多的事件
             public override int ItemCount
