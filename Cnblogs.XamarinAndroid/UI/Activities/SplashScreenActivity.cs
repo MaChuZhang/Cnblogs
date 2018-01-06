@@ -22,8 +22,6 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
             base.OnCreate(savedInstanceState);
             StatusBarUtil.SetColorStatusBars(this);
             SetContentView(Resource.Layout.SplashScreen);
-            ClipboardManager clipboard = (ClipboardManager)GetSystemService(Context.ClipboardService);
-            clipboard.Text = "复制此消息，打开最新版支付宝就能领取！ELtcyi16Ax";
             var tokenTemp = AccessTokenUtil.GetToken(this);
             if (string.IsNullOrEmpty(tokenTemp.access_token)||tokenTemp.IsExpire)
             {
