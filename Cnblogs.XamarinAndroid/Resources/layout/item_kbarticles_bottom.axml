@@ -29,7 +29,7 @@
     <Button
         android:id="@+id/btn_mark"
         style="@style/BottomText"
-        android:drawableTop="@drawable/icon_mark"
+        android:drawableTop="@drawable/ic_mark_64px"
         android:text="@string/mark"
         android:background="?attr/selectableItemBackgroundRipple"
         android:layout_alignParentRight="true" />

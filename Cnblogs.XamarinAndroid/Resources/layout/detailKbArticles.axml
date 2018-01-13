@@ -66,19 +66,18 @@
                 style="@style/BottomText"
                 android:drawableTop="@drawable/icon_view"
                 android:text="@string/view"
-                android:background="?attr/selectableItemBackgroundRipple"
                 android:layout_alignParentLeft="true" />
             <TextView
                 android:id="@+id/tv_ding"
                 style="@style/BottomText"
-                android:drawableTop="@drawable/icon_view"
+                android:drawableTop="@drawable/ic_ding_64px"
                 android:text="@string/view"
                 android:background="?attr/selectableItemBackgroundRipple"
                 android:layout_toRightOf="@id/tv_view" />
             <Button
                 android:id="@+id/btn_mark"
                 style="@style/BottomText"
-                android:drawableTop="@drawable/icon_mark"
+                android:drawableTop="@drawable/ic_mark_64px"
                 android:text="@string/mark"
                 android:background="?attr/selectableItemBackgroundRipple"
                 android:layout_alignParentRight="true" />

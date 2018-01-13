@@ -24,6 +24,7 @@ using Android.Support.V4.Widget;
 using Cnblogs.XamarinAndroid.UI;
 using Cnblogs.HttpClient;
 using System.Threading.Tasks;
+using Com.Umeng.Analytics;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -133,7 +134,7 @@ namespace Cnblogs.XamarinAndroid
             }
             catch (Exception ex)
             {
-
+                MobclickAgent.ReportError(this, ex.ToString());
             }
         }
         void initRecycler()

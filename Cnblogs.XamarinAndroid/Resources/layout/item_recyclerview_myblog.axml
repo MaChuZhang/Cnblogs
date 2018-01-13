@@ -83,17 +83,24 @@
                     <TextView
                         android:id="@+id/tv_diggCount"
                         android:text="@string/digg"
-                        style="@style/InlineText" />
+                        style="@style/InlineText"
+                        android:drawableLeft="@drawable/ic_recommend_48px"
+                        android:drawablePadding="@dimen/dp3"/>
                     <TextView
                         android:id="@+id/tv_commentCount"
                         android:text="@string/comment"
                         style="@style/InlineText"
-                        android:layout_marginLeft="@dimen/dp10" />
+                        android:layout_marginLeft="@dimen/dp20"
+                        android:drawableLeft="@drawable/ic_comment_48px"
+                        android:drawablePadding="@dimen/dp3"
+                        />
                     <TextView
                         android:id="@+id/tv_viewCount"
                         android:text="@string/read"
                         style="@style/InlineText"
-                        android:layout_marginLeft="@dimen/dp10" />
+                        android:layout_marginLeft="@dimen/dp20"
+                        android:drawableLeft="@drawable/ic_view_48px"
+                        android:drawablePadding="@dimen/dp3"/>
                 </LinearLayout>
               </LinearLayout>
             </android.support.v7.widget.CardView>

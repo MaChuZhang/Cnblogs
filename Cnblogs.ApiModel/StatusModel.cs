@@ -85,5 +85,6 @@ namespace Cnblogs.ApiModel
             public string StatusContent { get; set; }
             [Ignore]
             public List<StatusCommentsModel> Comments { get; set; }
+            public bool MySelf { get; set; }
         }
 }

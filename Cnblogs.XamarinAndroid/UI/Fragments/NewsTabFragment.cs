@@ -110,6 +110,7 @@ namespace Cnblogs.XamarinAndroid
                 var tempList = result.Data;
                 newsList.AddRange(tempList);
                 adapter.SetNewData(newsList);
+                await SQLiteUtil.UpdateNewsList(tempList);
             }
             else
             {
@@ -130,18 +131,15 @@ namespace Cnblogs.XamarinAndroid
             {
                 //AlertUtil.ToastShort(this.Activity, tag);
             };
-            string comment = Resources.GetString(Resource.String.comment);
-            string view = Resources.GetString(Resource.String.view);
-            string digg = Resources.GetString(Resource.String.digg);
             adapter.OnConvertView += (holder, position) =>
                 {
                     var model = newsList[position];
                     holder.SetText(Resource.Id.tv_description, model.Summary);
                     holder.SetText(Resource.Id.tv_title, model.Title);
-                    holder.SetText(Resource.Id.tv_commentCount, comment + " " + model.CommentCount.ToString());
+                    holder.SetText(Resource.Id.tv_commentCount,  model.CommentCount.ToString());
                     holder.SetText(Resource.Id.tv_dateAdded, model.DateAdded.ToCommonString());
-                    holder.SetText(Resource.Id.tv_diggCount, digg + " " + model.DiggCount.ToString());
-                    holder.SetText(Resource.Id.tv_viewCount, view + " " + model.ViewCount.ToString());
+                    holder.SetText(Resource.Id.tv_diggCount, model.DiggCount.ToString());
+                    holder.SetText(Resource.Id.tv_viewCount,model.ViewCount.ToString());
                     holder.GetView<CardView>(Resource.Id.ly_item).Tag = model.Id.ToString();
                     holder.SetImageLoader(Resource.Id.iv_topicIcon, options, model.TopicIcon);
                 };
@@ -255,6 +253,7 @@ namespace Cnblogs.XamarinAndroid
                 var tempList = result.Data;
                 kbArticlesList.AddRange(tempList);
                 adapterKbArticles.SetNewData(kbArticlesList);
+                await SQLiteUtil.UpdateKbArticlesList(tempList);
             }
             else
             {

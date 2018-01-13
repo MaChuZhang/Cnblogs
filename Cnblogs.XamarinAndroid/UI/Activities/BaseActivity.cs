@@ -12,6 +12,7 @@ using Android.Widget;
 using Android.Support.V7.App;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Support.V4.App;
+using Com.Umeng.Analytics;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -22,18 +23,26 @@ namespace Cnblogs.XamarinAndroid
         private InitApp application;
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
-            StatusBarUtil.SetColorStatusBars(this);
-            SetContentView(LayoutResourceId);
-            toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            if (toolbar != null)
+            try
             {
-                SetSupportActionBar(toolbar);
-                SupportActionBar.Title = ToolBarTitle;
-                toolbar.SetOnMenuItemClickListener(this);
+                base.OnCreate(savedInstanceState);
+                StatusBarUtil.SetColorStatusBars(this);
+
+                SetContentView(LayoutResourceId);
+                toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+                if (toolbar != null)
+                {
+                    SetSupportActionBar(toolbar);
+                    SupportActionBar.Title = ToolBarTitle;
+                    toolbar.SetOnMenuItemClickListener(this);
+                }
+                if (application == null)
+                    application = (InitApp)ApplicationContext;
             }
-            if (application == null)
-                application = (InitApp)ApplicationContext;
+            catch (Exception ex)
+            {
+
+            }
             // Create your application here
         }
         protected void addActivity(Activity context)
@@ -87,6 +96,16 @@ namespace Cnblogs.XamarinAndroid
         {
             // throw new NotImplementedException();
             return true;
+        }
+        protected override void OnResume()
+        {
+            base.OnResume();
+            MobclickAgent.OnResume(this); 
+        }
+        protected override void OnPause()
+        {
+            base.OnPause();
+            MobclickAgent.OnPause(this);
         }
     }
 }

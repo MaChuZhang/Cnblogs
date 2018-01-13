@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Com.Umeng;
+using Com.Umeng.Analytics;
+
 namespace Cnblogs.XamarinAndroid
 {
     [Application]
@@ -23,6 +25,10 @@ namespace Cnblogs.XamarinAndroid
             ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this).WriteDebugLogs().Build();
             ImageLoader.Instance.Init(configuration);//初始化图片加载框架
             Config.Debug =true;
+            SQLiteUtil.Instance();
+            MobclickAgent.SetDebugMode(true);//开启调试模式，如果不开启则不会上传umeng统计
+            MobclickAgent.OpenActivityDurationTrack(false);
+            MobclickAgent.SetScenarioType(this,MobclickAgent.EScenarioType.EUmNormal);
             PlatformConfig.SetWeixin("wx633888643fbae319", "5034ad765b2ba64dec7ed7c6618581fb");
             PlatformConfig.SetSinaWeibo("1422675167", "02975c36afd93d3ae983f8da9e596b86", "https://api.weibo.com/oauth2/default.html");
             PlatformConfig.SetQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
@@ -71,8 +77,7 @@ namespace Cnblogs.XamarinAndroid
             sb.Append(ex.Exception).Append("\n");
             sb.Append(ex.Exception.Message).Append("\n");
             sb.Append(ex.Exception.StackTrace).Append("\n\n");
-
-       //     MobclickAgent.ReportError(this, sb.ToString());
+            MobclickAgent.ReportError(this, sb.ToString());
 
             System.Threading.Thread.Sleep(2000);
             Android.OS.Process.KillProcess(Android.OS.Process.MyPid());

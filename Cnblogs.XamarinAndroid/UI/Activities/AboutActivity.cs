@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Com.Iflytek.Autoupdate;
+using Com.Umeng.Analytics;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -92,9 +93,10 @@ namespace Cnblogs.XamarinAndroid
                 StartActivity(intent);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                System.Diagnostics.Debug.Write(e.ToString());
+                MobclickAgent.ReportError(this,ex.ToString()); 
+                System.Diagnostics.Debug.Write(ex.ToString());
                 // 未安装手Q或安装的版本不支持
                 return false;
             }

@@ -402,6 +402,10 @@
       <Project>{f8b13117-3453-42ce-90cb-936388c94fdd}</Project>
       <Name>Cnblogs.ApiModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UMeng.Analytics\UMeng.Analytics.csproj">
+      <Project>{a2f6c6bd-ea0f-44e3-a562-ded5374d8fe3}</Project>
+      <Name>UMeng.Analytics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UMeng\UMeng.csproj">
       <Project>{5dab46db-1265-4c24-9a3d-30e2d7a6738d}</Project>
       <Name>UMeng</Name>
@@ -529,7 +533,7 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_digg.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\icon_mark.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_mark_64px.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_view.png" />
@@ -655,13 +659,25 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_app.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_comment_48px.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_agree_48px.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_anti_48px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_comment_64px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_ding_64px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_comment_48px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_recommend_48px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_view_48px.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

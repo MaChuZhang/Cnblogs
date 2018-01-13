@@ -42,18 +42,20 @@
         android:layout_marginTop="@dimen/dp5">
       <TextView
           android:id="@+id/tv_diggCount"
-          android:text="@string/digg"
-          style="@style/InlineText" />
+          style="@style/InlineText" 
+          android:drawableLeft="@drawable/ic_recommend_48px"
+          android:drawablePadding="@dimen/dp3"/>
       <TextView
           android:id="@+id/tv_viewCount"
-          android:text="@string/comment"
           style="@style/InlineText"
-          android:layout_marginLeft="@dimen/dp10" />
+          android:drawableLeft="@drawable/ic_view_48px"
+          android:drawablePadding="@dimen/dp3"
+          android:layout_marginLeft="@dimen/dp20" />
       <TextView
           android:id="@+id/tv_dateAdded"
           android:text="@string/read"
           style="@style/InlineText"
-          android:layout_marginLeft="@dimen/dp10" />
+          android:layout_marginLeft="@dimen/dp20" />
       <TextView
           android:id="@+id/tv_author"
           android:text="作者"

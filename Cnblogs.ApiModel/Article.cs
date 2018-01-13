@@ -19,5 +19,6 @@ namespace Cnblogs.ApiModel
         public int CommentCount { get; set; }
         public int Diggcount { get; set; }
         public DateTime PostDate { get; set; }
+        public bool MySelf { get; set; }
     }
 }

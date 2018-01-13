@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Com.Umeng.Analytics;
 
 namespace Cnblogs.XamarinAndroid.UI.Activities
 {
@@ -47,6 +48,7 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
                  {
                      //UserBlogShared.SetUserBlog();
                      UserUtil.Instance(this).Logout();
+                     MobclickAgent.OnProfileSignOff();
                      UpdateViewStatus();
                     //AlertUtil.ToastLong(this,"³É¹¦");
                  })

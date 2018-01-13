@@ -17,6 +17,9 @@ using Android.Graphics;
 using System.Threading.Tasks;
 using Cnblogs.HttpClient;
 using Cnblogs.XamarinAndroid.UI.Widgets;
+using Com.Umeng.Analytics;
+using System.Threading;
+
 namespace Cnblogs.XamarinAndroid
 {
     [Activity(Label = "@string/comment",Theme ="@style/AppTheme")]
@@ -35,13 +38,13 @@ namespace Cnblogs.XamarinAndroid
         private SwipeRefreshLayout _swipeRefreshLayout;
         private BaseRecyclerViewAdapter<NewsCommentViewModel> adapter;
         private DisplayImageOptions options;
-        private int pageIndex = 1; int postId;
+        private int pageIndex = 1, POSTID,PARENTID;
         private EditText edit_content;
         private Button btn_submit;
-        private int parentId;
         private string atUserName;
-        private bool isAt;
+        private bool isAt,FIRSTREFRESH=true; 
         private List<NewsCommentViewModel> commentList = new List<NewsCommentViewModel>();
+        private Token accessToken;
         internal static void Enter(Context context,int postId)
         {
             Intent intent = new Intent(context, typeof(NewsCommentActivity));
@@ -50,8 +53,8 @@ namespace Cnblogs.XamarinAndroid
         }
         protected override async void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);            
-            postId = Intent.GetIntExtra("postId",0);
+            base.OnCreate(savedInstanceState);
+            POSTID = Intent.GetIntExtra("postId",0);
             SetToolBarNavBack();
             StatusBarUtil.SetColorStatusBars(this);
             SetToolBarTitle(Resources.GetString(Resource.String.comment));
@@ -65,55 +68,38 @@ namespace Cnblogs.XamarinAndroid
                  .CacheOnDisk(true)
                 // .Displayer(new DisplayerImageCircle(20))
                  .Build();
-            edit_content = FindViewById<EditText>(Resource.Id.edit_content);
-            btn_submit = FindViewById<Button>(Resource.Id.btn_submit);
-            //btn_submit.enabvle
-            btn_submit.Click += (s, e) =>
-            {
-                Add();
-            };
-            edit_content.TextChanged+=(s,e)=>
-            {
-                string temp = edit_content.Text.TrimStart().TrimEnd();
-                if (!string.IsNullOrEmpty(temp))
-                {
-                    btn_submit.Enabled = true;
-                    if (atUserName!=null&&atUserName.Length>0&&temp.Contains(atUserName))
-                        isAt = true;
-                    else
-                        isAt = false;
-                }
-                else btn_submit.Enabled = false;
-            };
 
-            _swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
-            _swipeRefreshLayout.SetColorSchemeResources(Resource.Color.primary);
-            _swipeRefreshLayout.SetOnRefreshListener(this);
-            _swipeRefreshLayout.Post(() =>
-            {
-                _swipeRefreshLayout.Refreshing = true;
-            });
-            _swipeRefreshLayout.PostDelayed(() =>
-            {
-                System.Diagnostics.Debug.Write("PostDelayed方法已经完成");
-                _swipeRefreshLayout.Refreshing = false;
-            }, 3000);
-            _recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
-            _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this));
-            _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this, (int)Orientation.Vertical));
-            Token token = UserTokenUtil.GetToken(this);
-            try
-            {
-                commentList = await listNewsCommentServer();
-                if (commentList != null)
+                edit_content = FindViewById<EditText>(Resource.Id.edit_content);
+                btn_submit = FindViewById<Button>(Resource.Id.btn_submit);
+                //btn_submit.enabvle
+                btn_submit.Click += (s, e) =>
                 {
-                    initRecycler();
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.Write(ex.ToString());
-            }
+                    Add();
+                };
+                edit_content.TextChanged += (s, e) =>
+                  {
+                      string temp = edit_content.Text.TrimStart().TrimEnd();
+                      if (!string.IsNullOrEmpty(temp))
+                      {
+                          btn_submit.Enabled = true;
+                          if (atUserName != null && atUserName.Length > 0 && temp.Contains(atUserName))
+                              isAt = true;
+                          else
+                              isAt = false;
+                      }
+                      else btn_submit.Enabled = false;
+                  };
+
+                _swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
+                _swipeRefreshLayout.SetColorSchemeResources(Resource.Color.primary);
+                _swipeRefreshLayout.SetOnRefreshListener(this);
+
+                _recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
+                _recyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(this));
+                _recyclerView.AddItemDecoration(new RecyclerViewDecoration(this, (int)Orientation.Vertical));
+                System.Diagnostics.Debug.Write("主线程ID" + Thread.CurrentThread.ManagedThreadId);
+                accessToken = AccessTokenUtil.GetToken(this);
+                OnRefresh();
         }
         private async void Add()
         {
@@ -143,7 +129,7 @@ namespace Cnblogs.XamarinAndroid
                 return;
             }
             dialog.Show();
-            var  result= await  NewsService.Add(userToken, parentId, postId, body);
+            var  result= await  NewsService.Add(userToken, PARENTID, POSTID, body);
             if (result.Success)
             {
                 dialog.Hide();
@@ -162,16 +148,20 @@ namespace Cnblogs.XamarinAndroid
         private async void LoadMore()
         {
             pageIndex++;
-            var tempList = await listNewsCommentServer();
-            commentList.AddRange(tempList);
-            if (tempList.Count == 0)
+            var result = await  NewsService.ListNewsComment(accessToken, POSTID, pageIndex);
+            if (result.Success)
             {
-                return;
+                var tempList = result.Data;
+                if (tempList != null && tempList.Count != 0)
+                {
+                    commentList.AddRange(tempList);
+                    adapter.SetNewData(commentList);
+                    System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + commentList.Count);
+                }
             }
-            else if (commentList != null)
+            else
             {
-                adapter.SetNewData(commentList);
-                System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + commentList.Count);
+                AlertUtil.ToastShort(this,result.Message);
             }
         }
         async void initRecycler()
@@ -190,7 +180,7 @@ namespace Cnblogs.XamarinAndroid
                 if (!isAt)//目前仅支持at一次
                 {
                     isAt = true;
-                    parentId = commentList[position].ParentCommentID;
+                    PARENTID = commentList[position].ParentCommentID;
                     atUserName = commentList[position].UserName;
                     string temp = edit_content.Text;
                     edit_content.Text = "@" + atUserName + temp;
@@ -216,51 +206,46 @@ namespace Cnblogs.XamarinAndroid
                 holder.SetImageLoader(Resource.Id.iv_commentUserIcon, options, model.FaceUrl);
             };
         }
-        private async Task<List<NewsCommentViewModel>> listNewsCommentServer()
-        {
-            try
-            {
-                var token = UserTokenUtil.GetToken(this);
-                var result = await NewsService.ListNewsComment(token,postId, pageIndex);
-                if (result.Success)
-                {
-                    _swipeRefreshLayout.Refreshing = false;
-                    //commentList = result.Data;
-                    try
-                    {
-                        await SQLiteUtil.UpdateNewscommentList(result.Data);
-                        return result.Data;
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.Write(ex.ToString());
-                        return result.Data;
-                    }
-                }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.Write(ex.ToString());
-                return null;
-            }
-        }
-        private async Task<List<NewsCommentViewModel>> listNewsCommentLocal()
-        {
-            commentList = await SQLiteUtil.SelectNewscommentList(Constact.PageSize);
-            return commentList;
-        }
+ 
 
         public async void OnRefresh()
         {
-            if (pageIndex > 1)
-                pageIndex = 1;
-            var tempList = await listNewsCommentServer();
-            if (tempList != null)
+            pageIndex = 1;
+            _swipeRefreshLayout.Post(() =>
             {
-                commentList = tempList;
-                _swipeRefreshLayout.Refreshing = false;
-                adapter.SetNewData(tempList);
+                _swipeRefreshLayout.Refreshing = true;
+            });
+            var  result= await NewsService.ListNewsComment(accessToken, POSTID, pageIndex);
+            if (result.Success)
+            {
+                var tempList = result.Data;
+                if (FIRSTREFRESH)
+                {
+                    commentList = tempList;
+                    initRecycler();
+                }
+                else
+                {
+                    if (tempList != null && tempList.Count != 0)
+                    {
+                        commentList = tempList;
+                        adapter.SetNewData(tempList);
+                    }
+                
+                }
+                FIRSTREFRESH = false;
+                _swipeRefreshLayout.Post(() =>
+                {
+                    _swipeRefreshLayout.Refreshing = false;
+                });
+            }
+            else
+            {
+                AlertUtil.ToastShort(this,result.Message);
+                _swipeRefreshLayout.Post(() =>
+                {
+                    _swipeRefreshLayout.Refreshing = false;
+                });
             }
         }
     }

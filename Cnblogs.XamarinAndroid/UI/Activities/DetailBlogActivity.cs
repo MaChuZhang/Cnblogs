@@ -21,6 +21,7 @@ using Com.Umeng.Socialize;
 using Cnblogs.XamarinAndroid.UI.Widgets;
 using Newtonsoft.Json;
 using Android.Support.V4.Widget;
+using Com.Umeng.Analytics;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -162,6 +163,7 @@ namespace Cnblogs.XamarinAndroid
             }
             catch (Exception ex)
             {
+                MobclickAgent.ReportError(this, ex.ToString());
                 AlertUtil.ToastShort(this,ex.Message);
             }
         }

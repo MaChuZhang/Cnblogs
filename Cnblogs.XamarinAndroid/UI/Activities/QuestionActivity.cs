@@ -25,6 +25,7 @@ using Cnblogs.XamarinAndroid.UI;
 using Cnblogs.HttpClient;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Com.Umeng.Analytics;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -32,9 +33,9 @@ namespace Cnblogs.XamarinAndroid
     public class QuestionActivity : BaseActivity,View.IOnClickListener
     {
         //private Toolbar toolbar;
-        private TextView tv_userName, tv_dateAdded, tv_content, tv_title, tv_qScore, tv_dealFlag,tv_tags,tv_viewCount, tv_award;
+        private TextView tv_userName, tv_dateAdded, tv_content, tv_title, tv_qScore, tv_dealFlag,tv_tags,tv_viewCount, tv_award,tv_dingCount;
         private ImageView iv_userIcon;
-        private Button btn_mark, btn_diggCount, btn_answerCount;
+        private Button btn_mark, btn_answerCount;
         private int questionId;
         private  WebView wb_content;
         DisplayImageOptions options;
@@ -69,7 +70,7 @@ namespace Cnblogs.XamarinAndroid
             tv_userName = FindViewById<TextView>(Resource.Id.tv_userName);
             iv_userIcon = FindViewById<ImageView>(Resource.Id.iv_userIcon);
              tv_tags = FindViewById<TextView>(Resource.Id.tv_tags);
-            btn_diggCount = FindViewById<Button>(Resource.Id.btn_digg);
+            tv_dingCount = FindViewById<TextView>(Resource.Id.tv_ding);
             tv_viewCount = FindViewById<TextView>(Resource.Id.tv_view);
             tv_qScore = FindViewById<TextView>(Resource.Id.tv_qScore);
             btn_answerCount = FindViewById<Button>(Resource.Id.btn_comment);
@@ -145,7 +146,7 @@ namespace Cnblogs.XamarinAndroid
             }
             catch (Exception ex)
             {
-
+                MobclickAgent.ReportError(this, ex.ToString());
             }
         }
         void BindView()
@@ -205,7 +206,7 @@ namespace Cnblogs.XamarinAndroid
                 }
 
                 tv_dateAdded.Text = question.DateAdded.ToCommonString();
-                btn_diggCount.Text = question.DiggCount.ToString();
+                tv_dingCount.Text = question.DiggCount.ToString();
                 btn_answerCount.Text = question.AnswerCount.ToString();
                 tv_viewCount.Text = question.ViewCount.ToString();
                 tv_title.Text = question.Title;
@@ -226,7 +227,7 @@ namespace Cnblogs.XamarinAndroid
             }
             catch (Exception ex)
             {
-
+                MobclickAgent.ReportError(this, ex.ToString());
             }
         }
         public override bool OnMenuItemClick(IMenuItem item)

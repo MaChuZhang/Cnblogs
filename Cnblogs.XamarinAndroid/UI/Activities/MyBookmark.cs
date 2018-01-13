@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Cnblogs.HttpClient;
 using Cnblogs.XamarinAndroid.UI.Widgets;
 using System.Threading;
+using Com.Umeng.Analytics;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -197,10 +198,9 @@ namespace Cnblogs.XamarinAndroid
              BookmarksService.Delete(token, model.WzLinkId,(response)=> {
                  if (response.IsSuccess)
                  {
-                        progressDialog.Hide();
                          RunOnUiThread(() =>
                          {
-                             //OnRefresh();
+                             progressDialog.Hide();
                              bookMarkList.Remove(model);
                              adapter.SetNewData(bookMarkList);
                              // OnRefresh();
@@ -208,8 +208,11 @@ namespace Cnblogs.XamarinAndroid
                  }
                  else
                  {
-                     progressDialog.Hide();
-                     AlertUtil.ToastShort(this, response.Message);
+                     RunOnUiThread(() =>
+                     {
+                         progressDialog.Hide();
+                         AlertUtil.ToastShort(this, response.Message);
+                     });
                  }
              });
         }
@@ -227,6 +230,7 @@ namespace Cnblogs.XamarinAndroid
                 }
                 catch (Exception ex)
                 {
+                    MobclickAgent.ReportError(this, ex.ToString());
                     System.Diagnostics.Debug.Write(ex.ToString());
                     return null;
                 }

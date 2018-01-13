@@ -24,6 +24,7 @@ using SearchView = Android.Support.V7.Widget.SearchView;
 using static Android.Views.View;
 using Android.Support.V4.App;
 using Newtonsoft.Json;
+using Com.Umeng.Analytics;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -319,6 +320,7 @@ namespace Cnblogs.XamarinAndroid
                 }
                 catch (Exception ex)
                 {
+                    MobclickAgent.ReportError(this, ex.ToString());
                     System.Diagnostics.Debug.Write(ex.ToString());
                 }
             }

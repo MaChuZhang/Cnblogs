@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMeng", "UMeng\UMeng.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XunFei.Android.AutoUpdate", "XunFei.Android.AutoUpdate\XunFei.Android.AutoUpdate.csproj", "{A1374ADD-7359-4D03-AA51-6F254657CD3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMeng.Analytics", "UMeng.Analytics\UMeng.Analytics.csproj", "{A2F6C6BD-EA0F-44E3-A562-DED5374D8FE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{A1374ADD-7359-4D03-AA51-6F254657CD3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1374ADD-7359-4D03-AA51-6F254657CD3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1374ADD-7359-4D03-AA51-6F254657CD3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2F6C6BD-EA0F-44E3-A562-DED5374D8FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2F6C6BD-EA0F-44E3-A562-DED5374D8FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2F6C6BD-EA0F-44E3-A562-DED5374D8FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2F6C6BD-EA0F-44E3-A562-DED5374D8FE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

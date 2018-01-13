@@ -129,6 +129,17 @@ namespace Cnblogs.XamarinAndroid
                 return null;
             }
         }
+        public static async Task<List<ApiModel.Article>> SelectArticleList(int pageSize,bool myself)
+        {
+            try
+            {
+                return await Instance().Table<ApiModel.Article>().OrderByDescending(a => a.PostDate).Where(p=>p.MySelf==true).Skip(0).Take(pageSize).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public static async Task UpdateArticle(Cnblogs.ApiModel.Article model)
         {
             await Instance().UpdateAsync(model);
@@ -280,6 +291,10 @@ namespace Cnblogs.XamarinAndroid
         public static async Task<List<ApiModel.StatusModel>> SelectStatusList(int pageSize)
         {
             return await Instance().Table<ApiModel.StatusModel>().OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
+        }
+        public static async Task<List<ApiModel.StatusModel>> SelectStatusList(int pageSize,bool myself)
+        {
+            return await Instance().Table<ApiModel.StatusModel>().Where(s=>s.MySelf==myself).OrderByDescending(a => a.DateAdded).Skip(0).Take(pageSize).ToListAsync();
         }
         public static async Task UpdateStatus(Cnblogs.ApiModel.StatusModel model)
         {

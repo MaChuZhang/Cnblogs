@@ -62,7 +62,7 @@ namespace Cnblogs.XamarinAndroid
             return inflater.Inflate(Resource.Layout.fragment_recyclerview,container,false);
         }
 
-        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        public override async void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
             ly_expire = view.FindViewById<LinearLayout>(Resource.Id.ly_expire);
@@ -78,7 +78,7 @@ namespace Cnblogs.XamarinAndroid
             //_recyclerView.AddItemDecoration(new RecyclerViewDecoration(this.Activity, (int)Orientation.Vertical));
             try
             {
-                if (position !=0 || isMy) //除了最新闪存，其他的都要usertoken
+                if (position != 0 || isMy) //除了最新闪存，其他的都要usertoken
                 {
                     if (UserUtil.Instance(Activity).LoginExpire())
                     {
@@ -93,6 +93,11 @@ namespace Cnblogs.XamarinAndroid
                     {
                         ly_expire.Visibility = ViewStates.Gone;
                         _swipeRefreshLayout.Visibility = ViewStates.Visible;
+                         statusList = await SQLiteUtil.SelectStatusList(Constact.PageSize, isMy);
+                        if (statusList != null && statusList.Count != 0)
+                        {
+                            initRecycler();
+                        }
                         OnRefresh();
                     }
                 }
@@ -100,12 +105,17 @@ namespace Cnblogs.XamarinAndroid
                 {
                     ly_expire.Visibility = ViewStates.Gone;
                     _swipeRefreshLayout.Visibility = ViewStates.Visible;
+                    statusList = await SQLiteUtil.SelectStatusList(Constact.PageSize);
+                    if (statusList != null && statusList.Count != 0)
+                    {
+                        initRecycler();
+                    }
                     OnRefresh();
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.Write("statusTabFragment",ex.ToString());
+                System.Diagnostics.Debug.Write("statusTabFragment", ex.ToString());
             }
         }
         private async void LoadMore()
@@ -113,7 +123,9 @@ namespace Cnblogs.XamarinAndroid
             pageIndex++;
             var result = new ApiResult<List<StatusModel>>();
             if (isMy)
+            {
                 result = await StatusService.ListStatus(UserTokenUtil.GetToken(this.Activity), position, pageIndex, true);
+            }
             else
             {
                 if (position == 0)
@@ -128,11 +140,17 @@ namespace Cnblogs.XamarinAndroid
                 var tempList = result.Data;
                 statusList.AddRange(tempList);
                 adapter.SetNewData(statusList);
+                if (isMy)
+                {
+                    tempList.ForEach(f => f.MySelf = true);
+                }
+                await SQLiteUtil.UpdateStatusList(tempList);
             }
-            else 
+            else
             {
-                AlertUtil.ToastShort(Activity,result.Message);
+                AlertUtil.ToastShort(Activity, result.Message);
             }
+
         }
          void initRecycler()
         {
@@ -169,7 +187,16 @@ namespace Cnblogs.XamarinAndroid
                     //if (position >= statusList.Count)
                     //    return;
                     var model = statusList[position];
-                    holder.SetText(Resource.Id.tv_commentCount,model.CommentCount.ToString());
+                    var tv_comment = holder.GetView<TextView>(Resource.Id.tv_commentCount);
+                    if (model.CommentCount == 0)
+                    {
+                        tv_comment.Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
+                        tv_comment.Visibility = ViewStates.Visible;
+                        tv_comment.Text = model.CommentCount.ToString();
+                    }
                     holder.SetText(Resource.Id.tv_dateAdded, model.DateAdded.ToCommonString());
                     (holder.GetView<TextView>(Resource.Id.tv_content)).SetText(HtmlUtil.GetHtml(model.Content), TextView.BufferType.Spannable);
                     holder.SetText(Resource.Id.tv_userDisplayName, model.UserDisplayName);
@@ -215,10 +242,12 @@ namespace Cnblogs.XamarinAndroid
                 });
                 var result = new ApiResult<List<StatusModel>>();
                 if (isMy)
+                {
                     result = await StatusService.ListStatus(userToken, position, pageIndex, true);
+                }
                 else
                 {
-                    if (position !=0)
+                    if (position != 0)
                     {
                         result = await StatusService.ListStatus(UserTokenUtil.GetToken(Activity), position, pageIndex, false);
                     }
@@ -228,23 +257,36 @@ namespace Cnblogs.XamarinAndroid
                 if (result.Success)
                 {
                     statusList = result.Data;
-                    initRecycler();
                     if (statusList.Count != 0)
                     {
+                        if (isMy)
+                        {
+                            statusList.ForEach(f => f.MySelf = true);
+                        }
+                        initRecycler();
                         await SQLiteUtil.UpdateStatusList(statusList);
                     }
+                    _swipeRefreshLayout.Post(() =>
+                    {
+                        _swipeRefreshLayout.Refreshing = false;
+                    });
                 }
-                else {
-                    AlertUtil.ToastShort(Activity,result.Message);
+                else
+                {
+                    AlertUtil.ToastShort(Activity, result.Message);
+                    _swipeRefreshLayout.Post(() =>
+                    {
+                        _swipeRefreshLayout.Refreshing = false;
+                    });
                 }
+            }
+            catch (Exception ex)
+            {
+                AlertUtil.ToastShort(Activity, ex.Message);
                 _swipeRefreshLayout.Post(() =>
                 {
                     _swipeRefreshLayout.Refreshing = false;
                 });
-            }
-            catch (Exception ex)
-            {
-
             }
         }
 

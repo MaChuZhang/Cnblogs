@@ -48,12 +48,13 @@
     <TextView
       style="@style/TitleText"
       android:layout_marginTop="@dimen/dp5"
-      android:layout_marginBottom="@dimen/dp5"
       android:text="测试标题测试标题测试标题测试标题测试标题测试标题"
       android:id="@+id/tv_content"/>
     <TextView
         android:id="@+id/tv_commentCount"
+        android:layout_marginTop="@dimen/dp5"
         style="@style/InlineText"
-        android:drawableLeft="@drawable/ic_comment_48px"/>
+        android:drawableLeft="@drawable/ic_comment_48px"
+        android:drawablePadding="@dimen/dp3"/>
   </LinearLayout>
  

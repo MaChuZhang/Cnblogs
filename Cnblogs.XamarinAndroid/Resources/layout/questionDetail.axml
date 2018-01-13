@@ -152,6 +152,55 @@
                 android:id="@+id/wb_content" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-    <include
-        layout="@layout/item_article_bottom" />
+  <LinearLayout
+   android:orientation="vertical"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content"
+   android:gravity="bottom"
+   app:layout_anchor="@id/scrollView"
+   app:layout_anchorGravity="bottom"
+   android:id="@+id/bottom_sheet"
+   app:layout_behavior="Cnblogs.XamarinAndroid.UI.Widgets.BottomBehavior">
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/dp3"
+      android:id="@+id/view_divider"
+      android:background="@drawable/bg_top_shadow"/>
+    <FrameLayout
+        android:id="@+id/bottom_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="55dp"
+          android:background="@color/white">
+        <TextView
+            android:id="@+id/tv_view"
+            style="@style/BottomText"
+            android:drawableTop="@drawable/icon_view"
+            android:text="@string/view"
+            android:layout_alignParentLeft="true" />
+        <TextView
+    android:id="@+id/tv_ding"
+    style="@style/BottomText"
+    android:drawableTop="@drawable/ic_ding_64px"
+    android:text="@string/view"
+    android:layout_toRightOf="@id/tv_view" />
+        <Button
+            android:id="@+id/btn_mark"
+            style="@style/BottomText"
+            android:drawableTop="@drawable/ic_mark_64px"
+            android:text="@string/mark"
+            android:background="?attr/selectableItemBackgroundRipple"
+            android:layout_alignParentRight="true" />
+        <Button
+            android:id="@+id/btn_comment"
+            style="@style/BottomText"
+            android:drawableTop="@drawable/ic_comment_64px"
+            android:text="@string/comment"
+            android:layout_toLeftOf="@id/btn_digg"
+            android:background="?attr/selectableItemBackgroundRipple"/>
+      </RelativeLayout>
+    </FrameLayout>
+  </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -23,6 +23,9 @@ namespace Cnblogs.XamarinAndroid.UI.Activities
             StatusBarUtil.SetColorStatusBars(this);
             SetContentView(Resource.Layout.SplashScreen);
             var tokenTemp = AccessTokenUtil.GetToken(this);
+            ClipboardManager cm = (ClipboardManager)GetSystemService(Context.ClipboardService);
+            ClipData cldata = ClipData.NewPlainText("label","cnblogs.com");
+            cm.PrimaryClip=cldata;
             if (string.IsNullOrEmpty(tokenTemp.access_token)||tokenTemp.IsExpire)
             {
                 await AuthorizationRequest.Client_Credentials((token) =>

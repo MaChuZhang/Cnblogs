@@ -32,7 +32,7 @@
       <Button
           android:id="@+id/btn_mark"
           style="@style/BottomText"
-          android:drawableTop="@drawable/icon_mark"
+          android:drawableTop="@drawable/ic_mark_64px"
           android:text="@string/mark"
           android:background="?attr/selectableItemBackgroundRipple"
           android:layout_alignParentRight="true" />
@@ -46,7 +46,7 @@
       <Button
           android:id="@+id/btn_comment"
           style="@style/BottomText"
-          android:drawableTop="@drawable/ic_comment_48px"
+          android:drawableTop="@drawable/ic_comment_64px"
           android:text="@string/comment"
           android:layout_toLeftOf="@id/btn_digg"
           android:background="?attr/selectableItemBackgroundRipple"/>

@@ -94,41 +94,6 @@ namespace Cnblogs.XamarinAndroid
             }
         }
 
-        async void InitRecyclerView()
-        {
-            articleList = await SQLiteUtil.SelectArticleList(Constact.PageSize);
-            if (articleList != null && articleList.Count > 0)
-            {
-                initRecycler();
-                OnRefresh();
-            }
-            else
-            {
-                var result = await ArticleService.ListArticle(AccessTokenUtil.GetToken(this.Activity), pageIndex, position);
-                if (result.Success)
-                {
-                    articleList = result.Data;
-                    initRecycler();
-                    if (lastRefreshTime.Year==0)
-                    {
-                        lastRefreshTime = DateTime.Now;
-                        await SQLiteUtil.UpdateArticleList(articleList);
-                    }
-                    else if (lastRefreshTime.Subtract(DateTime.Now).Seconds > 60)
-                    {
-                        await SQLiteUtil.UpdateArticleList(articleList);
-                    }
-                }
-                else
-                {
-                    AlertUtil.ToastShort(Activity, result.Message);
-                }
-                _swipeRefreshLayout.PostDelayed(() =>
-                {
-                    _swipeRefreshLayout.Refreshing = false;
-                },1000);
-            }
-        }
         private async void LoadMore()
         {
             pageIndex++;
@@ -146,6 +111,7 @@ namespace Cnblogs.XamarinAndroid
                     articleList.AddRange(tempList);
                     adapter.SetNewData(articleList);
                     adapter.NotifyItemRemoved(adapter.ItemCount);
+                    await SQLiteUtil.UpdateArticleList(tempList);
                     System.Diagnostics.Debug.Write("页数:" + pageIndex + "数据总条数：" + articleList.Count);
                 }
             }
@@ -172,18 +138,14 @@ namespace Cnblogs.XamarinAndroid
                 {
                     //AlertUtil.ToastShort(this.Activity, tag);
                 };
-                string read = Resources.GetString(Resource.String.read);
-                string comment = Resources.GetString(Resource.String.comment);
-                string digg = Resources.GetString(Resource.String.digg);
-
                 adapter.OnConvertView += (holder, position) =>
                 {
                     holder.SetText(Resource.Id.tv_author, articleList[position].Author);
                     holder.SetText(Resource.Id.tv_postDate, articleList[position].PostDate.ToCommonString());
-                    holder.SetText(Resource.Id.tv_viewCount, articleList[position].ViewCount + " " + read);
-                    holder.SetText(Resource.Id.tv_commentCount, articleList[position].CommentCount + " " + comment);
+                    holder.SetText(Resource.Id.tv_viewCount, articleList[position].ViewCount.ToString());
+                    holder.SetText(Resource.Id.tv_commentCount, articleList[position].CommentCount.ToString());
                     holder.SetText(Resource.Id.tv_description, articleList[position].Description);
-                    holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount + " " + digg);
+                    holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount.ToString());
                     holder.SetText(Resource.Id.tv_title, articleList[position].Title);
                     //holder.SetTag(Resource.Id.ly_item, articleList[position].Id.ToString());
                     holder.GetView<CardView>(Resource.Id.ly_item).Tag = articleList[position].Id.ToString();
@@ -218,6 +180,7 @@ namespace Cnblogs.XamarinAndroid
                     else
                     {
                         adapter.SetNewData(tempList);
+                        isFirstRefresh = false;
                     }
                     await SQLiteUtil.UpdateArticleList(tempList);
                 }

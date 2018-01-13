@@ -17,6 +17,8 @@ using Android.Graphics;
 using System.Threading.Tasks;
 using Cnblogs.HttpClient;
 using Cnblogs.XamarinAndroid.UI.Widgets;
+using Com.Umeng.Analytics;
+
 namespace Cnblogs.XamarinAndroid
 {
     [Activity(Label = "@string/comment",Theme ="@style/AppTheme")]
@@ -113,6 +115,7 @@ namespace Cnblogs.XamarinAndroid
             }
             catch (Exception ex)
             {
+                MobclickAgent.ReportError(this, ex.ToString());
                 System.Diagnostics.Debug.Write(ex.ToString());
             }
         }
@@ -222,21 +225,18 @@ namespace Cnblogs.XamarinAndroid
                 if (result.Success)
                 {
                     _swipeRefreshLayout.Refreshing = false;
-                    try
-                    {
-                        await SQLiteUtil.UpdateArticlecommentList(result.Data);
-                        return result.Data;
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.Write(ex.ToString());
-                        return null;
-                    }
+
+                    await SQLiteUtil.UpdateArticlecommentList(result.Data);
+                    return result.Data;
                 }
-                return null;
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception ex)
             {
+                MobclickAgent.ReportError(this, ex.ToString());
                 System.Diagnostics.Debug.Write(ex.ToString());
                 return null;
             }

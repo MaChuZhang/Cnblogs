@@ -99,7 +99,7 @@ namespace Cnblogs.XamarinAndroid
             {
                 ly_expire.Visibility = ViewStates.Gone;
                 _swipeRefreshLayout.Visibility = ViewStates.Visible;
-                articleList = await SQLiteUtil.SelectArticleList(Constact.PageSize);
+                articleList = await SQLiteUtil.SelectArticleList(Constact.PageSize,true);
                 if (articleList != null)
                 {
                     initRecycler();
@@ -115,6 +115,8 @@ namespace Cnblogs.XamarinAndroid
             if (result.Success)
             {
                 var tempList = result.Data;
+                tempList.ForEach(f => f.MySelf = true);
+                await SQLiteUtil.UpdateArticleList(tempList);
                 articleList.AddRange(tempList);
                 adapter.SetNewData(articleList);
             }
@@ -138,17 +140,13 @@ namespace Cnblogs.XamarinAndroid
             {
                 //AlertUtil.ToastShort(this, tag);
             };
-            string read = Resources.GetString(Resource.String.read);
-            string comment = Resources.GetString(Resource.String.comment);
-            string digg = Resources.GetString(Resource.String.digg);
-
             adapter.OnConvertView += (holder, position) =>
             {
                 holder.SetText(Resource.Id.tv_postDate, articleList[position].PostDate.ToString("yyyy-MM-dd HH:ss"));
-                holder.SetText(Resource.Id.tv_viewCount, articleList[position].ViewCount + " " + read);
-                holder.SetText(Resource.Id.tv_commentCount, articleList[position].CommentCount + " " + comment);
+                holder.SetText(Resource.Id.tv_viewCount, articleList[position].ViewCount.ToString());
+                holder.SetText(Resource.Id.tv_commentCount, articleList[position].CommentCount.ToString());
                 holder.SetText(Resource.Id.tv_description, articleList[position].Description);
-                holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount + " " + digg);
+                holder.SetText(Resource.Id.tv_diggCount, articleList[position].Diggcount.ToString());
                 holder.SetText(Resource.Id.tv_title, articleList[position].Title.Replace("\n","").Replace("  ",""));
                 holder.GetView<LinearLayout>(Resource.Id.ly_item).Tag = articleList[position].Id.ToString();
                 holder.SetTagUrl(Resource.Id.iv_avatar, articleList[position].Avatar);
@@ -170,7 +168,8 @@ namespace Cnblogs.XamarinAndroid
                 initRecycler();
                 if (articleList.Count != 0)
                 {
-                    await SQLiteUtil.UpdateArticleList(result.Data);
+                    articleList.ForEach(f => f.MySelf = true);
+                    await SQLiteUtil.UpdateArticleList(articleList);
                 }
                 _swipeRefreshLayout.Post(() => {
                     _swipeRefreshLayout.Refreshing = false;

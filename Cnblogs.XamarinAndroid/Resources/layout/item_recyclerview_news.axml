@@ -1,81 +1,85 @@
-<android.support.v7.widget.CardView 
-     xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/dp8"
-     android:layout_marginLeft="@dimen/dp3"
-     android:layout_marginRight="@dimen/dp3"
+    android:layout_marginLeft="@dimen/dp3"
+    android:layout_marginRight="@dimen/dp3"
     android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@color/white"
     app:cardElevation="2dp"
     app:cardCornerRadius="2dp"
     app:cardPreventCornerOverlap="false"
-     app:cardUseCompatPadding="true"
-     app:contentPadding="@dimen/dp10"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="@dimen/dp10"
     android:orientation="vertical"
-     android:id="@+id/ly_item">
-  <LinearLayout android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:layout_marginTop="@dimen/dp5"
-      android:layout_marginBottom="@dimen/dp5"
-       android:layout_weight="1">
-    <TextView
-        android:id="@+id/tv_title"
-        style="@style/TitleText"
-        android:maxLines="2"
-        android:layout_marginTop="@dimen/dp5"
-        android:layout_marginBottom="@dimen/dp5"
-        android:text="测试标题测试标题测试标题测试标题测试标题测试标题" />
-    <TextView
-    android:id="@+id/tv_description"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    style="@style/DescriptionText"
-   android:maxLines="2"
-    android:text="测试简介测试简介测试简介测试简介测试简介测试简介测试简介测试简介测试简介" />
+    android:id="@+id/ly_item">
     <LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:layout_marginTop="@dimen/dp5">
-      <TextView
-          android:id="@+id/tv_diggCount"
-          android:text="@string/digg"
-          style="@style/InlineText" />
-      <TextView
-          android:id="@+id/tv_commentCount"
-          android:text="@string/comment"
-          style="@style/InlineText"
-          android:layout_marginLeft="@dimen/dp10" />
-      <TextView
-          android:id="@+id/tv_viewCount"
-          android:text="@string/read"
-          style="@style/InlineText"
-          android:layout_marginLeft="@dimen/dp10" />
-
-      <TextView
-    android:id="@+id/tv_dateAdded"
-    android:text="@string/read"
-    style="@style/InlineText"
-    android:layout_width="match_parent"
-    android:gravity="right"/>
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/dp5"
+            android:layout_marginBottom="@dimen/dp5"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/TitleText"
+                android:maxLines="2"
+                android:layout_marginTop="@dimen/dp5"
+                android:layout_marginBottom="@dimen/dp5"
+                android:text="测试标题测试标题测试标题测试标题测试标题测试标题" />
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/DescriptionText"
+                android:maxLines="2"
+                android:text="测试简介测试简介测试简介测试简介测试简介测试简介测试简介测试简介测试简介" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/dp5">
+                <TextView
+                    android:id="@+id/tv_diggCount"
+                    android:text="@string/digg"
+                    style="@style/InlineText" 
+                    android:drawableLeft="@drawable/ic_recommend_48px"
+                    android:drawablePadding="@dimen/dp3"/>
+                <TextView
+                    android:id="@+id/tv_commentCount"
+                    android:text="@string/comment"
+                    style="@style/InlineText"
+                    android:layout_marginLeft="@dimen/dp20" 
+                    android:drawableLeft="@drawable/ic_comment_48px"
+                    android:drawablePadding="@dimen/dp3"/>
+                <TextView
+                    android:id="@+id/tv_viewCount"
+                    android:text="@string/read"
+                    style="@style/InlineText"
+                    android:layout_marginLeft="@dimen/dp20"
+                    android:drawableLeft="@drawable/ic_view_48px"
+                    android:drawablePadding="@dimen/dp3"/>
+                <TextView
+                    android:id="@+id/tv_dateAdded"
+                    android:text="@string/read"
+                    style="@style/InlineText"
+                    android:layout_width="match_parent"
+                    android:gravity="right" />
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_topicIcon"
+            android:layout_height="80dp"
+            android:layout_width="120dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/dp10" />
     </LinearLayout>
-  </LinearLayout>
-
-    <ImageView
-      android:id="@+id/iv_topicIcon"
-      android:layout_height="80dp"
-      android:layout_width="120dp"
-      android:layout_weight="1"
-      android:layout_marginLeft="@dimen/dp10"
-      />
-  </LinearLayout>
 </android.support.v7.widget.CardView>

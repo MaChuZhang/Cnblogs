@@ -18,6 +18,7 @@ using System.Timers;
 using System.Threading;
 using Cnblogs.XamarinAndroid;
 using Android.Support.V4.App;
+using Com.Umeng.Analytics;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -112,9 +113,11 @@ namespace Cnblogs.XamarinAndroid
                              UserTokenUtil.SaveToken(userToken, context);
                              // ActivityCompat.FinishAfterTransition(context);
                              context.StartActivity(new Intent(context, typeof(MainActivity)));
+                             MobclickAgent.OnProfileSignIn(code);
                          },
                         error =>
                         {
+                            MobclickAgent.ReportError(context,"µÇÂ¼Ê§°Ü"+error);
                             System.Diagnostics.Debug.Write(error);
                         });
                     }

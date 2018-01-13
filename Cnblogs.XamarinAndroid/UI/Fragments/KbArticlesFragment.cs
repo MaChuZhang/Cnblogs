@@ -114,15 +114,12 @@ namespace Cnblogs.XamarinAndroid
             {
                 //AlertUtil.ToastShort(this.Activity, tag);
             };
-            string read = Resources.GetString(Resource.String.read);
-            string digg = Resources.GetString(Resource.String.digg);
-
             adapter.OnConvertView += (holder, position) =>
             {
                 holder.SetText(Resource.Id.tv_dateAdded, kbArticlesList[position].DateAdded.ToCommonString());
-                holder.SetText(Resource.Id.tv_viewCount, kbArticlesList[position].ViewCount + " " + read);
+                holder.SetText(Resource.Id.tv_viewCount, kbArticlesList[position].ViewCount.ToString());
                 holder.SetText(Resource.Id.tv_summary, kbArticlesList[position].Summary);
-                holder.SetText(Resource.Id.tv_diggCount, kbArticlesList[position].Diggcount + " " + digg);
+                holder.SetText(Resource.Id.tv_diggCount, kbArticlesList[position].Diggcount.ToString());
                 holder.SetText(Resource.Id.tv_title, kbArticlesList[position].Title);
                 holder.SetText(Resource.Id.tv_author,kbArticlesList[position].Author);
                 holder.GetView<CardView>(Resource.Id.ly_item).Tag = kbArticlesList[position].Id.ToString();

@@ -23,6 +23,7 @@ using Cnblogs.HttpClient;
 using Newtonsoft.Json;
 using Android.Support.V4.Widget;
 using Java.Util.Logging;
+using Com.Umeng.Analytics;
 
 namespace Cnblogs.XamarinAndroid
 {
@@ -156,6 +157,7 @@ namespace Cnblogs.XamarinAndroid
             catch (Exception ex)
             {
                 AlertUtil.ToastShort(this,ex.Message);
+                MobclickAgent.ReportError(this, ex.ToString());
                 callBack();
             }
         }
